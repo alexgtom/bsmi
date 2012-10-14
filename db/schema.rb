@@ -11,19 +11,30 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121014222832) do
+ActiveRecord::Schema.define(:version => 20121014223941) do
 
-  create_table "mentorteachers", :force => true do |t|
-    t.string   "mailingaddress"
-    t.string   "phonenumber"
-    t.string   "email"
-    t.string   "password"
-    t.string   "school"
-    t.string   "gradelevel"
-    t.string   "classesteaching"
-    t.string   "times"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+  create_table "mentor_teachers", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "preferences", :force => true do |t|
+    t.integer  "student_id"
+    t.integer  "timeslot_id"
+    t.integer  "ranking"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "students", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "timeslots", :force => true do |t|
+    t.time    "time"
+    t.integer "day"
+    t.integer "teacher_id"
   end
 
 end

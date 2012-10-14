@@ -1,5 +1,6 @@
 require 'spec_helper'
 
 describe Student do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it {should have_many :preferences}
+  it {should have_many :timeslots, :through => :preferences}
 end

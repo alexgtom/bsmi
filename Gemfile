@@ -6,12 +6,16 @@ gem 'rails', '3.2.7'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 # for Heroku deployment - as described in Ap. A of ELLS book
-group :development, :test do
-  gem 'sqlite3'
-  gem 'ruby-debug19', :require => 'ruby-debug'
+
+group :test do
   gem 'cucumber-rails'
   gem 'cucumber-rails-training-wheels'
   gem 'database_cleaner'
+end
+
+group :development, :test do
+  gem 'sqlite3'
+  gem 'ruby-debug19', :require => 'ruby-debug'
   gem 'capybara'
   gem 'launchy'
   gem 'rspec-rails'

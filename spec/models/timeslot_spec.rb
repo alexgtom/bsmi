@@ -1,5 +1,6 @@
 require 'spec_helper'
 
 describe Timeslot do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it {should have_many :preferences}
+  it {should have_many(:students).through(:preferences)}
 end

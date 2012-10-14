@@ -1,4 +1,5 @@
 class Timeslot < ActiveRecord::Base
-  # attr_accessible :title, :body
+  has_many :preferences
+  has_many :students, :through => :preferences
   
 end

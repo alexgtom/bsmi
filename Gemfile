@@ -20,6 +20,7 @@ group :development, :test do
   gem 'launchy'
   gem 'rspec-rails'
   gem 'simplecov'
+  gem 'spork'
 end
 group :production do
   gem 'pg'

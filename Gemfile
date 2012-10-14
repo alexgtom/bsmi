@@ -10,6 +10,7 @@ gem 'rails', '3.2.7'
 group :test do
   gem 'cucumber-rails', :require => false
   gem 'cucumber-rails-training-wheels'
+  gem 'shoulda-matchers'
   gem 'database_cleaner'
 end
 

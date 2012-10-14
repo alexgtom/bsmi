@@ -1,0 +1,4 @@
+class RegistrationMentorteacherController < ApplicationController
+  def new
+  end
+end

@@ -1,0 +1,20 @@
+%h1 Mentor Teachers Registration
+
+= form_tag registration_mentorteachers_path do
+
+  = label :mentorteacher, :email, 'E-mail address'
+  = text_field :mentorteacher, 'E-mail address'
+
+  = label :mentorteacher, :password, 'Password'
+  = text_field :mentorteacher, 'Password'
+
+  = label :mentorteacher, :password2, 'Password confirm'
+  = text_field :mentorteacher, 'Password confirm'
+
+  = label :mentorteacher, :mailingaddress, 'Mailing Address'
+  = text_field :mentorteacher, 'Mailing Address'
+
+  = label :mentorteacher, :phonenumber, 'Phone Number'
+  = text_field :mentorteacher, 'Phone Number'
+
+  = submit_tag 'Register'

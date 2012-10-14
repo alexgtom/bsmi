@@ -1,5 +1,15 @@
 Bsmi::Application.routes.draw do
-  resources :register, :login
+  get "register/about"
+
+  get "register/index"
+
+  get "login/about"
+
+  get "login/index"
+
+  resources :login_mentorteacher
+
+  resources :registration_mentorteacher, :path => 'registration_mentorteacher'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

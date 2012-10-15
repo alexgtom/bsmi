@@ -1,5 +1,5 @@
 class Preference < ActiveRecord::Base
-  
+  attr_protected #none  
   belongs_to :student
   belongs_to :timeslot  
 

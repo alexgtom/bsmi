@@ -43,8 +43,8 @@ ActiveRecord::Schema.define(:version => 20121015010022) do
     t.integer  "day"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
-    t.integer  "mentor_teacher_id"
     t.time     "end_time"
+    t.integer  "mentor_teacher_id"
   end
 
 end

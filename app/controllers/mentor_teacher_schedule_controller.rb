@@ -1,0 +1,2 @@
+class MentorTeacherScheduleController < ApplicationController
+end

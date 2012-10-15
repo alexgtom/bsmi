@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121015025536) do
+ActiveRecord::Schema.define(:version => 20121015030532) do
 
   create_table "mentor_teachers", :force => true do |t|
     t.string   "mailing_address"
@@ -19,8 +19,6 @@ ActiveRecord::Schema.define(:version => 20121015025536) do
     t.string   "email"
     t.string   "password"
     t.string   "school"
-    t.string   "gradelevel"
-    t.string   "classesteaching"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end

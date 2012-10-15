@@ -2,10 +2,10 @@ Feature: Mentor teacher scheduling
   As a mentor teacher
   I want to enter the times and classes that I teach, along with how many students I want to work with me.
   So that I can be matched with students who can help teach my classes.
-  
+
 Background: classes in timeslots
 
-  Given the following movies exist:
+  Given the following schedule exist:
   | timeslots      | class_name        | number_of_assistants |
   | 08:00-08:30    | AP Chemistry      | 1                    |
   | 09:00-09:30    | AP Chemistry      | 1                    |

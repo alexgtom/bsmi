@@ -23,6 +23,7 @@ group :development, :test do
   gem 'simplecov'
   gem 'spork'
 end
+
 group :production do
   gem 'pg'
 end
@@ -57,5 +58,6 @@ gem 'jquery-rails'
 # To use debugger
 # gem 'debugger'
 
+gem 'twitter-bootstrap-rails', :git => "git://github.com/seyhunak/twitter-bootstrap-rails.git", :branch => "static"
 gem 'haml'
 gem 'haml-rails'

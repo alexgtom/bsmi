@@ -27,15 +27,23 @@ Background: classes in timeslots
 Scenario: Enter my time preferences
   When I go to the edit my schedule page
   And  I click on "10:00" to "11:30" timeslot
-  And I rank it as 4
   Then I should see "10:00" to "11:30" timeslot checked
-  And I click "submit"
+  And  I rank it as 4
+  And  I click "submit"
   Then my preference for "10:00" to "11:30" timeslot should be 4
 
-Scenario: Change the times of a class that I have entered
+Scenario: Change my time preferences
   When I go to the edit my schedule page
-  Then I should see "10:00AM" to "11:30AM" timeslot checked
-  Then I should see "10:00AM" to "11:30AM" timeslot with a name of "Calculus 1"
-  And  I click on "10:00AM" to "11:30AM" timeslot
-  Then I should see "10:00AM" to "11:30AM" timeslot unchecked
-  Then my "10:00AM" to "11:30AM" schedule should be "no class entered" with "0" student assistants
+  And  I click on "10:00" to "11:30" timeslot
+  Then I should see "10:00" to "11:30" timeslot checked
+  And  I rank it as 2
+  And  I click "submit"
+  Then my preference for "10:00" to "11:30" timeslot should be 2
+
+Scenario: Remove one class that I selected before
+  When I go to the edit my schedule page
+  And  I click on "10:00" to "11:30" timeslot
+  Then I should see "10:00" to "11:30" timeslot checked
+  And  I click "remove"
+  Then I should see "10:00" to "11:30" timeslot unchecked
+  Then my preference for "10:00" to "11:30" timeslot should be 0

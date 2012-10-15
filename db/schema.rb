@@ -11,6 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(:version => 20121015021128) do
 
   create_table "sessions", :force => true do |t|
@@ -42,6 +43,40 @@ ActiveRecord::Schema.define(:version => 20121015021128) do
     t.string   "last_login_ip"
     t.datetime "created_at",                          :null => false
     t.datetime "updated_at",                          :null => false
+=======
+ActiveRecord::Schema.define(:version => 20121015030532) do
+
+  create_table "mentor_teachers", :force => true do |t|
+    t.string   "mailing_address"
+    t.string   "phone_number"
+    t.string   "email"
+    t.string   "password"
+    t.string   "school"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+>>>>>>> 065fd8701c40cae35f863d8dcc09a667499784a6
+  end
+
+  create_table "preferences", :force => true do |t|
+    t.integer  "student_id"
+    t.integer  "timeslot_id"
+    t.integer  "ranking"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "students", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "timeslots", :force => true do |t|
+    t.time     "start_time"
+    t.integer  "day"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+    t.time     "end_time"
+    t.integer  "mentor_teacher_id"
   end
 
 end

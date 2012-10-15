@@ -1,5 +1,6 @@
 Bsmi::Application.routes.draw do
   resources :register, :login
+  match 'register' => 'register#new', :as => :register, :via => :put
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -21,7 +21,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'simplecov'
   gem 'authlogic'
-  gem 'rails3-generators'
+  gem 'raile3-generators'
 end
 group :production do
   gem 'pg'

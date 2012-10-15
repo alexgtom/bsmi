@@ -39,11 +39,12 @@ ActiveRecord::Schema.define(:version => 20121015010022) do
   end
 
   create_table "timeslots", :force => true do |t|
-    t.time     "time"
+    t.time     "start_time"
     t.integer  "day"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
     t.integer  "mentor_teacher_id"
+    t.time     "end_time"
   end
 
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121015003804) do
+ActiveRecord::Schema.define(:version => 20121015010022) do
 
   create_table "mentor_teachers", :force => true do |t|
     t.string   "mailingaddress"
@@ -41,9 +41,9 @@ ActiveRecord::Schema.define(:version => 20121015003804) do
   create_table "timeslots", :force => true do |t|
     t.time     "start_time"
     t.integer  "day"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.integer  "teacher_id"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+    t.integer  "mentor_teacher_id"
     t.time     "end_time"
   end
 

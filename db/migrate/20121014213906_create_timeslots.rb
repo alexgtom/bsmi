@@ -3,7 +3,6 @@ class CreateTimeslots < ActiveRecord::Migration
     create_table :timeslots do |t|
      t.time  :time
      t.integer :day
-     t.integer :mentor_teacher_id #Foreign key
      t.timestamps
     end
   end

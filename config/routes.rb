@@ -1,8 +1,4 @@
 Bsmi::Application.routes.draw do
-  resources :login_mentorteacher
-
-  resources :registration_mentorteacher
-
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

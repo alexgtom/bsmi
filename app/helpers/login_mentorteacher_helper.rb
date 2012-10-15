@@ -1,2 +1,0 @@
-module LoginMentorteacherHelper
-end

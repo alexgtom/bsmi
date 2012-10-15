@@ -31,12 +31,11 @@ Scenario: Enter the times and classes that I teach
   And  I fill in "class name" with "Calculus 1"
   And  I fill in "how many students you want to work with" with "2"
   And  I click "submit"
-  Then my "10:00AM" to "11:30AM" schedule should be "Calculus 1" with "2" student assistants
+  Then my "10:00" to "11:30" schedule should be "Calculus 1" with "2" student assistants
 
 Scenario: Change the times of a class that I have entered
   When I go to the edit my schedule page
-  Then I should see "10:00AM" to "11:30AM" timeslot checked
-  Then I should see "10:00AM" to "11:30AM" timeslot with a name of "Calculus 1"
-  And  I click on "10:00AM" to "11:30AM" timeslot
-  Then I should see "10:00AM" to "11:30AM" timeslot unchecked
-  Then my "10:00AM" to "11:30AM" schedule should be "no class entered" with "0" student assistants
+  Then I should see "10:00" to "11:30" timeslot checked with a name of "Calculus 1"
+  And  I click on "10:00" to "11:30" timeslot
+  Then I should see "10:00" to "11:30" timeslot unchecked
+  Then my "10:00" to "11:30" schedule should has a class name of "no class entered" with "0" student assistants

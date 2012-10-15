@@ -11,11 +11,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121015010022) do
+ActiveRecord::Schema.define(:version => 20121015025536) do
 
   create_table "mentor_teachers", :force => true do |t|
-    t.string   "mailingaddress"
-    t.string   "phonenumber"
+    t.string   "mailing_address"
+    t.string   "phone_number"
     t.string   "email"
     t.string   "password"
     t.string   "school"

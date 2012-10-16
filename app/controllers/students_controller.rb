@@ -80,4 +80,8 @@ class StudentsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def timeslot_selection
+
+  end
 end

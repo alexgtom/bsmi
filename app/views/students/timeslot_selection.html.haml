@@ -17,65 +17,65 @@
   };
 
   $(document).ready(function() {
-          $('#calendar').weekCalendar({
-  timeslotsPerHour: 6,
-  timeslotHeight: 10,
-  readonly: true,
-  hourLine: true,
-  businessHours: {start: 8, end: 18, limitDisplay: true},
-  data: eventData,
-  allowCalEventOverlap: true,
-  overlapEventsSeparate: true,
-  daysToShow: 1,
-  showHeader: false,
-  height: function($calendar) {
-  return $(window).height() - $('h1').outerHeight(true);
-  },
-  eventRender : function(calEvent, $event) {
-  if (calEvent.end.getTime() < new Date().getTime()) {
-  $event.css('backgroundColor', '#aaa');
-  $event.find('.time').css({'backgroundColor': '#999', 'border':'1px solid #888'});
-  }
-  },
-  eventAfterRender: function(calEvent, element) {
-                        $(element).toggle(function () {
-                                $(element).css({"background-color": "#000000"});
-                                $("#timeslots").append('<span>' + calEvent.id + '</span>');
-                                }, function() {
-                                $(element).css({"background-color": "#CCC"});
-                                $("#timeslots").find("span:contains('" + calEvent.id +
-                                    "')").remove();
-                                });
-                    },
-  eventNew: function(calEvent, $event) {
-                displayMessage('Added eventStart: ' + calEvent.start + 'End: ' + calEvent.end);
-                alert('You\'ve added a new event. You would capture this event, add the logic for creating a new event with your own fields, data and whatever backend persistence you require.');
-            },
-  eventDrop: function(calEvent, $event) {
-                 displayMessage('Moved EventStart: ' + calEvent.start + 'End: ' + calEvent.end);
-             },
-  eventResize: function(calEvent, $event) {
-                   displayMessage('Resized EventStart: ' + calEvent.start + 'End: ' + calEvent.end);
-               },
-  eventClick: function(calEvent, element, freeBusyManager, $calendar, DomEvent) {
-                  displayMessage('Clicked EventStart: ' + calEvent.start + 'End: ' + calEvent.end);
-              },
-  eventMouseover: function(calEvent, $event) {
-                      displayMessage('Mouseover EventStart: ' + calEvent.start + 'End: ' + calEvent.end + 'ID: ' + calEvent.id);
-                  },
-  eventMouseout: function(calEvent, $event) {
-                     displayMessage('Mouseout EventStart: ' + calEvent.start + 'End: ' + calEvent.end);
-                 },
-  noEvents: function() {
-                displayMessage('There are no events for this week');
-            }
-  });
+    $('#calendar').weekCalendar({
+      timeslotsPerHour: 6,
+      timeslotHeight: 10,
+      readonly: true,
+      hourLine: true,
+      businessHours: {start: 8, end: 18, limitDisplay: true},
+      data: eventData,
+      allowCalEventOverlap: true,
+      overlapEventsSeparate: true,
+      daysToShow: 1,
+      showHeader: false,
+      height: function($calendar) {
+        return $(window).height() - $('h1').outerHeight(true);
+      },
+      eventRender : function(calEvent, $event) {
+        if (calEvent.end.getTime() < new Date().getTime()) {
+          $event.css('backgroundColor', '#aaa');
+          $event.find('.time').css({'backgroundColor': '#999', 'border':'1px solid #888'});
+        }
+      },
+      eventAfterRender: function(calEvent, element) {
+        $(element).toggle(function () {
+                $(element).css({"background-color": "#000000"});
+                $("#timeslots").append('<span>' + calEvent.id + '</span>');
+                }, function() {
+                $(element).css({"background-color": "#CCC"});
+                $("#timeslots").find("span:contains('" + calEvent.id +
+                    "')").remove();
+                });
+      },
+      eventNew: function(calEvent, $event) {
+        displayMessage('Added eventStart: ' + calEvent.start + 'End: ' + calEvent.end);
+        alert('You\'ve added a new event. You would capture this event, add the logic for creating a new event with your own fields, data and whatever backend persistence you require.');
+      },
+      eventDrop: function(calEvent, $event) {
+        displayMessage('Moved EventStart: ' + calEvent.start + 'End: ' + calEvent.end);
+      },
+      eventResize: function(calEvent, $event) {
+        displayMessage('Resized EventStart: ' + calEvent.start + 'End: ' + calEvent.end);
+      },
+      eventClick: function(calEvent, element, freeBusyManager, $calendar, DomEvent) {
+        displayMessage('Clicked EventStart: ' + calEvent.start + 'End: ' + calEvent.end);
+      },
+      eventMouseover: function(calEvent, $event) {
+        displayMessage('Mouseover EventStart: ' + calEvent.start + 'End: ' + calEvent.end + 'ID: ' + calEvent.id);
+      },
+      eventMouseout: function(calEvent, $event) {
+        displayMessage('Mouseout EventStart: ' + calEvent.start + 'End: ' + calEvent.end);
+      },
+      noEvents: function() {
+        displayMessage('There are no events for this week');
+      }
+    });
 
-  function displayMessage(message) {
-      $('#message').html(message).fadeIn();
-  }
+    function displayMessage(message) {
+        $('#message').html(message).fadeIn();
+    }
 
-  $('').prependTo($('body'));
+    $('').prependTo($('body'));
   });
 :css
   p.description {

@@ -35,4 +35,12 @@ Bsmi::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
+  config.dev_tweaks.autoload_rules do
+    keep :all
+
+    skip '/favicon.ico'
+    skip :assets
+    skip :xhr
+    keep :forced
+  end
 end

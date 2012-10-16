@@ -23,7 +23,7 @@ times.each.with_index do |time, i|
   i += 1
   start_time, end_time = time
   Timeslot.create!(:start_time => start_time, :end_time => end_time,
-                   :mentor_teacher => MentorTeacher.find(i))  
+                   :mentor_teacher => MentorTeacher.find(i), :day => :monday)  
 end
 
 Timeslot.all.each.with_index do |ts, i|

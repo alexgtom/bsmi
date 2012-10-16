@@ -82,6 +82,6 @@ class StudentsController < ApplicationController
   end
 
   def timeslot_selection
-
+    @day = 'hello'
   end
 end

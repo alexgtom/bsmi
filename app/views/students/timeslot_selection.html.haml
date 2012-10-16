@@ -28,6 +28,8 @@
       overlapEventsSeparate: true,
       daysToShow: 1,
       showHeader: false,
+      dateFormat: "",  // delete date in header
+      longDays: ['', '', '', '', '', '', ''], // deletes day in header
       height: function($calendar) {
         return $(window).height() - $('h1').outerHeight(true);
       },

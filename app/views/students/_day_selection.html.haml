@@ -31,8 +31,8 @@
         showHeader: false,
         dateFormat: "",  // delete date in header
         longDays: ['', '', '', '', '', '', ''], // deletes day in header
-        height: function($calendar) {
-          return $(window).height() - $('h1').outerHeight(true);
+        height: function($calendar) { // CHANGE HEIGHT HERE
+          return 640 - $('h1').outerHeight(true);
         },
         eventRender : function(calEvent, $event) {
         },
@@ -94,7 +94,6 @@
     }
 
     ##{calendar_id} {
-      width: 800px;
-
+      /* CHANGE HIEGHT IN JS */
     }
 %div{:id => calendar_id}

@@ -82,8 +82,8 @@ class StudentsController < ApplicationController
   end
 
   def timeslot_selection
-    @timeslots = Timeslot.all
-  end
+    flash[:notice] = "Submitted"
 
+  end
 
 end

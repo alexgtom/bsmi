@@ -21,6 +21,8 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'shoulda-matchers'
   gem 'simplecov'
+  gem 'authlogic'
+  gem 'rails3-generators'
   gem 'spork'
 end
 

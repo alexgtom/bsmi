@@ -1,0 +1,10 @@
+class RegisterController < ApplicationController
+  def index
+  end
+
+  def create
+    @mentorteacher = Mentorteacher.Create!(params[:mentorteacher])
+    flash[:notice] = 'Your account has been successfully created!'
+    redirect_to login_path
+  end
+end

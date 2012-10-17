@@ -40,7 +40,7 @@
         eventAfterRender: function(calEvent, element) {
           $(element).toggle(function () {
             $(element).addClass("highlightEvent");
-            $("#timeslots").append('<input type="hidden" name="day[#{day}]" value="' + calEvent.id + '">');
+            $("#timeslots").append('<input type="hidden" name="#{day}[]" value="' + calEvent.id + '">');
           }, function() {
             $(element).removeClass("highlightEvent");
             $('#timeslots input[value="' + calEvent.id + '"]').remove();

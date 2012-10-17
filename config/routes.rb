@@ -65,6 +65,7 @@ Bsmi::Application.routes.draw do
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
   resources :students do
+    resources :select_timeslots
     member do 
       get 'timeslot_selection'
       post 'timeslot_selection'

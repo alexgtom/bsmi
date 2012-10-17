@@ -1,6 +1,10 @@
 class Timeslot < ActiveRecord::Base
   DAY = [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday]
 
+  def self.day_index(value)
+    DAY.index(value)
+  end
+
   def day
     DAY[read_attribute(:day)]
   end

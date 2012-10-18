@@ -6,10 +6,6 @@
     = csrf_meta_tags
     = yield :head
   %body
-    = if flash[:notice]
-      .alert.alert-info
-        = flash[:notice]
-
     .navbar.navbar-inverse.navbar-fixed-top
       .navbar-inner
         .container
@@ -27,6 +23,23 @@
               %li
                 %a{:href => "#contact"} Contact
     .container
+      - [:notice, :error, :error_list, :alert].each do |level| 
+        - unless flash[level].blank?
+          - if level == :notice
+            .alert.alert-info 
+              = flash
+          - elsif level == :error
+            .alert.alert-error 
+              = flash[level]
+          - elsif level == :error_list
+            .alert.alert-error
+              %ul
+                - flash[level].each do |error|
+                  %li
+                    = error
+          - else
+            .alert.alert-block 
+              = flash[level]
       = yield
 
 

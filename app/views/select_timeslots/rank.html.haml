@@ -2,6 +2,8 @@
 
 %section
   %h2 Rank Preferences
+= error_messages_for :student
+= error_messages_for :preference
 = form_for @student, url: wizard_path do |f|
   %table.table.table-striped
     %thead

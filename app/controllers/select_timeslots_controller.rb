@@ -6,7 +6,7 @@ class SelectTimeslotsController < ApplicationController
     @student = Student.find(params[:student_id])
     case step
     when :rank
-      @preferences = Preference.where(:student_id => @student.id)
+      @preferences = @student.preferences
     end
     render_wizard 
   end
@@ -14,11 +14,25 @@ class SelectTimeslotsController < ApplicationController
   def update
     student_id = params[:student_id]
     @student = Student.find(student_id)
+    
+
     if step == :rank
       params[:pref].each do |k, v|
         p = Preference.find_by_id(k)
         p.ranking = v
-        p.save!
+        if not p.valid?
+          if not flash[:error_list]
+            flash[:error_list] = []
+          end
+          flash[:error_list].concat([p.errors.first[1]])
+        end
+        p.save
+      end
+      
+      if flash[:error_list]
+        redirect_to wizard_path
+      else
+        render_wizard @student
       end
     else
       # delete old preferences that were not selected again
@@ -29,7 +43,6 @@ class SelectTimeslotsController < ApplicationController
         end
       end
       Preference.destroy_all(delete_list)
-
 
       # create or update new preferences
       now = DateTime.now
@@ -45,9 +58,9 @@ class SelectTimeslotsController < ApplicationController
 
         end
       end
+      render_wizard @student
     end  
 
-    render_wizard @student
   end
 
 end

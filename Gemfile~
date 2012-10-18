@@ -8,7 +8,7 @@ gem 'rails', '3.2.7'
 # for Heroku deployment - as described in Ap. A of ELLS book
 
 group :test do
-  gem 'cucumber-rails', :require => false
+  gem 'cucumber-rails'
   gem 'cucumber-rails-training-wheels'
   gem 'database_cleaner'
 end
@@ -19,11 +19,9 @@ group :development, :test do
   gem 'capybara'
   gem 'launchy'
   gem 'rspec-rails'
-  gem 'shoulda-matchers'
   gem 'simplecov'
   gem 'authlogic'
-  gem 'rails3-generators'
-  gem 'spork'
+  gem 'raile3-generators'
 end
 group :production do
   gem 'pg'
@@ -59,4 +57,3 @@ gem 'jquery-rails'
 # gem 'debugger'
 
 gem 'haml'
-gem 'haml-rails'

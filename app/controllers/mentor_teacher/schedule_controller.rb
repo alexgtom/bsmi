@@ -10,5 +10,8 @@ class MentorTeacher::SchedulesController < ApplicationController
 
   end
 
+  def show
+
+  end
 
 end

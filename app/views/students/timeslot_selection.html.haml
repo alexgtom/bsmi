@@ -1,0 +1,30 @@
+- if flash[:notice]
+  .alert.alert-success 
+    =flash[:notice]
+
+%h1 Select Timeslots
+
+
+= form_tag({:controller => "students", :action => "timeslot_selection"}) do 
+  #timeslots
+  %section
+    %h2 Monday
+    = render :partial => "day_selection", :locals => { :day => :monday, :calendar_id => :monday, :timeslots => Timeslot.where(:day => Timeslot.day_index(:monday))}
+
+  %section
+    %h2 Tuesday
+    = render :partial => "day_selection", :locals => { :day => :tuesday, :calendar_id => :tuesday, :timeslots => Timeslot.where(:day => Timeslot.day_index(:tuesday))}
+
+  %section
+    %h2 Wednesday
+    = render :partial => "day_selection", :locals => { :day => :wednesday, :calendar_id => :wednesday, :timeslots => Timeslot.where(:day => Timeslot.day_index(:wednesday))}
+
+  %section
+    %h2 Thursday 
+    = render :partial => "day_selection", :locals => { :day => :thursday, :calendar_id => :thursday, :timeslots => Timeslot.where(:day => Timeslot.day_index(:thursday))}
+
+  %section
+    %h2 Friday
+    = render :partial => "day_selection", :locals => { :day => :friday, :calendar_id => :friday, :timeslots => Timeslot.where(:day => Timeslot.day_index(:friday))}
+
+  = submit_tag("Submit Timeslots")

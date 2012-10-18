@@ -1,0 +1,28 @@
+= render :partial => "week_calendar", :locals => { :width => 600, :height => 700, :calendar_id => :rank, :timeslots => Timeslot.where(:day => Timeslot.day_index(:monday))}
+
+%section
+  %h2 Rank Preferences
+= form_for @student, url: wizard_path do |f|
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Ranking
+        %th Start Time
+        %th End Time
+    %tbody
+      - @preferences.each do |p|
+        %tr
+          %td
+            %select{:name => "pref[#{p.id}]"}
+              %option
+              - (1..@preferences.count).each do |n|
+                %option{ :selected => n == p.ranking } 
+                  = n
+          %td
+            = p.timeslot.start_time.strftime("%l:%M %P")
+          %td
+            = p.timeslot.end_time.strftime("%l:%M %P")
+            
+
+  = submit_tag("Submit Rankings")
+  = link_to "skip this step", next_wizard_path 

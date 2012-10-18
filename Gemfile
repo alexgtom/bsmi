@@ -26,8 +26,13 @@ group :development, :test do
   gem 'spork'
   gem 'thin'
 end
+
 group :production do
   gem 'pg'
+end
+
+group :development do
+#  gem 'rails-dev-tweaks', '~> 0.6.1'
 end
 
 # Gems used only for assets and not required
@@ -38,7 +43,8 @@ group :assets do
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby
-
+  gem 'jquery-ui-rails'
+  gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git', :branch => 'static'
   gem 'uglifier', '>= 1.0.3'
 end
 
@@ -59,5 +65,7 @@ gem 'jquery-rails'
 # To use debugger
 # gem 'debugger'
 
+# this make rails server super slow
 gem 'haml'
 gem 'haml-rails'
+gem 'wicked'

@@ -1,0 +1,84 @@
+- content_for(:head) do
+  :javascript
+    var year = 1990
+    var month = 2
+    var day = 5
+  
+    $(document).ready(function() {
+      $('##{calendar_id}').weekCalendar({
+        date: new Date(year, month, day),
+        timeslotsPerHour: 6,
+        timeslotHeight: 5,
+               readonly: false,
+        hourLine: false,
+        firstDayOfWeek: 1,
+        businessHours: {start: 8, end: 18, limitDisplay: true},
+        allowCalEventOverlap: true,
+        overlapEventsSeparate: true,
+        daysToShow: 5,
+        showHeader: false,
+        dateFormat: "",  // delete date in header
+        longDays: ['', 'M', 'Tu', 'W', 'Th', 'F', ''], // deletes day in header
+        height: function($calendar) { // CHANGE HEIGHT HERE
+          return #{height}
+        },
+        // eventRender : function(calEvent, $event) {
+        // },
+        // eventAfterRender: function(calEvent, element) {  
+        // },
+        // eventNew: function(calEvent, $event) {
+        // },
+        // eventDrop: function(calEvent, $event) {
+        // },
+        // eventResize: function(calEvent, $event) {
+        // },
+        // eventClick: function(calEvent, element, freeBusyManager, $calendar, DomEvent) {
+
+        // },
+        // eventMouseover: function(calEvent, $event) {
+        //   alert("Hello!")
+        // },
+        // eventMouseout: function(calEvent, $event) {
+        // },
+        // noEvents: function() {
+        //   alert("Foo")
+        // }
+      });
+
+      function displayMessage(message) {
+          $('#message').html(message).fadeIn();
+      }
+
+      $('').prependTo($('body'));
+    });
+  :css
+    p.description {
+      font-size: 0.8em;
+      padding: 1em;
+      position: absolute;
+      top: 3.2em;
+      margin-right: 400px;
+    }
+
+    #message {
+      font-size: 0.7em;
+      position: absolute;
+      top: 1em;
+      right: 1em;
+      width: 350px;
+      display: none;
+      padding: 1em;
+      background: #ffc;
+      border: 1px solid #dda;
+    }
+
+    .highlightEvent {
+      background-color: #FFFF88;
+      color: #000;
+    }
+
+    ##{calendar_id} {
+      /* CHANGE HIEGHT IN JS */
+      width: #{width}
+    }
+%div{:id => calendar_id}

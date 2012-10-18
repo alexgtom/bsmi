@@ -6,6 +6,9 @@
     = csrf_meta_tags
     = yield :head
   %body
+    = if flash[:notice]
+      %div.alert.alert-info
+        = flash[:notice]
     .container
       = yield
 

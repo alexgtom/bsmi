@@ -3,13 +3,15 @@
     var year = 1990
     var month = 2
     var day = 5
-  
+
     $(document).ready(function() {
+        
       $('##{calendar_id}').weekCalendar({
         date: new Date(year, month, day),
+
         timeslotsPerHour: 6,
         timeslotHeight: 5,
-               readonly: false,
+          readonly: false,
         hourLine: false,
         firstDayOfWeek: 1,
         businessHours: {start: 8, end: 18, limitDisplay: true},

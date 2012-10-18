@@ -6,9 +6,41 @@
     = csrf_meta_tags
     = yield :head
   %body
-    = if flash[:notice]
-      %div.alert.alert-info
-        = flash[:notice]
+    .navbar.navbar-inverse.navbar-fixed-top
+      .navbar-inner
+        .container
+          %a.btn.btn-navbar{"data-target" => ".nav-collapse", "data-toggle" => "collapse"}
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+          %a.brand{:href => "#"} Project name
+          .nav-collapse.collapse
+            %ul.nav
+              %li.active
+                %a{:href => "#"} Home
+              %li
+                %a{:href => "#about"} About
+              %li
+                %a{:href => "#contact"} Contact
     .container
+      - [:notice, :error, :error_list, :alert].each do |level| 
+        - unless flash[level].blank?
+          - if level == :notice
+            .alert.alert-info 
+              = flash
+          - elsif level == :error
+            .alert.alert-error 
+              = flash[level]
+          - elsif level == :error_list
+            .alert.alert-error
+              %ul
+                - flash[level].each do |error|
+                  %li
+                    = error
+          - else
+            .alert.alert-block 
+              = flash[level]
       = yield
+
+
 

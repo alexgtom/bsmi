@@ -18,12 +18,13 @@ group :development, :test do
   gem 'ruby-debug19', :require => 'ruby-debug'
   gem 'capybara'
   gem 'launchy'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 2.4'
   gem 'shoulda-matchers'
   gem 'simplecov'
   gem 'authlogic'
   gem 'rails3-generators'
   gem 'spork'
+  gem 'thin'
 end
 group :production do
   gem 'pg'

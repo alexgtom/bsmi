@@ -16,3 +16,6 @@
 
 #Ignore backup files
 *~
+
+# Ignore rspec coverage directory
+/coverage

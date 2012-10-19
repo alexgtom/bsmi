@@ -80,28 +80,4 @@ class StudentsController < ApplicationController
       format.json { head :no_content }
     end
   end
-
-  def timeslot_selection
-    flash[:notice] = params
-
-    student_id = params[:id]
-    
-    Preference.destroy_all(:student_id => student_id)
-
-    Timeslot.day_list.each do |d|
-      if params[d]
-
-        # create or update new preferences
-        params[d].each do |timeslot_id|
-          p = Preference.create(
-            :student_id => student_id,
-            :timeslot_id => timeslot_id,
-            :updated_at => DateTime.now,
-          )
-        end
-
-      end
-    end
-  end
-
 end

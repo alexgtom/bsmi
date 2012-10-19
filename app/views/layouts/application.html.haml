@@ -16,12 +16,11 @@
           %a.brand{:href => "#"} Project name
           .nav-collapse.collapse
             %ul.nav
-              %li.active
-                %a{:href => "#"} Home
+              // Temporary navigation links
               %li
-                %a{:href => "#about"} About
+                %a{:href => "/students/1/select_timeslots"} Select Timeslots
               %li
-                %a{:href => "#contact"} Contact
+                %a{:href => "/students/1/select_timeslots/summary"} Timeslot Preference Summary
     .container
       - [:notice, :error, :error_list, :alert].each do |level| 
         - unless flash[level].blank?

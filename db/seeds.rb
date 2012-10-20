@@ -28,7 +28,7 @@ end
 Timeslot.all.each.with_index do |ts, i|
   i += 1
   if (i < Student.count)
-    Preference.create!(:timeslot => ts, :student => Student.find(i))
+    Preference.create!(:timeslot => ts, :student => Student.find(i), :ranking => i)
   end
 end         
          

@@ -31,7 +31,7 @@ group :production do
 end
 
 group :development do
-#  gem 'rails-dev-tweaks', '~> 0.6.1'
+  gem 'rails-dev-tweaks', '~> 0.6.1'
 end
 
 # Gems used only for assets and not required

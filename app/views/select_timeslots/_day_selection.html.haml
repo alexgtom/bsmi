@@ -6,14 +6,15 @@
   
     var #{day}eventData = {
     events : [
-        #{
-          timeslots.map{ |t| "{ 
-              'id': #{t.id}, 
-              'start': new Date(year, month, day, #{t.start_time.strftime("%H")}, #{t.start_time.strftime("%M")} ),
-              'end': new Date(year, month, day, #{t.end_time.strftime("%H")}, #{t.end_time.strftime("%M")} ),
-              'title' : 'SUBJECT',
-
-            }," }.join '\n'
+      #{
+      @timeslots.map{ |t| '{' + 
+      [
+        "'id': #{t.id}",
+        "'start': new Date(year, month, day, #{t.start_time.strftime("%H")}, #{t.start_time.strftime("%M")} )",
+        "'end': new Date(year, month, day, #{t.end_time.strftime("%H")}, #{t.end_time.strftime("%M")} )",
+        "'title' : 'SUBJECT'",
+        "'selected' : #{t.selected?(@student.id)}",
+      ].join(',') + '}' }.join ','
         }
       ]
     };
@@ -38,13 +39,29 @@
         eventRender : function(calEvent, $event) {
         },
         eventAfterRender: function(calEvent, element) {
-          $(element).toggle(function () {
+          if (calEvent.selected)
+          {
             $(element).addClass("highlightEvent");
             $("#timeslots").append('<input type="hidden" name="#{day}[]" value="' + calEvent.id + '">');
-          }, function() {
-            $(element).removeClass("highlightEvent");
-            $('#timeslots input[value="' + calEvent.id + '"]').remove();
-          });
+
+            $(element).toggle(function () {
+              $(element).removeClass("highlightEvent");
+              $('#timeslots input[value="' + calEvent.id + '"]').remove();
+            }, function() {
+              $(element).addClass("highlightEvent");
+              $("#timeslots").append('<input type="hidden" name="#{day}[]" value="' + calEvent.id + '">');
+            });
+          }
+          else
+          {
+            $(element).toggle(function () {
+              $(element).addClass("highlightEvent");
+              $("#timeslots").append('<input type="hidden" name="#{day}[]" value="' + calEvent.id + '">');
+            }, function() {
+              $(element).removeClass("highlightEvent");
+              $('#timeslots input[value="' + calEvent.id + '"]').remove();
+            });
+          }
         },
         eventNew: function(calEvent, $event) {
         },

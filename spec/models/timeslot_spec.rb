@@ -5,6 +5,11 @@ describe Timeslot do
     Timeslot.day_list.should eq([:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday])
   end
 
+  it 'should return the symbol for the day of the timeslit' do
+    t = Timeslot.new(:day => :tuesday)
+    t.day.should eq(:tuesday)
+  end
+
   it 'should return the index of the day given the symbol for the day' do
     Timeslot.day_index(:sunday).should eq(0)
     Timeslot.day_index(:monday).should eq(1)

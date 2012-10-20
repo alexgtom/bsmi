@@ -5,6 +5,7 @@ class SelectTimeslotsController < ApplicationController
   def show
     @student = Student.find(params[:student_id])
     @timeslots = Timeslot.where(:day => Timeslot.day_index(step))
+
     case step
     when :rank
       @preferences = @student.preferences
@@ -41,31 +42,49 @@ class SelectTimeslotsController < ApplicationController
       render_wizard @student
     else
       # delete old preferences that were not selected again
-      delete_list = []
-      Preference.where(:student_id => student_id) do |p|
-        if not p.timeslot.day == step
-          delete_list
+      #delete_list = []
+      #Preference.where(:student_id => student_id) do |p|
+      #  if not p.timeslot.day == step
+      #    delete_list << p
+      #  end
+      #end
+      #Preference.destroy_all(delete_list)
+
+      ## create or update new preferences
+      #now = DateTime.now
+
+      #if params[step]
+      #  params[step].each do |timeslot_id|
+      #    p = Preference.where(:student_id => student_id, :timeslot_id => timeslot_id).first || 
+      #      Preference.new(:student_id => student_id, :timeslot_id => timeslot_id)
+      #    p.updated_at = now
+      #    p.save!
+
+      #  end
+      #end
+      #render_wizard @student
+      #
+      Preference.transaction do 
+        #Preference.joins(:timeslot)
+        #    .where('timeslots.day' => Timeslot.day_index(step), :student_id => @student.id)
+        #    .destroy_all
+        Preference.where(:student_id => @student.id).each do |p|
+          p.delete
         end
-      end
-      Preference.destroy_all(delete_list)
 
-      # create or update new preferences
-      now = DateTime.now
-
-      if params[step]
         params[step].each do |timeslot_id|
-          p = Preference.where(:student_id => student_id, :id => timeslot_id).first || Preference.new()
-          p = p.update_attributes(
-            :student_id => student_id,
-            :timeslot_id => timeslot_id,
-            :updated_at => now,
-          )
-
+            Preference.create!(:student_id => @student.id, :timeslot_id => timeslot_id)
         end
       end
+
+
       render_wizard @student
     end  
 
+  end
+
+  def selected?(student_id)
+    Preference.where(:student_id => student_id).where(:timeslot_id => id).size > 0
   end
 
 end

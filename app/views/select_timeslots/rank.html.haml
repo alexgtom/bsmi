@@ -20,7 +20,7 @@
           %td
             = p.select :ranking, (1..@student.preferences.size), :include_blank => true
           %td
-            = p.timeslot.day
+            = p.object.timeslot.day
           %td
             = p.object.timeslot.start_time.strftime("%l:%M %P")
           %td

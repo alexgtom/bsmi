@@ -8,6 +8,7 @@ class SelectTimeslotsController < ApplicationController
 
     case step
     when :rank
+      @timeslots = Timeslot.find(@student.preferences.map{ |p| p.timeslot_id })
       @preferences = @student.preferences
     end
 
@@ -47,11 +48,14 @@ class SelectTimeslotsController < ApplicationController
     when :monday, :tuesday, :wednesday, :thursday, :friday
       Preference.transaction do 
         Preference.where(:student_id => @student.id).each do |p|
-          p.delete
+          if p.timeslot.day == Timeslot.day_index(step)
+            p.delete
+          end
         end
-
-        params[step].each do |timeslot_id|
-            Preference.create!(:student_id => @student.id, :timeslot_id => timeslot_id)
+        if params[step]
+          params[step].each do |timeslot_id|
+              Preference.create!(:student_id => @student.id, :timeslot_id => timeslot_id)
+          end
         end
       end
       render_wizard @student

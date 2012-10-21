@@ -14,6 +14,7 @@ class SelectTimeslotsController < ApplicationController
 
     case step
     when :summary
+      @timeslots = Timeslot.find(@student.preferences.map{ |p| p.timeslot_id })
       @preferences = @student.preferences.order("ranking ASC")
     end
 

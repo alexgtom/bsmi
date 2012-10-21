@@ -2,12 +2,16 @@ require 'spec_helper'
 
 describe SelectTimeslotsController do
   before(:each) do
+    @timeslot = mock_model(Timeslot)
+    @timeslot.stub(:day).and_return(:tuesday)
     @preference = mock_model(Preference)
     @preference.stub(:delete)
     @preference.stub(:ranking=)
     @preference.stub(:save!)
     @preference.stub(:save)
+    @preference.stub(:timeslot).and_return(@timeslot)
 
+    @preferences = []
     @preferences.stub(:find_by_id).and_return(@preference)
     @preferences.stub(:order).and_return([@preference])
     @student = mock_model(Student)

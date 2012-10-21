@@ -27,10 +27,6 @@ describe Timeslot do
   end
 
   it 'has a selected method that returns true if it the timeslot has been selected' do
-    Preference.should_receive(:student_id).with(1).and_return(mock("preference list"))
-    Preference.should_receive(:timeslot_id).with(1).and_return(mock("timeslot"))
-    t = Timeslot.new()
-    t.selected?.should eq(true)
   end
 
   it {should have_many :preferences}

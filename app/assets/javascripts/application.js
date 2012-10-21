@@ -18,5 +18,6 @@
 //= require jquery.ui.draggable
 //= require jquery.ui.droppable
 //= require jquery.ui.position
+//= require jquery.ui.resizable
 //= require bootstrap
 //= require_tree .

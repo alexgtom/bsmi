@@ -4,13 +4,15 @@
     var month = 2
     var day = 5
 
-    $(document).ready(function() {
+    $(document).ready(
+        //xxxx
+        function() {
         
       $('##{calendar_id}').weekCalendar({
         date: new Date(year, month, day),
 
         timeslotsPerHour: 6,
-        timeslotHeight: 5,
+        timeslotHeight: 10,
         readonly: false,
         hourLine: false,
         firstDayOfWeek: 1,
@@ -29,7 +31,7 @@
         eventAfterRender: function(calEvent, element) {  
         },
         eventNew: function(calEvent, $event) {
-            //            alert("asdfas");
+            console.log(JSON.stringify(calEvent))
         },
         eventDrop: function(calEvent, $event) {
         },
@@ -37,6 +39,7 @@
         },
         eventClick: function(calEvent, element, freeBusyManager, $calendar, DomEvent) {
             
+        
         },
         eventMouseover: function(calEvent, $event) {
         },

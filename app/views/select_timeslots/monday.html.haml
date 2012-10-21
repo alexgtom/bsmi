@@ -2,6 +2,6 @@
   #timeslots
   %section
     %h2 Monday
-    = render :partial => "day_selection", :locals => { :day => :monday, :calendar_id => :monday, :timeslots => Timeslot.where(:day => Timeslot.day_index(:monday))}
+    = render :partial => "day_selection", :locals => { :day => :monday, :calendar_id => :monday, :timeslots => @timeslots}
   = submit_tag("Submit Timeslots")
   = link_to "skip this step", next_wizard_path 

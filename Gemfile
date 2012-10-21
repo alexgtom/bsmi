@@ -23,12 +23,14 @@ group :development, :test do
   gem 'simplecov'
   gem 'authlogic'
   gem 'rails3-generators'
-  gem 'spork'
   gem 'thin'
+  gem 'spork', '0.9.2'
+
 end
 
 group :production do
   gem 'pg'
+  gem 'authlogic'
 end
 
 group :development do
@@ -70,3 +72,4 @@ gem 'haml'
 gem 'haml-rails'
 gem 'wicked'
 gem 'dynamic_form'
+gem 'simplecov'

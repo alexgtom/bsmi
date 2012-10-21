@@ -1,1 +1,21 @@
-Thank you for submitting the form.
+%section
+  %h1 Summary
+  %h2 Selected Timeslots
+  = render :partial => "week_calendar", :locals => { :width => 940, :height => 700, :calendar_id => :rank, :timeslots => Timeslot.where(:day => Timeslot.day_index(:monday))}
+  %h2 Timeslot Preferences
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Rank
+        %th Start Time
+        %th End Time
+    %tbody
+      - @preferences.each do |p|
+        %tr
+          %td
+            = p.ranking
+          %td
+            = p.timeslot.start_time.strftime("%l:%M %P")
+          %td
+            = p.timeslot.end_time.strftime("%l:%M %P")
+

@@ -21,7 +21,6 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'shoulda-matchers'
   gem 'simplecov'
-  gem 'authlogic'
   gem 'rails3-generators'
   gem 'spork', '0.9.2'
 end
@@ -71,3 +70,4 @@ gem 'haml-rails'
 gem 'wicked'
 gem 'dynamic_form'
 gem 'simplecov'
+gem 'authlogic'

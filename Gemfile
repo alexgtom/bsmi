@@ -23,6 +23,7 @@ group :development, :test do
   gem 'simplecov'
   gem 'rails3-generators'
   gem 'spork', '0.9.2'
+  gem 'factory_girl_rails'
 end
 
 group :production do

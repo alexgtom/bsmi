@@ -5,8 +5,14 @@ describe Timeslot do
     Timeslot.day_list.should eq([:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday])
   end
 
-  it 'should return the symbol for the day of the timeslit' do
+  it 'should return the symbol for the day of the timeslot' do
     t = Timeslot.new(:day => :tuesday)
+    t.day.should eq(:tuesday)
+  end
+
+  it 'should be able to change the day of the timeslot' do
+    t = Timeslot.new()
+    t.day = :tuesday
     t.day.should eq(:tuesday)
   end
 
@@ -18,6 +24,13 @@ describe Timeslot do
     Timeslot.day_index(:thursday).should eq(4)
     Timeslot.day_index(:friday).should eq(5)
     Timeslot.day_index(:saturday).should eq(6)
+  end
+
+  it 'has a selected method that returns true if it the timeslot has been selected' do
+    Preference.should_receive(:student_id).with(1).and_return(mock("preference list"))
+    Preference.should_receive(:timeslot_id).with(1).and_return(mock("timeslot"))
+    t = Timeslot.new()
+    t.selected?.should eq(true)
   end
 
   it {should have_many :preferences}

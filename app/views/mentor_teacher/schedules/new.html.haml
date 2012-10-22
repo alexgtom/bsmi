@@ -1,7 +1,7 @@
 
 = form_tag mentor_teacher_schedule_path, :id => 'schedule_form' do
   -  Timeslot.weekdays.each do |day|
-    %div
+    %div{:id => day}
       = render :partial => "day_schedule", :locals => {:day => day.capitalize}       
 
   

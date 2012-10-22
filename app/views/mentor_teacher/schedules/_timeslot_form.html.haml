@@ -1,11 +1,13 @@
 = label "timeslots[][class_name]", "Class Name"
-= text_field_tag "timeslots[][class_name][]"
+= text_field_tag "timeslots[][class_name]"
 = label "timeslots[][start_time][hour]", "Start Time"
 = select_time(Time.new("8:00 AM"), {:time_separator => ':', :ampm => true, :prefix => 'timeslots[][start_time]'}, :class => "time_select")
 
 = label "timeslots[][end_time][hour]", "End Time"
 = select_time(Time.new("8:00 AM"), {:time_separator => ':', :ampm => true, :prefix => 'timeslots[][end_time]'}, :class => "time_select")
 
+= label "timeslots[][assistants]", "Teaching assistants"
+= select_tag "timeslots[][num_assistants]", options_for_select((1..2).map {|i| [i,i]}) #xxxx DON'T HARDCODE THIS
 
 -# = select_tag "timeslots[][day]", options_for_select(.map {|d, i| [d.capitalize, d]})
 -# = select_hour 8, :field_name => "timeslots[][hour]" 

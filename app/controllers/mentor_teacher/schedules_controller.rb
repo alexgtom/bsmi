@@ -5,36 +5,28 @@ class MentorTeacher::SchedulesController < ApplicationController
     
    
   def new
-    #timeslots == JSON.parser(params[:timeslots])
-    # @schedule = []
-    if current_user
-      params[:timeslots].each do |hash|
-        @timeslot == Timeslot.new(hash)
-        current_user.timeslots << @timeslot
-      end
-      current_user.save
-    end
+    #Just render the view for now; doesn't need any data
   end
 
   def show
     if current_user
       if current_user.timeslots.empty?
-       redirect_to mentor_teacher_schedule_new_path
+        redirect_to mentor_teacher_schedule_new_path
       else
-       @timeslot = current_user.timeslots
+        @timeslots = current_user.timeslots
       end
     end
   end
   
   def create
-   if current_user
+    #    if current_user
     params[:timeslots].each do |hash|
       @timeslot = Timeslot.create!(hash)
       current_user.timeslots << @timeslot
     end
     flash[:notice] = "Schedule was successfully created."
-    # redirect_to mentor_teacher_schedule_path
-   end
+    redirect_to mentor_teacher_schedule_path
+    #   end
   end
 
   def edit

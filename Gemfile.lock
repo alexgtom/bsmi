@@ -221,6 +221,7 @@ DEPENDENCIES
   haml-rails
   jquery-rails
   jquery-ui-rails
+  json
   launchy
   pg
   rails (= 3.2.7)

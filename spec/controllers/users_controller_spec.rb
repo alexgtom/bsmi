@@ -13,9 +13,10 @@ describe UsersController do
   describe "GET show" do
     it "assigns the requested user as @user" do
       user = User.create! valid_attributes
-      User.stub(:show).and_return(@user = user)
+      controller.stub!(:require_user).and_return(user)
+      controller.stub!(:current_user).and_return(user)
       get :show
-      User.show.should eq(user)
+      assigns(:user).should eq(user)
     end
   end
 
@@ -29,9 +30,10 @@ describe UsersController do
   describe "GET edit" do
     it "assigns the requested user as @user" do
       user = User.create! valid_attributes
-      User.stub(:edit).and_return(@user = user)
+      controller.stub!(:require_user).and_return(user)
+      controller.stub!(:current_user).and_return(user)
       get :edit
-      User.edit.should eq(user)
+      assigns(:user).should eq(user)
     end
   end
 
@@ -76,18 +78,24 @@ describe UsersController do
     describe "with valid params" do
       it "updates the requested user" do
         user = User.create! valid_attributes
+        controller.stub!(:require_user).and_return(user)
+        controller.stub!(:current_user).and_return(user)
         User.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
         put :update, {:id => user.to_param, :user => {'these' => 'params'}}, valid_session
       end
 
       it "assigns the requested student as @user" do
         user = User.create! valid_attributes
+        controller.stub!(:require_user).and_return(user)
+        controller.stub!(:current_user).and_return(user)
         put :update, {:id => user.to_param, :user => valid_attributes}, valid_session
         assigns(:user).should eq(user)
       end
 
       it "redirects to the student" do
         user = User.create! valid_attributes
+        controller.stub!(:require_user).and_return(user)
+        controller.stub!(:current_user).and_return(user)
         put :update, {:id => user.to_param, :user => valid_attributes}, valid_session
         response.should redirect_to(user)
       end
@@ -96,6 +104,8 @@ describe UsersController do
     describe "with invalid params" do
       it "assigns the user as @user" do
         user = User.create! valid_attributes
+        controller.stub!(:require_user).and_return(user)
+        controller.stub!(:current_user).and_return(user)
         # Trigger the behavior that occurs when invalid params are submitted
         User.any_instance.stub(:save).and_return(false)
         put :update, {:id => user.to_param, :user => {}}, valid_session
@@ -104,26 +114,13 @@ describe UsersController do
 
       it "re-renders the 'edit' template" do
         user = User.create! valid_attributes
+        controller.stub!(:require_user).and_return(user)
+        controller.stub!(:current_user).and_return(user)
         # Trigger the behavior that occurs when invalid params are submitted
         User.any_instance.stub(:save).and_return(false)
         put :update, {:id => user.to_param, :user => {}}, valid_session
         response.should render_template("edit")
       end
-    end
-  end
-
-  describe "DELETE destroy" do
-    it "destroys the requested user" do
-      user = User.create! valid_attributes
-      expect {
-        delete :destroy, {:id => user.to_param}, valid_session
-      }.to change(User, :count).by(-1)
-    end
-
-    it "redirects to the students list" do
-      user = User.create! valid_attributes
-      delete :destroy, {:id => user.to_param}, valid_session
-      response.should redirect_to(users_url)
     end
   end
 

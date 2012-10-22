@@ -4,10 +4,17 @@ class SelectTimeslotsController < ApplicationController
   
   def show
     @student = Student.find(params[:student_id])
+    @timeslots = Timeslot.where(:day => Timeslot.day_index(step))
     case step
     when :rank
       @preferences = @student.preferences
     end
+
+    case step
+    when :summary
+      @preferences = @student.preferences.order("ranking ASC")
+    end
+
     render_wizard 
   end
 
@@ -17,23 +24,21 @@ class SelectTimeslotsController < ApplicationController
     
 
     if step == :rank
-      params[:pref].each do |k, v|
-        p = Preference.find_by_id(k)
-        p.ranking = v
-        if not p.valid?
-          if not flash[:error_list]
-            flash[:error_list] = []
-          end
-          flash[:error_list].concat([p.errors.first[1]])
-        end
-        p.save
+      params[:student][:preferences_attributes].each_value do |v|
+        p = Preference.find_by_id(v[:id])
+        p.ranking = nil
+        p.save!(:validate => false)
       end
       
-      if flash[:error_list]
-        redirect_to wizard_path
-      else
-        render_wizard @student
+      Student.transaction do 
+        params[:student][:preferences_attributes].each_value do |v|
+          p = @student.preferences.find_by_id(v[:id])
+          p.ranking = v[:ranking]
+          p.save
+        end
       end
+
+      render_wizard @student
     else
       # delete old preferences that were not selected again
       delete_list = []

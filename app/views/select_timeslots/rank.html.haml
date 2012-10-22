@@ -1,30 +1,28 @@
-= render :partial => "week_calendar", :locals => { :width => 600, :height => 700, :calendar_id => :rank, :timeslots => Timeslot.where(:day => Timeslot.day_index(:monday))}
+%section
+  %h2 Selected Timeslots
+  = render :partial => "week_calendar", :locals => { :width => 940, :height => 700, :calendar_id => :rank, :timeslots => Timeslot.where(:day => Timeslot.day_index(:monday))}
 
 %section
-  %h2 Rank Preferences
-= error_messages_for :student
-= error_messages_for :preference
+  %h2 Pick Timeslot Preferences
+  Please rank which timeslots you prefer from highest to lowest where "1" is your most preferred timeslot.
 = form_for @student, url: wizard_path do |f|
+  = f.error_messages
   %table.table.table-striped
     %thead
       %tr
-        %th Ranking
+        %th Rank
         %th Start Time
         %th End Time
     %tbody
-      - @preferences.each do |p|
+      = f.fields_for :preferences do |p|
         %tr
           %td
-            %select{:name => "pref[#{p.id}]"}
-              %option
-              - (1..@preferences.count).each do |n|
-                %option{ :selected => n == p.ranking } 
-                  = n
+            = p.select :ranking, (1..@student.preferences.size), :include_blank => true
           %td
-            = p.timeslot.start_time.strftime("%l:%M %P")
+            = p.object.timeslot.start_time.strftime("%l:%M %P")
           %td
-            = p.timeslot.end_time.strftime("%l:%M %P")
+            = p.object.timeslot.end_time.strftime("%l:%M %P")
             
 
-  = submit_tag("Submit Rankings")
+  = f.submit("Submit Rankings")
   = link_to "skip this step", next_wizard_path 

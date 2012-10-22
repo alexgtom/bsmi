@@ -16,6 +16,7 @@ end
 group :development, :test do
   gem 'sqlite3'
   gem 'ruby-debug19', :require => 'ruby-debug'
+  gem 'debugger'
   gem 'capybara'
   gem 'launchy'
   gem 'rspec-rails', '~> 2.4'
@@ -23,12 +24,14 @@ group :development, :test do
   gem 'simplecov'
   gem 'authlogic'
   gem 'rails3-generators'
-  gem 'spork'
   gem 'thin'
+  gem 'spork', '0.9.2'
+
 end
 
 group :production do
   gem 'pg'
+  gem 'authlogic'
 end
 
 group :development do
@@ -72,3 +75,4 @@ gem 'haml'
 gem 'haml-rails'
 gem 'wicked'
 gem 'dynamic_form'
+gem 'simplecov'

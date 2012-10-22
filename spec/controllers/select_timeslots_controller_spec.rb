@@ -10,6 +10,8 @@ describe SelectTimeslotsController do
     @preference.stub(:save!)
     @preference.stub(:save)
     @preference.stub(:timeslot).and_return(@timeslot)
+    @preference.stub(:create)
+    @preference.stub(:create!)
 
     @preferences = []
     @preferences.stub(:find_by_id).and_return(@preference)
@@ -46,6 +48,7 @@ describe SelectTimeslotsController do
   it 'should process the timeslots entered by the student' do
     Student.should_receive(:find).with("1").and_return(@student)
     Preference.should_receive(:where).and_return([@preference]) 
+    Preference.should_receive(:create!).and_return(@preference)
     controller.stub(:params).and_return({:step => :monday, :monday => ['1'], :student_id => "1"})
     put :update, {:id => :monday, :student_id => 1}
   end

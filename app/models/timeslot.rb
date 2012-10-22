@@ -19,10 +19,9 @@ class Timeslot < ActiveRecord::Base
 
   def day=(value)
     write_attribute(:day, @@DAY.index(value))
-  end
-
-
-
+  end  
+  
+  
   attr_protected #none
   has_many :preferences
   has_many :students, :through => :preferences

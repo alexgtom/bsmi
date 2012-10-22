@@ -16,6 +16,7 @@ end
 group :development, :test do
   gem 'sqlite3'
   gem 'ruby-debug19', :require => 'ruby-debug'
+  gem 'debugger'
   gem 'capybara'
   gem 'launchy'
   gem 'rspec-rails', '~> 2.4'

@@ -18,7 +18,11 @@ class MentorTeacher::SchedulesController < ApplicationController
 
   def show
     if current_user
+      if current_user.timeslots.empty?
+       redirect_to mentor_teacher_schedule_new_path
+      else
        @timeslot = current_user.timeslots
+      end
     end
   end
   

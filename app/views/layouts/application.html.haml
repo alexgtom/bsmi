@@ -21,6 +21,16 @@
                 %a{:href => "/students/1/select_timeslots"} Select Timeslots
               %li
                 %a{:href => "/students/1/select_timeslots/summary"} Timeslot Preference Summary
+              - if current_user
+                %li
+                  %a{:href => edit_user_path(current_user.id)} Edit Profile
+                %li
+                  %a{:href => "/logout"} Logout
+              - else
+                %li
+                  %a{:href => new_user_path} Register
+                %li
+                  %a{:href => :login} Login
     .container
       - [:notice, :error, :error_list, :alert].each do |level| 
         - unless flash[level].blank?

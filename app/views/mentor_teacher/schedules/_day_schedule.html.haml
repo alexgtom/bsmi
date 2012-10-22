@@ -1,5 +1,8 @@
 %h2 
   = day 
 - 4.times do 
-  = hidden_field_tag "timeslots[][day]", day
-  = render :partial => "timeslot_form"
+  %div
+    = hidden_field_tag "timeslots[][day]", day
+    = render :partial => "timeslot_form"
+  %hr  
+  

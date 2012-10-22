@@ -15,11 +15,12 @@ describe "users/show" do
   it "renders attributes in <p>" do
     render
     # Run the generator again with the --webrat flag if you want to use webrat matchers
-    rendered.should match(/Name/)
-    rendered.should match(/Address/)
-    rendered.should match(/Phone Number/)
     rendered.should match(/Email/)
-    rendered.should match(/Crypted Password/)
-    rendered.should match(/Persistence Token/)
+    rendered.should match(/Login count/)
+    rendered.should match(/Last request at/)
+    rendered.should match(/Last login at/)
+    rendered.should match(/Current login at/)
+    rendered.should match(/Last login ip/)
+    rendered.should match(/Current login ip/)
   end
 end

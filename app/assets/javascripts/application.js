@@ -10,5 +10,7 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
-//= require bootstrap
-//= require_tree .
+//= require jquery-1.4.4.min
+//= require jquery-ui-1.8.11.custom.min
+//= require date
+//= require jquery.weekcalendar

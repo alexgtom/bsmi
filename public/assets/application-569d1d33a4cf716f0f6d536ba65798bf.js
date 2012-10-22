@@ -4042,6 +4042,15 @@ return((r[1].length===0)?r[0]:null);};};$D.parseExact=function(s,fx){return $D.g
     });
 
 })(jQuery);
+(function() {
+
+  jQuery(function() {
+    $("a[rel=popover]").popover();
+    $(".tooltip").tooltip();
+    return $("a[rel=tooltip]").tooltip();
+  });
+
+}).call(this);
 // This is a manifest file that'll be compiled into application.js, which will include all the files
 // listed below.
 //
@@ -4054,6 +4063,7 @@ return((r[1].length===0)?r[0]:null);};};$D.parseExact=function(s,fx){return $D.g
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
+
 
 
 

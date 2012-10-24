@@ -49,7 +49,7 @@ class SelectTimeslotsController < ApplicationController
     when :monday, :tuesday, :wednesday, :thursday, :friday
       Preference.transaction do 
         Preference.where(:student_id => @student.id).each do |p|
-          if p.timeslot.day == Timeslot.day_index(step)
+          if p.timeslot.day == step
             p.delete
           end
         end

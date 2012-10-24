@@ -25,6 +25,7 @@ group :development, :test do
   gem 'rails3-generators'
   gem 'thin'
   gem 'spork', '0.9.2'
+  gem 'factory_girl_rails'
 
 end
 
@@ -34,7 +35,7 @@ group :production do
 end
 
 group :development do
-#  gem 'rails-dev-tweaks', '~> 0.6.1'
+  gem 'rails-dev-tweaks', '~> 0.6.1'
 end
 
 # Gems used only for assets and not required
@@ -47,9 +48,11 @@ group :assets do
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby
   gem 'jquery-ui-rails'
+  gem 'jquery-rails'
   gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git', :branch => 'static'
   gem 'uglifier', '>= 1.0.3'
 end
+
 
 gem 'jquery-rails'
 gem 'json'
@@ -76,3 +79,4 @@ gem 'wicked'
 gem 'dynamic_form'
 gem 'simplecov'
 gem 'authlogic'
+gem 'selenium-webdriver', '2.25.0'

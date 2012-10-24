@@ -12,12 +12,8 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require jquery.ui.core
-//= require jquery.ui.widget
-//= require jquery.ui.mouse
-//= require jquery.ui.draggable
-//= require jquery.ui.droppable
-//= require jquery.ui.position
-//= require jquery.ui.resizable
+//= require jquery.ui.all
+//= require date
+//= require jquery.weekcalendar
 //= require bootstrap
 //= require_tree .

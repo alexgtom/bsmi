@@ -1,6 +1,6 @@
 %section
   %h2 Selected Timeslots
-  = render :partial => "week_calendar", :locals => { :width => 940, :height => 700, :calendar_id => :rank, :timeslots => Timeslot.where(:day => Timeslot.day_index(:monday))}
+  = render :partial => "week_calendar", :locals => { :width => 940, :height => 700, :calendar_id => :rank, :timeslots => @timeslots}
 
 %section
   %h2 Pick Timeslot Preferences
@@ -11,6 +11,7 @@
     %thead
       %tr
         %th Rank
+        %th Day
         %th Start Time
         %th End Time
     %tbody
@@ -18,6 +19,8 @@
         %tr
           %td
             = p.select :ranking, (1..@student.preferences.size), :include_blank => true
+          %td
+            = p.object.timeslot.day
           %td
             = p.object.timeslot.start_time.strftime("%l:%M %P")
           %td

@@ -1,12 +1,13 @@
 %section
   %h1 Summary
   %h2 Selected Timeslots
-  = render :partial => "week_calendar", :locals => { :width => 940, :height => 700, :calendar_id => :rank, :timeslots => Timeslot.where(:day => Timeslot.day_index(:monday))}
+  = render :partial => "week_calendar", :locals => { :width => 940, :height => 700, :calendar_id => :rank, :timeslots => @timeslots}
   %h2 Timeslot Preferences
   %table.table.table-striped
     %thead
       %tr
         %th Rank
+        %th Day
         %th Start Time
         %th End Time
     %tbody
@@ -14,6 +15,8 @@
         %tr
           %td
             = p.ranking
+          %td
+            = p.timeslot.day
           %td
             = p.timeslot.start_time.strftime("%l:%M %P")
           %td

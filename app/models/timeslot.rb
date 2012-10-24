@@ -26,4 +26,8 @@ class Timeslot < ActiveRecord::Base
   has_many :preferences
   has_many :students, :through => :preferences
   belongs_to :mentor_teacher
+
+  def selected?(student_id)
+    Preference.where(["student_id = ?", student_id]).where(:timeslot_id => id).size > 0
+  end
 end

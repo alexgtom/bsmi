@@ -235,7 +235,6 @@ DEPENDENCIES
   selenium-webdriver (= 2.25.0)
   shoulda-matchers
   simplecov
-  simplecov-html
   spork (= 0.9.2)
   sqlite3
   twitter-bootstrap-rails!

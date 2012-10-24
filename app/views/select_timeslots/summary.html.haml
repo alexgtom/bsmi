@@ -1,3 +1,5 @@
+= render :partial => "sub_nav"
+
 %section
   %h1 Summary
   %h2 Selected Timeslots
@@ -16,7 +18,7 @@
           %td
             = p.ranking
           %td
-            = p.timeslot.day
+            = p.timeslot.day.capitalize
           %td
             = p.timeslot.start_time.strftime("%l:%M %P")
           %td

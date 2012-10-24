@@ -59,7 +59,12 @@ class SelectTimeslotsController < ApplicationController
           end
         end
       end
-      render_wizard @student
+
+      if params[:commit] == 'Save'
+        redirect_to wizard_path
+      elsif params[:commit] == 'Save & Continue'
+        render_wizard @student
+      end
     end  
 
   end

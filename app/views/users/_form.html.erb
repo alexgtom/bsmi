@@ -1,6 +1,10 @@
 <%= render "users/shared/error_messages", :target => @user %>
 
 <p>
+  <%= form.label :owner %><br />
+  <%= form.select :owner, :options => User.names_to_user_types.map{|k,v| [k.underscore.humanize, v]} %>
+</p>
+<p>
   <%= form.label :name %><br />
   <%= form.text_field :name %>
 </p>

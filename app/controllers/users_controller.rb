@@ -7,6 +7,16 @@ class UsersController < ApplicationController
   end
 
   def create
+    #Create an object of this user's type    
+    user_type = params[:user][:owner]
+    
+    if not User.valid_user_type? user_type
+      flash[:notice] = "There was a problem creating you."
+      render :action => :new
+    else
+      params[:user][:owner] = User.names_to_user_types[user_type].create
+    end
+    
     @user = User.new(params[:user])
     
     # Saving without session maintenance to skip

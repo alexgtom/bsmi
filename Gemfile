@@ -33,6 +33,7 @@ end
 
 group :development do
   gem 'rails-dev-tweaks', '~> 0.6.1'
+  gem 'thin'
 end
 
 # Gems used only for assets and not required

@@ -78,6 +78,7 @@ function eventEditPopup (calEvent, $dialogContent){
 //                calEvent.body = $titleField.val()
 
                 $calendar.weekCalendar("updateEvent", calEvent);
+                updateEventInForm(calEvent);
   //              $calendar.weekCalendar("removeUnsavedEvents");
 
                 $dialogContent.dialog("close");
@@ -91,7 +92,19 @@ function eventEditPopup (calEvent, $dialogContent){
 
 }
 
+/* If calEvent already exists in the form, update its values. Otherwise, add it. */
+function updateEventInForm(calEvent) {
+    $form = $("#schedule_form"); 
 
+    var $eventInput = $form.find("#eventInput" + calEvent.id);
+    if ($eventInput.length == 0) {
+        //Make new input tag
+        $eventInput = $('<input type="hidden" name="timeslots[]"/>');
+        $eventInput.insertBefore($form.find('input[type="submit"]'));
+    }
+    
+    $eventInput.val(JSON.stringify(calEvent));
+}
 
 /*
  * Sets up the start and end time fields in the calendar event

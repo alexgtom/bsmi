@@ -20,9 +20,9 @@ class MentorTeacher::SchedulesController < ApplicationController
     end
   end
   
-  def create
-    
-    params[:timeslots].each do |hash|
+  def create    
+    params[:timeslots].each do |str|
+      hash = JSON.parse(str);
       @timeslot = Timeslot.create!(hash)
       current_teacher.timeslots << @timeslot
     end
@@ -32,7 +32,7 @@ class MentorTeacher::SchedulesController < ApplicationController
   end
 
   def edit
-   # @timeslot = Timeslot.find(params[:id])
+    
   end
 
   def update

@@ -38,6 +38,9 @@ describe UsersController do
   end
 
   describe "POST create" do
+    before(:each) do
+      @user_type = User.user_types[valid_attributes[:owner_type]]
+    end
     describe "with valid params" do
       it "creates a new User" do
         expect {
@@ -45,12 +48,25 @@ describe UsersController do
         }.to change(User, :count).by(1)
       end
 
+      it "creates a new owner of the appropriate type" do
+        expect {
+          post :create, {:user => valid_attributes}, valid_session
+        }.to change(@user_type, :count).by(1)
+      end
+
       it "assigns a newly created user as @user" do
         post :create, {:user => valid_attributes}, valid_session
         assigns(:user).should be_a(User)
         assigns(:user).should be_persisted
       end
-      
+
+      it "assigns the owner field of the new user to the new owner" do        
+        owner = @user_type.new
+        @user_type.stub(:new => owner)
+        post :create, {:user => valid_attributes}, valid_session
+
+        assigns(:user).owner.should == owner
+      end
 
       it "redirects to the signup page" do
         post :create, {:user => valid_attributes}, valid_session

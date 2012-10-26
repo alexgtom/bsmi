@@ -6,7 +6,10 @@ class User < ActiveRecord::Base
 
   @@user_types = Hash[[MentorTeacher, Student].map {|type| [type.name, type]}]
 
-  
+
+  def self.user_types
+    @@user_types
+  end
 
   def self.build_owner(owner_type, options={})
     if not self.valid_user_type? owner_type

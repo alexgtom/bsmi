@@ -11,7 +11,9 @@ FactoryGirl.define do
     user #Generates a new user for this teacher
   end  
 
-  sequence :name { |n| "user#{n}" }
+  sequence :name do |n| 
+    "user#{n}"
+  end
   factory :user do
     name { FactoryGirl.generate(:name) }
 

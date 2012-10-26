@@ -54,6 +54,8 @@ group :assets do
   gem 'jquery-rails'
   gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git', :branch => 'static'
   gem 'uglifier', '>= 1.0.3'
+
+  gem 'datejs-rails'
 end
 
 

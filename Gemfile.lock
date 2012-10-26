@@ -74,7 +74,8 @@ GEM
       cucumber-rails (>= 1.1.1)
     daemons (1.1.9)
     database_cleaner (0.8.0)
-    database_cleaner (0.9.1)
+    datejs-rails (1.1.0)
+      railties (~> 3.1)
     debugger (1.2.0)
       columnize (>= 0.3.1)
       debugger-linecache (~> 1.1.1)
@@ -232,6 +233,7 @@ DEPENDENCIES
   cucumber-rails
   cucumber-rails-training-wheels
   database_cleaner
+  datejs-rails
   debugger
   dynamic_form
   factory_girl_rails

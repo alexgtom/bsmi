@@ -73,20 +73,35 @@ describe UsersController do
         response.should redirect_to(signup_path)
       end
     end
+    
+    shared_examples_for "an invalid create request" do
+      describe "with invalid params" do
+        it "assigns a newly created but unsaved student as @user" do
+          # Trigger the behavior that occurs when invalid params are submitted
+          User.any_instance.stub(:save).and_return(false)
+          post :create, {:user => bad_params}, valid_session
+          assigns(:user).should be_a_new(User)
+        end
 
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved student as @user" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        User.any_instance.stub(:save).and_return(false)
-        post :create, {:user => {}}, valid_session
-        assigns(:user).should be_a_new(User)
+        it "re-renders the 'new' template" do
+          # Trigger the behavior that occurs when invalid params are submitted
+          User.any_instance.stub(:save).and_return(false)
+          post :create, {:user => bad_params}, valid_session
+          response.should render_template("new")
+        end
+      end      
+    end
+
+    describe "with an invalid user" do
+      it_should_behave_like "an invalid create request" do
+        let(:bad_params)  {{}}
       end
+    end
 
-      it "re-renders the 'new' template" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        User.any_instance.stub(:save).and_return(false)
-        post :create, {:user => {}}, valid_session
-        response.should render_template("new")
+  
+    describe "with an invalid owner type" do
+      it_should_behave_like "an invalid create request" do
+        let(:bad_params)  {valid_attributes.merge(:owner_type => 'Foo')}
       end
     end
   end

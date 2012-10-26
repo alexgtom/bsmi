@@ -20,8 +20,8 @@ function setTimeFields($timeFields, time) {
     $timeFields.val([zeroify(time.getHours()), zeroify(time.getMinutes())])
 }
 
-function extractTime($timeFields) {
-    var rtn = new Date
+function extractTime($timeFields, curDate) {
+    var rtn = new Date(CUR_YEAR, CUR_MONTH, curDate.getUTCDate())
     rtn.setHours($timeFields[0].value);
     rtn.setMinutes($timeFields[1].value);
     return rtn;
@@ -43,8 +43,8 @@ function eventNewCallback (calEvent, $event) {
     setTimeFields($startFields, calEvent.start);
     setTimeFields($endFields, calEvent.end);
 
-    // var titleField = $dialogContent.find("input[name='title']");
-    // var bodyField = $dialogContent.find("textarea[name='body']");
+    var titleField = $dialogContent.find("input[name='title']");
+    var bodyField = $dialogContent.find("textarea[name='body']");
 
 
     $dialogContent.dialog({
@@ -58,14 +58,15 @@ function eventNewCallback (calEvent, $event) {
         buttons: {
             save : function() {
                 calEvent.id = nextEventID();
-                calEvent.start = extractTime($startFields);
-                calEvent.end = extractTime($endFields);
-                debugger;
+                calEvent.start = extractTime($startFields, calEvent.start);
+                calEvent.end = extractTime($endFields, calEvent.end);        
+
+//                debugger;
                 // calEvent.title = titleField.val();
                 // calEvent.body = bodyField.val();
 
                 $calendar.weekCalendar("updateEvent", calEvent);
-                $calendar.weekCalendar("removeUnsavedEvents");
+  //              $calendar.weekCalendar("removeUnsavedEvents");
 
                 $dialogContent.dialog("close");
             },
@@ -75,8 +76,8 @@ function eventNewCallback (calEvent, $event) {
         }
     }).show();
 
-    $dialogContent.find(".date_holder").text($calendar.weekCalendar("formatDate", calEvent.start));
-    setupStartAndEndTimeFields(startField, endField, calEvent, $calendar.weekCalendar("getTimeslotTimes", calEvent.start));
+    // $dialogContent.find(".date_holder").text($calendar.weekCalendar("formatDate", calEvent.start));
+    // setupStartAndEndTimeFields(startField, endField, calEvent, $calendar.weekCalendar("getTimeslotTimes", calEvent.start));
 
 }
 

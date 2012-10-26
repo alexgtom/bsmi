@@ -3,7 +3,7 @@ require 'spec_helper'
 describe UsersController do
 
   def valid_attributes
-    {:name => 'myname', :address => 'myaddress', :phone_number => '123-456-7890', :email => 'my@email.com', :password => '123456', :password_confirmation => '123456'}
+    {:name => 'myname', :address => 'myaddress', :phone_number => '123-456-7890', :email => 'my@email.com', :password => '123456', :password_confirmation => '123456', :owner_type => 'MentorTeacher'}
   end
 
   def valid_session
@@ -11,7 +11,7 @@ describe UsersController do
   end
 
   describe "GET show" do
-    it "assigns the requested user as @user" do
+    it "assigns the requested user as @user" do      
       user = User.create! valid_attributes
       controller.stub!(:require_user).and_return(user)
       controller.stub!(:current_user).and_return(user)
@@ -45,11 +45,12 @@ describe UsersController do
         }.to change(User, :count).by(1)
       end
 
-      it "assigns a newly created yser as @user" do
+      it "assigns a newly created user as @user" do
         post :create, {:user => valid_attributes}, valid_session
         assigns(:user).should be_a(User)
         assigns(:user).should be_persisted
       end
+      
 
       it "redirects to the signup page" do
         post :create, {:user => valid_attributes}, valid_session

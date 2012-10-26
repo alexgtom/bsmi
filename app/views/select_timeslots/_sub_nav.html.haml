@@ -1,0 +1,8 @@
+.tabbable
+  %ul.nav.nav-tabs
+    - wizard_steps.each do |s|
+      - if s == step
+        %li.active= link_to s.capitalize, wizard_path(s) 
+      - else
+        %li= link_to s.capitalize, wizard_path(s) 
+

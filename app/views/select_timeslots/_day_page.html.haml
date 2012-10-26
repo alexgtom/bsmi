@@ -1,0 +1,9 @@
+= render :partial => "sub_nav"
+
+= form_for @student, url: wizard_path do |f|
+  #timeslots
+  %section
+    %h2= day.capitalize
+    = render :partial => "day_selection", :locals => { :day => day, :calendar_id => day, :timeslots => @timeslots, :student => @student}
+  = f.submit "Save"
+  = f.submit "Save & Continue"

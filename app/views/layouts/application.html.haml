@@ -36,7 +36,7 @@
         - unless flash[level].blank?
           - if level == :notice
             .alert.alert-info 
-              = flash
+              = flash[level]
           - elsif level == :error
             .alert.alert-error 
               = flash[level]

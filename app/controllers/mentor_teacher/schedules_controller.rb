@@ -1,8 +1,10 @@
 #module MentorTeacher; end
 
 class MentorTeacher::SchedulesController < ApplicationController
-    #MentorTeacher has many timeslots
-    
+
+  def current_teacher
+    return current_user.owner
+  end
    
   def new
     #Just render the view for now; doesn't need any data
@@ -19,10 +21,10 @@ class MentorTeacher::SchedulesController < ApplicationController
   end
   
   def create
-    #    if current_user
+    
     params[:timeslots].each do |hash|
       @timeslot = Timeslot.create!(hash)
-      current_user.timeslots << @timeslot
+      current_teacher.timeslots << @timeslot
     end
     flash[:notice] = "Schedule was successfully created."
     redirect_to mentor_teacher_schedule_path

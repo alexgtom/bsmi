@@ -7,11 +7,11 @@
 
 
 /* Global event id */
-timeslotID = 0;
-
+TIMESLOT_ID = 0;
+NEW_TITLE = "Class name";
 function nextEventID() {
-    timeslotID++;
-    return timeslotID;
+    TIMESLOT_ID++;
+    return TIMESLOT_ID;
 }
 
 
@@ -34,22 +34,36 @@ function zeroify(num) {
 function eventNewCallback (calEvent, $event) {
     var $calendar = $('#calendar');
 
-
+    calEvent.title = NEW_TITLE;
     var $dialogContent = $("#event_edit_container");
     resetForm($dialogContent);
+    eventEditPopup(calEvent, $dialogContent);
 
+    // $dialogContent.find(".date_holder").text($calendar.weekCalendar("formatDate", calEvent.start));
+    // setupStartAndEndTimeFields(startField, endField, calEvent, $calendar.weekCalendar("getTimeslotTimes", calEvent.start));
+
+}
+
+function resetForm($dialogContent) {
+    $dialogContent.find("input").val("");
+    $dialogContent.find("textarea").val("");
+}
+
+
+
+function eventEditPopup (calEvent, $dialogContent){
+    var $calendar = $("#calendar");
     var $startFields = $dialogContent.find("select.start_time");
     var $endFields = $dialogContent.find("select.end_time");
     setTimeFields($startFields, calEvent.start);
     setTimeFields($endFields, calEvent.end);
 
-    var titleField = $dialogContent.find("input[name='title']");
-    var bodyField = $dialogContent.find("textarea[name='body']");
-
-
+    var $titleField = $dialogContent.find("input#class_name");
+    var class_name = (calEvent.title === null ? DEFAULT_CLASS_NAME : calEvent.title);
+    $titleField.val(class_name);
     $dialogContent.dialog({
         modal: true,
-        title: "New Calendar Event",
+        title: "Edit class",
         close: function() {
             $dialogContent.dialog("destroy");
             $dialogContent.hide();
@@ -60,10 +74,8 @@ function eventNewCallback (calEvent, $event) {
                 calEvent.id = nextEventID();
                 calEvent.start = extractTime($startFields, calEvent.start);
                 calEvent.end = extractTime($endFields, calEvent.end);        
-
-//                debugger;
-                // calEvent.title = titleField.val();
-                // calEvent.body = bodyField.val();
+                calEvent.title = $titleField.val();
+//                calEvent.body = $titleField.val()
 
                 $calendar.weekCalendar("updateEvent", calEvent);
   //              $calendar.weekCalendar("removeUnsavedEvents");
@@ -76,14 +88,7 @@ function eventNewCallback (calEvent, $event) {
         }
     }).show();
 
-    // $dialogContent.find(".date_holder").text($calendar.weekCalendar("formatDate", calEvent.start));
-    // setupStartAndEndTimeFields(startField, endField, calEvent, $calendar.weekCalendar("getTimeslotTimes", calEvent.start));
 
-}
-
-function resetForm($dialogContent) {
-    $dialogContent.find("input").val("");
-    $dialogContent.find("textarea").val("");
 }
 
 

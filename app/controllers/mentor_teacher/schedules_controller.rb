@@ -11,19 +11,18 @@ class MentorTeacher::SchedulesController < ApplicationController
   end
 
   def show
-    if current_user
-      if current_user.timeslots.empty?
-        redirect_to mentor_teacher_schedule_new_path
-      else
-        @timeslots = current_user.timeslots
-      end
+    if current_teacher.timeslots.empty?
+      redirect_to mentor_teacher_schedule_new_path
+    else
+      @timeslots = current_teacher.timeslots
     end
   end
+
   
   def create    
-    params[:timeslots].each do |str|
-      hash = JSON.parse(str);
-      @timeslot = Timeslot.create!(hash)
+    params[:timeslots].each do |json_str|      
+      @timeslot = Timeslot.from_cal_event_json(json_str)
+      @timeslot.save
       current_teacher.timeslots << @timeslot
     end
     flash[:notice] = "Schedule was successfully created."

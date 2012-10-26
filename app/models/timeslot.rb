@@ -20,7 +20,13 @@ class Timeslot < ActiveRecord::Base
   def day=(value)
     write_attribute(:day, @@DAY.index(value))
   end  
-  
+
+  def self.from_cal_event_json(json_str)
+    event = JSON.parse(json_str)
+    self.new(:class_name => event["title"], 
+             :start_time => Time.parse(event["start"]),
+             :end_time => Time.parse(event["end"]))    
+  end
   
   attr_protected #none
   has_many :preferences

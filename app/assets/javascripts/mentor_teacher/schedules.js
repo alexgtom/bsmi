@@ -44,6 +44,14 @@ function eventNewCallback (calEvent, $event) {
 
 }
 
+
+function eventClickCallBack(calEvent, element, freeBusyManager, $calendar, DomEvent) {
+    var $calendar = $('#calendar');
+    var $dialogContent = $("#event_edit_container");
+    eventEditPopup(calEvent, $dialogContent);
+}
+
+
 function resetForm($dialogContent) {
     $dialogContent.find("input").val("");
     $dialogContent.find("textarea").val("");

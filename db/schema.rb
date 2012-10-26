@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121015030532) do
+ActiveRecord::Schema.define(:version => 20121024192641) do
 
   create_table "mentor_teachers", :force => true do |t|
     t.string   "mailing_address"
@@ -53,6 +53,8 @@ ActiveRecord::Schema.define(:version => 20121015030532) do
     t.datetime "updated_at",        :null => false
     t.time     "end_time"
     t.integer  "mentor_teacher_id"
+    t.string   "class_name"
+    t.integer  "num_assistants"
   end
 
   create_table "users", :force => true do |t|
@@ -74,6 +76,8 @@ ActiveRecord::Schema.define(:version => 20121015030532) do
     t.string   "last_login_ip"
     t.datetime "created_at",                          :null => false
     t.datetime "updated_at",                          :null => false
+    t.integer  "owner_id"
+    t.string   "owner_type"
   end
 
 end

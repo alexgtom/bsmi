@@ -24,6 +24,7 @@ group :development, :test do
   gem 'rails3-generators'
   gem 'spork', '0.9.2'
   gem 'factory_girl_rails'
+  gem 'debugger'
 end
 
 group :production do

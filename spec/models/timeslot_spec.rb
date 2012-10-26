@@ -27,6 +27,8 @@ describe Timeslot do
   end
 
   it 'has a selected method that returns true if it the timeslot has been selected' do
+    t = Timeslot.new()
+    t.selected?(mock("id"))
   end
 
   it {should have_many :preferences}

@@ -1,7 +1,1 @@
-= form_for @student, url: wizard_path do |f|
-  #timeslots
-  %section
-    %h2 Thursday
-    = render :partial => "day_selection", :locals => { :day => :thursday, :calendar_id => :thursday, :timeslots => @timeslots, :student => @student}
-  = submit_tag("Submit Timeslots")
-  = link_to "skip this step", next_wizard_path 
+= render :partial => "day_page", :locals => { :day => :thursday }

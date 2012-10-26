@@ -1,10 +1,12 @@
+= render :partial => "sub_nav"
+
 %section
-  %h2 Selected Timeslots
+  %h2 Rank Timeslots
   = render :partial => "week_calendar", :locals => { :width => 940, :height => 700, :calendar_id => :rank, :timeslots => @timeslots}
 
 %section
   %h2 Pick Timeslot Preferences
-  Please rank which timeslots you prefer from highest to lowest where "1" is your most preferred timeslot.
+  Rank which timeslots you prefer where "1" is your most preferred timeslot.
 = form_for @student, url: wizard_path do |f|
   = f.error_messages
   %table.table.table-striped
@@ -20,7 +22,7 @@
           %td
             = p.select :ranking, (1..@student.preferences.size), :include_blank => true
           %td
-            = p.object.timeslot.day
+            = p.object.timeslot.day.capitalize
           %td
             = p.object.timeslot.start_time.strftime("%l:%M %P")
           %td

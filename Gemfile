@@ -27,6 +27,8 @@ group :development, :test do
   gem 'spork', '0.9.2'
   gem 'factory_girl_rails'
 
+  gem 'debugger'
+
 end
 
 group :production do
@@ -36,6 +38,7 @@ end
 
 group :development do
   gem 'rails-dev-tweaks', '~> 0.6.1'
+  gem 'thin'
 end
 
 # Gems used only for assets and not required

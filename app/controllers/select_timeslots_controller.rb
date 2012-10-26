@@ -49,7 +49,7 @@ class SelectTimeslotsController < ApplicationController
     when :monday, :tuesday, :wednesday, :thursday, :friday
       Preference.transaction do 
         Preference.where(:student_id => @student.id).each do |p|
-          if p.timeslot.day == Timeslot.day_index(step)
+          if p.timeslot.day == step
             p.delete
           end
         end
@@ -59,7 +59,12 @@ class SelectTimeslotsController < ApplicationController
           end
         end
       end
-      render_wizard @student
+
+      if params[:commit] == 'Save'
+        redirect_to wizard_path
+      elsif params[:commit] == 'Save & Continue'
+        render_wizard @student
+      end
     end  
 
   end

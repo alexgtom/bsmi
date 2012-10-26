@@ -3,20 +3,25 @@ require 'factory_girl'
 require 'time'
 FactoryGirl.define do
   factory :mentor_teacher do
-    sequence :email do |n|
-      email 'teacher#{n}@teacher.com'
-    end
-
-    password 'teacher'
-
+  
     sequence :school do |n|
       school 'school#{n}'
     end
 
-    phone_number '111-111-1111'
-    mailing_address '111 St Way'
+    user #Generates a new user for this teacher
   end  
 
+  sequence :name { |n| "user#{n}" }
+  factory :user do
+    name { FactoryGirl.generate(:name) }
+
+    email { '#{name}@bsmi.org' }
+    password { name }
+
+    phone_number '111-111-1111'
+    address '111 St Way'
+
+  end
 
   #Returns a time between a given start hour and an end hour, with a certain number
   #of slots per hour. Each of these parameters is specifiable and has a reasonable

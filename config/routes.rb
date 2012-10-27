@@ -8,13 +8,9 @@ Bsmi::Application.routes.draw do
   resource :user, :as => 'account'  # a convenience route
 
   match 'signup' => 'users#new', :as => :signup
+  
+ # root to: "welcome#index"
 
-
-
-  namespace :advisor do
-    resource :student_schedule
-    resource :teacher_Schedule      
-  end
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -71,6 +67,17 @@ Bsmi::Application.routes.draw do
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
+  
+  resources :advisor
+
+=begin
+  get "advisor/student_schedule"
+
+  resources :advisors do
+    resource :student_schedule
+    resource :teacher_Schedule      
+  end
+=end
   resources :students do
     resources :select_timeslots
     member do 

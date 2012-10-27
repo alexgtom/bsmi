@@ -17,4 +17,6 @@ class School < ActiveRecord::Base
   def level=(value)
     write_attribute(:level, @@level.index(value))
   end
+
+  belongs_to :district
 end

@@ -8,6 +8,13 @@ Bsmi::Application.routes.draw do
   resource :user, :as => 'account'  # a convenience route
 
   match 'signup' => 'users#new', :as => :signup
+
+
+
+  namespace :advisor do
+    resource :student_schedule
+    resource :teacher_Schedule      
+  end
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

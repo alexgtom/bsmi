@@ -1,5 +1,5 @@
 class School < ActiveRecord::Base
-  @@LEVEL = [:high, :middle, :elementary]
+  @@LEVEL = [:high_school, :middle_school, :elementary_school]
   attr_accessible :name
 
   def self.level_list

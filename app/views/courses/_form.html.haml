@@ -11,6 +11,6 @@
     = f.text_field :name
   .field
     = f.label :grade
-    = f.text_field :grade
+    = f.select :grade, Course::GRADE.map { |s| [s.to_s.tr('_', ' ').capitalize, s ] },:include_blank => true
   .actions
     = f.submit 'Save'

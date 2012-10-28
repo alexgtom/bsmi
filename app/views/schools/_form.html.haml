@@ -11,6 +11,9 @@
     = f.text_field :name
   .field
     = f.label :level
-    = f.text_field :level
+    = f.select :level, School::LEVEL.map { |s| [s, s ] },:include_blank => true
+  .field
+    = f.label :district
+    = collection_select :post, :district, District.all, :id, :name, :include_blank => true
   .actions
     = f.submit 'Save'

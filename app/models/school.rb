@@ -1,22 +1,9 @@
 class School < ActiveRecord::Base
-  @@LEVEL = [:high_school, :middle_school, :elementary_school]
-  attr_accessible :name
+  attr_protected #none
 
-  def self.level_list
-    @@DAY
-  end
+  LEVEL = ["High School", "Middle School", "Elementary School"]
 
-  def self.level_index(value)
-    @@DAY.index(value)
-  end
-
-  def level
-    @@LEVEL[read_attribute(:day)]
-  end
-
-  def level=(value)
-    write_attribute(:level, @@level.index(value))
-  end
-
+  validates_presence_of :district
+  validates_inclusion_of :level, :in => LEVEL
   belongs_to :district
 end

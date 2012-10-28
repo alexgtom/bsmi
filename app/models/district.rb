@@ -1,3 +1,4 @@
 class District < ActiveRecord::Base
-  attr_accessible :name
+  attr_protected #none
+  has_many :school
 end

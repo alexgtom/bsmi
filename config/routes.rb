@@ -1,4 +1,6 @@
 Bsmi::Application.routes.draw do
+  resources :courses
+
   resources :districts
 
   resources :schools

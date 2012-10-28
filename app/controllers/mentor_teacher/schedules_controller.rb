@@ -20,20 +20,25 @@ class MentorTeacher::SchedulesController < ApplicationController
 
   
   def create    
+    all_correct = true
     params[:timeslots].each do |json_str|      
-      @timeslot = Timeslot.from_cal_event_json(json_str)
-      @timeslot.save
-      current_teacher.timeslots << @timeslot
+      timeslot = Timeslot.from_cal_event_json(json_str)
+
+      all_correct = all_correct and timeslot.save
+      current_teacher.timeslots << timeslot
     end
-    flash[:notice] = "Schedule was successfully created."
-    redirect_to mentor_teacher_schedule_path
-    #   end
+    if all_correct
+      flash[:notice] = "Schedule was successfully created."
+      redirect_to mentor_teacher_schedule_path  
+    else
+      flash[:notice] = "There were some problems saving your schedule"
+      redirect_to new_mentor_teacher_schedule_path  
+    end
   end
 
   def edit
     
   end
-
   def update
 =begin
     @timeslot = Timeslot.find(params[:id])

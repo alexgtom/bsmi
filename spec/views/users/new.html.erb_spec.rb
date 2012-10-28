@@ -21,8 +21,8 @@ describe "users/new" do
       assert_select "input#user_address", :name => "user[address]"
       assert_select "input#user_phone_number", :name => "user[phone_number]"
       assert_select "input#user_email", :name => "user[email]"
-      assert_select "input#user_crypted_password", :name => "user[password]"
-      assert_select "input#user_persistence_token", :name => "user[password_confirmation]"
+      assert_select "input#user_password", :name => "user[password]"
+      assert_select "input#user_password_confirmation", :name => "user[password_confirmation]"
     end
   end
 end

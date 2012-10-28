@@ -74,6 +74,8 @@ ActiveRecord::Schema.define(:version => 20121028191829) do
     t.datetime "updated_at",        :null => false
     t.time     "end_time"
     t.integer  "mentor_teacher_id"
+    t.string   "class_name"
+    t.integer  "num_assistants"
   end
 
   create_table "users", :force => true do |t|

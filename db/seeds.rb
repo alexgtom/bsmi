@@ -5,7 +5,10 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-#Create timeslots
+
+
+
+# --- Create timeslots
 
 (1..10).each do |i|
   Student.create!   
@@ -32,4 +35,82 @@ Timeslot.all.each.with_index do |ts, i|
     Preference.create!(:timeslot => ts, :student => Student.find(i), :ranking => i)
   end
 end         
-         
+    
+# --- Create districts
+busd = District.create!(:name => "BUSD")
+ousd = District.create!(:name => "OUSD")
+wccusd = District.create!(:name => "WCCUSD")
+emery_unified = District.create!(:name => "Emery Unified")
+alameda_county = District.create!(:name => "Alameda County Office of Education")
+
+# --- Create schools
+School.create!(:district => busd, :level => HIGH_SCHOOL, :name => "Berkeley High")
+School.create!(:district => busd, :level => MIDDLE_SCHOOL, :name => "Longfellow")
+School.create!(:district => busd, :level => MIDDLE_SCHOOL, :name => "Willard")
+School.create!(:district => busd, :level => MIDDLE_SCHOOL, :name => "Martin Luther King")
+School.create!(:district => busd, :level => ELEMENTARY_SCHOOL, :name => "Cragmont")
+School.create!(:district => busd, :level => ELEMENTARY_SCHOOL, :name => "Jefferson")
+School.create!(:district => busd, :level => ELEMENTARY_SCHOOL, :name => "Washington")
+School.create!(:district => busd, :level => ELEMENTARY_SCHOOL, :name => "Berkeley Arts Magnet")
+School.create!(:district => busd, :level => ELEMENTARY_SCHOOL, :name => "Le Conte")
+School.create!(:district => busd, :level => ELEMENTARY_SCHOOL, :name => "Thousand Oaks")
+School.create!(:district => busd, :level => ELEMENTARY_SCHOOL, :name => "Jefferson")
+School.create!(:district => ousd, :level => HIGH_SCHOOL, :name => "Oakland High")
+School.create!(:district => ousd, :level => ELEMENTARY_SCHOOL, :name => "Chabot")
+School.create!(:district => ousd, :level => MIDDLE_SCHOOL, :name => "Edna Brewer")
+School.create!(:district => ousd, :level => MIDDLE_SCHOOL, :name => "Madison")
+School.create!(:district => ousd, :level => ELEMENTARY_SCHOOL, :name => "New Highland Academy")
+School.create!(:district => ousd, :level => ELEMENTARY_SCHOOL, :name => "Joaquin Miller")
+School.create!(:district => ousd, :level => HIGH_SCHOOL, :name => "Oakland International")
+School.create!(:district => ousd, :level => HIGH_SCHOOL, :name => "Life Academy")
+School.create!(:district => ousd, :level => HIGH_SCHOOL, :name => "Skyline High")
+School.create!(:district => ousd, :level => MIDDLE_SCHOOL, :name => "Westlake")
+School.create!(:district => ousd, :level => ELEMENTARY_SCHOOL, :name => "Markham")
+School.create!(:district => ousd, :level => HIGH_SCHOOL, :name => "Arise")
+School.create!(:district => emery_unified, :level => MIDDLE_SCHOOL, :name => "Anna Yates")
+School.create!(:district => emery_unified, :level => HIGH_SCHOOL, :name => "Emery Secondary")
+School.create!(:district => alameda_county, :level => HIGH_SCHOOL, :name => "California College Preparatory Academy")
+School.create!(:district => wccusd, :level => HIGH_SCHOOL, :name => "El Cerrito High")
+School.create!(:district => wccusd, :level => ELEMENTARY_SCHOOL, :name => "Harding")
+School.create!(:district => wccusd, :level => ELEMENTARY_SCHOOL, :name => "Edward M. Downer")
+School.create!(:district => wccusd, :level => MIDDLE_SCHOOL, :name => "Helms")
+
+
+# --- Create courses
+
+high_school_courses = [
+  "Physics", 
+  "Geometry", 
+  "Algebra 1", 
+  "Algebra 2", 
+  "Statistics", 
+  "Integrated Math", 
+  "Calculus", 
+  "Integrated Science", 
+  "Environmental Science", 
+  "Advanced Biology", 
+  "Integrated Biology", 
+  "Bio Tech", 
+  "Biology", 
+  "Antatomy", 
+  "AP Biology", 
+  "AP Calculus", 
+  "Math Analysis", 
+  "Advanced Algebra", 
+  "Pre Calculus", 
+  "AP Calculus", 
+]
+
+high_school_courses.each do |name|
+  Course.create!(:name => name, :grade => HIGH_SCHOOL)
+end
+
+Course.create!(:name => "Math", :grade => "6")
+Course.create!(:name => "Math", :grade => "7")
+Course.create!(:name => "Math", :grade => "8")
+
+Course.create!(:name => "Science", :grade => "6")
+Course.create!(:name => "Science", :grade => "7")
+Course.create!(:name => "Science", :grade => "8")
+
+Course.create!(:name => "Pre Algebra", :grade => "6")

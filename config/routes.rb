@@ -1,4 +1,10 @@
 Bsmi::Application.routes.draw do
+  resources :courses
+
+  resources :districts
+
+  resources :schools
+
   resources :user_sessions
 
   match 'login' => "user_sessions#new",      :as => :login

@@ -34,7 +34,6 @@ end
 
 group :development do
   gem 'rails-dev-tweaks', '~> 0.6.1'
-  gem 'thin'
 end
 
 # Gems used only for assets and not required
@@ -75,3 +74,4 @@ gem 'dynamic_form'
 gem 'simplecov'
 gem 'authlogic'
 gem 'selenium-webdriver', '2.25.0'
+gem 'thin'

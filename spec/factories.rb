@@ -8,7 +8,11 @@ FactoryGirl.define do
       school 'school#{n}'
     end
 
-    user #Generates a new user for this teacher
+    after(:create) do |teacher| 
+      teacher.user.save
+    end
+    association :user, :strategy => :build
+    # user FactoryGirl.create(:user, :owner =>  #Generates a new user for this teacher
   end  
 
   sequence :name do |n| 
@@ -17,9 +21,9 @@ FactoryGirl.define do
   factory :user do
     name { FactoryGirl.generate(:name) }
 
-    email { '#{name}@bsmi.org' }
+    email { "#{name}@bsmi.org" }
     password { name }
-
+    password_confirmation { name }
     phone_number '111-111-1111'
     address '111 St Way'
 

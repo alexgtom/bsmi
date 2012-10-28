@@ -5,16 +5,16 @@ describe Timeslot do
     Timeslot.day_list.should eq([:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday])
   end
 
-  it 'should return the symbol for the day of the timeslot' do
-    t = Timeslot.new(:day => :tuesday)
-    t.day.should eq(:tuesday)
-  end
+  # it 'should return the symbol for the day of the timeslot' do
+  #   t = Timeslot.new(:day => :tuesday)
+  #   t.day.should eq(:tuesday)
+  # end
 
-  it 'should be able to change the day of the timeslot' do
-    t = Timeslot.new()
-    t.day = :tuesday
-    t.day.should eq(:tuesday)
-  end
+  # it 'should be able to change the day of the timeslot' do
+  #   t = Timeslot.new()
+  #   t.day = :tuesday
+  #   t.day.should eq(:tuesday)
+  # end
 
   it 'should return the index of the day given the symbol for the day' do
     Timeslot.day_index(:sunday).should eq(0)
@@ -34,4 +34,7 @@ describe Timeslot do
   it {should have_many :preferences}
   it {should have_many(:students).through(:preferences)}
   it {should belong_to :mentor_teacher}
+  it {should validate_presence_of :start_time}
+  it {should validate_presence_of :end_time}
+  it {should validate_presence_of :day}
 end

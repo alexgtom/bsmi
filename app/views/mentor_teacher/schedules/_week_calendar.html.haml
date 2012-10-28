@@ -1,4 +1,4 @@
-= render :partial => "calendar_obj_script", :locals => {:height => height, :width => width}
+= render :partial => "calendar_obj_script", :locals => {:height => height, :width => width, :data => timeslots.map{|t| t.to_cal_event_hash}}
 
 -# Code taken from https://github.com/themouette/jquery-week-calendar/blob/master/full_demo/weekcalendar_full_demo.html 
 %div#calendar

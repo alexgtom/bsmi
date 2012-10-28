@@ -1,0 +1,83 @@
+- content_for(:head) do
+  :javascript
+    CUR_YEAR = 2000
+    CUR_MONTH = 1
+    CUR_DAY = 1
+
+    $(document).ready(
+        function() {
+        
+      $('#calendar').weekCalendar({
+        date: new Date(CUR_YEAR, CUR_MONTH, CUR_DAY),
+        //TODO: AJAXify this
+        data: #{JSON.dump(data)},
+        timeslotsPerHour: 6,
+        timeslotHeight: 10,
+        readonly: false,
+        hourLine: false,
+        firstDayOfWeek: 1,
+        businessHours: {start: 8, end: 18, limitDisplay: true},
+        allowCalEventOverlap: true,
+        overlapEventsSeparate: true,
+        daysToShow: 5,
+        showHeader: false,
+        dateFormat: "",  // delete date in header
+        longDays: ['', 'M', 'Tu', 'W', 'Th', 'F', ''], 
+        height: function($calendar) { // CHANGE HEIGHT HERE
+          return #{height}
+        },
+        // eventRender : function(calEvent, $event) {
+        // },
+        eventAfterRender: function(calEvent, element) {  
+        },
+        eventNew: eventNewCallback,
+        eventDrop: function(calEvent, $event) {
+        },
+        eventResize: function(calEvent, $event) {
+        },
+        eventClick: eventClickCallBack,
+        eventMouseover: function(calEvent, $event) {
+        },
+        eventMouseout: function(calEvent, $event) {
+        },
+        noEvents: function() {
+            //        alert("Foo")
+        }
+      });
+
+      function displayMessage(message) {
+          $('#message').html(message).fadeIn();
+      }
+
+      $('').prependTo($('body'));
+    });
+  :css
+    p.description {
+      font-size: 0.8em;
+      padding: 1em;
+      position: absolute;
+      top: 3.2em;
+      margin-right: 400px;
+    }
+
+    #message {
+      font-size: 0.7em;
+      position: absolute;
+      top: 1em;
+      right: 1em;
+      width: 350px;
+      display: none;
+      padding: 1em;
+      background: #ffc;
+      border: 1px solid #dda;
+    }
+
+    .highlightEvent {
+      background-color: #FFFF88;
+      color: #000;
+    }
+
+    #calendar {
+      /* CHANGE HIEGHT IN JS */
+      width: #{width}
+    }

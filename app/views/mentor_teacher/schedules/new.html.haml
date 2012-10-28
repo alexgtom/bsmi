@@ -1,8 +1,4 @@
-= render :partial => "week_calendar", :locals => {:calendar_id => "calendar", :height => 600, :width => 700}       
-
-= form_tag mentor_teacher_schedule_path, :id => 'schedule_form' do        
-  = submit_tag "Save Schedule"
-
+= render :partial => "form", :locals => {:timeslots => []}
 
   
   

@@ -1,0 +1,19 @@
+= form_for @school do |f|
+  - if @school.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@school.errors.count, "error")} prohibited this school from being saved:"
+      %ul
+        - @school.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :name
+    = f.text_field :name
+  .field
+    = f.label :level
+    = f.select :level, School::LEVEL.map { |s| [s, s ] },:include_blank => true
+  .field
+    = f.label :district
+    = collection_select :post, :district, District.all, :id, :name, :include_blank => true
+  .actions
+    = f.submit 'Save'

@@ -16,7 +16,7 @@ function nextEventID() {
 
 
 function setTimeFields($timeFields, time) {
-    var hoursStr = time.hours < 10 ? "0" + time.hours : time.hours.toString();
+    var hoursStr = time.getHours() < 10 ? "0" + time.getHours() : time.getHours().toString();
     $timeFields.val([zeroify(time.getHours()), zeroify(time.getMinutes())])
 }
 

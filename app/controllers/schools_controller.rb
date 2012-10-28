@@ -37,7 +37,6 @@ class SchoolsController < ApplicationController
     @school = School.find(params[:id])
     @school.update_attributes(params[:school])
     @school.district = District.find(params[:post][:district])
-    @school.name = "asdflkjasdlgkjasdg"
 
     if @school.save
       redirect_to @school, notice: 'School was successfully updated.'

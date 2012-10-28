@@ -239,12 +239,13 @@ DEPENDENCIES
   haml-rails
   jquery-rails
   jquery-ui-rails
+  json
   launchy
   pg
   rails (= 3.2.7)
   rails-dev-tweaks (~> 0.6.1)
   rails3-generators
-  rspec-rails
+  rspec-rails (~> 2.4)
   ruby-debug19
   sass-rails (~> 3.2.3)
   selenium-webdriver (= 2.25.0)

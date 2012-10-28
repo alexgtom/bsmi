@@ -2,6 +2,9 @@ class User < ActiveRecord::Base
   acts_as_authentic do |c|
   end # block optional
 
+
+  belongs_to :owner, :polymorphic => true
+
   
 
   @@user_types = Hash[[MentorTeacher, Student].map {|type| [type.name, type]}]
@@ -44,4 +47,5 @@ class User < ActiveRecord::Base
 
   validates :owner_type, :inclusion => { :in => @@user_types}
 #  validates :owner, :only_polymorphic => true
+
 end

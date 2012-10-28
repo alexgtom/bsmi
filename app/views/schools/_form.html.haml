@@ -14,6 +14,6 @@
     = f.select :level, School::LEVEL.map { |s| [s, s ] },:include_blank => true
   .field
     = f.label :district
-    = collection_select :post, :district, District.all, :id, :name, :include_blank => true
+    = collection_select :post, :district, District.all, :id, :name, {:include_blank => true, :selected => params[:id] ? School.find(params[:id]).district.id : nil}
   .actions
     = f.submit 'Save'

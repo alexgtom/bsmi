@@ -3,7 +3,7 @@ class School < ActiveRecord::Base
 
   LEVEL = ["High School", "Middle School", "Elementary School"]
 
-  validates_presence_of :district
+  validates_presence_of :district, :name, :level
   validates_inclusion_of :level, :in => LEVEL
   belongs_to :district
 end

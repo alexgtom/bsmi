@@ -2,7 +2,12 @@
 
 FactoryGirl.define do
   factory :school do
-    name "MyString"
-    level "MyString"
+    sequence :name do |n|
+      "school#{n}"
+    end
+
+    district
+    
+    level School::LEVEL[0]
   end
 end

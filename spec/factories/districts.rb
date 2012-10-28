@@ -1,7 +1,9 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
-  factory :district do
-    name "MyString"
+  factory :district do 
+    sequence :name do |n|
+      district "district#{n}"
+    end
   end
 end

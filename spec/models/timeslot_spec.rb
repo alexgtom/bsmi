@@ -54,4 +54,16 @@ describe Timeslot do
       Timeslot.from_cal_event_json(valid_params).should == @timeslot
     end
   end
+
+  describe :time_in_week do
+    it "should return a time in the week of Timeslot::WEEK_START" do
+      time = Time.parse("10:00 AM")
+      day = :monday
+      res = Timeslot.time_in_week(time, day)
+      res.year.should eq(Timeslot::WEEK_START.year)
+      res.month.should eq(Timeslot::WEEK_START.month)
+      res.wday.should eq(Timeslot::DAYS.index(day))
+    end
+
+  end
 end

@@ -1,4 +1,11 @@
 class Timeslot < ActiveRecord::Base
+
+  #All times are relative to this week. This is hacky, but also essentially the
+  #way Rails handles the time fields.
+  CUR_YEAR = 2000
+  CUR_MONTH = 1
+  CUR_DAY = 3
+
   attr_protected #none
 
   #Associations
@@ -36,18 +43,26 @@ class Timeslot < ActiveRecord::Base
 
   def self.from_cal_event_json(json_str)
     event = JSON.parse(json_str)
-    self.new(:class_name => event["title"], 
-             :start_time => Time.parse(event["start"]),
-             :end_time => Time.parse(event["end"]))    
+
+    start_time = Time.parse(event["start"])
+    end_time = Time.parse(event["end"])
+
+    self.create!(:class_name => event["title"], 
+                 :start_time => start_time,
+                 :end_time => end_time,
+                 :day => @@DAY[start_time.wday],
+                 :num_assistants => event["num_assistants"]
+                 )
+
   end
 
   #Convert this timeslot into something understood by the front end
   def to_cal_event_hash
-    time_format = '%Y/%m/%d %H:%M:%S %z'
     { 'id' => self.id,
-      'start' => 'new Date(#{self.start_time.strftime(time_format)})',
-      'end' => 'new Date(#{self.end_time.strftime(time_format)})',
-      'title' => self.class_name
+      'start' => self.start_time.utc.iso8601,
+      'end' => self.end_time.utc.iso8601,
+      'title' => self.class_name,
+      'num_assistants' => self.num_assistants
     }
   end
   

@@ -37,4 +37,21 @@ describe Timeslot do
   it {should validate_presence_of :start_time}
   it {should validate_presence_of :end_time}
   it {should validate_presence_of :day}
+
+
+  describe :from_cal_event_json do
+    before(:each) do
+      #xxx Figure out a way to do this that isn't dependent on having the object
+      @timeslot = FactoryGirl.build(:timeslot)
+      @timeslot.id = 1
+    end
+
+    def valid_params
+      JSON.dump(@timeslot.to_cal_event_hash)
+    end
+
+    it "should create a valid Timeslot" do
+      Timeslot.from_cal_event_json(valid_params).should == @timeslot
+    end
+  end
 end

@@ -12,7 +12,7 @@ class MentorTeacher::SchedulesController < ApplicationController
 
   def show
     if current_teacher.timeslots.empty?
-      redirect_to mentor_teacher_schedule_new_path
+      redirect_to new_mentor_teacher_schedule_path
     else
       @timeslots = current_teacher.timeslots
     end

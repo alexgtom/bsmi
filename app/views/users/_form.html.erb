@@ -1,5 +1,6 @@
 <%= render "users/shared/error_messages", :target => @user %>
 
+<input type="hidden" name="invite_code" value="<%= params[:invite_code]%>">
 <p>
   <%= form.label :owner_type %><br />
   <%= form.select :owner_type, :options => User.user_types_for_select %>

@@ -27,7 +27,7 @@ class UsersController < ApplicationController
 
     # for test purpose,
     puts @user.owner_type
-    if @user.owner_type == "MentorTeacher"
+    if @user.owner_type == "Advisor"
       if @user.save
         flash[:notice] = "Advisor account created."
         redirect_to signup_url
@@ -42,7 +42,7 @@ class UsersController < ApplicationController
       if @user.save and owner.save
         @invite.redeemed!
         flash[:notice] = "Your account has been created."
-        redirect_to signup_url
+        redirect_to user_path @user.id
       else
         flash[:notice] = "There was a problem creating you."
         render :action => :new

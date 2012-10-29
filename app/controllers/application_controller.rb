@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
     end
 
     def require_admin
-      unless current_user.owner_type == "MentorTeacher" #admin for now
+      unless current_user.owner_type == "Advisor" #admin for now
         store_location
         flash[:notice] = "Only admin can access this page."
         redirect_to new_user_session_url

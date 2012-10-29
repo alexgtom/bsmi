@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   end # block optional
 
   
-  @@user_types = Hash[[MentorTeacher, Student].map {|type| [type.name, type]}]
+  @@user_types = Hash[[Advisor, MentorTeacher, Student].map {|type| [type.name, type]}]
 
 
   def self.user_types

@@ -17,10 +17,11 @@ Bsmi::Application.routes.draw do
   resources :users  # give us our some normal resource routes for users
   resource :user, :as => 'account'  # a convenience route
 
-  match 'signup' => 'users#new', :as => :signup
-
   match '/send_invitation/:id' => 'invites#send_invitation', :as => 'send_invitation'
   match '/signup/:invite_code' => 'users#new', :as => 'redeem_invitation'
+
+  match 'signup' => 'users#new', :as => :signup
+
 
  # root to: "welcome#index"
 

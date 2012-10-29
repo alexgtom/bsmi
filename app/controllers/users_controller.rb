@@ -6,9 +6,11 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
-  def create        
+  def create
     @user = User.new(params[:user])    
-        
+    invite_code = params[:invite_code]
+    @invite = Invite.find_redeemable(invite_code)
+
     user_type = params[:user][:owner_type]       
     begin 
      owner = User.build_owner(user_type)      
@@ -22,11 +24,31 @@ class UsersController < ApplicationController
     # Saving without session maintenance to skip
     # auto-login which can't happen here because
     # the User has not yet been activated
-    if @user.save and owner.save
-      flash[:notice] = "Your account has been created."
-      redirect_to signup_url
+
+    # for test purpose,
+    puts @user.owner_type
+    if @user.owner_type == "MentorTeacher"
+      if @user.save
+        flash[:notice] = "Advisor account created."
+        redirect_to signup_url
+      else
+        flash[:notice] = "wrong"
+        render :action => :new
+      end
+      return
+    end
+
+    if invite_code && @invite && @invite.email == @user.email
+      if @user.save and owner.save
+        @invite.redeemed!
+        flash[:notice] = "Your account has been created."
+        redirect_to signup_url
+      else
+        flash[:notice] = "There was a problem creating you."
+        render :action => :new
+      end
     else
-      flash[:notice] = "There was a problem creating you."
+      flash[:notice] = "there is something wrong with this invitation."
       render :action => :new
     end
     

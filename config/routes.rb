@@ -1,4 +1,6 @@
 Bsmi::Application.routes.draw do
+  resources :invites
+
   resources :courses
 
   resources :districts
@@ -6,6 +8,8 @@ Bsmi::Application.routes.draw do
   resources :schools
 
   resources :user_sessions
+
+  resources :invites
   
   match 'login' => "user_sessions#new",      :as => :login
   match 'logout' => "user_sessions#destroy", :as => :logout
@@ -14,6 +18,10 @@ Bsmi::Application.routes.draw do
   resource :user, :as => 'account'  # a convenience route
 
   match 'signup' => 'users#new', :as => :signup
+
+  match '/send_invitation/:id' => 'invites#send_invitation', :as => 'send_invitation'
+  match '/signup/:invite_code' => 'users#new', :as => 'redeem_invitation'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

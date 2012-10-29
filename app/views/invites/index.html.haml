@@ -1,0 +1,20 @@
+%h1 Listing invites
+
+%table
+  %tr
+    %th
+    %th
+    %th
+
+  - @invites.each do |invite|
+    %tr
+      %td= invite.name
+      %td= invite.email
+      %td
+        - if invite.invited?
+          Invited
+        - else
+          = link_to 'Invite', send_invitation_path(invite), :confirm => 'Send invitation? ', :method => :post
+%br
+
+= link_to 'New Invite', new_invite_path

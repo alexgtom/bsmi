@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121028191829) do
+ActiveRecord::Schema.define(:version => 20121028231754) do
 
   create_table "courses", :force => true do |t|
     t.string   "name"
@@ -25,6 +25,17 @@ ActiveRecord::Schema.define(:version => 20121028191829) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "invites", :force => true do |t|
+    t.string   "name"
+    t.string   "email"
+    t.string   "invite_code", :limit => 40
+    t.datetime "invited_at"
+    t.datetime "redeemed_at"
+  end
+
+  add_index "invites", ["id", "email"], :name => "index_invites_on_id_and_email"
+  add_index "invites", ["id", "invite_code"], :name => "index_invites_on_id_and_invite_code"
 
   create_table "mentor_teachers", :force => true do |t|
     t.string   "mailing_address"

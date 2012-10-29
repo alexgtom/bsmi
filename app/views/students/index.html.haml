@@ -1,17 +1,27 @@
-%h1 Listing students
-
-%table
-  %tr
-    %th
-    %th
-    %th
-
-  - @students.each do |student|
+%h1 Student Roster
+%table.table.table-bordered.table-fixed-header
+  %thead.header
     %tr
-      %td= link_to 'Show', student
-      %td= link_to 'Edit', edit_student_path(student)
-      %td= link_to 'Destroy', student, method: :delete, data: { confirm: 'Are you sure?' }
-
+      %th{:colspan => 1, :rowspan => 2}
+        Name
+    %tr
+      %th{:colspan => 1, :rowspan => 1}
+        Email
+      %th{:colspan => 1, :rowspan => 1}
+        Address
+  %tbody
+  - @all_student.each do |student|
+    %tr
+      %td
+        =student.name
+      %td
+        =student.email
+      %td
+        =student.address        
+      %td= link_to 'View Schedule', "students/#{student.id}/select_timeslots/summary"
+      %td= link_to 'Edit', student
+      %td= link_to 'Delete', student, method: :delete, data: { confirm: 'Are you sure?' }
 %br
-
 = link_to 'New Student', new_student_path
+%br
+= link_to 'Back', advisors_path

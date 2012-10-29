@@ -68,16 +68,8 @@ Bsmi::Application.routes.draw do
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
   
-  resources :advisor
-
-=begin
-  get "advisor/student_schedule"
-
-  resources :advisors do
-    resource :student_schedule
-    resource :teacher_Schedule      
-  end
-=end
+  resources :advisors
+  
   resources :students do
     resources :select_timeslots
     member do 

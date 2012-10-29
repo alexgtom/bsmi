@@ -45,13 +45,13 @@ FactoryGirl.define do
     num_hours = options[:num_hours] || (end_hour - start_hour).abs
     slots_per_hour = options[:slots_per_hour] || 4
 
-      num_slots = slots_per_hour * num_hours
-      slot_length = 60 / slots_per_hour
-      slot_num = n % num_slots
-      
-      seconds_since_start = slot_num * slot_length * 60
-      return Time.parse("#{start_hour}:00") + seconds_since_start
-    end
+    num_slots = slots_per_hour * num_hours
+    slot_length = 60 / slots_per_hour
+    slot_num = n % num_slots
+    
+    seconds_since_start = slot_num * slot_length * 60
+    return Time.parse("#{start_hour}:00 03/01/2000") + seconds_since_start
+  end
 
 
   sequence :time do |n|
@@ -60,13 +60,10 @@ FactoryGirl.define do
   end
 
 
-  factory :timeslot do    
-    sequence :day do |n|
-      day Timeslot.weekdays[n % 5]
-    end
-    
+  factory :timeslot do        
     start_time { FactoryGirl.generate(:time) }
     end_time {start_time + 3600} #One hour after
+    day {Timeslot.day_list[start_time.wday]}
 
     sequence :num_assistants do |n|
       n % 2

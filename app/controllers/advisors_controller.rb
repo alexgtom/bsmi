@@ -9,7 +9,9 @@ class AdvisorsController < ApplicationController
       format.json { render json: @advisors }
     end
   end
-
+  def search
+    @students = Student.search params[:search]
+  end
   # GET /advisors/1
   # GET /advisors/1.json
   def show

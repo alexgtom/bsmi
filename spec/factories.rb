@@ -17,7 +17,6 @@ FactoryGirl.define do
     mailing_address '111 St Way'
   end  
 
-
   factory :timeslot do
     day :monday   # monday
   end

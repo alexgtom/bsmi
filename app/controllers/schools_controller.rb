@@ -22,8 +22,11 @@ class SchoolsController < ApplicationController
 
   # POST /schools
   def create
+    if params[:school][:district]
+      params[:school][:district] = District.find(params[:school][:district])
+    end
+
     @school = School.new(params[:school])
-    @school.district = District.find(params[:post][:district])
 
     if @school.save
       redirect_to @school, notice: 'School was successfully created.'
@@ -35,8 +38,12 @@ class SchoolsController < ApplicationController
   # PUT /schools/1
   def update
     @school = School.find(params[:id])
+
+    if params[:school][:district]
+      params[:school][:district] = District.find(params[:school][:district])
+    end
+
     @school.update_attributes(params[:school])
-    @school.district = District.find(params[:post][:district])
 
     if @school.save
       redirect_to @school, notice: 'School was successfully updated.'

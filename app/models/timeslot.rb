@@ -1,3 +1,4 @@
+require 'time'
 class Timeslot < ActiveRecord::Base
 
   #All times are relative to this week. This is hacky, but also essentially the
@@ -58,7 +59,8 @@ class Timeslot < ActiveRecord::Base
   end
 
   #Return a time on the given day in the week of Timeslot::WEEK_START
-  def time_in_week(time_obj, day) 
+  def self.time_in_week(time_obj, day) 
+    require 'debugger'; debugger
       Time.new(Timeslot::WEEK_START.year,
                Timeslot::WEEK_START.month,
                Timeslot::WEEK_START.day + Timeslot::DAYS.index(day),
@@ -70,7 +72,7 @@ class Timeslot < ActiveRecord::Base
   #Convert this timeslot into something understood by the front end
   def to_cal_event_hash
     def to_js_time(time, day)
-      time_in_week(time, day).utc.iso8601
+      Timeslot.time_in_week(time, day).utc.iso8601
     end
 
     { 'id' => self.id,

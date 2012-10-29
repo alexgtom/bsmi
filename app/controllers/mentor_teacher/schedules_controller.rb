@@ -19,20 +19,26 @@ class MentorTeacher::SchedulesController < ApplicationController
   end
 
   
-  def create    
+  def create 
+#    require 'debugger'; debugger   
     all_correct = true
     params[:timeslots].each do |json_str|      
-      timeslot = Timeslot.from_cal_event_json(json_str)
-
-      all_correct = all_correct and timeslot.save
+      begin 
+        timeslot = Timeslot.from_cal_event_json(json_str)        
+      rescue
+        all_correct = false
+        break
+      end      
+     
       current_teacher.timeslots << timeslot
+      all_correct = all_correct and current_teacher.save
     end
     if all_correct
       flash[:notice] = "Schedule was successfully created."
-      redirect_to mentor_teacher_schedule_path  
+      redirect_to mentor_teacher_schedule_path and return
     else
       flash[:notice] = "There were some problems saving your schedule"
-      redirect_to new_mentor_teacher_schedule_path  
+      redirect_to new_mentor_teacher_schedule_path and return
     end
   end
 

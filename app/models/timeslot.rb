@@ -4,8 +4,9 @@ class Timeslot < ActiveRecord::Base
   #way Rails handles the time fields.
   CUR_YEAR = 2000
   CUR_MONTH = 1
-  CUR_DAY = 3
+  CUR_DAY = 2
 
+  WEEK_START = Time.new(CUR_YEAR, CUR_MONTH, CUR_DAY)
   attr_protected #none
 
   #Associations
@@ -18,27 +19,27 @@ class Timeslot < ActiveRecord::Base
   validates :start_time, :presence => true
   validates :end_time, :presence => true
 
-  @@DAY = [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday]
-  @@WEEK_DAYS = @@DAY - [:sunday, :saturday]
+  DAYS = [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday]
+  WEEK_DAYS = DAYS - [:sunday, :saturday]
   def self.day_list
-    @@DAY
+    DAYS
   end
 
   def self.weekdays
-    @@WEEK_DAYS
+    WEEK_DAYS
   end
 
   def self.day_index(value)
-    @@DAY.index(value)
+    DAYS.index(value)
   end
 
   def day
     index = read_attribute(:day)
-    @@DAY[index] unless index.nil?
+    DAYS[index] unless index.nil?
   end
 
   def day=(value)
-    write_attribute(:day, @@DAY.index(value))
+    write_attribute(:day, DAYS.index(value))
   end  
 
   def self.from_cal_event_json(json_str)
@@ -50,17 +51,31 @@ class Timeslot < ActiveRecord::Base
     self.create!(:class_name => event["title"], 
                  :start_time => start_time,
                  :end_time => end_time,
-                 :day => @@DAY[start_time.wday],
+                 :day => DAYS[start_time.wday],
                  :num_assistants => event["num_assistants"]
                  )
 
   end
 
+  #Return a time on the given day in the week of Timeslot::WEEK_START
+  def time_in_week(time_obj, day) 
+      Time.new(Timeslot::WEEK_START.year,
+               Timeslot::WEEK_START.month,
+               Timeslot::WEEK_START.day + Timeslot::DAYS.index(day),
+               time_obj.hour,
+               time_obj.min
+               )
+  end
+
   #Convert this timeslot into something understood by the front end
   def to_cal_event_hash
+    def to_js_time(time, day)
+      time_in_week(time, day).utc.iso8601
+    end
+
     { 'id' => self.id,
-      'start' => self.start_time.utc.iso8601,
-      'end' => self.end_time.utc.iso8601,
+      'start' => to_js_time(self.start_time, self.day),
+      'end' => to_js_time(self.end_time, self.day),
       'title' => self.class_name,
       'num_assistants' => self.num_assistants
     }

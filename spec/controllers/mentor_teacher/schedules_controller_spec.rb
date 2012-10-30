@@ -72,6 +72,16 @@ describe MentorTeacher::SchedulesController do
     end
   end
 
+  describe "GET show" do
+    it "assigns the timeslots for the current teacher as @timeslots" do
+      fake_timeslots = ["t1", "t2"]
+      @teacher.stub(:timeslots).and_return(fake_timeslots)
+      get :show
+      assigns(:timeslots).should eq(fake_timeslots)
+    end
+
+  end
+
   # describe "GET edit" do
   #   it "assigns the timeslots for the current teacher as @timeslots" do
   #     fake_timeslots = ["t1", "t2"]

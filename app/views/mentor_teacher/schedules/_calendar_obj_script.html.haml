@@ -1,20 +1,21 @@
 - content_for(:head) do
   :javascript
-    START_DATE = new Date("#{Timeslot::WEEK_START.utc.iso8601}")
-    
+
+    START_DATE = new Date(#{Timeslot::CUR_YEAR}, #{Timeslot::CUR_MONTH} - 1, #{Timeslot::CUR_DAY});
+    var eventData = #{JSON.dump(data)};
     $(document).ready(
         function() {
         
       $('#calendar').weekCalendar({
         date: START_DATE,
         //TODO: AJAXify this
-        data: #{JSON.dump(data)},
+        data: eventData,        
         timeslotsPerHour: 6,
         timeslotHeight: 10,
         readonly: false,
         hourLine: false,
         firstDayOfWeek: 1,
-        businessHours: {start: 8, end: 18, limitDisplay: true},
+        businessHours: {start: 8, end: 18, limitDisplay: false},
         allowCalEventOverlap: true,
         overlapEventsSeparate: true,
         daysToShow: 5,
@@ -39,7 +40,7 @@
         eventMouseout: function(calEvent, $event) {
         },
         noEvents: function() {
-            //        alert("Foo")
+
         }
       });
 

@@ -7,7 +7,7 @@ class Timeslot < ActiveRecord::Base
   CUR_MONTH = 1
   CUR_DAY = 3
 
-  WEEK_START = Time.new(CUR_YEAR, CUR_MONTH, CUR_DAY)
+  WEEK_START = Time.gm(CUR_YEAR, CUR_MONTH, CUR_DAY)
 
   DAYS = [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday]
   WEEK_DAYS = DAYS - [:sunday, :saturday]
@@ -46,6 +46,7 @@ class Timeslot < ActiveRecord::Base
   end  
 
   def self.from_cal_event_json(json_str)
+
     event = JSON.parse(json_str)
 
     start_time = Time.parse(event["start"])
@@ -62,7 +63,7 @@ class Timeslot < ActiveRecord::Base
 
   #Return a time on the given day in the week of Timeslot::WEEK_START
   def self.time_in_week(time_obj, day) 
-      Time.new(Timeslot::WEEK_START.year,
+    Time.gm(Timeslot::WEEK_START.year,
                Timeslot::WEEK_START.month,
                Timeslot::WEEK_START.day + Timeslot::WEEK_DAYS.index(day),
                time_obj.hour,

@@ -5,9 +5,13 @@ class Timeslot < ActiveRecord::Base
   #way Rails handles the time fields.
   CUR_YEAR = 2000
   CUR_MONTH = 1
-  CUR_DAY = 2
+  CUR_DAY = 3
 
   WEEK_START = Time.new(CUR_YEAR, CUR_MONTH, CUR_DAY)
+
+  DAYS = [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday]
+  WEEK_DAYS = DAYS - [:sunday, :saturday]
+
   attr_protected #none
 
   #Associations
@@ -20,8 +24,6 @@ class Timeslot < ActiveRecord::Base
   validates :start_time, :presence => true
   validates :end_time, :presence => true
 
-  DAYS = [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday]
-  WEEK_DAYS = DAYS - [:sunday, :saturday]
   def self.day_list
     DAYS
   end
@@ -60,10 +62,9 @@ class Timeslot < ActiveRecord::Base
 
   #Return a time on the given day in the week of Timeslot::WEEK_START
   def self.time_in_week(time_obj, day) 
-    require 'debugger'; debugger
       Time.new(Timeslot::WEEK_START.year,
                Timeslot::WEEK_START.month,
-               Timeslot::WEEK_START.day + Timeslot::DAYS.index(day),
+               Timeslot::WEEK_START.day + Timeslot::WEEK_DAYS.index(day),
                time_obj.hour,
                time_obj.min
                )

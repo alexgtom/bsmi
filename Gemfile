@@ -28,6 +28,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'jasmine'
   gem 'jasmine-headless-webkit'
+  gem 'jasminerice'
   gem 'debugger'
 
 end

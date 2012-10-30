@@ -1,14 +1,12 @@
 - content_for(:head) do
   :javascript
-    CUR_YEAR = 2000
-    CUR_MONTH = 1
-    CUR_DAY = 1
-
+    START_DATE = new Date("#{Timeslot::WEEK_START.utc.iso8601}")
+    
     $(document).ready(
         function() {
         
       $('#calendar').weekCalendar({
-        date: new Date(CUR_YEAR, CUR_MONTH, CUR_DAY),
+        date: START_DATE,
         //TODO: AJAXify this
         data: #{JSON.dump(data)},
         timeslotsPerHour: 6,

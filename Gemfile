@@ -26,7 +26,7 @@ group :development, :test do
   gem 'thin'
   gem 'spork', '0.9.2'
   gem 'factory_girl_rails'
-
+  gem 'jasmine-rails'
   gem 'debugger'
 
 end

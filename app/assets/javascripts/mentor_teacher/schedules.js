@@ -113,12 +113,17 @@ function onEventSave (calEvent, $domObjs) {
 }
 /* If calEvent already exists in the form, update its values. Otherwise, add it. */
 function updateEventInForm(calEvent) {
-    $form = $("#schedule_form"); 
-
-    var $eventInput = $form.find("#eventInput" + calEvent.id);
+    var $form = $("#schedule_form"); 
+    var inputId = "eventInput" + calEvent.id
+    var $eventInput = $form.find("#" + inputId);
     if ($eventInput.length == 0) {
         //Make new input tag
-        $eventInput = $('<input type="hidden" name="timeslots[]"/>');
+        $eventInput = $('<input/>', 
+                        {type: "hidden",
+                         name: "timeslots[]",
+                         id: inputId
+                        }
+                       );
         $eventInput.insertBefore($form.find('input[type="submit"]'));
     }
     

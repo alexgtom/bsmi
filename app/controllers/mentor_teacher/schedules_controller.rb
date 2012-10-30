@@ -10,6 +10,7 @@ class MentorTeacher::SchedulesController < ApplicationController
     else
       @timeslots = []
       @read_only = false
+      @method = :post
       @submit_link = mentor_teacher_schedule_path
       render "edit_or_new"
     end    
@@ -26,7 +27,6 @@ class MentorTeacher::SchedulesController < ApplicationController
 
   
   def create 
-#    require 'debugger'; debugger   
     all_correct = true
     params[:timeslots].each do |json_str|      
       begin 
@@ -34,8 +34,7 @@ class MentorTeacher::SchedulesController < ApplicationController
       rescue
         all_correct = false
         break
-      end      
-     
+      end           
       current_teacher.timeslots << timeslot
       all_correct = all_correct and current_teacher.save
     end
@@ -55,14 +54,16 @@ class MentorTeacher::SchedulesController < ApplicationController
       @timeslots = current_teacher.timeslots.map{|t| t.to_cal_event_hash}
       @read_only = false
       #TODO: refactor this to not need the dummy vars
-      @submit_link = mentor_teacher_schedule_path 1
+      @submit_link = mentor_teacher_schedule_path
+      @method = :put
       render "edit_or_new"
     end
   end
 
 
   def update
-    
+    flash[:notice] = "NOT YET IMPLEMENTED"
+    redirect_to mentor_teacher_schedule_path
   end
 
   def destroy

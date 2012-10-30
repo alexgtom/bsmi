@@ -50,6 +50,11 @@ describe MentorTeacher::SchedulesController do
     it "should assign the current timeslots appropriately" do
       assigns(:timeslots).should eq(desired_timeslots)
     end            
+
+    it "should assign the form method appropriately" do
+      assigns(:method).should eq(desired_method)
+    end            
+
   end
 
 
@@ -76,6 +81,7 @@ describe MentorTeacher::SchedulesController do
         let(:action_under_test) { :new }
         let(:desired_submit_path) { mentor_teacher_schedule_path }
         let(:desired_timeslots) { [] }
+        let(:desired_method) { :post }
       end
     end
   end
@@ -162,9 +168,10 @@ describe MentorTeacher::SchedulesController do
 
       it_behaves_like "a page allowing changes to a schedule" do
         let(:action_under_test) { :edit }
-        #TODO: Make this route to someplace different; using a dummy ID is weird
-        let(:desired_submit_path) { mentor_teacher_schedule_path  1 }
+
+        let(:desired_submit_path) { mentor_teacher_schedule_path }
         let(:desired_timeslots) { @teacher.timeslots.map{|t| t.to_cal_event_hash} }
+        let(:desired_method) { :put }
       end
 
       it "should render the edit_or_new form" do

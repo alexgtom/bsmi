@@ -1,5 +1,3 @@
-#module MentorTeacher; end
-
 class MentorTeacher::SchedulesController < ApplicationController
 
   def current_teacher
@@ -7,14 +5,22 @@ class MentorTeacher::SchedulesController < ApplicationController
   end
    
   def new
-    #Just render the view for now; doesn't need any data
+    if not current_teacher.timeslots.empty?
+      redirect_to edit_mentor_teacher_schedule_path 
+    else
+      @timeslots = []
+      @read_only = false
+      @submit_link = mentor_teacher_schedule_path
+      render "edit_or_new"
+    end    
   end
 
   def show
     if current_teacher.timeslots.empty?
       redirect_to new_mentor_teacher_schedule_path
     else
-      @timeslots = current_teacher.timeslots
+      @read_only = true
+      @timeslots = current_teacher.timeslots.map{|t| t.to_cal_event_hash}
     end
   end
 
@@ -43,17 +49,20 @@ class MentorTeacher::SchedulesController < ApplicationController
   end
 
   def edit
-    
-  end
-  def update
-=begin
-    @timeslot = Timeslot.find(params[:id])
-    params[:timeslots].each do |hash|
-      @timeslot = Timeslot.update_attributes!(hash)
+    if current_teacher.timeslots.empty? 
+      redirect_to new_mentor_teacher_schedule_path
+    else
+      @timeslots = current_teacher.timeslots.map{|t| t.to_cal_event_hash}
+      @read_only = false
+      #TODO: refactor this to not need the dummy vars
+      @submit_link = mentor_teacher_schedule_path 1
+      render "edit_or_new"
     end
-    flash[:notice] = "Schedule information was successfully updated."
-   # redirect_to mentor_teacher_schedule_path(@timeslot)
-=end
+  end
+
+
+  def update
+    
   end
 
   def destroy

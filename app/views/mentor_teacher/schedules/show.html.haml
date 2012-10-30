@@ -1,4 +1,7 @@
-= render :partial => "form", :locals => {:timeslots => @timeslots}
+= link_to edit_mentor_teacher_schedule_path "Edit schedule"
+= render :partial => "week_calendar", :locals => {:timeslots => @timeslots, :read_only => @read_only}       
+
+
 -# = form_tag mentor_teacher_schedule_path do
 -#   = render :partial => "week_calendar", :locals => { :width => 800, :height => 900, :calendar_id => :mentor_teacher_schedule}
 

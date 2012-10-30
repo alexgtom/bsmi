@@ -256,7 +256,6 @@ DEPENDENCIES
   factory_girl_rails
   haml
   haml-rails
-  jasmine
   jasmine-rails
   jquery-rails
   jquery-ui-rails

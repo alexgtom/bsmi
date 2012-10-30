@@ -10,12 +10,12 @@
         date: START_DATE,
         //TODO: AJAXify this
         data: eventData,        
-        timeslotsPerHour: 6,
+        timeslotsPerHour: 4,
         timeslotHeight: 10,
-        readonly: false,
+        readonly: #{read_only},
         hourLine: false,
         firstDayOfWeek: 1,
-        businessHours: {start: 8, end: 18, limitDisplay: false},
+        businessHours: {start: 8, end: 18, limitDisplay: true},
         allowCalEventOverlap: true,
         overlapEventsSeparate: true,
         daysToShow: 5,
@@ -23,17 +23,16 @@
         dateFormat: "",  // delete date in header
         longDays: ['', 'M', 'Tu', 'W', 'Th', 'F', ''], 
         height: function($calendar) { // CHANGE HEIGHT HERE
-          return #{height}
+          //TODO: make this non hardcoded
+          return 600;
         },
         // eventRender : function(calEvent, $event) {
         // },
         eventAfterRender: function(calEvent, element) {  
         },
         eventNew: eventNewCallback,
-        eventDrop: function(calEvent, $event) {
-        },
-        eventResize: function(calEvent, $event) {
-        },
+        eventDrop: eventChangeCallback,
+        eventResize: eventChangeCallback,
         eventClick: eventClickCallBack,
         eventMouseover: function(calEvent, $event) {
         },
@@ -78,5 +77,5 @@
 
     #calendar {
       /* CHANGE HIEGHT IN JS */
-      width: #{width}
+      width: #{700}
     }

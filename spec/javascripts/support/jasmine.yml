@@ -6,14 +6,12 @@
 # EXAMPLE:
 #
 # src_files:
-# - lib/source1.js
-# - lib/source2.js
-# - dist/**/*.js
+#   - lib/source1.js
+#   - lib/source2.js
+#   - dist/**/*.js
 #
 src_files:
-  - "vendor/**/*.{js,coffee}"
-  - "lib/**/*.{js,coffee}"
-  - "app/**/*.{js,coffee}"
+  - app/assets/javascripts/application.js
 
 # stylesheets
 #
@@ -23,13 +21,11 @@ src_files:
 # EXAMPLE:
 #
 # stylesheets:
-# - css/style.css
-# - stylesheets/*.css
+#   - css/style.css
+#   - stylesheets/*.css
 #
 stylesheets:
-  - "vendor/**/*.css"
-  - "lib/**/*.css"
-  - "app/**/*.css"
+  - stylesheets/**/*.css
 
 # helpers
 #
@@ -39,10 +35,10 @@ stylesheets:
 # EXAMPLE:
 #
 # helpers:
-# - helpers/**/*.js
+#   - helpers/**/*.js
 #
 helpers:
-  - "helpers/**/*.{js,coffee}"
+  - helpers/**/*.js
 
 # spec_files
 #
@@ -52,11 +48,10 @@ helpers:
 # EXAMPLE:
 #
 # spec_files:
-# - **/*[sS]pec.js
+#   - **/*[sS]pec.js
 #
 spec_files:
-  - "**/*[Ss]pec.{js,coffee}"
-
+  - '**/*[sS]pec.js'
 
 # src_dir
 #
@@ -79,4 +74,3 @@ src_dir:
 # spec_dir: spec/javascripts
 #
 spec_dir: spec/javascripts
-

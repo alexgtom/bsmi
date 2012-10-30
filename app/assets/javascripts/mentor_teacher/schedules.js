@@ -20,8 +20,8 @@ function setTimeFields($timeFields, time) {
     $timeFields.val([zeroify(time.getHours()), zeroify(time.getMinutes())])
 }
 
-function extractTime($timeFields, curDate) {
-    var rtn = new Date(CUR_YEAR, CUR_MONTH, curDate.getUTCDate())
+function extractTime($timeFields, curDate) {     
+    var rtn = curDate.clone()
     rtn.setHours($timeFields[0].value);
     rtn.setMinutes($timeFields[1].value);
     return rtn;
@@ -83,12 +83,10 @@ function eventEditPopup (calEvent, $dialogContent){
                 calEvent.start = extractTime($startFields, calEvent.start);
                 calEvent.end = extractTime($endFields, calEvent.end);        
                 calEvent.title = $titleField.val();
-//                calEvent.body = $titleField.val()
 
                 $calendar.weekCalendar("updateEvent", calEvent);
+                $calendar.weekCalendar("removeUnsavedEvents");            
                 updateEventInForm(calEvent);
-  //              $calendar.weekCalendar("removeUnsavedEvents");
-
                 $dialogContent.dialog("close");
             },
             cancel : function() {

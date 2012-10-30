@@ -45,6 +45,12 @@ function eventNewCallback (calEvent, $event) {
 }
 
 
+/* Callback for any sort of UI initiated change (e.g. a drag and drop or a resize) */
+function eventChangeCallback(newCalEvent, oldCalEvent, $element) {
+    newCalEvent.id = oldCalEvent.id;
+    updateEventInForm(newCalEvent);
+}
+
 function eventClickCallBack(calEvent, element, freeBusyManager, $calendar, DomEvent) {
     var $calendar = $('#calendar');
     var $dialogContent = $("#event_edit_container");
@@ -60,15 +66,17 @@ function resetForm($dialogContent) {
 
 
 function eventEditPopup (calEvent, $dialogContent){
-    var $calendar = $("#calendar");
-    var $startFields = $dialogContent.find("select.start_time");
-    var $endFields = $dialogContent.find("select.end_time");
-    setTimeFields($startFields, calEvent.start);
-    setTimeFields($endFields, calEvent.end);
-
-    var $titleField = $dialogContent.find("input#class_name");
+    var $domObjs = {"calendar": $("#calendar"),
+                    "startFields": $dialogContent.find("select.start_time"),
+                    "endFields" : $dialogContent.find("select.end_time"),
+                    "titleField" : $dialogContent.find("input#class_name")     
+                   };                                       
+    // var $startFields = $dialogContent.find("select.start_time");
+    // var $endFields = $dialogContent.find("select.end_time");
+    setTimeFields($domObjs["startFields"], calEvent.start);
+    setTimeFields($domObjs["endFields"], calEvent.end);
     var class_name = (calEvent.title === null ? DEFAULT_CLASS_NAME : calEvent.title);
-    $titleField.val(class_name);
+    $domObjs["titleField"].val(class_name);
     $dialogContent.dialog({
         modal: true,
         title: "Edit class",
@@ -78,17 +86,10 @@ function eventEditPopup (calEvent, $dialogContent){
             $('#calendar').weekCalendar("removeUnsavedEvents");
         },
         buttons: {
-            save : function() {
-                calEvent.id = nextEventID();
-                calEvent.start = extractTime($startFields, calEvent.start);
-                calEvent.end = extractTime($endFields, calEvent.end);        
-                calEvent.title = $titleField.val();
-
-                $calendar.weekCalendar("updateEvent", calEvent);
-                $calendar.weekCalendar("removeUnsavedEvents");            
-                updateEventInForm(calEvent);
-                $dialogContent.dialog("close");
-            },
+            save : function() { onEventSave(calEvent, $domObjs);
+                                $dialogContent.dialog("close");
+                              },
+        
             cancel : function() {
                 $dialogContent.dialog("close");
             }
@@ -98,6 +99,18 @@ function eventEditPopup (calEvent, $dialogContent){
 
 }
 
+function onEventSave (calEvent, $domObjs) {
+    if (calEvent.id === undefined)
+        calEvent.id = nextEventID();
+
+    calEvent.start = extractTime($domObjs["startFields"], calEvent.start);
+    calEvent.end = extractTime($domObjs["endFields"], calEvent.end);        
+    calEvent.title = $domObjs["titleField"].val();
+
+    $domObjs["calendar"].weekCalendar("updateEvent", calEvent);
+    $domObjs["calendar"].weekCalendar("removeUnsavedEvents");            
+    updateEventInForm(calEvent);
+}
 /* If calEvent already exists in the form, update its values. Otherwise, add it. */
 function updateEventInForm(calEvent) {
     $form = $("#schedule_form"); 

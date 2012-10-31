@@ -8,7 +8,7 @@
   = @school.level
 %p
   %b District:
-  = @school.district.name
+  = @school.district.name if @school.district
 
 = link_to 'Edit', edit_school_path(@school)
 \|

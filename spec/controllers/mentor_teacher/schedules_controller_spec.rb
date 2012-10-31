@@ -225,8 +225,9 @@ describe MentorTeacher::SchedulesController do
         let(:timeslots_to_change) { @timeslots }
       end
       it "should create new timeslots for those not already in the db" do
-        Timeslot.should_receive(:from_cal_event_json).with(JSON.dump(@new_timeslot_hash))
-        put :update, :timeslots => JSON.dump(put_data)
+        expect {
+          put :update, :timeslots => JSON.dump(put_data)
+        }.to change(Timeslot, :count).by(1)
       end
     end
 

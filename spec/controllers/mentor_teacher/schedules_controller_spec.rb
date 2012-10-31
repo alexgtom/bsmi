@@ -197,13 +197,13 @@ describe MentorTeacher::SchedulesController do
     shared_examples_for "an updater for timeslots" do
       it "should update the appropriate timeslots with new values" do
         changed_timeslots_data = timeslots_to_change.map do |t|
-          FactoryGirl.build(:cal_event_hash, 
+          JSON.dump(FactoryGirl.build(:cal_event_hash, 
                             :id => t.id,
                             :start => t.start_time + 3600
-                            ) #end is set by factory to an ok value)                    
+                            )) #end is set by factory to an ok value)                    
         end
 
-        put :update, :timeslots => JSON.dump(changed_timeslots_data)
+        put :update, :timeslots => changed_timeslots_data
         timeslots_to_change.zip(changed_timeslots_data).each do |actual, expected|
           actual.start_time.should eq(expected[:start])
         end
@@ -219,14 +219,16 @@ describe MentorTeacher::SchedulesController do
     context "when some timeslots are new for the current teacher" do
       @new_timeslot_hash = FactoryGirl.build(:cal_event_hash, :db_id => nil)
       let(:put_data) do
-        @timeslots + [@new_timeslot_hash]
+        (@timeslots.map{|t| t.to_cal_event_hash} + [@new_timeslot_hash]).map do |h|
+          JSON.dump(h)
+        end
       end
       it_should_behave_like "an updater for timeslots" do
         let(:timeslots_to_change) { @timeslots }
       end
       it "should create new timeslots for those not already in the db" do
         expect {
-          put :update, :timeslots => JSON.dump(put_data)
+          put :update, :timeslots => put_data
         }.to change(Timeslot, :count).by(1)
       end
     end
@@ -238,7 +240,7 @@ describe MentorTeacher::SchedulesController do
           Timeslot.any_instance.should_receive(:delete)
           put_data = @timeslots.first.to_cal_event_hash
           put_data["destroy"] = true
-          put :update, :timeslots => JSON.dump([put_data])
+          put :update, :timeslots => [JSON.dump(put_data)]
         end
 
       end
@@ -251,7 +253,7 @@ describe MentorTeacher::SchedulesController do
           @timeslots.first.mentor_teacher = nil
           @timeslots.first.save
           put_data["destroy"] = true
-          put :update, :timeslots => JSON.dump([put_data])
+          put :update, :timeslots => [JSON.dump(put_data)]
 
         end
       end

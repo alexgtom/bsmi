@@ -1,8 +1,10 @@
 require 'time'
 class Timeslot < ActiveRecord::Base
 
-  #All times are relative to this week. This is hacky, but also essentially the
-  #way Rails handles the time fields.
+  #From the client's perspective, all times are relative to this
+  #week. This is hacky, but also essentially the way Rails handles the
+  #time fields. In general, one should NOT use the time fields of this model to retrieve
+  #any information about days; use the day field instead.
   CUR_YEAR = 2000
   CUR_MONTH = 1
   CUR_DAY = 3
@@ -45,10 +47,10 @@ class Timeslot < ActiveRecord::Base
     write_attribute(:day, DAYS.index(value))
   end  
 
+  #Create or update a timeslot based on json_str. 
   def self.from_cal_event_json(json_str)
-
     event = JSON.parse(json_str)
-
+    
     start_time = Time.parse(event["start"])
     end_time = Time.parse(event["end"])
 
@@ -58,8 +60,9 @@ class Timeslot < ActiveRecord::Base
                  :day => DAYS[start_time.wday],
                  :num_assistants => event["num_assistants"]
                  )
-
   end
+
+  
 
   #Return a time on the given day in the week of Timeslot::WEEK_START
   def self.time_in_week(time_obj, day) 
@@ -71,13 +74,15 @@ class Timeslot < ActiveRecord::Base
                )
   end
 
-  #Convert this timeslot into something understood by the front end
+  #Convert this timeslot into something understood by jquery
+  #weekcalendar (after serialization to json)  
   def to_cal_event_hash
     def to_js_time(time, day)
       Timeslot.time_in_week(time, day).utc.iso8601
     end
 
     { 'id' => self.id,
+      'db_id' => self.id,
       'start' => to_js_time(self.start_time, self.day),
       'end' => to_js_time(self.end_time, self.day),
       'title' => self.class_name,

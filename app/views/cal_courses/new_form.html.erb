@@ -1,0 +1,23 @@
+<%= form_for(@cal_course) do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :school_type %>
+    <%= f.select :school_type, options_for_select(School::LEVEL, selected: @school_type) %>
+  </p>
+  <p>
+    <%= f.label :course_subject %>
+    <%= f.select :course_subject, options_for_select(Course::GRADE.map { |s| [s.to_s.tr('_', ' ').capitalize, s ] },:include_blank => true, selected: @course_subject) %>
+  </p>
+  <table>
+    <%- @entries.each do |entry| %>
+      <tr>
+        <td><%= entry[:school_name] %></td>
+        <td><%= entry[:teacher] %></td>
+        <td><%= entry[:time] %></td>
+      </tr>
+  </table>
+<% end %>

@@ -190,14 +190,13 @@ describe MentorTeacher::SchedulesController do
 
   describe "PUT update" do
 
+    before(:each) do
+      @timeslots = FactoryGirl.create_list(:timeslot, 2, :mentor_teacher => @teacher) 
+    end
 
-    context "when all timeslots exist for the current teacher" do
-      before(:each) do
-        @timeslots = FactoryGirl.create_list(:timeslot, 4, :mentor_teacher => @teacher) 
-      end
-
+    shared_examples_for "an updater for timeslots" do
       it "should update the appropriate timeslots with new values" do
-        changed_timeslots_data = @timeslots.map do |t|
+        changed_timeslots_data = timeslots_to_change.map do |t|
           FactoryGirl.build(:cal_event_hash, 
                             :id => t.id,
                             :start => t.start_time + 3600
@@ -205,10 +204,57 @@ describe MentorTeacher::SchedulesController do
         end
 
         put :update, :timeslots => JSON.dump(changed_timeslots_data)
-        @timeslots.zip(changed_timeslots_data).each do |actual, expected|
+        timeslots_to_change.zip(changed_timeslots_data).each do |actual, expected|
           actual.start_time.should eq(expected[:start])
         end
       end
+    end
+
+    context "when all timeslots exist for the current teacher" do      
+      it_should_behave_like "an updater for timeslots" do
+        let(:timeslots_to_change) { @timeslots[0..1] }
+      end
+    end
+
+    context "when some timeslots are new for the current teacher" do
+      @new_timeslot_hash = FactoryGirl.build(:cal_event_hash, :db_id => nil)
+      let(:put_data) do
+        @timeslots + [@new_timeslot_hash]
+      end
+      it_should_behave_like "an updater for timeslots" do
+        let(:timeslots_to_change) { @timeslots }
+      end
+      it "should create new timeslots for those not already in the db" do
+        Timeslot.should_receive(:from_cal_event_json).with(JSON.dump(@new_timeslot_hash))
+        put :update, :timeslots => JSON.dump(put_data)
+      end
+    end
+
+    context "when an event needs to be destroyed" do
+      
+      context "and the event exists for this teacher," do
+        it "should delete the event" do
+          Timeslot.any_instance.should_receive(:delete)
+          put_data = @timeslots.first.to_cal_event_hash
+          put_data["destroy"] = true
+          put :update, :timeslots => JSON.dump([put_data])
+        end
+
+      end
+
+      context "and the event doesn't exist for this teacher" do
+
+        it "shouldn't delete anything" do
+          Timeslot.any_instance.should_not_receive(:delete)
+          put_data = @timeslots.first.to_cal_event_hash
+          @timeslots.first.mentor_teacher = nil
+          @timeslots.first.save
+          put_data["destroy"] = true
+          put :update, :timeslots => JSON.dump([put_data])
+
+        end
+      end
+
     end
   end
 

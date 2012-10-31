@@ -47,10 +47,14 @@ class Timeslot < ActiveRecord::Base
     write_attribute(:day, DAYS.index(value))
   end  
 
-  #Build or update a timeslot based on json_str. Does NOT save the resulting Timeslot
-  def self.from_cal_event_json(json_str)
-    event = JSON.parse(json_str)    
 
+  def self.from_cal_event_json(json_str)
+    from_cal_event_hash(JSON.parse(json_str))  
+  end
+
+  #Build or update a timeslot based on cal_event_hash. Does NOT save
+  #the resulting Timeslot. Attributes passed in attrs override those from event.
+  def self.from_cal_event_hash(event, attrs = {}) 
     timeslot = Timeslot.find_by_id(event["db_id"]) || Timeslot.new
 
     start_time = Time.parse(event["start"])
@@ -62,10 +66,10 @@ class Timeslot < ActiveRecord::Base
                                :day => DAYS[start_time.wday],
                                :num_assistants => event["num_assistants"]
                                )
+    timeslot.assign_attributes(attrs)
     return timeslot
-  end
 
-  
+  end
 
   #Return a time on the given day in the week of Timeslot::WEEK_START
   def self.time_in_week(time_obj, day) 

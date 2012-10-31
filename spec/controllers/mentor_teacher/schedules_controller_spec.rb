@@ -188,6 +188,30 @@ describe MentorTeacher::SchedulesController do
     end
   end
 
+  describe "PUT update" do
+
+
+    context "when all timeslots exist for the current teacher" do
+      before(:each) do
+        @timeslots = FactoryGirl.create_list(:timeslot, 4, :mentor_teacher => @teacher) 
+      end
+
+      it "should update the appropriate timeslots with new values" do
+        changed_timeslots_data = @timeslots.map do |t|
+          FactoryGirl.build(:cal_event_hash, 
+                            :id => t.id,
+                            :start => t.start_time + 3600
+                            ) #end is set by factory to an ok value)                    
+        end
+
+        put :update, :timeslots => JSON.dump(changed_timeslots_data)
+        @timeslots.zip(changed_timeslots_data).each do |actual, expected|
+          actual.start_time.should eq(expected[:start])
+        end
+      end
+    end
+  end
+
   # describe "GET edit" do
   #   it "assigns the timeslots for the current teacher as @timeslots" do
   #     fake_timeslots = ["t1", "t2"]

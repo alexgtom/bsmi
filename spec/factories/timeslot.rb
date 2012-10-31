@@ -1,18 +1,5 @@
 require 'time'
 
-#   class JsonStrategy
-#   def initialize
-#     @strategy = FactoryGirl.strategy_by_name(:create).new
-#   end
-
-#   delegate :association, to: :@strategy
-
-#   def result(evaluation)
-#     @strategy.result(evaluation).to_json
-#   end
-# end
-
-
 FactoryGirl.define do
 
 
@@ -46,14 +33,33 @@ FactoryGirl.define do
     make_time(n, :slots_per_hour => 0.5)
   end
 
+  sequence :num_assistants do |n|
+    n % 2
+  end
+
 
   factory :timeslot do        
     start_time { FactoryGirl.generate(:time) }
     end_time {start_time + 3600} #One hour after
     day {Timeslot.day_list[start_time.wday]}
 
-    sequence :num_assistants do |n|
-      n % 2
+
+  end
+
+  factory :cal_event_hash, :class => Hash do |h|
+    sequence :id 
+    db_id {id}
+    start { FactoryGirl.generate(:time) }
+    h.end { start + 3600 }
+  
+    sequence :title do |n|
+      'class#{n}'
     end
+
+    num_assistants { FactoryGirl.generate(:num_assistants) }
+
+    #Builds the hash properly by passing attributes as an argument
+    #instead of trying to set attribute fields on it
+    initialize_with { attributes }
   end
 end

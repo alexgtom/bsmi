@@ -62,7 +62,17 @@ class MentorTeacher::SchedulesController < ApplicationController
 
 
   def update
-    flash[:notice] = "NOT YET IMPLEMENTED"
+    # params[:timeslots].each do |json_str|
+      
+    #   current_teacher.update_event_in_schedule
+    #   event = JSON.parse(json_str)
+      
+    #   if Timeslot.exists? event.id
+
+    #   Timeslot.update_from_
+
+    # end
+
     redirect_to mentor_teacher_schedule_path
   end
 

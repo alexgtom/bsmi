@@ -1,6 +1,6 @@
 class Timeslot < ActiveRecord::Base
-  @@DAY = [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday]
-  @@WEEK_DAYS = @@DAY - [:sunday, :saturday]
+  @@DAY = [:Sun, :Mon, :Tue, :Wed, :Thu, :Fri, :Sat]
+  @@WEEK_DAYS = @@DAY - [:Sun, :Sat]
   def self.day_list
     @@DAY
   end
@@ -20,6 +20,10 @@ class Timeslot < ActiveRecord::Base
   def day=(value)
     write_attribute(:day, @@DAY.index(value))
   end  
+
+  def to_string
+    %w"#{:day} #{:start_time} #{end_time}"
+  end
   
   
   attr_protected #none

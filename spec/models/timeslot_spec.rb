@@ -40,18 +40,36 @@ describe Timeslot do
 
 
   describe :from_cal_event_json do
-    before(:each) do
-      #xxx Figure out a way to do this that isn't dependent on having the object
-      @timeslot = FactoryGirl.build(:timeslot)
-      @timeslot.id = 1
+
+    def do_call
+      Timeslot.from_cal_event_json(valid_params)
     end
 
-    def valid_params
-      JSON.dump(@timeslot.to_cal_event_hash)
+    let(:valid_params) do
+      JSON.dump(FactoryGirl.build(:cal_event_hash))
     end
 
-    it "should create a valid Timeslot" do
-      Timeslot.from_cal_event_json(valid_params).should == @timeslot
+    it "should return a valid Timeslot" do
+      do_call.should be_valid
+    end
+
+    context "the event already exists" do
+
+      before(:each) do
+        @timeslot = FactoryGirl.create(:timeslot)
+      end
+
+      let(:valid_params) do
+        JSON.dump(FactoryGirl.build(:cal_event_hash, 
+                                    :db_id => @timeslot.id,
+                                    :start => @timeslot.start_time + 3600
+                                    ))
+      end
+
+      it "should find the appropriate event in the DB" do
+        Timeslot.should_receive(:find).with(@timeslot.id)
+        do_call
+      end
     end
   end
 

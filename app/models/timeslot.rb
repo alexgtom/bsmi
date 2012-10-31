@@ -50,15 +50,19 @@ class Timeslot < ActiveRecord::Base
   #Build or update a timeslot based on json_str. Does NOT save the resulting Timeslot
   def self.from_cal_event_json(json_str)
     event = JSON.parse(json_str)    
+
+    timeslot = Timeslot.find_by_id(event["db_id"]) || Timeslot.new
+
     start_time = Time.parse(event["start"])
     end_time = Time.parse(event["end"])
 
-    self.create!(:class_name => event["title"], 
-                 :start_time => start_time,
-                 :end_time => end_time,
-                 :day => DAYS[start_time.wday],
-                 :num_assistants => event["num_assistants"]
-                 )
+    timeslot.assign_attributes(:class_name => event["title"], 
+                               :start_time => start_time,
+                               :end_time => end_time,
+                               :day => DAYS[start_time.wday],
+                               :num_assistants => event["num_assistants"]
+                               )
+    return timeslot
   end
 
   

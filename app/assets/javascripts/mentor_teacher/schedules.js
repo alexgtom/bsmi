@@ -47,7 +47,10 @@ function eventNewCallback (calEvent, $event) {
 
 /* Callback for any sort of UI initiated change (e.g. a drag and drop or a resize) */
 function eventChangeCallback(newCalEvent, oldCalEvent, $element) {
-    newCalEvent.id = oldCalEvent.id;
+    for(var attr in oldCalEvent) {
+        if (newCalEvent[attr] === undefined)
+            newCalEvent[attr] = oldCalEvent[attr];
+    }
     updateEventInForm(newCalEvent);
 }
 

@@ -61,19 +61,27 @@ class MentorTeacher::SchedulesController < ApplicationController
   end
 
 
-  def update
-    # params[:timeslots].each do |json_str|
-      
-    #   current_teacher.update_event_in_schedule
-    #   event = JSON.parse(json_str)
-      
-    #   if Timeslot.exists? event.id
+  def update    
+    errors = 0
+    params[:timeslots].each do |json_str|
 
-    #   Timeslot.update_from_
+      event = JSON.parse(json_str)
+      if not current_teacher.timeslots.find_by_id event["db_id"]
+        #Prevent anyone from updating a Timeslot that doesn't belong to them
+        event["db_id"] = nil        
+      end
+      updated_slot = Timeslot.from_cal_event_hash(event)      
+      errors += 1 unless updated_slot.save
+      current_teacher.timeslots << updated_slot
+    end
 
-    # end
-
-    redirect_to mentor_teacher_schedule_path
+    if errors > 0
+      flash[:notice] = "Couldn't save all updated classes"
+      redirect_to edit_mentor_teacher_schedule_path
+    else
+      flash[:notice] = "Successfully updated schedule"
+      redirect_to mentor_teacher_schedule_path
+    end
   end
 
   def destroy

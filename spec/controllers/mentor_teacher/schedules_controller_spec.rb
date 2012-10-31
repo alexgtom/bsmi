@@ -191,37 +191,40 @@ describe MentorTeacher::SchedulesController do
   describe "PUT update" do
 
     before(:each) do
-      @timeslots = FactoryGirl.create_list(:timeslot, 2, :mentor_teacher => @teacher) 
+      @timeslots = FactoryGirl.create_list(:timeslot, 2, :mentor_teacher_id => @teacher.id) 
     end
 
     shared_examples_for "an updater for timeslots" do
       it "should update the appropriate timeslots with new values" do
-        changed_timeslots_data = timeslots_to_change.map do |t|
-          JSON.dump(FactoryGirl.build(:cal_event_hash, 
+        changed_timeslot_hashes = timeslots_to_change.map do |t|
+          FactoryGirl.build(:cal_event_hash, 
                             :id => t.id,
                             :start => t.start_time + 3600
-                            )) #end is set by factory to an ok value)                    
+                            ) #end is set by factory to an ok value)                    
         end
 
+        changed_timeslots_data = changed_timeslot_hashes.map{|h| JSON.dump(h)}
         put :update, :timeslots => changed_timeslots_data
-        timeslots_to_change.zip(changed_timeslots_data).each do |actual, expected|
-          actual.start_time.should eq(expected[:start])
+        timeslots_to_change.each {|t| t.reload }
+        timeslots_to_change.zip(changed_timeslot_hashes).each do |pair|
+          #TODO: figure out a way to mock this better
+          actual, expected = pair
+          actual.start_time.hour.should eq(expected[:start].utc.hour)
         end
       end
     end
-
+    
     context "when all timeslots exist for the current teacher" do      
       it_should_behave_like "an updater for timeslots" do
         let(:timeslots_to_change) { @timeslots[0..1] }
       end
     end
 
-    context "when some timeslots are new for the current teacher" do
-      @new_timeslot_hash = FactoryGirl.build(:cal_event_hash, :db_id => nil)
+    context "when some timeslots are new for the current teacher" do      
       let(:put_data) do
-        (@timeslots.map{|t| t.to_cal_event_hash} + [@new_timeslot_hash]).map do |h|
-          JSON.dump(h)
-        end
+        new_timeslot_hash = FactoryGirl.build(:cal_event_hash, :db_id => nil)
+        hashes = @timeslots.map{|t| t.to_cal_event_hash} + [new_timeslot_hash]
+        hashes.map {|h| JSON.dump(h)}
       end
       it_should_behave_like "an updater for timeslots" do
         let(:timeslots_to_change) { @timeslots }

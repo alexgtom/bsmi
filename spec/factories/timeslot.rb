@@ -1,33 +1,20 @@
-
-require 'factory_girl'
 require 'time'
+
+#   class JsonStrategy
+#   def initialize
+#     @strategy = FactoryGirl.strategy_by_name(:create).new
+#   end
+
+#   delegate :association, to: :@strategy
+
+#   def result(evaluation)
+#     @strategy.result(evaluation).to_json
+#   end
+# end
+
+
 FactoryGirl.define do
-  factory :mentor_teacher do
-  
-    sequence :school do |n|
-      school 'school#{n}'
-    end
 
-    after(:create) do |teacher| 
-      teacher.user.save
-    end
-    association :user, :strategy => :build
-    # user FactoryGirl.create(:user, :owner =>  #Generates a new user for this teacher
-  end  
-
-  sequence :name do |n| 
-    "user#{n}"
-  end
-  factory :user do
-    name { FactoryGirl.generate(:name) }
-
-    email { "#{name}@bsmi.org" }
-    password { name }
-    password_confirmation { name }
-    phone_number '111-111-1111'
-    address '111 St Way'
-
-  end
 
   #Returns a time between a given start hour and an end hour, with a certain number
   #of slots per hour. Each of these parameters is specifiable and has a reasonable
@@ -69,16 +56,4 @@ FactoryGirl.define do
       n % 2
     end
   end
-
-  
-
-  factory :student do
-    preferences {|p| [p.association(:preference)]}
-  end
-
-  factory :preference do
-    ranking 1
-    association :timeslot, factory: :timeslot
-  end
-
 end

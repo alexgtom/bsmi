@@ -251,12 +251,13 @@ describe MentorTeacher::SchedulesController do
       context "and the event doesn't exist for this teacher" do
 
         it "shouldn't delete anything" do
-          Timeslot.any_instance.should_not_receive(:delete)
           put_data = @timeslots.first.to_cal_event_hash
           @timeslots.first.mentor_teacher = nil
           @timeslots.first.save
           put_data["destroy"] = true
-          put :update, :timeslots => [JSON.dump(put_data)]
+          expect {
+            put :update, :timeslots => [JSON.dump(put_data)]
+          }.to_not change(Timeslot, :count)
 
         end
       end

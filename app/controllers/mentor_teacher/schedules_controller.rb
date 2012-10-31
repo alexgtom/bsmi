@@ -71,12 +71,18 @@ class MentorTeacher::SchedulesController < ApplicationController
         event["db_id"] = nil        
       end
       updated_slot = Timeslot.from_cal_event_hash(event)      
+
+      if event["destroy"]
+        updated_slot.delete
+        next
+      end
+
       errors += 1 unless updated_slot.save
       current_teacher.timeslots << updated_slot
     end
 
     if errors > 0
-      flash[:notice] = "Couldn't save all updated classes"
+      flash[:notice] = "Couldn't save all classes in schedule"
       redirect_to edit_mentor_teacher_schedule_path
     else
       flash[:notice] = "Successfully updated schedule"

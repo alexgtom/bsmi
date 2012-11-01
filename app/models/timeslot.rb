@@ -83,18 +83,18 @@ class Timeslot < ActiveRecord::Base
 
   #Convert this timeslot into something understood by jquery
   #weekcalendar (after serialization to json)  
-  def to_cal_event_hash
+  def to_cal_event_hash(overrides = {})
     def to_js_time(time, day)
       Timeslot.time_in_week(time, day).utc.iso8601
     end
 
-    { 'id' => self.id,
+    { 'id' => self.id, #Front end will override this
       'db_id' => self.id,
       'start' => to_js_time(self.start_time, self.day),
       'end' => to_js_time(self.end_time, self.day),
       'title' => self.class_name,
       'num_assistants' => self.num_assistants
-    }
+    }.merge(overrides)
   end
   
   def selected?(student_id)

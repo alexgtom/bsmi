@@ -19,3 +19,6 @@
 
 # Ignore rspec coverage directory
 /coverage
+
+# Ignore webkit files
+.jhw-cache

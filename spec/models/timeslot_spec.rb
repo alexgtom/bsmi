@@ -76,7 +76,7 @@ describe Timeslot do
 
       it "should update the appropriate event in the DB" do
         Timeslot.stub(:find_by_id).and_return(@timeslot)
-        @timeslot.should_receive(:assign_attributes)
+        @timeslot.should_receive(:assign_attributes).twice
         do_call
       end
 

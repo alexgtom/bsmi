@@ -2,7 +2,7 @@
 /* 
  * Callbacks for the mentor teacher schedule calendar
  * 
- * Large chunks of this code are taken from https://github.com/themouette/jquery-week-calendar/blob/master/full_demo/demo.js 
+ * This code is patterned off of https://github.com/themouette/jquery-week-calendar/blob/master/full_demo/demo.js 
  */
 
 
@@ -10,15 +10,34 @@
 TIMESLOT_ID = 0;
 NEW_TITLE = "Class name";
 function nextEventID() {
-    TIMESLOT_ID++;
-    return TIMESLOT_ID;
+    return TIMESLOT_ID++;
+}
+
+/* Assign eventIds sequentially to prevent conflicts between database id's and
+ * week calendar ids. This prevents us clobbering any events unintentionally.
+ */
+function assignEventIDs(eventData) {
+    for (var i = 0; i < eventData.length; i++) {
+        eventData[i].id = nextEventID();
+    }
 }
 
 
-function setTimeFields($timeFields, time) {
-    var hoursStr = time.getHours() < 10 ? "0" + time.getHours() : time.getHours().toString();
-    $timeFields.val([zeroify(time.getHours()), zeroify(time.getMinutes())])
+function setTimeFields($timeFields, time) {    
+    selectOptionWithValue($timeFields.eq(0), zeroify(time.getHours()));
+    selectOptionWithValue($timeFields.eq(1), zeroify(time.getMinutes()));
+    
+//    $timeFields.val([zeroify(time.getHours()), zeroify(time.getMinutes())])
 }
+
+function selectOptionWithValue($select_tag, value) {
+    var $curSelection = $select_tag.find('option[selected="selected"]');
+    $curSelection.removeAttr("selected");
+    
+    var $newSelection = $select_tag.find('option[value="' + value + '"]');
+    $newSelection.attr("selected", "selected");
+}
+
 
 function extractTime($timeFields, curDate) {     
     var rtn = curDate.clone()
@@ -30,6 +49,8 @@ function extractTime($timeFields, curDate) {
 function zeroify(num) {
     return num < 10 ? "0" + num : num + "";
 }
+
+
 
 function eventNewCallback (calEvent, $event) {
     var $calendar = $('#calendar');
@@ -57,6 +78,7 @@ function eventChangeCallback(newCalEvent, oldCalEvent, $element) {
 function eventClickCallBack(calEvent, element, freeBusyManager, $calendar, DomEvent) {
     var $calendar = $('#calendar');
     var $dialogContent = $("#event_edit_container");
+    
     eventEditPopup(calEvent, $dialogContent);
 }
 
@@ -74,8 +96,7 @@ function eventEditPopup (calEvent, $dialogContent){
                     "endFields" : $dialogContent.find("select.end_time"),
                     "titleField" : $dialogContent.find("input#class_name")     
                    };                                       
-    // var $startFields = $dialogContent.find("select.start_time");
-    // var $endFields = $dialogContent.find("select.end_time");
+
     setTimeFields($domObjs["startFields"], calEvent.start);
     setTimeFields($domObjs["endFields"], calEvent.end);
     var class_name = (calEvent.title === null ? DEFAULT_CLASS_NAME : calEvent.title);

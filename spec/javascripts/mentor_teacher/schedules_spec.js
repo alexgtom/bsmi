@@ -1,5 +1,26 @@
 
 
+describe("selectOptionWithValue", function () {
+    beforeEach(function () {
+        loadFixtures("mentor_teacher/select.html")
+        toSelect = "2";
+        makeCall = function () {
+            $field = $("select")
+            selectOptionWithValue($field, toSelect);
+        }
+    });
+    it("should select the appropriate value", function () {
+        makeCall();
+        expect($('option[value="2"]')).toBeSelected();
+    });
+
+    it ("should unselect the previously selected value", function() {
+        makeCall();
+        expect($('option[value="1"]')).not.toBeSelected();
+    });
+
+});
+
 describe("updateEventInForm", function() {
     
     beforeEach(function() {

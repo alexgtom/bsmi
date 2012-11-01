@@ -23,25 +23,17 @@
         showHeader: false,
         dateFormat: "",  // delete date in header
         longDays: ['', 'M', 'Tu', 'W', 'Th', 'F', ''], 
+        allowEventDelete: true,
         height: function($calendar) { // CHANGE HEIGHT HERE
           //TODO: make this non hardcoded
           return 600;
         },
-        // eventRender : function(calEvent, $event) {
-        // },
-        eventAfterRender: function(calEvent, element) {  
-        },
+        //Callbacks--see schedules.js
         eventNew: eventNewCallback,
         eventDrop: eventChangeCallback,
         eventResize: eventChangeCallback,
-        eventClick: eventClickCallBack,
-        eventMouseover: function(calEvent, $event) {
-        },
-        eventMouseout: function(calEvent, $event) {
-        },
-        noEvents: function() {
-
-        }
+        eventClick: eventClickCallback,
+        eventDelete: eventDeleteCallback,           
       });
 
       function displayMessage(message) {

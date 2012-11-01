@@ -59,12 +59,14 @@ function eventNewCallback (calEvent, $event) {
     var $dialogContent = $("#event_edit_container");
     resetForm($dialogContent);
     eventEditPopup(calEvent, $dialogContent);
-
-    // $dialogContent.find(".date_holder").text($calendar.weekCalendar("formatDate", calEvent.start));
-    // setupStartAndEndTimeFields(startField, endField, calEvent, $calendar.weekCalendar("getTimeslotTimes", calEvent.start));
-
 }
 
+
+function eventDeleteCallback(calEvent, $element) {
+    calEvent.destroy = true;
+    updateEventInForm(calEvent);
+    $("#calendar").weekCalendar('removeEvent',calEvent.id)
+}
 
 /* Callback for any sort of UI initiated change (e.g. a drag and drop or a resize) */
 function eventChangeCallback(newCalEvent, oldCalEvent, $element) {
@@ -75,7 +77,7 @@ function eventChangeCallback(newCalEvent, oldCalEvent, $element) {
     updateEventInForm(newCalEvent);
 }
 
-function eventClickCallBack(calEvent, element, freeBusyManager, $calendar, DomEvent) {
+function eventClickCallback(calEvent, element, freeBusyManager, $calendar, DomEvent) {
     var $calendar = $('#calendar');
     var $dialogContent = $("#event_edit_container");
     

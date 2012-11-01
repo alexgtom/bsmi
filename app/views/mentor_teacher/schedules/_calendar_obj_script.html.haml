@@ -3,13 +3,14 @@
 
     START_DATE = new Date(#{Timeslot::CUR_YEAR}, #{Timeslot::CUR_MONTH} - 1, #{Timeslot::CUR_DAY});
     var eventData = #{JSON.dump(data)};
+    assignEventIDs(eventData);
     $(document).ready(
         function() {
         
       $('#calendar').weekCalendar({
         date: START_DATE,
         //TODO: AJAXify this
-        data: eventData,        
+        data: eventData,
         timeslotsPerHour: 4,
         timeslotHeight: 10,
         readonly: #{read_only},

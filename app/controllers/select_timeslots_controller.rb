@@ -47,18 +47,51 @@ class SelectTimeslotsController < ApplicationController
 
     case step
     when :monday, :tuesday, :wednesday, :thursday, :friday
-      Preference.transaction do 
-        Preference.where(:student_id => @student.id).each do |p|
-          if p.timeslot.day == step
-            p.delete
-          end
+        current = []
+        from_form = []
+        #Preference.find(:all, :joins => :timeslot, :conditions => { :timeslots => {:day => Timeslot.day_index(step)}, :student_id => @student.id}) do |p|
+        #  p.delete
+        #end
+
+        #Preference.where(:student_id => @student.id).each do |p|
+        #  if p.timeslot.day == step
+        #    p.delete
+        #  end
+        #end
+        
+        Preference.find(:all, :joins => :timeslot, :conditions => { :timeslots => {:day => Timeslot.day_index(step)}, :student_id => @student.id}) do |p|
+          current << p.id
         end
+        
         if params[step]
           params[step].each do |timeslot_id|
-              Preference.create!(:student_id => @student.id, :timeslot_id => timeslot_id)
+            p = Preference.find_by_student_id_and_timeslot_id(@student.id, timeslot_id)
+            if not p
+              p = Preference.create(:student_id => @student.id, :timeslot_id => timeslot_id)
+            end
+            from_form << p.id
           end
         end
-      end
+
+        intersection = current & from_form
+        deleted = current - intersection
+
+        logger.debug "aklsdfjalksgjlaksdjlk"
+        logger.debug deleted.inspect
+
+        deleted.each do |preference_id|
+          #p = Preference.find(preference_id)
+          #if p.ranking and p.ranking <= @student.preferences.size
+          #  start_rank = p.ranking + 1
+          #  start_rank..@student.preferences.size.each do |new_rank|
+          #    n = Preference.find(:student_id => @student.id, :ranking => new_rank)
+          #    n.ranking = new_rank - 1
+          #    n.save!
+          #  end
+          #end
+
+          Preference.delete(preference_id)
+        end
 
       if params[:commit] == 'Save'
         redirect_to wizard_path

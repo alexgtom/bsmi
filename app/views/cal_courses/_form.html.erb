@@ -12,19 +12,20 @@
     <%= f.select :course_grade, options_for_select(Course::GRADE, selected: @course_subject) %>
   </p>
   <table>
-    <th>
-      <td><%= f.label "Add?" %></td>
-      <td><%= f.label "School" %></td>
-      <td><%= f.label "Teacher" %></td>
-      <td><%= f.label "Time Slot" %></td>
-    </th>
+    <tr>
+      <th><%= f.label "Add?" %></td>
+      <th><%= f.label "School" %></td>
+      <th><%= f.label "Teacher" %></td>
+      <th><%= f.label "Time Slot" %></td>
+    </tr>
     <%- @entries.each do |entry| %>
       <tr>
-        <td><%= check_box_tag "timeslots[#{entry[:time_id]}]" %></td>
-        <td><%= entry[:school_name] %></td>
-        <td><%= entry[:teacher] %></td>
-        <td><%= entry[:time] %></td>
+        <td><%= check_box_tag "timeslots[#{entry["time_id"]}]" %></td>
+        <td><%= entry["school_name"] %></td>
+        <td><%= entry["teacher"] %></td>
+        <td><%= entry["time"] %></td>
       </tr>
     <% end %>
   </table>
+  <%= f.submit 'Create ' %>
 <% end %>

@@ -11,11 +11,10 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121031190217) do
+ActiveRecord::Schema.define(:version => 20121031223729) do
 
   create_table "cal_courses", :force => true do |t|
     t.string   "name"
-    t.text     "timeslots"
     t.string   "school_type"
     t.string   "course_grade"
     t.datetime "created_at",   :null => false
@@ -85,6 +84,8 @@ ActiveRecord::Schema.define(:version => 20121031190217) do
     t.integer  "mentor_teacher_id"
     t.string   "class_name"
     t.integer  "num_assistants"
+    t.integer  "course_id"
+    t.integer  "cal_course_id"
   end
 
   create_table "users", :force => true do |t|

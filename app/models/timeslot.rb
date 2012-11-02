@@ -19,17 +19,18 @@ class Timeslot < ActiveRecord::Base
 
   def day=(value)
     write_attribute(:day, @@DAY.index(value))
-  end  
+  end
 
   def to_string
-    %w"#{:day} #{:start_time} #{end_time}"
+    return "#{self.day}|#{self.start_time.strftime("%I:%M%p")}|#{self.end_time.strftime("%I:%M%p")}"
   end
-  
-  
+ 
   attr_protected #none
   has_many :preferences
   has_many :students, :through => :preferences
   belongs_to :mentor_teacher
+  belongs_to :course
+  belongs_to :cal_course
 
   def selected?(student_id)
     Preference.where(["student_id = ?", student_id]).where(:timeslot_id => id).size > 0

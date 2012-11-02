@@ -12,29 +12,7 @@
 
 (1..10).each do |i|
   Student.create!   
-end
-
-(1..10).each do |i|
-  MentorTeacher.create!   
-end
-
-times = [["10:00 AM", "10:30 AM"], ["12:00 PM", "1:30 PM"], ["11:00 AM", "12:30 PM"],
-         ["4:00 PM", "5:00 PM"]]
-[:monday, :tuesday, :wednesday, :thursday, :friday].each do |day|
-  times.each.with_index do |time, i|
-    i += 1
-    start_time, end_time = time
-    Timeslot.create!(:start_time => start_time, :end_time => end_time,
-                     :mentor_teacher => MentorTeacher.find(i), :day => day)  
-  end
-end
-
-Timeslot.all.each.with_index do |ts, i|
-  i += 1
-  if (i < Student.count)
-    Preference.create!(:timeslot => ts, :student => Student.find(i), :ranking => i)
-  end
-end         
+end       
     
 # --- Create districts
 busd = District.create!(:name => "BUSD")
@@ -75,6 +53,37 @@ School.create!(:district => wccusd, :level => ELEMENTARY_SCHOOL, :name => "Hardi
 School.create!(:district => wccusd, :level => ELEMENTARY_SCHOOL, :name => "Edward M. Downer")
 School.create!(:district => wccusd, :level => MIDDLE_SCHOOL, :name => "Helms")
 
+# --- Create Mentor Teachers
+teacher = User.create!({"owner_type"=>"MentorTeacher", "name"=>"Alan", "address"=>"awdef", "phone_number"=>"233256", "email"=>"se1@se.come", "password"=>"1234", "password_confirmation"=>"1234"})
+MentorTeacher.create!(:user => teacher, :school => 'El Cerrito High')
+
+teacher = User.create!({"owner_type"=>"MentorTeacher", "name"=>"fuffy", "address"=>"awdef", "phone_number"=>"233256", "email"=>"se2@se.come", "password"=>"1234", "password_confirmation"=>"1234"})
+MentorTeacher.create!(:user => teacher, :school => 'Harding')
+
+teacher = User.create!({"owner_type"=>"MentorTeacher", "name"=>"Joey", "address"=>"awdef", "phone_number"=>"233256", "email"=>"se3@se.come", "password"=>"1234", "password_confirmation"=>"1234"})
+MentorTeacher.create!(:user => teacher, :school => 'Emery Secondary')
+
+teacher = User.create!({"owner_type"=>"MentorTeacher", "name"=>"Terry", "address"=>"awdef", "phone_number"=>"233256", "email"=>"se4@se.come", "password"=>"1234", "password_confirmation"=>"1234"})
+MentorTeacher.create!(:user => teacher, :school => 'El Cerrito High')
+
+teacher = User.create!({"owner_type"=>"MentorTeacher", "name"=>"Mr Muscle", "address"=>"awdef", "phone_number"=>"233256", "email"=>"se5@se.come", "password"=>"1234", "password_confirmation"=>"1234"})
+MentorTeacher.create!(:user => teacher, :school => 'El Cerrito High')
+
+teacher = User.create!({"owner_type"=>"MentorTeacher", "name"=>"Mr Lee", "address"=>"awdef", "phone_number"=>"233256", "email"=>"se6@se.come", "password"=>"1234", "password_confirmation"=>"1234"})
+MentorTeacher.create!(:user => teacher, :school => 'Markham')
+
+teacher = User.create!({"owner_type"=>"MentorTeacher", "name"=>"Shon", "address"=>"awdef", "phone_number"=>"233256", "email"=>"se7@se.come", "password"=>"1234", "password_confirmation"=>"1234"})
+MentorTeacher.create!(:user => teacher, :school => 'Markham')
+
+teacher = User.create!({"owner_type"=>"MentorTeacher", "name"=>"Phil", "address"=>"awdef", "phone_number"=>"233256", "email"=>"se8@se.come", "password"=>"1234", "password_confirmation"=>"1234"})
+MentorTeacher.create!(:user => teacher, :school => 'Westlake')
+
+teacher = User.create!({"owner_type"=>"MentorTeacher", "name"=>"Alex", "address"=>"awdef", "phone_number"=>"233256", "email"=>"se9@se.come", "password"=>"1234", "password_confirmation"=>"1234"})
+MentorTeacher.create!(:user => teacher, :school => 'Westlake')
+
+teacher = User.create!({"owner_type"=>"MentorTeacher", "name"=>"Tom", "address"=>"awdef", "phone_number"=>"233256", "email"=>"se10@se.come", "password"=>"1234", "password_confirmation"=>"1234"})
+MentorTeacher.create!(:user => teacher, :school => 'Westlake') 
+
 
 # --- Create courses
 
@@ -114,3 +123,22 @@ Course.create!(:name => "Science", :grade => "7")
 Course.create!(:name => "Science", :grade => "8")
 
 Course.create!(:name => "Pre Algebra", :grade => "6")
+
+times = [["10:00 AM", "10:30 AM"], ["12:00 PM", "1:30 PM"], ["11:00 AM", "12:30 PM"],
+         ["4:00 PM", "5:00 PM"]]
+
+Timeslot.weekdays.each do |day|
+  times.each.with_index do |time, i|
+    i += 1
+    start_time, end_time = time
+    Timeslot.create!(:start_time => start_time, :end_time => end_time,
+                     :mentor_teacher => MentorTeacher.find(i), :day => day, :course=> Course.find(1))  
+  end
+end
+
+Timeslot.all.each.with_index do |ts, i|
+  i += 1
+  if (i < Student.count)
+    Preference.create!(:timeslot => ts, :student => Student.find(i), :ranking => i)
+  end
+end

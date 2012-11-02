@@ -1,4 +1,5 @@
 class MentorTeacher < ActiveRecord::Base
+  attr_accessible :name, :school
   attr_protected #none
   
   has_one :user, :as => :owner

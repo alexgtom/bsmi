@@ -3,19 +3,21 @@
 %table.table.table-hover
   %tr
     %th Name
+    %th School
     %th Grade
     %th
     %th
     %th
 
-  - @courses.each do |course|
+  - @cal_courses.each do |course|
     %tr
       %td= course.name
-      %td= course.grade
+      %td= course.course_grade
+      %td= course.school_type
       %td= link_to 'Show', course
-      %td= link_to 'Edit', edit_course_path(course)
+      %td= link_to 'Edit', edit_cal_course_path(course)
       %td= link_to 'Destroy', course, method: :delete, data: { confirm: 'Are you sure?' }
 
 %br
 
-= link_to 'New Course', new_course_path
+= link_to 'New Course', new_cal_course_path

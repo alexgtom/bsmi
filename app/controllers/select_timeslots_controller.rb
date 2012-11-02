@@ -49,18 +49,11 @@ class SelectTimeslotsController < ApplicationController
     when :monday, :tuesday, :wednesday, :thursday, :friday
         current = []
         from_form = []
-        #Preference.find(:all, :joins => :timeslot, :conditions => { :timeslots => {:day => Timeslot.day_index(step)}, :student_id => @student.id}) do |p|
-        #  p.delete
-        #end
 
-        #Preference.where(:student_id => @student.id).each do |p|
-        #  if p.timeslot.day == step
-        #    p.delete
-        #  end
-        #end
-        
-        Preference.find(:all, :joins => :timeslot, :conditions => { :timeslots => {:day => Timeslot.day_index(step)}, :student_id => @student.id}) do |p|
-          current << p.id
+        Preference.where(:student_id => @student.id).each do |p|
+          if p.timeslot.day == step
+            current << p.id
+          end
         end
         
         if params[step]
@@ -76,22 +69,25 @@ class SelectTimeslotsController < ApplicationController
         intersection = current & from_form
         deleted = current - intersection
 
-        logger.debug "aklsdfjalksgjlaksdjlk"
-        logger.debug deleted.inspect
+        logger.debug "current: #{current}"
+        logger.debug "from_form: #{from_form}"
+        logger.debug "intersection: #{intersection}"
+        logger.debug "deleted: #{deleted}"
 
         deleted.each do |preference_id|
           #p = Preference.find(preference_id)
           #if p.ranking and p.ranking <= @student.preferences.size
           #  start_rank = p.ranking + 1
-          #  start_rank..@student.preferences.size.each do |new_rank|
+          #  [start_rank..@student.preferences.size].each do |new_rank|
           #    n = Preference.find(:student_id => @student.id, :ranking => new_rank)
           #    n.ranking = new_rank - 1
           #    n.save!
           #  end
           #end
-
           Preference.delete(preference_id)
         end
+
+        @student.fix_ranking_gap
 
       if params[:commit] == 'Save'
         redirect_to wizard_path

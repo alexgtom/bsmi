@@ -7,4 +7,15 @@ class Student < ActiveRecord::Base
 
   validates_associated :preferences, :message => "must not be blank and the ranking number must be unique"
 
+  def fix_ranking_gap
+    # if a student has rankings [1, 2, 4] for their preferences, calling this function
+    # will correct the rankings to [1, 2, 3]
+    i = 1
+    self.preferences.order("ranking asc").each do |p|
+      logger.debug "#{i}"
+      p.ranking = i
+      p.save!
+      i += 1
+    end
+  end
 end

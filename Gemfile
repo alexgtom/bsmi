@@ -25,6 +25,7 @@ group :development, :test do
   gem 'spork', '0.9.2'
   gem 'factory_girl_rails'
   gem 'debugger'
+  gem 'quiet_assets'
 end
 
 group :production do
@@ -75,3 +76,4 @@ gem 'simplecov'
 gem 'authlogic'
 gem 'selenium-webdriver', '2.25.0'
 gem 'thin'
+gem 'mechanize'

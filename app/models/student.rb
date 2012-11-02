@@ -14,7 +14,7 @@ class Student < ActiveRecord::Base
     self.preferences.order("ranking asc").each do |p|
       logger.debug "#{i}"
       p.ranking = i
-      p.save!
+      p.save(:validate => false)
       i += 1
     end
   end

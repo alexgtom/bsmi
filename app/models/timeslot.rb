@@ -6,6 +6,7 @@ class Timeslot < ActiveRecord::Base
   end
 
   def self.day_index(value)
+    value = value.to_sym    # try to convert input value to symbol 
     @@DAY.index(value)
   end
 
@@ -14,6 +15,7 @@ class Timeslot < ActiveRecord::Base
   end
 
   def day=(value)
+    value = value.to_sym    # try to convert input value to symbol 
     write_attribute(:day, @@DAY.index(value))
   end
   
@@ -21,6 +23,7 @@ class Timeslot < ActiveRecord::Base
   has_many :preferences
   has_many :students, :through => :preferences
   belongs_to :mentor_teacher
+  validates_inclusion_of :day, :in => @@DAY
 
   def selected?(student_id)
     Preference.where(["student_id = ?", student_id]).where(:timeslot_id => id).size > 0

@@ -7,10 +7,10 @@ Feature: Ranking possible student times
 
 		Given the following timeslots exist:
 			| start_time     | end_time       | day     |
-			| 8:00		   | 9:00 			| monday  |
-			| 9:00		   | 10:00 			| monday  |
-			| 11:00		   | 12:00 			| tuesday |
-			| 12:00		   | 13:00 			| tuesday |
+			| 8:00 am		   | 9:00 am 			| monday  |
+			| 9:00 am		   | 10:00 am 			| monday  |
+			| 11:00 am		   | 12:00 pm			| tuesday |
+			| 12:00	pm	   | 1:00 pm 			| tuesday |
 
 		Given the following student exist
 			| id |
@@ -19,12 +19,12 @@ Feature: Ranking possible student times
 	@javascript 
 	Scenario: Enter my time preferences
 		When I go to /students/1/select_timeslots
-		When I click element containing "10:00 am to 10:30 am"
-		When I click element containing "11:00 am to 12:30 pm"
-		And I press "Submit Timeslots"
-		When I click element containing "10:00 am to 10:30 am"
-		When I click element containing "11:00 am to 12:30 pm"
-		And I press "Submit Timeslots"
+		When I click element containing "08:00 am to 09:00 am"
+		When I click element containing "09:00 am to 10:00 am"
+		And I press "Save & Continue"
+		When I click element containing "11:00 am to 12:00 pm"
+		When I click element containing "12:00 pm to 01:00 pm"
+		And I press "Save & Continue"
 		When I go to /students/1/select_timeslots/rank
 		When I select "1" from "student[preferences_attributes][0][ranking]"
 		When I select "2" from "student[preferences_attributes][1][ranking]"

@@ -4,6 +4,12 @@ Given /the following timeslots exist/ do |tb|
   end
 end
 
+Given /the following preferences exist/ do |tb|
+  tb.hashes.each do |t|
+  	Preference.create!(t)
+  end
+end
+
 
 When /^I click element containing "([^\"]+)"$/ do |text|
   matcher = ['*', { :text => text }]

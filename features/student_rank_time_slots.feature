@@ -6,15 +6,32 @@ Feature: Ranking possible student times
 	Background: classes in timeslots
 
 		Given the following timeslots exist:
-			| start_time     | end_time       | day     |
-			| 8:00 am		   | 9:00 am 			| monday  |
-			| 9:00 am		   | 10:00 am 			| monday  |
-			| 11:00 am		   | 12:00 pm			| tuesday |
-			| 12:00	pm	   | 1:00 pm 			| tuesday |
+			| id | start_time   | end_time          | day     |
+			| 1  | 8:00 am		| 9:00 am 			| monday  |
+			| 2  | 9:00 am		| 10:00 am 			| monday  |
+			| 3  | 11:00 am		| 12:00 pm			| tuesday |
+			| 4  | 12:00 pm	    | 1:00 pm 			| tuesday |
 
 		Given the following student exist
 			| id |
 			| 1  |
+
+	@javascript 
+	Scenario: 
+		Given the following preferences exist:
+			| student_id | timeslot_id | ranking | 
+			| 1          | 1           | 1       |
+			| 1          | 2           | 2       |
+			| 1          | 3           | 3       |
+			| 1          | 4           | 4       |
+		When I go to /students/1/select_timeslots
+		When I click element containing "09:00 am to 10:00 am"
+		And I press "Save"
+		When I go to /students/1/select_timeslots/summary
+		Then I should not see /9:00 am.*10:00 am/
+		Then I should see /1.*8:00 am.*9:00 am/
+		Then I should see /2.*11:00 am.*12:00 pm/
+		Then I should see /3.*12:00 pm.*1:00 pm/
 
 	@javascript 
 	Scenario: Enter my time preferences
@@ -31,6 +48,7 @@ Feature: Ranking possible student times
 		When I select "3" from "student[preferences_attributes][2][ranking]"
 		When I select "4" from "student[preferences_attributes][3][ranking]"
 		And I press "Submit Rankings"
+
 
 
 	Scenario: Change my time preferences

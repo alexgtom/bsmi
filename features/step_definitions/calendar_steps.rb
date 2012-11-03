@@ -10,6 +10,7 @@ Given /the following preferences exist/ do |tb|
   end
 end
 
+
 When /^I click element containing "([^\"]+)"$/ do |text|
   matcher = ['*', { :text => text }]
   element = page.find(:css, *matcher)

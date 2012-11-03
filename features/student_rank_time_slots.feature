@@ -15,9 +15,32 @@ Feature: Ranking possible student times
 		Given the following student exist
 			| id |
 			| 1  |
+	@javascript 
+	Scenario: User can't select the same ranking for two preferences
+		Given the following preferences exist:
+			| student_id | timeslot_id | ranking | 
+			| 1          | 1           | 1       |
+			| 1          | 2           | 2       |
+			| 1          | 3           | 3       |
+			| 1          | 4           | 4       |
+		When I go to /students/1/select_timeslots/rank
+		When I select "1" from "student[preferences_attributes][0][ranking]"
+		When I select "1" from "student[preferences_attributes][1][ranking]"
+		When I select "3" from "student[preferences_attributes][2][ranking]"
+		When I select "4" from "student[preferences_attributes][3][ranking]"
+		And I press "Submit Rankings"
+		Then I should see "The ranking for preference must be unique."
+
+		# these next steps chaeck to make sure the rankings have not been
+		# modified from before
+		When I go to /students/1/select_timeslots/summary
+		Then I should see /1.*8:00 am.*9:00 am/
+		Then I should see /2.*9:00 am.*10:00 am/
+		Then I should see /3.*11:00 am.*12:00 pm/
+		Then I should see /4.*12:00 pm.*1:00 pm/
 
 	@javascript 
-	Scenario: Remove one class I selected before
+	Scenario: Remove one class that I selected before
 		Given the following preferences exist:
 			| student_id | timeslot_id | ranking | 
 			| 1          | 1           | 1       |
@@ -27,8 +50,6 @@ Feature: Ranking possible student times
 		When I go to /students/1/select_timeslots
 		When I click element containing "09:00 am to 10:00 am"
 		And I press "Save"
-		# rankings should auto currect themselves. For example [1, 3, 4] 
-		# becomes [1, 2, 3]
 		When I go to /students/1/select_timeslots/summary
 		Then I should not see /9:00 am.*10:00 am/
 		Then I should see /1.*8:00 am.*9:00 am/

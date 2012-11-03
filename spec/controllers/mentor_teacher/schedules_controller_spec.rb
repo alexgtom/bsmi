@@ -263,6 +263,12 @@ describe MentorTeacher::SchedulesController do
       end
 
     end
+    context "when there are no timeslots to update," do
+      it "should not modify anything" do
+        Timeslot.should_not_receive(:from_cal_event_hash)
+        put :update, :timeslots => nil
+      end
+    end
   end
 
   # describe "GET edit" do

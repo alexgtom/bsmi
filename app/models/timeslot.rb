@@ -45,7 +45,7 @@ class Timeslot < ActiveRecord::Base
   end
 
   def day=(value)
-    value = value.to_sym    # try to convert input value to symbol 
+    value = value.to_sym rescue nil   # try to convert input value to symbol 
     write_attribute(:day, DAYS.index(value))
   end  
 

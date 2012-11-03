@@ -1,17 +1,8 @@
 %h1 Listing settings
 
-%table
-  %tr
-    %th
-    %th
-    %th
-
-  - @settings.each do |setting|
-    %tr
-      %td= link_to 'Show', setting
-      %td= link_to 'Edit', edit_setting_path(setting)
-      %td= link_to 'Destroy', setting, method: :delete, data: { confirm: 'Are you sure?' }
-
-%br
-
-= link_to 'New Setting', new_setting_path
+= form_tag :method => "put" do
+  .field
+    = label_tag "label"
+    = text_field_tag "1", "value"
+  .actions 
+    = submit_tag "Save"

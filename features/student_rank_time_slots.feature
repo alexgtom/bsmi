@@ -17,7 +17,7 @@ Feature: Ranking possible student times
 			| 1  |
 
 	@javascript 
-	Scenario: 
+	Scenario: Remove one class I selected before
 		Given the following preferences exist:
 			| student_id | timeslot_id | ranking | 
 			| 1          | 1           | 1       |
@@ -27,6 +27,8 @@ Feature: Ranking possible student times
 		When I go to /students/1/select_timeslots
 		When I click element containing "09:00 am to 10:00 am"
 		And I press "Save"
+		# rankings should auto currect themselves. For example [1, 3, 4] 
+		# becomes [1, 2, 3]
 		When I go to /students/1/select_timeslots/summary
 		Then I should not see /9:00 am.*10:00 am/
 		Then I should see /1.*8:00 am.*9:00 am/
@@ -48,22 +50,4 @@ Feature: Ranking possible student times
 		When I select "3" from "student[preferences_attributes][2][ranking]"
 		When I select "4" from "student[preferences_attributes][3][ranking]"
 		And I press "Submit Rankings"
-
-
-
-	Scenario: Change my time preferences
-		When I go to the edit my schedule page
-		And  I click on "10:00" to "11:30" timeslot
-		Then I should see "10:00" to "11:30" timeslot checked
-		And  I rank it as 2
-		And  I click "submit"
-		Then my preference for "10:00" to "11:30" timeslot should be 2
-
-	Scenario: Remove one class that I selected before
-		When I go to the edit my schedule page
-		And  I click on "10:00" to "11:30" timeslot
-		Then I should see "10:00" to "11:30" timeslot checked
-		And  I click "remove"
-		Then I should see "10:00" to "11:30" timeslot unchecked
-		Then my preference for "10:00" to "11:30" timeslot should be 0
 

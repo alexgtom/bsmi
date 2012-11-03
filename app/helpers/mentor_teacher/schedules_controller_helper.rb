@@ -1,0 +1,2 @@
+module MentorTeacher::SchedulesControllerHelper
+end

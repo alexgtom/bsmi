@@ -34,7 +34,8 @@ class Timeslot < ActiveRecord::Base
     WEEK_DAYS
   end
 
-  def self.day_index(value)
+  def self.day_index(value)    
+    value = value.to_sym  
     DAYS.index(value)
   end
 
@@ -44,8 +45,19 @@ class Timeslot < ActiveRecord::Base
   end
 
   def day=(value)
+    value = value.to_sym    # try to convert input value to symbol 
     write_attribute(:day, DAYS.index(value))
   end  
+
+
+ 
+   
+
+  attr_protected #none
+  has_and_belongs_to_many :students, :uniq => true
+  belongs_to :mentor_teacher
+  validates_inclusion_of :day, :in => Timeslot::DAYS
+
 
 
   def self.from_cal_event_json(json_str)
@@ -100,8 +112,5 @@ class Timeslot < ActiveRecord::Base
   def selected?(student_id)
     Preference.where(["student_id = ?", student_id]).where(:timeslot_id => id).size > 0
   end
-
-
-
   
 end

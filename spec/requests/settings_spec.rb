@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe "Schools" do
-  describe "GET /schools" do
+describe "Settings" do
+  describe "GET /settings" do
     it "works! (now write some real specs)" do
       # Run the generator again with the --webrat flag if you want to use webrat methods/matchers
-      get schools_path
+      get settings_path
       response.status.should be(200)
     end
   end

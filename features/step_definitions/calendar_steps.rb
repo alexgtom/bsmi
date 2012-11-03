@@ -1,6 +1,13 @@
 Given /the following timeslots exist/ do |tb|
   tb.hashes.each do |t|
+    t['day'] = t['day'].to_sym
   	Timeslot.create!(t)
+  end
+end
+
+Given /the following preferences exist/ do |tb|
+  tb.hashes.each do |t|
+  	Preference.create!(t)
   end
 end
 

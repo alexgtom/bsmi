@@ -13,26 +13,18 @@ Scenario: add mentor teacher to database
   And  I fill in "Password" with "1234"
   And  I fill in "Password confirmation" with "1234"
   And  I press "Register"
-  Then I should be on the user page
+  Then I should be located at "/user"
   And I should see "myemail@nowhere.com"
 
 Scenario: edit mentor teacher's profile
-  Given I am on the signup page
-  And  I fill in "Name" with "Sangyoon Park"
-  And  I fill in "Address" with "346 soda UC Berkeley, United States"
-  And  I fill in "Phone number" with "123-456-7890"
-  And  I fill in "Email" with "myemail@nowhere.com"
-  And  I fill in "Password" with "1234"
-  And  I fill in "Password confirmation" with "1234"
-  And  I press "Register"
-  And  I follow "Logout"
+  Given I am signed up
   Given I am on the login page
   And I fill in "Email" with "myemail@nowhere.com"
   And I fill in "Password" with "1234"
   And I press "Login"
-  Then I should be on the user page
+  Then I should be located at "/user"
   When  I follow "Edit Profile"
-  Then  I should be on the edit page
+  Then I should be located at "/users/1/edit"
   And the "user_name" field should contain "Sangyoon Park"
   And the "user_address" field should contain "346 soda UC Berkeley, United States"
   And the "user_phone_number" field should contain "123-456-7890"
@@ -43,9 +35,9 @@ Scenario: edit mentor teacher's profile
   And I fill in "user_phone_number" with "111-111-1111"
   And I fill in "user_email" with "changed@email.com"
   And I press "Update"
-  Then I should be on the user page
+  Then I should be located at "/users/1"
   Then I follow "Edit Profile"
-  Then I should be on the edit page
+  Then I should be located at "/users/1/edit"
   And the "user_name" field should contain "Edited User"
   And the "user_address" field should contain "people's park"
   And the "user_phone_number" field should contain "111-111-1111"
@@ -61,7 +53,7 @@ Scenario: can't register if we enter bad email address
   And  I fill in "Password" with "1234"
   And  I fill in "Password confirmation" with "1234"
   And  I press "Register"
-  Then I should be on the users page
+  Then I should be located at "/users"
   And  I should see "Email should look like an email address."
 
 Scenario: can't register password and confirmation do not match
@@ -73,10 +65,8 @@ Scenario: can't register password and confirmation do not match
   And  I fill in "Password" with "123"
   And  I fill in "Password confirmation" with "111"
   And  I press "Register"
-  Then I should be on the users page
-  And  I should see "Password is too short"
+  Then I should be located at "/users"
   And  I should see "Password doesn't match confirmation"
-  And  I should see "Password confirmation is too short"
 
 Scenario: Log out of the web application
   Given I am on the signup page
@@ -87,9 +77,9 @@ Scenario: Log out of the web application
   And  I fill in "Password" with "1234"
   And  I fill in "Password confirmation" with "1234"
   And  I press "Register"
-  Then I should be on the user page
+  Then I should be located at "/user"
   And I should see "myemail@nowhere.com"
   And I follow "Logout"
-  Given I am on the login page
+  Then I should be located at "/signup"
 
 

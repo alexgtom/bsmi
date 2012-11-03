@@ -31,8 +31,7 @@ describe Timeslot do
     t.selected?(mock("id"))
   end
 
-  it {should have_many :preferences}
-  it {should have_many(:students).through(:preferences)}
+  it {should have_and_belong_to_many :students}
   it {should belong_to :mentor_teacher}
   it {should validate_presence_of :start_time}
   it {should validate_presence_of :end_time}

@@ -14,7 +14,7 @@ describe "courses/edit" do
     # Run the generator again with the --webrat flag if you want to use webrat matchers
     assert_select "form", :action => courses_path(@course), :method => "post" do
       assert_select "input#course_name", :name => "course[name]"
-      assert_select "input#course_grade", :name => "course[grade]"
+      assert_select "select#course_grade", :name => "course[grade]"
     end
   end
 end

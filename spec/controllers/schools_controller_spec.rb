@@ -20,11 +20,19 @@ require 'spec_helper'
 
 describe SchoolsController do
 
+  before(:all) do
+    @district = FactoryGirl.create(:district)
+  end
+
   # This should return the minimal set of attributes required to create a valid
   # School. As you add validations to School, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    {}
+    {:name => "Berkeley High", :level => HIGH_SCHOOL, :district => @district}
+  end
+
+  def valid_attributes_create
+    {:school => {:name => "Berkeley High", :level => HIGH_SCHOOL, :district => "#{@district.id}"}}
   end
 
   # This should return the minimal set of values that should be in the session
@@ -69,18 +77,18 @@ describe SchoolsController do
     describe "with valid params" do
       it "creates a new School" do
         expect {
-          post :create, {:school => valid_attributes}, valid_session
+          post :create, valid_attributes_create, valid_session
         }.to change(School, :count).by(1)
       end
 
       it "assigns a newly created school as @school" do
-        post :create, {:school => valid_attributes}, valid_session
+        post :create, valid_attributes_create, valid_session
         assigns(:school).should be_a(School)
         assigns(:school).should be_persisted
       end
 
       it "redirects to the created school" do
-        post :create, {:school => valid_attributes}, valid_session
+        post :create, valid_attributes_create, valid_session
         response.should redirect_to(School.last)
       end
     end
@@ -89,14 +97,14 @@ describe SchoolsController do
       it "assigns a newly created but unsaved school as @school" do
         # Trigger the behavior that occurs when invalid params are submitted
         School.any_instance.stub(:save).and_return(false)
-        post :create, {:school => {}}, valid_session
+        post :create, {:school => {}, :post => {}}, valid_session
         assigns(:school).should be_a_new(School)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         School.any_instance.stub(:save).and_return(false)
-        post :create, {:school => {}}, valid_session
+        post :create, {:school => {}, :post => {}}, valid_session
         response.should render_template("new")
       end
     end
@@ -110,8 +118,8 @@ describe SchoolsController do
         # specifies that the School created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        School.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, {:id => school.to_param, :school => {'these' => 'params'}}, valid_session
+        School.any_instance.should_receive(:update_attributes).with({"district" => @district, "name" => "name", "level" => HIGH_SCHOOL})
+        put :update, {:id => school.to_param, :school => {"district" => "#{@district.id}", "name" => "name", "level" => HIGH_SCHOOL} }, valid_session
       end
 
       it "assigns the requested school as @school" do
@@ -160,5 +168,4 @@ describe SchoolsController do
       response.should redirect_to(schools_url)
     end
   end
-
 end

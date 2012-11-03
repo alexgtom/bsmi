@@ -8,16 +8,18 @@
 
 
 
-# --- Create timeslots
-
+# --- Create Student
 (1..10).each do |i|
   Student.create!   
 end
 
+
+# --- Create mentor teachers
 (1..10).each do |i|
   MentorTeacher.create!   
 end
 
+# --- Create timeslots
 times = [["10:00 AM", "10:30 AM"], ["12:00 PM", "1:30 PM"], ["11:00 AM", "12:30 PM"],
          ["4:00 PM", "5:00 PM"]]
 [:monday, :tuesday, :wednesday, :thursday, :friday].each do |day|
@@ -29,6 +31,12 @@ times = [["10:00 AM", "10:30 AM"], ["12:00 PM", "1:30 PM"], ["11:00 AM", "12:30 
   end
 end
 
+# --- Give student 1 an assignment
+student = Student.find(1)
+student.timeslots << Timeslot.where(:day => Timeslot.day_index(:monday))[0]
+student.save!
+
+# --- Create preferences
 Timeslot.all.each.with_index do |ts, i|
   i += 1
   if (i < Student.count)

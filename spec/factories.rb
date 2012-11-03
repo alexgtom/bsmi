@@ -57,9 +57,10 @@ FactoryGirl.define do
 
 
   factory :timeslot do    
-    sequence :day do |n|
-      day Timeslot.weekdays[n % 5]
-    end
+    day :monday
+    #sequence :day do |n|
+    #  day Timeslot.weekdays[n % 5]
+    #end
     
     start_time { FactoryGirl.generate(:time) }
     end_time {start_time + 3600} #One hour after

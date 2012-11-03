@@ -28,7 +28,7 @@ group :development, :test do
   gem 'factory_girl_rails'
 
   gem 'debugger'
-
+  gem 'quiet_assets'
 end
 
 group :production do
@@ -83,3 +83,5 @@ gem 'simplecov'
 gem 'authlogic'
 gem 'selenium-webdriver', '2.25.0'
 gem 'thin'
+gem 'mechanize'
+gem "rails-settings-cached"

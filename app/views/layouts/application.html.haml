@@ -13,10 +13,16 @@
             %span.icon-bar
             %span.icon-bar
             %span.icon-bar
-          %a.brand{:href => "#"} Project name
+          %a.brand{:href => "#"} BSMI
           .nav-collapse.collapse
             %ul.nav
               // Temporary navigation links
+              %li
+                %a{:href => courses_path} Courses
+              %li
+                %a{:href => schools_path} Schools
+              %li
+                %a{:href => districts_path} Districts
               %li
                 %a{:href => "/students/1/select_timeslots"} Select Timeslots
               %li

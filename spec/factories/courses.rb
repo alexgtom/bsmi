@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :course do
-    name "MyString"
-    grade "MyString"
+    name "Math"
+    grade "1"
   end
 end

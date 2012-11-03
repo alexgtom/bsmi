@@ -27,7 +27,5 @@
             = p.object.timeslot.start_time.strftime("%l:%M %P")
           %td
             = p.object.timeslot.end_time.strftime("%l:%M %P")
-            
 
-  = f.submit("Submit Rankings")
-  = link_to "skip this step", next_wizard_path 
+  = f.submit "Submit Rankings", :class => "btn btn-primary"

@@ -13,6 +13,11 @@
 
 ActiveRecord::Schema.define(:version => 20121103101703) do
 
+  create_table "advisors", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "courses", :force => true do |t|
     t.string   "name"
     t.string   "grade"
@@ -88,8 +93,8 @@ ActiveRecord::Schema.define(:version => 20121103101703) do
     t.integer  "day"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
-    t.time     "end_time"
     t.integer  "mentor_teacher_id"
+    t.time     "end_time"
     t.string   "class_name"
     t.integer  "num_assistants"
   end

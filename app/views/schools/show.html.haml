@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @school.name
+%p
+  %b Level:
+  = @school.level
+%p
+  %b District:
+  = @school.district.name
+
+= link_to 'Edit', edit_school_path(@school)
+\|
+= link_to 'Back', schools_path

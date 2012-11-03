@@ -1,6 +1,12 @@
 Bsmi::Application.routes.draw do
+  resources :courses
+
+  resources :districts
+
+  resources :schools
+
   resources :user_sessions
-  
+
   match 'login' => "user_sessions#new",      :as => :login
   match 'logout' => "user_sessions#destroy", :as => :logout
   
@@ -8,8 +14,15 @@ Bsmi::Application.routes.draw do
   resource :user, :as => 'account'  # a convenience route
 
   match 'signup' => 'users#new', :as => :signup
+
   
  # root to: "welcome#index"
+
+
+
+  namespace :mentor_teacher do
+    resource :schedule      
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

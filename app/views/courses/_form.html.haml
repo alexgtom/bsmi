@@ -1,0 +1,16 @@
+= form_for @course do |f|
+  - if @course.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@course.errors.count, "error")} prohibited this course from being saved:"
+      %ul
+        - @course.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :name
+    = f.text_field :name
+  .field
+    = f.label :grade
+    = f.select :grade, Course::GRADE.map { |s| [s.to_s.tr('_', ' ').capitalize, s ] },:include_blank => true
+  .actions
+    = f.submit 'Save'

@@ -1,8 +1,12 @@
 class Timeslot < ActiveRecord::Base
   @@DAY = [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday]
-
+  @@WEEK_DAYS = @@DAY - [:sunday, :saturday]
   def self.day_list
     @@DAY
+  end
+
+  def self.weekdays
+    @@WEEK_DAYS
   end
 
   def self.day_index(value)
@@ -15,7 +19,8 @@ class Timeslot < ActiveRecord::Base
 
   def day=(value)
     write_attribute(:day, @@DAY.index(value))
-  end
+  end  
+  
   
   attr_protected #none
   has_many :preferences

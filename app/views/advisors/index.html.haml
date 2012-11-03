@@ -1,4 +1,4 @@
-%h1 Listing advisors
+%h1 Advisor Start Page
 
 %table
   %tr
@@ -8,7 +8,7 @@
 
   - @advisors.each do |advisor|
     %tr
-      %td= link_to 'Show Rosters', advisor
+      %h1= link_to 'Show Rosters', advisor
       %td= link_to 'Edit', edit_advisor_path(advisor)
       %td= link_to 'Destroy', advisor, method: :delete, data: { confirm: 'Are you sure?' }
 

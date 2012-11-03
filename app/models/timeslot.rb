@@ -22,8 +22,9 @@ class Timeslot < ActiveRecord::Base
     value = value.to_sym    # try to convert input value to symbol 
     write_attribute(:day, @@DAY.index(value))
   end  
-  
-  
+ 
+   
+
   attr_protected #none
   has_and_belongs_to_many :students, :uniq => true
   belongs_to :mentor_teacher

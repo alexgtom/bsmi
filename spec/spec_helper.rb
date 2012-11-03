@@ -58,5 +58,9 @@ Spork.each_run do
   #Reload routes and app files
   load "#{Rails.root}/config/routes.rb"
   Dir["#{Rails.root}/app/**/*.rb"].each { |f| load f }
+
+  FactoryGirl.factories.clear
+  FactoryGirl.sequences.clear
+  FactoryGirl.find_definitions
 end
 

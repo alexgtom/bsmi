@@ -5,16 +5,16 @@ describe Timeslot do
     Timeslot.day_list.should eq([:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday])
   end
 
-  it 'should return the symbol for the day of the timeslot' do
-    t = Timeslot.new(:day => :tuesday)
-    t.day.should eq(:tuesday)
-  end
+  # it 'should return the symbol for the day of the timeslot' do
+  #   t = Timeslot.new(:day => :tuesday)
+  #   t.day.should eq(:tuesday)
+  # end
 
-  it 'should be able to change the day of the timeslot' do
-    t = Timeslot.new()
-    t.day = :tuesday
-    t.day.should eq(:tuesday)
-  end
+  # it 'should be able to change the day of the timeslot' do
+  #   t = Timeslot.new()
+  #   t.day = :tuesday
+  #   t.day.should eq(:tuesday)
+  # end
 
   it 'should return the index of the day given the symbol for the day' do
     Timeslot.day_index(:sunday).should eq(0)
@@ -34,4 +34,64 @@ describe Timeslot do
   it {should have_many :preferences}
   it {should have_many(:students).through(:preferences)}
   it {should belong_to :mentor_teacher}
+  it {should validate_presence_of :start_time}
+  it {should validate_presence_of :end_time}
+  it {should validate_presence_of :day}
+
+
+  describe :from_cal_event_json do
+
+    def do_call
+      Timeslot.from_cal_event_json(valid_params)
+    end
+
+
+    context "the event doesn't exist" do
+      let(:valid_params) do
+        JSON.dump(FactoryGirl.build(:cal_event_hash))
+      end
+
+      it "should return a valid Timeslot" do
+        do_call.should be_valid
+      end
+    end
+
+    context "the event already exists" do
+
+      before(:each) do
+        @timeslot = FactoryGirl.create(:timeslot)
+      end
+
+      let(:valid_params) do
+        JSON.dump(FactoryGirl.build(:cal_event_hash, 
+                                    :db_id => @timeslot.id,
+                                    :start => @timeslot.start_time + 3600
+                                    ))
+      end
+
+      it "should find the appropriate event in the DB" do
+        Timeslot.should_receive(:find_by_id).with(@timeslot.id)
+        do_call
+      end
+
+      it "should update the appropriate event in the DB" do
+        Timeslot.stub(:find_by_id).and_return(@timeslot)
+        @timeslot.should_receive(:assign_attributes).twice
+        do_call
+      end
+
+    end
+  end
+
+  describe :time_in_week do
+    it "should return a time in the week of Timeslot::WEEK_START" do
+      time = Time.parse("10:00 AM")
+      day = :monday
+      res = Timeslot.time_in_week(time, day)
+      res.year.should eq(Timeslot::WEEK_START.year)
+      res.month.should eq(Timeslot::WEEK_START.month)
+      res.wday.should eq(Timeslot::DAYS.index(day))
+    end
+
+  end
 end

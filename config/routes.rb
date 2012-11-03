@@ -78,4 +78,5 @@ Bsmi::Application.routes.draw do
     end
   end
   resources :timeslots
+  resources :settings
 end

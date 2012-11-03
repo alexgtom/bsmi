@@ -16,14 +16,17 @@ end
 group :development, :test do
   gem 'sqlite3'
   gem 'ruby-debug19', :require => 'ruby-debug'
+  gem 'debugger'
   gem 'capybara'
   gem 'launchy'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 2.4'
   gem 'shoulda-matchers'
   gem 'simplecov'
   gem 'rails3-generators'
+  gem 'thin'
   gem 'spork', '0.9.2'
   gem 'factory_girl_rails'
+
   gem 'debugger'
   gem 'quiet_assets'
 end
@@ -40,6 +43,7 @@ end
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
+
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
 
@@ -51,6 +55,9 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+
+gem 'jquery-rails'
+gem 'json'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

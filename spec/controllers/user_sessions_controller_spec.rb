@@ -27,12 +27,12 @@ describe UserSessionsController do
       it "assigns a newly created user_session as @user_session" do
         post :create, {:user_session => valid_attributes}, valid_session
         assigns(:user_session).should be_a(UserSession)
-        assigns(:user_session).should be_persisted
       end
 
       it "redirects to the created user_session" do
+        UserSession.any_instance.stub(:save).and_return(true)
         post :create, {:user_session => valid_attributes}, valid_session
-        response.should redirect_to(UserSession.last)
+        response.should redirect_to account_url(@current_user)
       end
     end
   end

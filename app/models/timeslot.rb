@@ -1,8 +1,12 @@
 class Timeslot < ActiveRecord::Base
   @@DAY = [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday]
-
+  @@WEEK_DAYS = @@DAY - [:sunday, :saturday]
   def self.day_list
     @@DAY
+  end
+
+  def self.weekdays
+    @@WEEK_DAYS
   end
 
   def self.day_index(value)
@@ -17,7 +21,8 @@ class Timeslot < ActiveRecord::Base
   def day=(value)
     value = value.to_sym    # try to convert input value to symbol 
     write_attribute(:day, @@DAY.index(value))
-  end
+  end  
+  
   
   attr_protected #none
   has_and_belongs_to_many :students, :uniq => true

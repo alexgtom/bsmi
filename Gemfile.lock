@@ -259,6 +259,7 @@ DEPENDENCIES
   haml-rails
   jquery-rails
   jquery-ui-rails
+  json
   launchy
   mechanize
   pg
@@ -267,7 +268,7 @@ DEPENDENCIES
   rails-dev-tweaks (~> 0.6.1)
   rails-settings-cached
   rails3-generators
-  rspec-rails
+  rspec-rails (~> 2.4)
   ruby-debug19
   sass-rails (~> 3.2.3)
   selenium-webdriver (= 2.25.0)

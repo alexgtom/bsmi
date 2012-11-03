@@ -15,3 +15,5 @@
 //= require jquery.ui.all
 //= require date
 //= require jquery.weekcalendar
+//= require bootstrap
+//= require_tree .

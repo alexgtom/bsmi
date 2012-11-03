@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_filter :require_no_user, :only => [:new, :create]
   before_filter :require_user, :only => [:show, :edit, :update]
+  before_filter :require_admin, :only => [:adv_edit, :adv_update]
   
   def new
     @user = User.new
@@ -70,5 +71,23 @@ class UsersController < ApplicationController
     else
       render :action => :edit
     end
+  end
+
+  def adv_edit
+    @user = User.find(params[:id])
+  end
+
+  def adv_update
+    @user = User.find(params[:id])
+    debugger
+    if @user.update_attributes(params[:user])
+      flash[:notice] = "Updated!"
+      redirect_back_or_default "/students"
+      return
+    else
+      flash[:notice] = "Something went wrong."
+      render :action => :adv_edit
+      return
+    end    
   end
 end

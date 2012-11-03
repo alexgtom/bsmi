@@ -20,8 +20,7 @@ class Timeslot < ActiveRecord::Base
   end
   
   attr_protected #none
-  has_many :preferences
-  has_many :students, :through => :preferences
+  has_and_belongs_to_many :students, :uniq => true
   belongs_to :mentor_teacher
   validates_inclusion_of :day, :in => @@DAY
 

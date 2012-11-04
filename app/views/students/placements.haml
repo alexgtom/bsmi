@@ -15,8 +15,11 @@
       %td Grade
       %td= p.course.grade
     %tr 
-      %td School
-      %td= "#{p.mentor_teacher.school.name} #{p.mentor_teacher.school.level}"
+      %td School Name
+      %td= "#{p.mentor_teacher.school.name}"
+    %tr 
+      %td School Level
+      %td= "#{p.mentor_teacher.school.level}"
     %tr
       %td Mentor Teacher
       %td= p.mentor_teacher.user.name

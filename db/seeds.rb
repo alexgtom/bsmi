@@ -59,6 +59,7 @@ users.each do |u|
                    :city => 'Berkeley',
                    :state => 'CA',
                    :zipcode => '94000',
+                   :phone_number => '123-456-7890',
                    :email => u,
                    :password => '1234',
                    :password_confirmation => '1234'})

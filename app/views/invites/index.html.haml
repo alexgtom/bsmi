@@ -5,16 +5,21 @@
     %th
     %th
     %th
+    %th
+    %th
 
   - @invites.each do |invite|
     %tr
-      %td= invite.name
+      %td= invite.owner_type
+      %td= invite.first_name
+      %td= invite.last_name
       %td= invite.email
       %td
         - if invite.invited?
           Invited
+          = link_to 'url', "/signup?owner_type=#{invite.owner_type}&invite_code=#{invite.invite_code}"
         - else
-          = link_to '[Invite]', send_invitation_path(invite), :confirm => 'Send invitation? ', :method => :post
+          = link_to '[Invite]', send_invitation_path(invite), :data => {:confirm => 'Send invitation? '}, :method => :post
 %br
 
 = link_to 'New Invite', new_invite_path

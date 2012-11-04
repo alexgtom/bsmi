@@ -13,11 +13,11 @@
   - @all_student.each do |student|
     %tr
       %td
-        =student.name
+        =student.first_name
       %td
         =student.email
       %td
-        =student.address        
+        =student.street_address        
       %td= link_to 'View Schedule', "students/#{student.id}/select_timeslots/summary"
       %td= link_to 'Edit', student
       %td= link_to 'Delete', student, method: :delete, data: { confirm: 'Are you sure?' }

@@ -1,13 +1,8 @@
 <%= render "users/shared/error_messages", :target => @user %>
-
-<input type="hidden" name="owner_type" value="<%= params[:owner_type]%>">
-<input type="hidden" name="invite_code" value="<%= params[:invite_code]%>">
-<% if params[:action] == "adv_new" || params[:action] == "adv_edit" %>
 <p>
   <%= form.label :owner_type %><br />
   <%= form.select :owner_type, :options => User.user_types_for_select %>
 </p>
-<% end %>
 <p>
   <%= form.label :first_name %><br />
   <%= form.text_field :first_name %>

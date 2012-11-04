@@ -10,6 +10,7 @@ class Student < ActiveRecord::Base
   def self.search(search)
     search_condition = "%" + search + "%"
     find(:all, :conditions => ['name LIKE ?', search_condition])
+  end
 
   def fix_ranking_gap
     # if a student has rankings [1, 2, 4] for their preferences, calling this function

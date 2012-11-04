@@ -11,13 +11,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121104012223) do
+ActiveRecord::Schema.define(:version => 20121104052507) do
 
   create_table "advisors", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
-ActiveRecord::Schema.define(:version => 20121103215840) do
 
   create_table "courses", :force => true do |t|
     t.string   "name"
@@ -33,11 +32,13 @@ ActiveRecord::Schema.define(:version => 20121103215840) do
   end
 
   create_table "invites", :force => true do |t|
-    t.string   "name"
     t.string   "email"
     t.string   "invite_code", :limit => 40
     t.datetime "invited_at"
     t.datetime "redeemed_at"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "owner_type"
   end
 
   add_index "invites", ["id", "email"], :name => "index_invites_on_id_and_email"

@@ -26,4 +26,7 @@ describe StudentsController do
       end
     end
   end
+  
+  describe ".placement" do
+  end
 end

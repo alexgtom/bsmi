@@ -22,6 +22,14 @@ module NavigationHelpers
         '/user_sessions'
       when /^the edit\s?page$/
         '/users/2/edit'
+      when /^CalCourse new page$/
+        '/cal_courses/new'
+      when /^CalCourse edit page$/
+        '/cal_courses/2/edit'
+      when /^CalCourse show page$/
+        '/cal_courses/2/'
+      when /^CalCourse index page$/
+        '/cal_courses/'
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

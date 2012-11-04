@@ -7,8 +7,7 @@ class UsersController < ApplicationController
   end
 
   def create        
-    @user = User.new(params[:user])    
-    debugger  
+    @user = User.new(params[:user])
     user_type = params[:user][:owner_type]       
     begin 
      owner = User.build_owner(user_type)      

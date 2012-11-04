@@ -3,7 +3,6 @@ class CalCoursesController < ApplicationController
   # GET /cal_courses.json
   def index
     @cal_courses = CalCourse.all
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @cal_courses }
@@ -23,7 +22,8 @@ class CalCoursesController < ApplicationController
 
   # GET /cal_courses/1/edit
   def edit
-    @course = CalCourse.find(params[:id])
+    @cal_course = CalCourse.find(params[:id])
+    @entries = self.create_selection_for_new_course
   end
 
   # GET /cal_courses/new
@@ -41,49 +41,41 @@ class CalCoursesController < ApplicationController
   # POST /cal_courses.json
   def create
     @cal_course = CalCourse.new(params[:cal_course])
-    @a = nil
-    debugger
-    @b = nil
-    respond_to do |format|
-      if @cal_course.save
-        self.setTimeslotConnections(params[:timeslots], @cal_course.id)
-        format.html { redirect_to @cal_course, notice: 'The course was successfully created.' }
-        format.json { render json: @cal_course, status: :created, location: @cal_courses }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @cal_course.errors, status: :unprocessable_entity }
-      end
+    if @cal_course.save  
+      @cal_course.build_timeslot_associations(params[:timeslots])
+      flash[:notice] = 'The course was successfully created.'
+        redirect_to cal_course_path @cal_course.id
+    else
+      flash[:error] = 'The input data is not correct'
+      render :action => :new
     end
   end
 
-  def setTimeslotConnections(timeslots, id)
-    if not timeslots.nil?
-      timeslots.keys.each do |time_id|
-        add_to = Timeslot.find_by_id(time_id)
-        add_to.cal_course_id = id
-        add_to.save!
+  def update
+    @cal_course = CalCourse.find(params[:id])
+    if @cal_course.update_attributes(params[:cal_course]) 
+      if @cal_course.update_timeslot_associations(params[:timeslots])
+        flash[:notice] = "CalCourse '#{@cal_course.name}' Updated!"
+        redirect_to cal_course_path @cal_course.id
       end
+    else
+      flash[:error] = 'Something went wrong'
+      render :action => :edit
     end
   end
+
+
 
   def create_selection_for_new_course
     entries = Array.new
     courses = Course.all
     courses.each do |course|
-      course.timeslots.each do |time|     
-        teacher = time.mentor_teacher
-        if not teacher.nil?
-          school = School.find_by_name(teacher.school)
-          if not school.nil?
-            entry = Hash.new
-            entry["course"] = course
-            entry["school_level"] = school.level
-            entry["school_name"] = school.name
-            entry["teacher"] = teacher.user.name
-            entry["time"] = time.to_string
-            entry["time_id"] = time.id
-            entries << entry
-          end
+      times = course.timeslots
+      if not times.nil?
+        times.each do |time| 
+          entry = time.build_entry 
+          entry["course"] = course
+          entries << entry
         end
       end
     end

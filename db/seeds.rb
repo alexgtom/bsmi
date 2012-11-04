@@ -81,7 +81,7 @@ MentorTeacher.create!(:user => teacher, :school => 'Westlake')
 teacher = User.create!({"owner_type"=>"MentorTeacher", "name"=>"Alex", "address"=>"awdef", "phone_number"=>"233256", "email"=>"se9@se.come", "password"=>"1234", "password_confirmation"=>"1234"})
 MentorTeacher.create!(:user => teacher, :school => 'Westlake')
 
-teacher = User.create!({"owner_type"=>"MentorTeacher", "name"=>"Tom", "address"=>"awdef", "phone_number"=>"233256", "email"=>"se10@se.come", "password"=>"1234", "password_confirmation"=>"1234"})
+teacher = User.create!({"owner_type"=>"MentorTeacher", "name"=>"Tom", "address"=>"awdef", "phone_number"=>"233256", "email"=>"see10@se.come", "password"=>"1234", "password_confirmation"=>"1234"})
 MentorTeacher.create!(:user => teacher, :school => 'Westlake') 
 
 

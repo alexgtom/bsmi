@@ -6,8 +6,8 @@ class MentorTeacher < ActiveRecord::Base
   has_many :timeslots
   
   def get_name
-    if not self.owner.nil?
-      self.owner.name
+    if not self.user.nil?
+      self.user.name
     end
   end
 end

@@ -1,9 +1,33 @@
 Given /the following timeslots exist/ do |tb|
   tb.hashes.each do |t|
-  	Timeslot.create!(t)
+    b = Timeslot.create!(t)
   end
 end
 
+Given /the following courses exist/ do |tb|
+  tb.hashes.each do |t|
+    Course.create!(t)
+  end
+end
+
+Given /the following school exist/ do |tb|
+  tb.hashes.each do |t|
+    School.create!(t)
+  end
+end
+
+Given /the following district exist/ do |tb|
+  tb.hashes.each do |t|
+    District.create!(t)
+  end
+end
+
+
+Given /the following cal course exist/ do |tb|
+  tb.hashes.each do |t|
+    CalCourse.create!(t)
+  end
+end
 
 When /^I click element containing "([^\"]+)"$/ do |text|
   matcher = ['*', { :text => text }]

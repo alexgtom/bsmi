@@ -46,9 +46,26 @@ describe("updateEventInForm", function() {
         });
 
         it("should update the event's value", function() {
-            updateEventInForm(calEvent);            
-            expect($("#" + inputId).val()).toBe(JSON.stringify(calEvent));
+            var fakeCalEvent = {id : 3, start : "start", end : "end"};
+            spyOn(window, 'asUTC');
+            spyOn(JSON, 'stringify').andReturn("event");
+            updateEventInForm(fakeCalEvent);            
+            expect($("#" + inputId).val()).toBe("event");
         });
+
+        it("should convert the start date to UTC", function() {
+            var fakeCalEvent = {id : 3, start : "start"};
+            spyOn(window, 'asUTC');
+            updateEventInForm(fakeCalEvent);            
+            expect(window.asUTC).toHaveBeenCalledWith("start");
+        });
+        it("should convert the end date to UTC", function() {
+            var fakeCalEvent = {id : 3, end : "end"};
+            spyOn(window, 'asUTC');
+            updateEventInForm(fakeCalEvent);            
+            expect(window.asUTC).toHaveBeenCalledWith("end");
+        });
+
     });
 
     describe("if the event doesn't exist", function() {                   

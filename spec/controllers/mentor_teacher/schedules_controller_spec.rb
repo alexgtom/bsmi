@@ -195,22 +195,42 @@ describe MentorTeacher::SchedulesController do
     end
 
     shared_examples_for "an updater for timeslots" do
-      it "should update the appropriate timeslots with new values" do
-        changed_timeslot_hashes = timeslots_to_change.map do |t|
+      before(:each) do
+        @changed_timeslot_hashes = timeslots_to_change.map do |t|
           FactoryGirl.build(:cal_event_hash, 
                             :id => t.id,
-                            :start => t.start_time + 3600
+                            :start => (t.start_time + 3600).to_i
                             ) #end is set by factory to an ok value)                    
         end
+      
+        @changed_timeslots_data = @changed_timeslot_hashes.map{|h| JSON.dump(h)}
 
-        changed_timeslots_data = changed_timeslot_hashes.map{|h| JSON.dump(h)}
-        put :update, :timeslots => changed_timeslots_data
-        timeslots_to_change.each {|t| t.reload }
-        timeslots_to_change.zip(changed_timeslot_hashes).each do |pair|
-          #TODO: figure out a way to mock this better
-          actual, expected = pair
-          actual.start_time.hour.should eq(expected[:start].utc.hour)
-        end
+        @teacher.stub(:timeslots).and_return(@timeslots)
+        @timeslots.stub(:find_by_id).and_return(*timeslots_to_change)
+
+        Timeslot.stub(:from_cal_event_hash).and_return(*timeslots_to_change)
+      end
+      it "should update the appropriate timeslots with new values" do        
+        Timeslot.should_receive(:from_cal_event_hash).
+          exactly(timeslots_to_change.length).times.
+          and_return(*timeslots_to_change)
+        Timeslot.any_instance.stub(:save).and_return(true)
+        
+        put :update, :timeslots => @changed_timeslots_data        
+      end
+
+      it "should save the updated timeslots" do        
+        Timeslot.stub(:from_cal_event_hash).and_return(*timeslots_to_change)
+
+        timeslots_to_change.each {|t| t.should_receive(:save)}
+        put :update, :timeslots => @changed_timeslots_data
+      end
+
+      it "should append the updated timeslots to the current teacher's timeslots" do
+        @teacher.timeslots.should_receive(:<<).
+          exactly(timeslots_to_change.length).times
+
+        put :update, :timeslots => @changed_timeslots_data
       end
     end
     
@@ -271,12 +291,12 @@ describe MentorTeacher::SchedulesController do
     end
   end
 
-  # describe "GET edit" do
-  #   it "assigns the timeslots for the current teacher as @timeslots" do
-  #     fake_timeslots = ["t1", "t2"]
-  #     @teacher.stub(:timeslots).and_return(fake_timeslots)
-  #     get :edit
-  #     assigns(:timeslots).should eq(fake_timeslots)
-  #   end
-  # end
+  describe "GET edit" do
+    it "assigns the timeslots for the current teacher as @timeslots" do
+      fake_timeslots = [mock(:timeslot, :to_cal_event_hash => {})]
+      @teacher.stub(:timeslots).and_return(fake_timeslots)
+      get :edit
+      assigns(:timeslots).should eq([{}])
+    end
+  end
 end

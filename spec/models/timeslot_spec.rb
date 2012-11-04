@@ -93,4 +93,14 @@ describe Timeslot do
     end
 
   end
+
+#Time is UTC
+#
+
+  describe :to_cal_event_hash do
+    it "should place the end time on the right date if " do
+      
+    end
+  end
+
 end

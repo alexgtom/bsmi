@@ -69,9 +69,8 @@ class Timeslot < ActiveRecord::Base
   def self.from_cal_event_hash(event, attrs = {}) 
     timeslot = Timeslot.find_by_id(event["db_id"]) || Timeslot.new
 
-    start_time = Time.parse(event["start"])
-    end_time = Time.parse(event["end"])
-
+    start_time = DateTime.strptime(event["start"].to_s, "%s")
+    end_time = DateTime.strptime(event["end"].to_s, "%s")
     timeslot.assign_attributes(:class_name => event["title"], 
                                :start_time => start_time,
                                :end_time => end_time,
@@ -85,11 +84,11 @@ class Timeslot < ActiveRecord::Base
 
   #Return a time on the given day in the week of Timeslot::WEEK_START
   def self.time_in_week(time_obj, day) 
-    Time.gm(Timeslot::WEEK_START.year,
-               Timeslot::WEEK_START.month,
-               Timeslot::WEEK_START.day + Timeslot::WEEK_DAYS.index(day),
-               time_obj.hour,
-               time_obj.min
+      Time.gm(Timeslot::WEEK_START.year,
+              Timeslot::WEEK_START.month,
+              Timeslot::WEEK_START.day + Timeslot::WEEK_DAYS.index(day),
+              time_obj.hour,
+              time_obj.min
                )
   end
 
@@ -97,13 +96,14 @@ class Timeslot < ActiveRecord::Base
   #weekcalendar (after serialization to json)  
   def to_cal_event_hash(overrides = {})
     def to_js_time(time, day)
-      Timeslot.time_in_week(time, day).utc.iso8601
+      Timeslot.time_in_week(time, day).utc
     end
-
+    actual_start_time = to_js_time(self.start_time, self.day)
+    actual_end_time = to_js_time(self.end_time, self.day)
     { 'id' => self.id, #Front end will override this
       'db_id' => self.id,
-      'start' => to_js_time(self.start_time, self.day),
-      'end' => to_js_time(self.end_time, self.day),
+      'start' => actual_start_time,
+      'end' => actual_end_time,
       'title' => self.class_name,
       'num_assistants' => self.num_assistants
     }.merge(overrides)

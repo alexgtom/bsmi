@@ -2,7 +2,7 @@
   :javascript
 
     START_DATE = new Date(#{Timeslot::CUR_YEAR}, #{Timeslot::CUR_MONTH} - 1, #{Timeslot::CUR_DAY});
-    var eventData = #{JSON.dump(data)};
+    var eventData = #{dump_events(data)};
     assignEventIDs(eventData);
     $(document).ready(
         function() {

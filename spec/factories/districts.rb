@@ -3,7 +3,7 @@
 FactoryGirl.define do
   factory :district do 
     sequence :name do |n|
-      district "district#{n}"
+      "district#{n}"
     end
   end
 end

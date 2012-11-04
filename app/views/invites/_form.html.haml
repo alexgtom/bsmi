@@ -7,8 +7,14 @@
           %li= msg
 
   .field
-    = f.label :name
-    = f.text_field :name
+    = f.label :owner_type
+    = f.select :owner_type, :options => User.user_types_for_select
+  .field
+    = f.label :first_name
+    = f.text_field :first_name
+  .field
+    = f.label :last_name
+    = f.text_field :last_name
   .field
     = f.label :email
     = f.text_field :email

@@ -10,7 +10,6 @@ Bsmi::Application.routes.draw do
   resources :user_sessions
 
 
-
   resources :invites
 
   match 'login' => "user_sessions#new",      :as => :login
@@ -19,6 +18,8 @@ Bsmi::Application.routes.draw do
   resources :users  # give us our some normal resource routes for users
   resource :user, :as => 'account'  # a convenience route
 
+  match '/user/adv_new' => 'users#adv_new', :as => 'advisor_new_user'
+  match '/user/adv_create' => 'users#adv_create', :as => 'advisor_create_user'
   match '/user/:id/adv_edit' => 'users#adv_edit', :as => 'advisor_edit_user'
   match '/user/adv_edit' => 'users#adv_update', :as => 'advisor_update_user'
 
@@ -26,6 +27,7 @@ Bsmi::Application.routes.draw do
   match '/signup/:invite_code' => 'users#new', :as => 'redeem_invitation'
 
   match 'signup' => 'users#new', :as => :signup
+
 
   resources :mentor_teachers
   namespace :mentor_teacher do

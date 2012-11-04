@@ -1,23 +1,23 @@
 class UsersController < ApplicationController
   before_filter :require_no_user, :only => [:new, :create]
   before_filter :require_user, :only => [:show, :edit, :update]
-  before_filter :require_admin, :only => [:destroy, :adv_edit, :adv_update]
+  before_filter :require_admin, :only => [:destroy, :adv_new, :adv_create, :adv_edit, :adv_update]
   
   def new
     @user = User.new
   end
 
   def create
-    @user = User.new(params[:user])    
+    @user = User.new(params[:user])
     invite_code = params[:invite_code]
     @invite = Invite.find_redeemable(invite_code)
 
-    user_type = params[:user][:owner_type]       
-    begin 
-     owner = User.build_owner(user_type)      
+    user_type = params[:owner_type]
+    begin
+     owner = User.build_owner(user_type)
     rescue ArgumentError
       flash[:notice] = "There was a problem creating you."
-      render :action => :new; return      
+      render :action => :new; return
     end
 
     @user.owner = owner
@@ -27,19 +27,19 @@ class UsersController < ApplicationController
     # the User has not yet been activated
 
     # for test purpose,
-    puts @user.owner_type
-    if @user.owner_type == "Advisor"
-      if @user.save
-        flash[:notice] = "Advisor account created."
-        redirect_to signup_url
-      else
-        flash[:notice] = "wrong"
-        render :action => :new
-      end
-      return
-    end
+#    puts @user.owner_type
+#    if @user.owner_type == "Advisor"
+#      if current_user.owner_type == "Advisor" && @user.save
+#        flash[:notice] = "Advisor account created."
+#        redirect_to signup_url
+#      else
+#        flash[:notice] = "Something went wrong."
+#        render :action => :new
+#      end
+#      return
+#    end
 
-    if invite_code && @invite && @invite.email == @user.email
+    if invite_code && @invite && @invite.email == @user.email && @invite.owner_type == @user.owner_type
       if @user.save and owner.save
         @invite.redeemed!
         flash[:notice] = "Your account has been created."
@@ -73,6 +73,32 @@ class UsersController < ApplicationController
     end
   end
 
+  def adv_new
+    @user = User.new
+  end
+
+  def adv_create
+    @user = User.new(params[:user])
+
+    user_type = params[:user][:owner_type]
+    begin
+     owner = User.build_owner(user_type)
+    rescue ArgumentError
+      flash[:notice] = "There was a problem creating you."
+      render :action => :adv_new; return
+    end
+
+    @user.owner = owner
+
+    if @user.save and owner.save
+      flash[:notice] = "A user account has been created."
+      redirect_back_or_default "/students"
+    else
+      flash[:notice] = "There was a problem creating a user."
+      render :action => :adv_new
+    end
+  end
+
   def destroy
     @user = User.find(params[:id])
     @user.destroy
@@ -86,15 +112,14 @@ class UsersController < ApplicationController
 
   def adv_update
     @user = User.find(params[:id])
-    debugger
     if @user.update_attributes(params[:user])
-      flash[:notice] = "Updated!"
+      flash[:notice] = "User '#{@user.email}'Updated!"
       redirect_back_or_default "/students"
       return
     else
       flash[:notice] = "Something went wrong."
       render :action => :adv_edit
       return
-    end    
+    end
   end
 end

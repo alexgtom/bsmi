@@ -14,6 +14,15 @@ class ApplicationController < ActionController::Base
       return @current_user if defined?(@current_user)
       @current_user = current_user_session && current_user_session.user
     end
+
+    def require_admin
+      unless current_user.owner_type == "Advisor" #admin for now
+        store_location
+        flash[:notice] = "Only admin can access this page."
+        redirect_to new_user_session_url
+        return false
+      end
+    end
     
     def require_user
       unless current_user

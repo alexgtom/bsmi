@@ -20,6 +20,9 @@ Bsmi::Application.configure do
   # Generate digests for assets URLs
   config.assets.digest = true
 
+  # mailer settings (needed to be changed to real address)
+  config.action_mailer.default_url_options = { :host => 'bsmi.herokuapp.com' }
+
   # Defaults to nil and saved in location specified by config.assets.prefix
   # config.assets.manifest = YOUR_PATH
 

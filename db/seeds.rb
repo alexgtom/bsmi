@@ -43,6 +43,7 @@ Timeslot.all.each.with_index do |ts, i|
     Preference.create!(:timeslot => ts, :student => Student.find(i), :ranking => i)
   end
 end         
+
     
 # --- Create districts
 busd = District.create!(:name => "BUSD")
@@ -122,3 +123,29 @@ Course.create!(:name => "Science", :grade => "7")
 Course.create!(:name => "Science", :grade => "8")
 
 Course.create!(:name => "Pre Algebra", :grade => "6")
+
+
+user = User.new({:name => 'Sangyoon Park',
+                 :address => '346 soda UC Berkeley, United States',
+                 :phone_number => '123-456-7890',
+                 :email => 'advisor@advisor.com',
+:password => '1234',
+:password_confirmation => '1234'})
+owner = User.build_owner("Advisor")
+user.owner = owner
+user.save
+owner.save
+
+users = ["student1@test.com", "student2@test.com", "student3@test.com", "student4@test.com"]
+users.each do |u|
+  user = User.new({:name => u,
+                   :address => 'myaddr',
+                   :phone_number => '000-000-0000',
+                   :email => u,
+                   :password => '1234',
+                   :password_confirmation => '1234'})
+  owner = User.build_owner("Student")
+  user.owner = owner
+  user.save
+  owner.save
+end

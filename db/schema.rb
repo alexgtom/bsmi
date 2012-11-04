@@ -11,8 +11,8 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121103215840) do
 
+ActiveRecord::Schema.define(:version => 20121103215840) do
   create_table "advisors", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
@@ -30,6 +30,17 @@ ActiveRecord::Schema.define(:version => 20121103215840) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "invites", :force => true do |t|
+    t.string   "name"
+    t.string   "email"
+    t.string   "invite_code", :limit => 40
+    t.datetime "invited_at"
+    t.datetime "redeemed_at"
+  end
+
+  add_index "invites", ["id", "email"], :name => "index_invites_on_id_and_email"
+  add_index "invites", ["id", "invite_code"], :name => "index_invites_on_id_and_invite_code"
 
   create_table "mentor_teachers", :force => true do |t|
     t.string   "mailing_address"
@@ -91,12 +102,10 @@ ActiveRecord::Schema.define(:version => 20121103215840) do
   create_table "timeslots", :force => true do |t|
     t.time     "start_time"
     t.integer  "day"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
     t.time     "end_time"
     t.integer  "mentor_teacher_id"
-    t.integer  "max_num_assistants"
-    t.integer  "course_id"
   end
 
   create_table "users", :force => true do |t|

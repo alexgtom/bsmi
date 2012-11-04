@@ -1,26 +1,24 @@
 %h1 Student Roster
-%table.table.table-bordered.table-fixed-header
-  %thead.header
-    %tr
-      %th{:colspan => 1, :rowspan => 2}
-        Name
-    %tr
-      %th{:colspan => 1, :rowspan => 1}
-        Email
-      %th{:colspan => 1, :rowspan => 1}
-        Address
-  %tbody
+/%h2= "Seach Student By Name:" /
+
+%table.table.table-hover
+  %tr
+    %th= link_to 'Name', students_path(:sort => 'name')
+    %th Email
+    %th= link_to 'Course', students_path(:sort => 'course')
+    %th
+    %th
+    %th
+
   - @all_student.each do |student|
     %tr
-      %td
-        =student.name
-      %td
-        =student.email
-      %td
-        =student.address        
+      %td= student.name
+      %td= student.email 
+      %td= 'nil'
       %td= link_to 'View Schedule', "students/#{student.id}/select_timeslots/summary"
       %td= link_to 'Edit', student
       %td= link_to 'Delete', student, method: :delete, data: { confirm: 'Are you sure?' }
+      
 %br
 = link_to 'New Student', new_student_path
 %br

@@ -2,11 +2,14 @@ class AdvisorsController < ApplicationController
   # GET /advisors
   # GET /advisors.json
   def index
-    @advisors = Advisor.all
+    @all_advisor = User.where(:owner_type => "Advisor")
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @advisors }
+    end
+    if params[:sort] || session[:sort] != nil
+      @all_advisor = @all_advisor.order(:name)
     end
   end
   def search

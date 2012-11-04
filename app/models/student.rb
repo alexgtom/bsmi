@@ -7,10 +7,7 @@ class Student < ActiveRecord::Base
 
   validates_associated :preferences, :message => "must not be blank and the ranking number must be unique"
 
-  def self.search(search)
-    search_condition = "%" + search + "%"
-    find(:all, :conditions => ['name LIKE ?', search_condition])
-  end
+
   
   def fix_ranking_gap
     # if a student has rankings [1, 2, 4] for their preferences, calling this function

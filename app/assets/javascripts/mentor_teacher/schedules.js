@@ -7,7 +7,7 @@
 
 
 /* Global event id */
-TIMESLOT_ID = 0;
+TIMESLOT_ID = 1;
 NEW_TITLE = "Class name";
 function nextEventID() {
     return TIMESLOT_ID++;
@@ -40,7 +40,7 @@ function selectOptionWithValue($select_tag, value) {
 
 
 function extractTime($timeFields, curDate) {     
-    var rtn = curDate.clone()
+    var rtn = new Date(curDate);
     rtn.setHours($timeFields[0].value);
     rtn.setMinutes($timeFields[1].value);
     return rtn;

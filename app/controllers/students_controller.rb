@@ -10,11 +10,13 @@ class StudentsController < ApplicationController
          @all_student = @all_student.order(:placement)
       end
     end
+=begin
     if params[:search] || session[:search] != nil
       search = params[:search] || session[:search]
       search_condition = "%" + search + "%"
       @all_student = @all_student.find(:all, :conditions => ['name LIKE ?', search_condition])
-    end   
+    end
+=end   
   end
   def placements
   end

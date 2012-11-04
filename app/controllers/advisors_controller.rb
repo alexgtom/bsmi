@@ -3,7 +3,6 @@ class AdvisorsController < ApplicationController
   # GET /advisors.json
   def index
     @all_advisor = User.where(:owner_type => "Advisor")
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @advisors }

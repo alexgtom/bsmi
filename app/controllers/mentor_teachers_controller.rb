@@ -12,11 +12,13 @@ class MentorTeachersController < ApplicationController
       #   @all_teacher = @all_teacher.order(:placement)  need the course to be implemented to teacher
       end
     end
+=begin
     if params[:search] || session[:search] != nil
       search = params[:search] || session[:search]
       search_condition = "%" + search + "%"
       @all_teacher = @all_teacher.find(:all, :conditions => ['name LIKE ?', search_condition])
-    end   
+    end
+=end   
  
 
     respond_to do |format|

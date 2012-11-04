@@ -23,14 +23,14 @@ class CalCoursesController < ApplicationController
   # GET /cal_courses/1/edit
   def edit
     @cal_course = CalCourse.find(params[:id])
-    @entries = self.create_selection_for_new_course
+    @entries = @cal_course.create_selection_for_new_course
   end
 
   # GET /cal_courses/new
   # GET /cal_courses/new.json
   def new
     @cal_course = CalCourse.new
-    @entries = self.create_selection_for_new_course
+    @entries = @cal_course.create_selection_for_new_course
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @cal_course }
@@ -64,23 +64,16 @@ class CalCoursesController < ApplicationController
     end
   end
 
-
-
-  def create_selection_for_new_course
-    entries = Array.new
-    courses = Course.all
-    courses.each do |course|
-      times = course.timeslots
-      if not times.nil?
-        times.each do |time| 
-          entry = time.build_entry 
-          entry["course"] = course
-          entries << entry
-        end
-      end
+  def destroy
+    @cal_course = CalCourse.find(params[:id])
+    @cal_course.destroy_timeslot_associations
+    if @cal_course.destroy
+      flash[:notice] = "CalCourse '#{@cal_course.name}' succesfully destroyed."
+      redirect_to :action => 'index'
+    else
+      flash[:error] = 'Something went wrong'
+      render :action => :edit
     end
-    return entries
   end
-
 end  
 

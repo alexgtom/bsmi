@@ -9,6 +9,26 @@ class CalCourse < ActiveRecord::Base
   validates_associated :course, :message => "Must not be blank"
   attr_protected #none
 
+  def create_selection_for_new_course
+    entries = Array.new
+    courses = Course.all
+    if courses
+      courses.each do |course|
+        times = course.timeslots
+        if not times.nil?
+          times.each do |time| 
+            tim = nil
+            if entry = time.build_entry 
+              entry["course"] = course
+            end
+            entries << entry
+          end
+        end
+      end
+    end
+    return entries
+  end
+
   def build_timeslot_associations(times)
     if not times.nil?
       times.keys.each do |time_id|

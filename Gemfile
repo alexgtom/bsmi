@@ -26,9 +26,11 @@ group :development, :test do
   gem 'thin'
   gem 'spork', '0.9.2'
   gem 'factory_girl_rails'
-
+  gem 'jasmine'
+  gem 'jasmine-headless-webkit'
+  gem 'jasminerice'
   gem 'debugger'
-
+  gem 'quiet_assets'
 end
 
 group :production do
@@ -49,11 +51,16 @@ group :assets do
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby
-  gem 'jquery-ui-rails'
-  gem 'jquery-rails'
+  # gem 'jquery-ui-rails'
+  # gem 'jquery-rails'
   gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git', :branch => 'static'
   gem 'uglifier', '>= 1.0.3'
+
+  gem 'datejs-rails'
 end
+
+gem 'jquery-ui-rails'
+gem 'jquery-rails'
 
 
 gem 'jquery-rails'
@@ -83,3 +90,5 @@ gem 'simplecov'
 gem 'authlogic'
 gem 'selenium-webdriver', '2.25.0'
 gem 'thin'
+gem 'mechanize'
+gem "rails-settings-cached"

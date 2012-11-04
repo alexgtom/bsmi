@@ -5,7 +5,8 @@ class Course < ActiveRecord::Base
   belongs_to :cal_course
 
   GRADE = ["K", "1", "2", "3", "4", "5", "6", "7", "8", HIGH_SCHOOL]
-
+  
+  has_many :timeslots
   validates_presence_of :name, :grade
   attr_protected #none
 end

@@ -32,9 +32,10 @@ Bsmi::Application.configure do
   # Do not compress assets
   config.assets.compress = false
 
+
   # Expands the lines which load the assets
   config.assets.debug = true
-
+  config.serve_static_assets = false
   config.dev_tweaks.autoload_rules do
     keep :all
 

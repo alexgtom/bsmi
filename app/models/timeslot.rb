@@ -1,57 +1,122 @@
+require 'time'
 class Timeslot < ActiveRecord::Base
-  @@DAY = [:Sun, :Mon, :Tue, :Wed, :Thu, :Fri, :Sat]
-  @@WEEK_DAYS = @@DAY - [:Sun, :Sat]
+  #From the client's perspective, all times are relative to this
+  #week. This is hacky, but also essentially the way Rails handles the
+  #time fields. In general, one should NOT use the time fields of this model to retrieve
+  #any information about days; use the day field instead.
+  CUR_YEAR = 2000
+  CUR_MONTH = 1
+  CUR_DAY = 3
+
+  WEEK_START = Time.gm(CUR_YEAR, CUR_MONTH, CUR_DAY)
+
+  DAYS = [:Sun, :Mon, :Tue, :Wed, :Thu, :Fri, :Sat]
+  WEEK_DAYS = DAYS - [:Sun, :Sat]
+
+  attr_protected #none
+
+  #Associations
+  has_and_belongs_to_many :students, :uniq => true
+  belongs_to :mentor_teacher
+  belongs_to :course
+  belongs_to :cal_course
+
+  #Validations
+  validates :day, :presence => true
+  validates :start_time, :presence => true
+  validates :end_time, :presence => true
+  validates_inclusion_of :day, :in => Timeslot::DAYS
+
   def self.day_list
-    @@DAY
+    DAYS
   end
 
   def self.weekdays
-    @@WEEK_DAYS
+    WEEK_DAYS
   end
 
-  def self.day_index(value)
-    @@DAY.index(value)
+  def self.day_index(value)    
+    value = value.to_sym  
+    DAYS.index(value)
   end
 
   def day
-    if not read_attribute(:day).nil?
-      @@DAY[read_attribute(:day)]
-    end
+    index = read_attribute(:day)
+    DAYS[index] unless index.nil?
   end
 
   def day=(value)
-    if value.class == String
-      value = value.to_sym
-    end
-    write_attribute(:day, @@DAY.index(value))
-  end
+    value = value.to_sym rescue nil   # try to convert input value to symbol 
+    write_attribute(:day, DAYS.index(value))
+  end 
 
   def to_string
     return "#{self.day}|#{self.start_time.strftime("%I:%M%p")}|#{self.end_time.strftime("%I:%M%p")}"
   end
   
   def build_entry
-    if self.mentor_teacher and school = School.find_by_name(self.mentor_teacher.school)
-      entry = Hash.new
-      entry["school_level"] = school.level
-      entry["school_name"] = school.name
-      entry["teacher"] = self.mentor_teacher.get_name
-      entry["time"] = self.to_string
-      entry["time_id"] = self.id
+    if self.mentor_teacher
+      entry = self.mentor_teacher.build_entry
+      if entry
+        entry["time"] = self.to_string
+        entry["time_id"] = self.id
+      end
       return entry
     end
     return nil
+  end 
+
+  def self.from_cal_event_json(json_str)
+    from_cal_event_hash(JSON.parse(json_str))  
   end
 
- 
-  attr_protected #none
-  has_many :preferences
-  has_many :students, :through => :preferences
-  belongs_to :mentor_teacher
-  belongs_to :course
-  belongs_to :cal_course
+  #Build or update a timeslot based on cal_event_hash. Does NOT save
+  #the resulting Timeslot. Attributes passed in attrs override those from event.
+  def self.from_cal_event_hash(event, attrs = {}) 
+    timeslot = Timeslot.find_by_id(event["db_id"]) || Timeslot.new
 
+    start_time = Time.parse(event["start"])
+    end_time = Time.parse(event["end"])
+
+    timeslot.assign_attributes(:class_name => event["title"], 
+                               :start_time => start_time,
+                               :end_time => end_time,
+                               :day => DAYS[start_time.wday],
+                               :num_assistants => event["num_assistants"]
+                               )
+    timeslot.assign_attributes(attrs)
+    return timeslot
+
+  end
+
+  #Return a time on the given day in the week of Timeslot::WEEK_START
+  def self.time_in_week(time_obj, day) 
+    Time.gm(Timeslot::WEEK_START.year,
+               Timeslot::WEEK_START.month,
+               Timeslot::WEEK_START.day + Timeslot::WEEK_DAYS.index(day),
+               time_obj.hour,
+               time_obj.min
+               )
+  end
+
+  #Convert this timeslot into something understood by jquery
+  #weekcalendar (after serialization to json)  
+  def to_cal_event_hash(overrides = {})
+    def to_js_time(time, day)
+      Timeslot.time_in_week(time, day).utc.iso8601
+    end
+
+    { 'id' => self.id, #Front end will override this
+      'db_id' => self.id,
+      'start' => to_js_time(self.start_time, self.day),
+      'end' => to_js_time(self.end_time, self.day),
+      'title' => self.class_name,
+      'num_assistants' => self.num_assistants
+    }.merge(overrides)
+  end
+  
   def selected?(student_id)
     Preference.where(["student_id = ?", student_id]).where(:timeslot_id => id).size > 0
   end
+  
 end

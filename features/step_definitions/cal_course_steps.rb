@@ -18,3 +18,10 @@ Given /^(?:|I )am in the CalCourse (\w+) page$/ do |page_name|
       visit '/cal_courses/2/edit'
   end
 end
+
+
+Given /the following cal course exist/ do |tb|
+  tb.hashes.each do |t|
+    CalCourse.create!(t)
+  end
+end

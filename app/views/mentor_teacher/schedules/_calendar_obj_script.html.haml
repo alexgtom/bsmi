@@ -1,0 +1,74 @@
+- content_for(:head) do
+  :javascript
+
+    START_DATE = new Date(#{Timeslot::CUR_YEAR}, #{Timeslot::CUR_MONTH} - 1, #{Timeslot::CUR_DAY});
+    var eventData = #{dump_events(data)};
+    assignEventIDs(eventData);
+    $(document).ready(
+        function() {
+        
+      $('#calendar').weekCalendar({
+        date: START_DATE,
+        //TODO: AJAXify this
+        data: eventData,
+        timeslotsPerHour: 4,
+        timeslotHeight: 10,
+        readonly: #{read_only},
+        hourLine: false,
+        firstDayOfWeek: 1,
+        businessHours: {start: 8, end: 18, limitDisplay: true},
+        allowCalEventOverlap: true,
+        overlapEventsSeparate: true,
+        daysToShow: 5,
+        showHeader: false,
+        dateFormat: "",  // delete date in header
+        longDays: ['', 'M', 'Tu', 'W', 'Th', 'F', ''], 
+        allowEventDelete: true,
+        height: function($calendar) { // CHANGE HEIGHT HERE
+          //TODO: make this non hardcoded
+          return 600;
+        },
+        //Callbacks--see schedules.js
+        eventNew: eventNewCallback,
+        eventDrop: eventChangeCallback,
+        eventResize: eventChangeCallback,
+        eventClick: eventClickCallback,
+        eventDelete: eventDeleteCallback,           
+      });
+
+      function displayMessage(message) {
+          $('#message').html(message).fadeIn();
+      }
+
+      $('').prependTo($('body'));
+    });
+  :css
+    p.description {
+      font-size: 0.8em;
+      padding: 1em;
+      position: absolute;
+      top: 3.2em;
+      margin-right: 400px;
+    }
+
+    #message {
+      font-size: 0.7em;
+      position: absolute;
+      top: 1em;
+      right: 1em;
+      width: 350px;
+      display: none;
+      padding: 1em;
+      background: #ffc;
+      border: 1px solid #dda;
+    }
+
+    .highlightEvent {
+      background-color: #FFFF88;
+      color: #000;
+    }
+
+    #calendar {
+      /* CHANGE HIEGHT IN JS */
+      width: #{700}
+    }

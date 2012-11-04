@@ -21,8 +21,8 @@
 
     $(document).ready(function() {
       $('##{calendar_id}').weekCalendar({
-        timeslotsPerHour: 6,
-        timeslotHeight: 10,
+        timeslotsPerHour: 2,
+        timeslotHeight: 25,
         readonly: true,
         hourLine: false,
         businessHours: {start: 8, end: 18, limitDisplay: true},
@@ -34,7 +34,7 @@
         dateFormat: "",  // delete date in header
         longDays: ['', '', '', '', '', '', ''], // deletes day in header
         height: function($calendar) { // CHANGE HEIGHT HERE
-          return 640
+          return this.timeslotsPerHour * this.timeslotHeight * (this.businessHours.end - this.businessHours.start) + 32
         },
         eventRender : function(calEvent, $event) {
         },

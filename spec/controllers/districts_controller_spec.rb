@@ -24,7 +24,7 @@ describe DistrictsController do
   # District. As you add validations to District, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    {}
+    {:name => "BUSD"}
   end
 
   # This should return the minimal set of values that should be in the session

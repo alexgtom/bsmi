@@ -1,29 +1,7 @@
-
-require 'factory_girl'
 require 'time'
+
 FactoryGirl.define do
-  factory :mentor_teacher do
-  
-    sequence :school do |n|
-      school 'school#{n}'
-    end
 
-    user #Generates a new user for this teacher
-  end  
-
-  sequence :name do |n| 
-    "user#{n}"
-  end
-  factory :user do
-    name { FactoryGirl.generate(:name) }
-
-    email { '#{name}@bsmi.org' }
-    password { name }
-
-    phone_number '111-111-1111'
-    address '111 St Way'
-
-  end
 
   #Returns a time between a given start hour and an end hour, with a certain number
   #of slots per hour. Each of these parameters is specifiable and has a reasonable
@@ -41,13 +19,13 @@ FactoryGirl.define do
     num_hours = options[:num_hours] || (end_hour - start_hour).abs
     slots_per_hour = options[:slots_per_hour] || 4
 
-      num_slots = slots_per_hour * num_hours
-      slot_length = 60 / slots_per_hour
-      slot_num = n % num_slots
-      
-      seconds_since_start = slot_num * slot_length * 60
-      return Time.parse("#{start_hour}:00") + seconds_since_start
-    end
+    num_slots = slots_per_hour * num_hours
+    slot_length = 60 / slots_per_hour
+    slot_num = n % num_slots
+    
+    seconds_since_start = slot_num * slot_length * 60
+    return Time.parse("2000-01-03 #{start_hour}:00 UTC") + seconds_since_start
+  end
 
 
   sequence :time do |n|
@@ -55,28 +33,36 @@ FactoryGirl.define do
     make_time(n, :slots_per_hour => 0.5)
   end
 
+  sequence :num_assistants do |n|
+    n % 2
+  end
 
   factory :timeslot do    
     sequence :day do |n|
-      day Timeslot.weekdays[n % 5]
+      Timeslot.weekdays[n % 5]
     end
-    
+   
     start_time { FactoryGirl.generate(:time) }
     end_time {start_time + 3600} #One hour after
+#    day {Timeslot.day_list[start_time.wday]}
 
-    sequence :num_assistants do |n|
-      n % 2
-    end
+
   end
 
+  factory :cal_event_hash, :class => Hash do |h|
+    sequence :id 
+    db_id {id}
+    start { FactoryGirl.generate(:time) }
+    h.end { start + 3600 }
   
+    sequence :title do |n|
+      'class#{n}'
+    end
 
-  factory :student do
-    preferences {|p| [p.association(:preference)]}
-  end
+    num_assistants { FactoryGirl.generate(:num_assistants) }
 
-  factory :preference do
-    ranking 1
-    association :timeslot, factory: :timeslot
+    #Builds the hash properly by passing attributes as an argument
+    #instead of trying to set attribute fields on it
+    initialize_with { attributes }
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121104044256) do
+ActiveRecord::Schema.define(:version => 20121104181650) do
 
   create_table "cal_courses", :force => true do |t|
     t.string   "name"
@@ -36,13 +36,9 @@ ActiveRecord::Schema.define(:version => 20121104044256) do
   end
 
   create_table "mentor_teachers", :force => true do |t|
-    t.string   "mailing_address"
-    t.string   "phone_number"
-    t.string   "email"
-    t.string   "password"
-    t.string   "school"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "school_id"
   end
 
   create_table "preferences", :force => true do |t|
@@ -71,20 +67,35 @@ ActiveRecord::Schema.define(:version => 20121104044256) do
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
 
+  create_table "settings", :force => true do |t|
+    t.string   "var",                      :null => false
+    t.text     "value"
+    t.integer  "thing_id"
+    t.string   "thing_type", :limit => 30
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
+  end
+
+  add_index "settings", ["thing_type", "thing_id", "var"], :name => "index_settings_on_thing_type_and_thing_id_and_var", :unique => true
+
   create_table "students", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
+  create_table "students_timeslots", :id => false, :force => true do |t|
+    t.integer "timeslot_id"
+    t.integer "student_id"
+  end
+
   create_table "timeslots", :force => true do |t|
     t.time     "start_time"
     t.integer  "day"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
     t.time     "end_time"
     t.integer  "mentor_teacher_id"
-    t.string   "class_name"
-    t.integer  "num_assistants"
+    t.integer  "max_num_assistants"
     t.integer  "course_id"
     t.integer  "cal_course_id"
   end

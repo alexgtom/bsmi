@@ -1,10 +1,12 @@
 FactoryGirl.define do
   factory :mentor_teacher do
   
-    sequence :school do |n|
-      school 'school#{n}'
-    end
+    # sequence :school do |n|
+    #   school 'school#{n}'
+    # end
 
+    school
+    
     after(:create) do |teacher| 
       teacher.user.save
     end

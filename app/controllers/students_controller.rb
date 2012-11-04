@@ -4,8 +4,10 @@ class StudentsController < ApplicationController
     if params[:sort] || session[:sort] != nil
       sort = params[:sort] || session[:sort]
       case sort
-      when 'name'
-         @all_student = @all_student.order(:name)
+      when 'first_name'
+         @all_student = @all_student.order(:first_name)
+      when 'last_name'
+         @all_student = @all_student.order(:last_name)
       when 'course'
          @all_student = @all_student.order(:placement)
       end

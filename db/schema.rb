@@ -11,7 +11,6 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-
 ActiveRecord::Schema.define(:version => 20121104052507) do
 
   create_table "advisors", :force => true do |t|
@@ -105,13 +104,12 @@ ActiveRecord::Schema.define(:version => 20121104052507) do
   create_table "timeslots", :force => true do |t|
     t.time     "start_time"
     t.integer  "day"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
-    t.integer  "mentor_teacher_id"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
     t.time     "end_time"
-    t.string   "class_name"
-    t.integer  "num_assistants"
-
+    t.integer  "mentor_teacher_id"
+    t.integer  "max_num_assistants"
+    t.integer  "course_id"
   end
 
   create_table "users", :force => true do |t|

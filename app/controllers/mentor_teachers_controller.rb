@@ -6,10 +6,12 @@ class MentorTeachersController < ApplicationController
     if params[:sort] || session[:sort] != nil
       sort = params[:sort] || session[:sort]
       case sort
-      when 'name'
-         @all_teacher = @all_teacher.order(:name)
+      when 'first_name'
+         @all_teacher = @all_teacher.order(:first_name)
+      when 'last_name'
+         @all_teacher = @all_teacher.order(:last_name)
       #when 'course'
-      #   @all_teacher = @all_teacher.order(:placement)  need the course to be implemented to teacher
+      #   @all_student = @all_student.order(:placement)
       end
     end
 =begin

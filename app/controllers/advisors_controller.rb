@@ -8,12 +8,16 @@ class AdvisorsController < ApplicationController
       format.json { render json: @advisors }
     end
     if params[:sort] || session[:sort] != nil
-      @all_advisor = @all_advisor.order(:name)
+      sort = params[:sort] || session[:sort]
+      case sort
+      when 'first_name'
+         @all_advisor = @all_advisor.order(:first_name)
+      when 'last_name'
+         @all_advisor = @all_advisor.order(:last_name)
+      end
     end
   end
-  def search
-    @students = Student.search params[:search]
-  end
+
   # GET /advisors/1
   # GET /advisors/1.json
   def show

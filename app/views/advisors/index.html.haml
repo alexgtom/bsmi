@@ -8,14 +8,16 @@
 
 %table.table.table-hover
   %tr
-    %th= link_to 'Name', advisors_path(:sort => 'name')
+    %th= link_to 'First Name', advisors_path(:sort => 'name')
+    %th= link_to 'Last Name', advisors_path(:sort => 'last_name')
     %th Email
     %th
     %th
 
   - @all_advisor.each do |advisor|
     %tr
-      %td= advisor.name
+      %td= advisor.first_name
+      %td= advisor.last_name
       %td= advisor.email 
       %td= link_to 'Edit', advisor
       %td= link_to 'Delete', advisor, method: :delete, data: { confirm: 'Are you sure?' }

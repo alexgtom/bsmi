@@ -28,21 +28,31 @@ class SelectTimeslotsController < ApplicationController
 
     case step
     when :rank
-      params[:student][:preferences_attributes].each_value do |v|
-        p = Preference.find_by_id(v[:id])
-        p.ranking = nil
-        p.save!(:validate => false)
-      end
-      
-      Student.transaction do 
+      valid = true
+      Preference.transaction do 
+        params[:student][:preferences_attributes].each_value do |v|
+          p = Preference.find_by_id(v[:id])
+          p.ranking = nil
+          p.save!(:validate => false)
+        end
+        
         params[:student][:preferences_attributes].each_value do |v|
           p = @student.preferences.find_by_id(v[:id])
           p.ranking = v[:ranking]
+          if not p.valid?
+            valid = false
+            flash[:error] = "The ranking for preference must be unique."
+            raise ActiveRecord::Rollback
+          end
           p.save
         end
       end
-
-      render_wizard @student
+      
+      if valid
+        render_wizard @student
+      else
+        redirect_to wizard_path
+      end
     end
 
     case step

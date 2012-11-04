@@ -14,7 +14,7 @@
     %tr
       %td= student.name
       %td= student.email 
-      %td= 'nil'
+      %td= student.placement
       %td= link_to 'View Schedule', "students/#{student.id}/select_timeslots/summary"
       %td= link_to 'Edit', student
       %td= link_to 'Delete', student, method: :delete, data: { confirm: 'Are you sure?' }

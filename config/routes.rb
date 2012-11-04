@@ -86,6 +86,7 @@ Bsmi::Application.routes.draw do
   resources :students do
     resources :select_timeslots
     member do 
+      get 'placements'
       get 'timeslot_selection'
       post 'timeslot_selection'
     end

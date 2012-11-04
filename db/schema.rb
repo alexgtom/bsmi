@@ -14,6 +14,9 @@
 ActiveRecord::Schema.define(:version => 20121103215840) do
 
   create_table "advisors", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "courses", :force => true do |t|
     t.string   "name"
@@ -95,7 +98,6 @@ ActiveRecord::Schema.define(:version => 20121103215840) do
     t.integer  "max_num_assistants"
     t.integer  "course_id"
   end
-
 
   create_table "users", :force => true do |t|
     t.string   "name",                :default => "", :null => false

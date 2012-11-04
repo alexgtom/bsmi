@@ -14,5 +14,6 @@ class StudentsController < ApplicationController
       @all_student = @all_student.find(:all, :conditions => ['name LIKE ?', search_condition])
     end   
       
+  def placements
   end
 end

@@ -17,16 +17,15 @@ class Timeslot < ActiveRecord::Base
   attr_protected #none
 
   #Associations
-  has_many :preferences
-  has_many :students, :through => :preferences
+  has_and_belongs_to_many :students, :uniq => true
   belongs_to :mentor_teacher
   belongs_to :course
-  has_one :school, :through => :mentor_teacher
 
   #Validations
   validates :day, :presence => true
   validates :start_time, :presence => true
   validates :end_time, :presence => true
+  validates_inclusion_of :day, :in => Timeslot::DAYS
 
   def self.day_list
     DAYS
@@ -55,10 +54,6 @@ class Timeslot < ActiveRecord::Base
  
    
 
-  attr_protected #none
-  has_and_belongs_to_many :students, :uniq => true
-  belongs_to :mentor_teacher
-  validates_inclusion_of :day, :in => Timeslot::DAYS
 
 
 

@@ -95,7 +95,17 @@ end
 
 # --- Create mentor teachers
 (1..10).each do |i|
-  MentorTeacher.create!(:user => user, :school => School.all[i % School.all.size])
+  user = User.new({:name => "TeacherName#{i}",
+                   :address => 'myaddr',
+                   :phone_number => '000-000-0000',
+                   :email => "TeacherEmail#{i}@gmail.com",
+                   :password => '1234',
+                   :password_confirmation => '1234'})
+  owner = User.build_owner("MentorTeacher")
+  owner.school = School.all[i % School.all.size]
+  owner.save!
+  user.owner = owner
+  user.save!
 end
 
 

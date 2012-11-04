@@ -6,12 +6,28 @@
   <%= form.select :owner_type, :options => User.user_types_for_select %>
 </p>
 <p>
-  <%= form.label :name %><br />
-  <%= form.text_field :name %>
+  <%= form.label "First Name" %><br />
+  <%= form.text_field :first_name %>
 </p>
 <p>
-  <%= form.label :address %><br />
-  <%= form.text_field :address %>
+  <%= form.label "Last Name" %><br />
+  <%= form.text_field :last_name %>
+</p>
+<p>
+  <%= form.label :street_address %><br />
+  <%= form.text_field :street_address %>
+</p>
+<p>
+  <%= form.label :city %><br />
+  <%= form.text_field :city %>
+</p>
+<p>
+  <%= form.label :state %><br />
+  <%= form.text_field :state %>
+</p>
+<p>
+  <%= form.label :zipcode %><br />
+  <%= form.text_field :zipcode %>
 </p>
 <p>
   <%= form.label :phone_number %><br />

@@ -33,8 +33,12 @@ Timeslot.all.each.with_index do |ts, i|
   end
 end         
 
-user = User.new({:name => 'Sangyoon Park',
-                 :address => '346 soda UC Berkeley, United States',
+user = User.new({:first_name => 'Sangyoon',
+                 :last_name => 'Park',
+                 :street_address => '346 soda UC Berkeley',
+                 :city => 'Berkeley',
+                 :state => 'CA',
+                 :zipcode => '94000',
                  :phone_number => '123-456-7890',
                  :email => 'advisor@advisor.com',
 :password => '1234',
@@ -46,9 +50,12 @@ owner.save
 
 users = ["student1@test.com", "student2@test.com", "student3@test.com", "student4@test.com"]
 users.each do |u|
-  user = User.new({:name => u,
-                   :address => 'myaddr',
-                   :phone_number => '000-000-0000',
+  user = User.new({:first_name => u,
+                   :last_name => 'Anon',
+                   :street_address => '346 soda UC Berkeley',
+                   :city => 'Berkeley',
+                   :state => 'CA',
+                   :zipcode => '94000',
                    :email => u,
                    :password => '1234',
                    :password_confirmation => '1234'})

@@ -17,7 +17,7 @@ class UsersController < ApplicationController
      owner = User.build_owner(user_type)      
     rescue ArgumentError
       flash[:notice] = "There was a problem creating you."
-      render :action => :new; return      
+      render :action => :new; return
     end
 
     @user.owner = owner
@@ -29,11 +29,11 @@ class UsersController < ApplicationController
     # for test purpose,
     puts @user.owner_type
     if @user.owner_type == "Advisor"
-      if @user.save
+      if current_user.owner_type == "Advisor" && @user.save
         flash[:notice] = "Advisor account created."
         redirect_to signup_url
       else
-        flash[:notice] = "wrong"
+        flash[:notice] = "Something went wrong."
         render :action => :new
       end
       return
@@ -88,7 +88,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     debugger
     if @user.update_attributes(params[:user])
-      flash[:notice] = "Updated!"
+      flash[:notice] = "User '#{@user.email}'Updated!"
       redirect_back_or_default "/students"
       return
     else

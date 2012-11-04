@@ -5,7 +5,6 @@ class User < ActiveRecord::Base
   
   @@user_types = Hash[[Advisor, MentorTeacher, Student].map {|type| [type.name, type]}]
 
-
   def self.user_types
     @@user_types
   end
@@ -22,25 +21,15 @@ class User < ActiveRecord::Base
   def self.user_types_for_select
     @@user_types.map{|k,v| [k.underscore.humanize, v]}
   end
-
-
   
   def self.valid_user_type?(type_name)
     @@user_types.include? type_name
   end
-
-  # def self.user_type_names
-  #   @@user_types.keys
-  # end
-
-  # def self.user_type_nice_names
-  #   @@user_types.keys.map{|n| n.underscore.humanize}
-  # end
-
 
   belongs_to :owner, :polymorphic => true
   #Check that the polymorphic association specified is valid
 
   validates :owner_type, :inclusion => { :in => @@user_types}
 #  validates :owner, :only_polymorphic => true
+
 end

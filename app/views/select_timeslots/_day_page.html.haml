@@ -2,8 +2,12 @@
 
 = form_for @student, url: wizard_path do |f|
   #timeslots
-  %section
-    %h2= day.capitalize
-    = render :partial => "day_selection", :locals => { :day => day, :calendar_id => day, :timeslots => @timeslots, :student => @student}
-  = f.submit "Save"
-  = f.submit "Save & Continue"
+    .row
+      .pull-right
+        #p
+          = f.submit "Save", :class => "btn btn-primary"
+          = f.submit "Save & Continue", :class => "btn btn-primary"
+      .pull-left
+        %h2= day.capitalize
+    .row
+      = render :partial => "day_selection", :locals => { :day => day, :calendar_id => day, :timeslots => @timeslots, :student => @student}

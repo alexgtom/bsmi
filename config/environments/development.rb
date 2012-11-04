@@ -39,6 +39,8 @@ Bsmi::Application.configure do
   config.action_mailer.default_url_options = { :host => 'localhost' }
   config.action_mailer.perform_deliveries = true
 
+  config.serve_static_assets = false
+
   config.dev_tweaks.autoload_rules do
     keep :all
 

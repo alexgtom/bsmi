@@ -1,6 +1,6 @@
 %h1 Field Placements
-- @placements.each do |p|
-  %table.table.table-hover
+- @placements.to_enum.with_index(1).each do |p, i|
+  %table.table.table-bordered
     %tr
       %td Day
       %td= p.day.capitalize

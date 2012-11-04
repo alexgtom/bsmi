@@ -21,6 +21,7 @@ class Timeslot < ActiveRecord::Base
   has_many :students, :through => :preferences
   belongs_to :mentor_teacher
   belongs_to :course
+  has_one :school, :through => :mentor_teacher
 
   #Validations
   validates :day, :presence => true

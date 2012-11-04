@@ -2,7 +2,7 @@ class Student < ActiveRecord::Base
   has_many :preferences
 
   has_one :user, :as => :owner
-  has_and_belongs_to_many :timeslots, :uniq => true
+  has_and_belongs_to_many :placements, :uniq => true, :class_name => "Timeslot"
   accepts_nested_attributes_for :preferences
 
   validates_associated :preferences, :message => "must not be blank and the ranking number must be unique"

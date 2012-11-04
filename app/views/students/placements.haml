@@ -1,0 +1,19 @@
+%h1 Field Placements
+- @placements.each do |p|
+  %table.table.table-hover
+    %tr
+      %td Day
+      %td= p.day.capitalize
+    %tr
+      %td Time
+      %td
+        ="#{p.start_time.strftime("%l:%M %p")} to #{p.end_time.strftime("%l:%M %p")}"
+    %tr 
+      %td Course
+      %td= p.course.name
+    %tr 
+      %td Grade
+      %td= p.course.grade
+    %tr 
+      %td School
+      %td= "#{p.mentor_teacher.school.name} #{p.mentor_teacher.school.level}"

@@ -3,24 +3,50 @@ Feature: Student advisors can review students/mentors schedule and contact info
 	I want to oversee the schedule of the students and teachers
 	So that I can make reasonable judgement when the student or the mentor ask me to tweak their schedule
 
-Given the following users exist:
-			| name | email 		       | owner_type       |
-			| Oski | oski@berkeley.edu | Student          | 
-			| Bob  | bob@berkeley.edu  | Student          |
-			| Tony | tony@berkeley.edu | Student          |
-			| Mary | mary@berkeley.edu | MentorTeacher    |
-			| Kate | Kate@berkeley.edu | MentorTeacher    |
-			| Alex | alex@berkeley.edu | MentorTeacher    |
+	
 			
+	Given the following courses exist:
+			| name 	    | grade 	  |
+			| Physics   | High School |
+			| Biology   | High School |
+			| Geometry  | High School |
+			| Algebra 2 | High School |
+
+
+		Given the following mentor teachers exist:
+			| name      | address     		| phone_number | email 			   | school 	   |
+			| Oski		| 2650 Haste Street | 408-123-4567 | oski@berkeley.edu | Berkeley High |
+			| Kate		| 2650 Haste Street | 408-123-4566 | kate@berkeley.edu | Berkeley High |
+			| Alex		| 2650 Haste Street | 408-123-4565 | alex@berkeley.edu | Berkeley High |
+
+
+		Given the following timeslots exist:
+			| id | start_time     	| end_time      | day     | course    | mentor_teacher |
+			| 1  | 8:00		   		| 9:00 			| monday  | Physics   | Oski           |
+			| 2  | 9:00		   		| 10:00 		| monday  | Biology   | Oski           |
+			| 3  | 11:00		   	| 12:00 		| tuesday | Geometry  | Alex           |
+			| 4  | 12:00		   	| 13:00 		| tuesday | Algebra 2 | Kate           |
+
+
+		Given the following students exist
+			| id | name  | email             |
+			| 1  | Mary  | mary@berkeley.edu |
+			| 2  | 
 
 
 Scenario: view list of students with their information
   Given I am on the advisors page
   And I follow "Student Roster"
   Then I should be located at "/students"
+  And I should see "Mary"
+  And I should see "mary@berkeley.edu"
+  
+Scenario: view list of mentor teachers with their information
+  Given I am on the advisors page
+  And I follow "Teacher Roster"
+  Then I should be located at "/mentor_teachers"
   And I should see "Oski"
   And I should see "oski@berkeley.edu"
-  
   
 Scenario: sort students by name
   Given I am on the students page
@@ -28,11 +54,4 @@ Scenario: sort students by name
   Then I should see "Bob" before "Oski"
   Then I should see "Oski" before "Tony"
   
-
-Scenario: sort students by course
-  Given I am on the students page
-  When I follow "Course"
-  Then I should see "2001: A Space Odyssey" before "Aladdin"
-  Then I should see "Aladdin" before "Amelie"
-  Then I should see "Amelie" before "Chicken Run"
 

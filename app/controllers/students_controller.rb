@@ -19,6 +19,7 @@ class StudentsController < ApplicationController
 =end   
   end
   def placements
+    @placements = Student.find(params[:id]).placements
   end
 end
 

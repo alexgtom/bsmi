@@ -8,6 +8,7 @@
 
 
 
+
 # --- Create Student
 (1..10).each do |i|
   Student.create!   
@@ -125,6 +126,7 @@ Course.create!(:name => "Science", :grade => "8")
 Course.create!(:name => "Pre Algebra", :grade => "6")
 
 
+
 user = User.new({:name => 'Sangyoon Park',
                  :address => '346 soda UC Berkeley, United States',
                  :phone_number => '123-456-7890',
@@ -149,3 +151,54 @@ users.each do |u|
   user.save
   owner.save
 end
+
+
+
+# --- Create Student
+(1..10).each do |i|
+  Student.create!   
+end
+
+# --- Create mentor teachers
+(1..10).each do |i|
+  user = User.new({:name => "TeacherName#{i}",
+                   :address => 'myaddr',
+                   :phone_number => '000-000-0000',
+                   :email => "TeacherEmail#{i}@gmail.com",
+                   :password => '1234',
+                   :password_confirmation => '1234'})
+  owner = User.build_owner("MentorTeacher")
+  owner.school = School.all[i % School.all.size]
+  owner.save!
+  user.owner = owner
+  user.save!
+end
+
+
+# --- Create timeslots
+times = [["10:00 AM", "10:30 AM"], ["12:00 PM", "1:30 PM"], ["11:00 AM", "12:30 PM"],
+         ["4:00 PM", "5:00 PM"]]
+[:monday, :tuesday, :wednesday, :thursday, :friday].each do |day|
+  times.each.with_index do |time, i|
+    i += 1
+    start_time, end_time = time
+    Timeslot.create!(:start_time => start_time, 
+                     :end_time => end_time,
+                     :mentor_teacher => MentorTeacher.find(i), 
+                     :day => day, 
+                     :course => Course.all[i % Course.all.size])  
+  end
+end
+
+# --- Give student 1 an assignment
+student = Student.find(1)
+student.placements << Timeslot.where(:day => Timeslot.day_index(:monday))[0]
+student.save!
+
+# --- Create preferences
+Timeslot.all.each.with_index do |ts, i|
+  i += 1
+  if (i < Student.count)
+    Preference.create!(:timeslot => ts, :student => Student.find(i), :ranking => i)
+  end
+end         

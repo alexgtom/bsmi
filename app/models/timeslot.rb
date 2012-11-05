@@ -10,8 +10,8 @@ class Timeslot < ActiveRecord::Base
 
   WEEK_START = Time.gm(CUR_YEAR, CUR_MONTH, CUR_DAY)
 
-  DAYS = [:Sun, :Mon, :Tue, :Wed, :Thu, :Fri, :Sat]
-  WEEK_DAYS = DAYS - [:Sun, :Sat]
+  DAYS = [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday]
+  WEEK_DAYS = DAYS - [:sunday, :saturday]
 
   attr_protected #none
 

@@ -24,7 +24,7 @@ describe CalCoursesController do
   # CalCourse. As you add validations to CalCourse, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    {:name => "Educ 1011", :school_type => Elemetary School, :course_grade => 8}
+    {:name => "Educ 1011", :school_type => 'Elemetary School', :course_grade => 8}
   end
 
   # This should return the minimal set of values that should be in the session
@@ -36,7 +36,7 @@ describe CalCoursesController do
 
   describe "GET index" do
     it "assigns all cal_courses as @cal_courses" do
-      cal_course = Cal_Course.create! valid_attributes
+      cal_course = CalCourse.create! valid_attributes
       get :index, {}, valid_session
       assigns(:cal_courses).should eq([cal_course])
     end
@@ -74,14 +74,14 @@ describe CalCoursesController do
       end
 
       it "assigns a newly created cal_course as @cal_course" do
-        post :cal_create, {:cal_course => valid_attributes}, valid_session
+        post :create, {:cal_course => valid_attributes}, valid_session
         assigns(:cal_course).should be_a(CalCourse)
         assigns(:cal_course).should be_persisted
       end
 
       it "redirects to the created cal_course" do
         post :create, {:cal_course => valid_attributes}, valid_session
-        response.should redirect_to(Course.last)
+        response.should redirect_to(CalCourse.last)
       end
     end
 
@@ -111,18 +111,18 @@ describe CalCoursesController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         CalCourse.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, {:id => cal_course.to_param, :cal_course => {'these' => 'params'}}, valid_session
+        put :edit, {:id => cal_course.to_param, :cal_course => {'these' => 'params'}}, valid_session
       end
 
       it "assigns the requested cal_course as @cal_course" do
         cal_course = CalCourse.create! valid_attributes
-        put :update, {:id => cal_course.to_param, :cal_course => valid_attributes}, valid_session
+        put :edit, {:id => cal_course.to_param, :cal_course => valid_attributes}, valid_session
         assigns(:cal_course).should eq(cal_course)
       end
 
-      it "redirects to the cal_cal_course" do
+      it "redirects to the cal_course" do
         cal_course = CalCourse.create! valid_attributes
-        put :update, {:id => cal_course.to_param, :cal_course => valid_attributes}, valid_session
+        put :edit, {:id => cal_course.to_param, :cal_course => valid_attributes}, valid_session
         response.should redirect_to(cal_course)
       end
     end

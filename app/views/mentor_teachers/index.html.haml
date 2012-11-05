@@ -3,19 +3,19 @@
 
 %table.table.table-hover
   %tr
-    %th= link_to 'Name', mentor_teachers_path(:sort => 'name')
+    %th= link_to 'First Name', mentor_teachers_path(:sort => 'first_name')
+    %th= link_to 'Last Name', mentor_teachers_path(:sort => 'last_name')
     %th Email
     %th= link_to 'Course', mentor_teachers_path(:sort => 'course')
-    %th
     %th
     %th
 
   - @all_teacher.each do |teacher|
     %tr
-      %td= teacher.name
+      %td= teacher.first_name
+      %td= teacher.last_name
       %td= teacher.email 
       %td= 'course'
-      %td= link_to 'View Schedule'
       %td= link_to 'Edit', "/user/#{teacher.id}/adv_edit"
       %td= link_to 'Delete', teacher, method: :delete, data: { confirm: 'Are you sure?' }
       

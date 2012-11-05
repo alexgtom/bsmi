@@ -10,7 +10,7 @@ FactoryGirl.define do
     password { name }
     password_confirmation { password }
     phone_number '111-111-1111'
-    address '111 St Way'
+    street_address '111 St Way'
 
   end
 end

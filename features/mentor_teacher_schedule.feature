@@ -6,9 +6,9 @@ Feature: Mentor teacher scheduling
 Background: I am a mentor teacher
   Given I am a mentor teacher
 
-
+@javascript
 Scenario: Enter the times and classes that I teach
-  When I go to the mentor_teacher new schedule page
+  When I go to /mentor_teacher/schedule/new
   And I add the following timeslots on Monday:
    |class_name | start_time | end_time | num_assistants |
    | Calculus  | 10:00  AM  | 11:00 AM | 2          |
@@ -17,7 +17,8 @@ Scenario: Enter the times and classes that I teach
    |class_name | start_time | end_time | num_assistants |
    | Calculus  | 10:00  AM  | 11:00 AM | 2          |
   And  I press "Save Schedule"
-  Then my schedule should look like: 
+  Then I should be on /mentor_teacher/schedule/new
+  And my schedule should look like: 
   | day     | class_name | start_time  | end_time | num_assistants |
   | Monday  | Calculus   | 10:00  AM  | 11:00 AM |          2 |
   | Monday  | Precalc    | 1:00 PM    | 2:30 PM  |          1 |

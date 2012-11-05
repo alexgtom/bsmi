@@ -4,13 +4,13 @@ FactoryGirl.define do
     "user#{n}"
   end
   factory :user do
-    name { FactoryGirl.generate(:user_name) }
-
-    email { "#{name}@bsmi.org" }
+    first_name { FactoryGirl.generate(:user_name) }
+    last_name { FactoryGirl.generate(:user_name) }
+    email {"#{first_name}@bsmi.org"}
     password { name }
-    password_confirmation { name }
+    password_confirmation { password }
     phone_number '111-111-1111'
-    address '111 St Way'
+    street_address '111 St Way'
 
   end
 end

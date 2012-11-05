@@ -1,33 +1,34 @@
 require 'time'
 
 Given /^I am a mentor teacher$/ do
-  #xxx LOGIN HERE
+  password = "test"
+  teacher = FactoryGirl.create(:mentor_teacher)
+  user = FactoryGirl.create(:user,  
+                            :password => password,
+                            :owner => teacher
+                            )             
+  login(user.email, password)
 end
-
+include MentorTeacher::SchedulesHelper
 When /^I add the following timeslots on (.*?):$/ do |day ,table|
-  day = day.downcase
-  table.hashes.each do |timeslot|
-    #TODO: make this less shitty
-    #GAH
-    extract_time("start_time", timeslot)
-    extract_time("end_time", timeslot)
 
-    within("##{day}") do
-      timeslot.each_pair do |field, value|
-        if not field.match(/timeslots/)
-          field = "timeslots[][#{field}]"
-        end
-        #Special case classname for now 
-        if field.to_s.include?("class_name")
-          fill_in(field, :with => value)                    
-        else
-          select(value.to_s, :from => field)
-        end        
-      end
-    end
+  cal_events = table.hashes.map {|h| FactoryGirl.build(:cal_event_hash, h) }
+  cal_events.each do |event_hash|
+    event_hash = Hash[event_hash.each_pair.map {|k, v| [k.to_s, v]}]
+    script = %Q{
+var event = #{dump_event(event_hash)};
+ eventNewCallback(event, null);
+}
+
+    page.execute_script(script)
+    
+    # within("#event_edit_container") do
+    #   fill_in("Start time", :with => split_time(h["start_time"]))
+    # end
+    click_button('save')
   end
-  
 end
+  
 
 def extract_time(time_key, timeslot_hash)
   time = split_time(timeslot_hash[time_key])

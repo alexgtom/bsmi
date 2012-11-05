@@ -4,6 +4,6 @@ class Preference < ActiveRecord::Base
   belongs_to :timeslot
 
   #validates :ranking, :presence => true
-  #validates_uniqueness_of :ranking, :scope => [:student_id], :allow_nul => true, :allow_blank => true
+  validates_uniqueness_of :ranking, :scope => [:student_id], :allow_nul => true, :allow_blank => true
 
 end

@@ -51,6 +51,8 @@ class CalCoursesController < ApplicationController
     end
   end
 
+  # PUT /cal_courses/1
+  # PUT /cal_courses/1.json
   def update
     @cal_course = CalCourse.find(params[:id])
     if @cal_course.update_attributes(params[:cal_course]) 
@@ -64,6 +66,8 @@ class CalCoursesController < ApplicationController
     end
   end
 
+  # DELETE /cal_courses/1
+  # DELETE /cal_courses/1.json
   def destroy
     @cal_course = CalCourse.find(params[:id])
     @cal_course.destroy_timeslot_associations

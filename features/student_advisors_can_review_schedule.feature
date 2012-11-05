@@ -4,9 +4,13 @@ Feature: Student advisors can review students/mentors schedule and contact info
 	So that I can make reasonable judgement when the student or the mentor ask me to tweak their schedule
 	
 	Given the following users exist:
-			| name 	    | email               | owner_type        |
-			| Mary      | mary@berkeley.edu   | Student           |
-			| Oski      | oski@berkeley.edu   | MentorTeacher     |
+			| first_name | last_name   |  email              | owner_type        |
+			| Alex       | Tom         | alex@berkeley.edu   | Student           |
+			| Mary       | Liu         | mary@berkeley.edu   | Student           |
+			| Tina       | Allen       | tina@berkeley.edu   | Student           |
+			| Will       | Lee         | will@berkeley.edu   | MentorTeacher     |
+			| Jerry      | Kim         | jerry@berkeley.edu  | MentorTeacher     |
+			| Oski       | Wang        | oski@berkeley.edu   | MentorTeacher     |
 
 			
 	Given the following courses exist:
@@ -35,7 +39,6 @@ Feature: Student advisors can review students/mentors schedule and contact info
 	Given the following students exist
 			| id | name  | email             |
 			| 1  | Mary  | mary@berkeley.edu |
-			| 2  | 
 
 
 Scenario: view list of students with their information
@@ -51,10 +54,10 @@ Scenario: view list of mentor teachers with their information
   Then I should be located at "/mentor_teachers"
   Then I should see "Oski"
   Then I should see "oski@berkeley.edu"
-  
-Scenario: sort students by name
+
+Scenario: sort students by first name
   Given I am on the students page
-  When I follow "Name"
+  When I follow "First Name"
   Then I should see "Mary" before "Oski"
   Then I should see "Oski" before "Tony"
   

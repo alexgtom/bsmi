@@ -7,9 +7,10 @@ describe "advisors/index" do
       stub_model(Advisor)
     ])
   end
-
+=begin
   it "renders a list of advisors" do
     render
     # Run the generator again with the --webrat flag if you want to use webrat matchers
   end
+=end
 end

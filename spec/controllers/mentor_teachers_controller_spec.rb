@@ -34,14 +34,6 @@ describe MentorTeachersController do
     {}
   end
 
-  describe "GET index" do
-    it "assigns all mentor_teachers as @mentor_teachers" do
-      mentor_teacher = MentorTeacher.create! valid_attributes
-      get :index, {}, valid_session
-      assigns(:mentor_teachers).should eq([mentor_teacher])
-    end
-  end
-
   describe "GET show" do
     it "assigns the requested mentor_teacher as @mentor_teacher" do
       mentor_teacher = MentorTeacher.create! valid_attributes

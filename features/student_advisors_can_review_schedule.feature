@@ -41,6 +41,12 @@ Feature: Student advisors can review students/mentors schedule and contact info
 		  When I follow "First Name"
 		  Then I should see "Andrew" before "Orion"
 		  
+	    Scenario: sort students by course
+		  Given I am on the mentor_teachers page
+		  When I follow "Last Name"
+		  Then I should see "Tony" before "Alex"
+		  
+		
 		Scenario: sort teachers by last name
 		  Given I am on the mentor_teachers page
 		  When I follow "Last Name"

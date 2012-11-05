@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe "advisors/show" do
+=begin
   before(:each) do
     @advisor = assign(:advisor, stub_model(Advisor))
   end
@@ -9,4 +10,5 @@ describe "advisors/show" do
     render
     # Run the generator again with the --webrat flag if you want to use webrat matchers
   end
+=end
 end

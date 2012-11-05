@@ -8,8 +8,4 @@ describe "mentor_teachers/index" do
     ])
   end
 
-  it "renders a list of mentor_teachers" do
-    render
-    # Run the generator again with the --webrat flag if you want to use webrat matchers
-  end
 end

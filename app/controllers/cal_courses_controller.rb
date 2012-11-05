@@ -31,6 +31,9 @@ class CalCoursesController < ApplicationController
   def new
     @cal_course = CalCourse.new
     @entries = @cal_course.create_selection_for_new_course
+    if @entries.nil?
+      @entries = Array.new
+    end
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @cal_course }

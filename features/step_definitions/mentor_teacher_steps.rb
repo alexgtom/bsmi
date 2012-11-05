@@ -22,10 +22,9 @@ var event = #{dump_event(event_hash)};
 
     page.execute_script(script)
     
-    step %Q{I fill in the following:
-|Class name            | Start time            | End time           |
-|#{event_hash[:title]} | #{event_hash[:start]} | #{event_hash[:end]}| 
-}
+    # within("#event_edit_container") do
+    #   fill_in("Start time", :with => split_time(h["start_time"]))
+    # end
     click_button('save')
   end
 end

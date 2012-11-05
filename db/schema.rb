@@ -11,13 +11,28 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121104181650) do
+ActiveRecord::Schema.define(:version => 20121105051803) do
+
+  create_table "advisors", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "cal_courses", :force => true do |t|
+    t.string   "name"
+    t.text     "timeslots"
+    t.string   "school_type"
+    t.string   "course_grade"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
 
   create_table "courses", :force => true do |t|
     t.string   "name"
     t.string   "grade"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.integer  "cal_course_id"
   end
 
   create_table "districts", :force => true do |t|
@@ -25,6 +40,19 @@ ActiveRecord::Schema.define(:version => 20121104181650) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "invites", :force => true do |t|
+    t.string   "email"
+    t.string   "invite_code", :limit => 40
+    t.datetime "invited_at"
+    t.datetime "redeemed_at"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "owner_type"
+  end
+
+  add_index "invites", ["id", "email"], :name => "index_invites_on_id_and_email"
+  add_index "invites", ["id", "invite_code"], :name => "index_invites_on_id_and_invite_code"
 
   create_table "mentor_teachers", :force => true do |t|
     t.datetime "created_at", :null => false
@@ -88,29 +116,34 @@ ActiveRecord::Schema.define(:version => 20121104181650) do
     t.integer  "mentor_teacher_id"
     t.integer  "max_num_assistants"
     t.integer  "course_id"
+    t.string   "cal_course_id"
   end
 
   create_table "users", :force => true do |t|
-    t.string   "name",                :default => "", :null => false
-    t.string   "address",                             :null => false
-    t.string   "phone_number",                        :null => false
-    t.string   "crypted_password",                    :null => false
-    t.string   "password_salt",                       :null => false
-    t.string   "email",                               :null => false
-    t.string   "persistence_token",                   :null => false
-    t.string   "single_access_token",                 :null => false
-    t.string   "perishable_token",                    :null => false
-    t.integer  "login_count",         :default => 0,  :null => false
-    t.integer  "failed_login_count",  :default => 0,  :null => false
+    t.string   "phone_number",                       :null => false
+    t.string   "crypted_password",                   :null => false
+    t.string   "password_salt",                      :null => false
+    t.string   "email",                              :null => false
+    t.string   "persistence_token",                  :null => false
+    t.string   "single_access_token",                :null => false
+    t.string   "perishable_token",                   :null => false
+    t.integer  "login_count",         :default => 0, :null => false
+    t.integer  "failed_login_count",  :default => 0, :null => false
     t.datetime "last_request_at"
     t.datetime "current_login_at"
     t.datetime "last_login_at"
     t.string   "current_login_ip"
     t.string   "last_login_ip"
-    t.datetime "created_at",                          :null => false
-    t.datetime "updated_at",                          :null => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
     t.integer  "owner_id"
     t.string   "owner_type"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "street_address"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zipcode"
   end
 
 end

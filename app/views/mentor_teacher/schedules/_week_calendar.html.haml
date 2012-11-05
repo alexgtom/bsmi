@@ -1,89 +1,17 @@
-- content_for(:head) do
-  :javascript
-    var year = 1990
-    var month = 2
-    var day = 5
+= render :partial => "calendar_obj_script", :locals => {:data => timeslots, :read_only => read_only}
 
-    $(document).ready(
-        //xxxx
-        function() {
-        
-      $('##{calendar_id}').weekCalendar({
-        date: new Date(year, month, day),
+-# Code taken from https://github.com/themouette/jquery-week-calendar/blob/master/full_demo/weekcalendar_full_demo.html 
+%div#calendar
+  %div{:id => 'event_edit_container', :style => "display: none;"}
+    = form_for :timeslot do |f|
+      = f.label(:class_name) 
+      = f.text_field(:class_name, :id => :class_name)
+      = f.label(:start_time)      
+      = f.time_select(:start_time, {:ampm => true}, :class => "start_time")
+      
+      = f.label(:end_time)
+      = f.time_select(:end_time, {:ampm => true}, :class => "end_time")
 
-        timeslotsPerHour: 6,
-        timeslotHeight: 10,
-        readonly: false,
-        hourLine: false,
-        firstDayOfWeek: 1,
-        businessHours: {start: 8, end: 18, limitDisplay: true},
-        allowCalEventOverlap: true,
-        overlapEventsSeparate: true,
-        daysToShow: 5,
-        showHeader: false,
-        dateFormat: "",  // delete date in header
-        longDays: ['', 'M', 'Tu', 'W', 'Th', 'F', ''], // deletes day in header
-        height: function($calendar) { // CHANGE HEIGHT HERE
-          return #{height}
-        },
-        // eventRender : function(calEvent, $event) {
-        // },
-        eventAfterRender: function(calEvent, element) {  
-        },
-        eventNew: function(calEvent, $event) {
-            console.log(JSON.stringify(calEvent))
-        },
-        eventDrop: function(calEvent, $event) {
-        },
-        eventResize: function(calEvent, $event) {
-        },
-        eventClick: function(calEvent, element, freeBusyManager, $calendar, DomEvent) {
-            
-        
-        },
-        eventMouseover: function(calEvent, $event) {
-        },
-        eventMouseout: function(calEvent, $event) {
-        },
-        noEvents: function() {
-            //        alert("Foo")
-        }
-      });
 
-      function displayMessage(message) {
-          $('#message').html(message).fadeIn();
-      }
 
-      $('').prependTo($('body'));
-    });
-  :css
-    p.description {
-      font-size: 0.8em;
-      padding: 1em;
-      position: absolute;
-      top: 3.2em;
-      margin-right: 400px;
-    }
-
-    #message {
-      font-size: 0.7em;
-      position: absolute;
-      top: 1em;
-      right: 1em;
-      width: 350px;
-      display: none;
-      padding: 1em;
-      background: #ffc;
-      border: 1px solid #dda;
-    }
-
-    .highlightEvent {
-      background-color: #FFFF88;
-      color: #000;
-    }
-
-    ##{calendar_id} {
-      /* CHANGE HIEGHT IN JS */
-      width: #{width}
-    }
-%div{:id => calendar_id}
+  

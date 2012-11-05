@@ -1,4 +1,6 @@
 Bsmi::Application.routes.draw do
+  resources :invites
+
   resources :courses
 
   resources :districts
@@ -7,18 +9,31 @@ Bsmi::Application.routes.draw do
 
   resources :user_sessions
 
+
+  resources :invites
+
   match 'login' => "user_sessions#new",      :as => :login
   match 'logout' => "user_sessions#destroy", :as => :logout
-  
+
   resources :users  # give us our some normal resource routes for users
   resource :user, :as => 'account'  # a convenience route
+
+  match '/user/adv_new' => 'users#adv_new', :as => 'advisor_new_user'
+  match '/user/adv_create' => 'users#adv_create', :as => 'advisor_create_user'
+  match '/user/:id/adv_edit' => 'users#adv_edit', :as => 'advisor_edit_user'
+  match '/user/adv_edit' => 'users#adv_update', :as => 'advisor_update_user'
+
+  match '/send_invitation/:id' => 'invites#send_invitation', :as => 'send_invitation'
+  match '/signup/:invite_code' => 'users#new', :as => 'redeem_invitation'
 
   match 'signup' => 'users#new', :as => :signup
 
 
+  resources :mentor_teachers
   namespace :mentor_teacher do
     resource :schedule      
   end
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -75,6 +90,9 @@ Bsmi::Application.routes.draw do
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
+
+  resources :advisors
+
   resources :students do
     resources :select_timeslots
     member do 

@@ -1,0 +1,8 @@
+<h1>Edit Account</h1>
+
+<%= form_for @user, :url => "/user/adv_edit" do |f| %>
+  <input type="hidden" name="id" value="<%=params[:id]%>">
+  <%= render :partial => "form", :object => f, :locals => { :user => @user } %>
+  <%= f.submit "Update" %>
+<% end %>
+

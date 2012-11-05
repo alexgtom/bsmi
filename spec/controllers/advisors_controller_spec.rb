@@ -33,14 +33,7 @@ describe AdvisorsController do
   def valid_session
     {}
   end
-
-  describe "GET index" do
-    it "assigns all advisors as @advisors" do
-      advisor = Advisor.create! valid_attributes
-      get :index, {}, valid_session
-      assigns(:advisors).should eq([advisor])
-    end
-  end
+  
 
   describe "GET show" do
     it "assigns the requested advisor as @advisor" do

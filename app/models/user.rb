@@ -2,7 +2,6 @@ class User < ActiveRecord::Base
   acts_as_authentic do |c|
   end # block optional
 
-  
   @@user_types = Hash[[Advisor, MentorTeacher, Student].map {|type| [type.name, type]}]
 
   def self.user_types
@@ -30,6 +29,6 @@ class User < ActiveRecord::Base
   #Check that the polymorphic association specified is valid
 
   validates :owner_type, :inclusion => { :in => @@user_types}
-#  validates :owner, :only_polymorphic => true
+
 
 end

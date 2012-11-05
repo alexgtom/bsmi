@@ -1,14 +1,12 @@
 require 'spec_helper'
 
-describe "advisors/show" do
-=begin
+describe "mentor_teachers/show" do
   before(:each) do
-    @advisor = assign(:advisor, stub_model(Advisor))
+    @mentor_teacher = assign(:mentor_teacher, stub_model(MentorTeacher))
   end
 
   it "renders attributes in <p>" do
     render
     # Run the generator again with the --webrat flag if you want to use webrat matchers
   end
-=end
 end

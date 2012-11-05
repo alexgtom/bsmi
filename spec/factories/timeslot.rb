@@ -24,7 +24,7 @@ FactoryGirl.define do
     slot_num = n % num_slots
     
     seconds_since_start = slot_num * slot_length * 60
-    return Time.parse("#{start_hour}:00 03/01/2000") + seconds_since_start
+    return Time.parse("2000-01-03 #{start_hour}:00 UTC") + seconds_since_start
   end
 
 
@@ -38,10 +38,9 @@ FactoryGirl.define do
   end
 
   factory :timeslot do    
-    day :monday
-    #sequence :day do |n|
-    #  day Timeslot.weekdays[n % 5]
-    #end
+    sequence :day do |n|
+      Timeslot.weekdays[n % 5]
+    end
    
     start_time { FactoryGirl.generate(:time) }
     end_time {start_time + 3600} #One hour after

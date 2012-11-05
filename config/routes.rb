@@ -9,6 +9,7 @@ Bsmi::Application.routes.draw do
 
   resources :user_sessions
 
+
   resources :invites
 
   match 'login' => "user_sessions#new",      :as => :login
@@ -28,11 +29,11 @@ Bsmi::Application.routes.draw do
   match 'signup' => 'users#new', :as => :signup
 
 
- # root to: "welcome#index"
-
+  resources :mentor_teachers
   namespace :mentor_teacher do
     resource :schedule      
   end
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -94,7 +95,8 @@ Bsmi::Application.routes.draw do
 
   resources :students do
     resources :select_timeslots
-    member do
+    member do 
+      get 'placements'
       get 'timeslot_selection'
       post 'timeslot_selection'
     end

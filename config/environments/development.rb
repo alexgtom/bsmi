@@ -32,12 +32,15 @@ Bsmi::Application.configure do
   # Do not compress assets
   config.assets.compress = false
 
+
   # Expands the lines which load the assets
   config.assets.debug = true
+
 
   # mailer settings
   config.action_mailer.default_url_options = { :host => 'localhost' }
   config.action_mailer.perform_deliveries = true
+
 
   config.serve_static_assets = false
 

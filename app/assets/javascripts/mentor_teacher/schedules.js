@@ -7,7 +7,7 @@
 
 
 /* Global event id */
-TIMESLOT_ID = 0;
+TIMESLOT_ID = 1;
 NEW_TITLE = "Class name";
 function nextEventID() {
     return TIMESLOT_ID++;
@@ -40,7 +40,7 @@ function selectOptionWithValue($select_tag, value) {
 
 
 function extractTime($timeFields, curDate) {     
-    var rtn = curDate.clone()
+    var rtn = new Date(curDate);
     rtn.setHours($timeFields[0].value);
     rtn.setMinutes($timeFields[1].value);
     return rtn;
@@ -152,8 +152,19 @@ function updateEventInForm(calEvent) {
                        );
         $eventInput.insertBefore($form.find('input[type="submit"]'));
     }
-    
-    $eventInput.val(JSON.stringify(calEvent));
+    var newEvent = jQuery.extend({}, calEvent);
+    newEvent["start"] = asUTC(newEvent["start"]);
+    newEvent["end"] = asUTC(newEvent["end"]);
+    $eventInput.val(JSON.stringify(newEvent));
+}
+
+/* Treat date as if it represented a time in UTC (regardless of its actual timezone)*/
+function asUTC(date) {
+    return Date.UTC(date.getFullYear(), 
+                    date.getMonth(), 
+                    date.getUTCDate(), 
+                    date.getHours(),
+                    date.getMinutes()) / 1000;
 }
 
 /*

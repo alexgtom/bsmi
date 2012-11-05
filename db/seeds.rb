@@ -34,7 +34,7 @@ Timeslot.all.each.with_index do |ts, i|
   if (i < Student.count)
     Preference.create!(:timeslot => ts, :student => Student.find(i), :ranking => i)
   end
-end
+end         
 
 user = User.new({:first_name => 'Sangyoon',
                  :last_name => 'Park',
@@ -68,6 +68,7 @@ users.each do |u|
   user.save
   owner.save
 end
+
     
 # --- Create districts
 busd = District.create!(:name => "BUSD")

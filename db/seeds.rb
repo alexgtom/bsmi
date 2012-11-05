@@ -90,7 +90,16 @@ Course.create!(:name => "Pre Algebra", :grade => "6")
 
 # --- Create Student
 (1..10).each do |i|
-  Student.create!   
+  user = User.new({:name => "StudentName#{i}",
+                   :address => 'myaddr',
+                   :phone_number => '000-000-0000',
+                   :email => "StudentEmail#{i}@gmail.com",
+                   :password => '1234',
+                   :password_confirmation => '1234'})
+  owner = User.build_owner("Student")
+  owner.save!
+  user.owner = owner
+  user.save!
 end
 
 # --- Create mentor teachers

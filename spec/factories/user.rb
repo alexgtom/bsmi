@@ -4,8 +4,8 @@ FactoryGirl.define do
     "user#{n}"
   end
   factory :user do
-    name { FactoryGirl.generate(:user_name) }
-
+    first_name { FactoryGirl.generate(:user_name) }
+    last_name { FactoryGirl.generate(:user_name) }
     email { "#{name}@bsmi.org" }
     password { name }
     password_confirmation { password }

@@ -153,7 +153,8 @@ Course.create!(:name => "Pre Algebra", :grade => "6")
 
 # --- Create Student
 (1..10).each do |i|
-  user = User.new({:name => "StudentName#{i}",
+  user = User.new({:first_name => "StudentName#{i}",
+	           :last_name => "StudentName#{i}",
                    :address => 'myaddr',
                    :phone_number => '000-000-0000',
                    :email => "StudentEmail#{i}@gmail.com",
@@ -167,7 +168,8 @@ end
 
 # --- Create mentor teachers
 (1..10).each do |i|
-  user = User.new({:name => "TeacherName#{i}",
+  user = User.new({:first_name => "TeacherName#{i}",
+		   :last_name => "TeacherName#{i}",
                    :address => 'myaddr',
                    :phone_number => '000-000-0000',
                    :email => "TeacherEmail#{i}@gmail.com",

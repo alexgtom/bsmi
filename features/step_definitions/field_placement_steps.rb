@@ -23,7 +23,7 @@ Given /the following mentor teachers exist/ do |tb|
     user = User.new({
       :first_name => t['first_name'],
       :last_name => t['last_name'],
-      :address => t['address'],
+      :street_address => t['address'],
       :phone_number => t['phone_number'],
       :email => t['email'],
       :password => '1234',

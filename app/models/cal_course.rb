@@ -13,7 +13,6 @@ class CalCourse < ActiveRecord::Base
     entries = Array.new
     courses = Course.all
     if courses
-      debugger
       courses.each do |course|
         times = course.timeslots
         if not times.nil?

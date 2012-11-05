@@ -1,16 +1,36 @@
 <%= render "users/shared/error_messages", :target => @user %>
 
+<input type="hidden" name="owner_type" value="<%= params[:owner_type]%>">
+<input type="hidden" name="invite_code" value="<%= params[:invite_code]%>">
+<% if params[:action] == "adv_new" || params[:action] == "adv_edit" %>
 <p>
   <%= form.label :owner_type %><br />
   <%= form.select :owner_type, :options => User.user_types_for_select %>
 </p>
+<% end %>
 <p>
-  <%= form.label :name %><br />
-  <%= form.text_field :name %>
+  <%= form.label :first_name %><br />
+  <%= form.text_field :first_name %>
 </p>
 <p>
-  <%= form.label :address %><br />
-  <%= form.text_field :address %>
+  <%= form.label :last_name %><br />
+  <%= form.text_field :last_name %>
+</p>
+<p>
+  <%= form.label :street_address %><br />
+  <%= form.text_field :street_address %>
+</p>
+<p>
+  <%= form.label :city %><br />
+  <%= form.text_field :city %>
+</p>
+<p>
+  <%= form.label :state %><br />
+  <%= form.text_field :state %>
+</p>
+<p>
+  <%= form.label :zipcode %><br />
+  <%= form.text_field :zipcode %>
 </p>
 <p>
   <%= form.label :phone_number %><br />

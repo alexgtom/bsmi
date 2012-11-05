@@ -26,9 +26,9 @@ Background: classes, mentor teachers and timeslots are created
   | name        | school_type		| course_grade	|
   | Educ 111	| Elementary School	| 8		|
   Given Given the following mentor teachers exist:
-  | name	| email		| password	| type		| school    	  | address   | phone_number |
-  | Bob Ross	| se@se.com	| 12345		| MentorTeacher	| El Cerrito High | 1 Er way  | 000-111-222  |
-  | Ren Gar	| col@col.net	| 23456		| MentorTeacher	| Ocean View	  | 2 Re Blvd | 333-444-555  |
+  | first_name|last_name| email	| password| type    | school    | street_address   | phone_number |
+  | Bob | Ross | se@se.com  | 12345 | MentorTeacher | El Cerrito High | 1 Er way  | 000-111-222  |
+  | Ren | Gar  | col@col.net| 23456 | MentorTeacher | Ocean View      | 2 Re Blvd | 333-444-555  |
 
 
 Scenario: Add a Cal Course

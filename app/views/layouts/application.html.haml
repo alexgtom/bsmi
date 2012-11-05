@@ -16,28 +16,36 @@
           %a.brand{:href => "#"} BSMI
           .nav-collapse.collapse
             %ul.nav
-              // Temporary navigation links
-              %li
-                %a{:href => courses_path} Courses
-              %li
-                %a{:href => schools_path} Schools
-              %li
-                %a{:href => districts_path} Districts
-              %li
-                %a{:href => "/students/1/select_timeslots"} Select Timeslots
-              %li
-                %a{:href => "/students/1/select_timeslots/summary"} Timeslot Preference Summary
-              - if current_user
-                %li
-                  %a{:href => edit_user_path(current_user.id)} Edit Profile
-                %li
-                  %a{:href => "/logout"} Logout
-              - else
-                %li
-                  %a{:href => new_user_path} Register
-                %li
-                  %a{:href => :login} Login
     .container
+      %ul.nav.nav-pills
+        // Temporary navigation links
+        %li
+          %a{:href => mentor_teachers_path} Mentor Teachers
+        %li
+          %a{:href => cal_courses_path} Cal Courses
+        %li
+          %a{:href => advisors_path} Advisors
+        %li
+          %a{:href => courses_path} Courses
+        %li
+          %a{:href => schools_path} Schools
+        %li
+          %a{:href => districts_path} Districts
+        %li
+          %a{:href => "/students/1/select_timeslots"} Select Timeslots
+        %li
+          %a{:href => "/students/1/select_timeslots/summary"} Timeslot Preference Summary
+        - if current_user
+          %li
+            %a{:href => edit_user_path(current_user.id)} Edit Profile
+          %li
+            %a{:href => "/logout"} Logout
+        - else
+          %li
+            %a{:href => new_user_path} Register
+          %li
+            %a{:href => :login} Login
+      
       - [:notice, :error, :error_list, :alert].each do |level| 
         - unless flash[level].blank?
           - if level == :notice

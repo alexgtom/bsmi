@@ -20,8 +20,8 @@ Feature: Students should be able to view the options
 			| BUSD     | High School | Berkeley High |
 
 		Given the following mentor teachers exist:
-			| name      | address     		| phone_number | email 			   | school 	   |
-			| Oski		| 2650 Haste Street | 408-123-4567 | oski@berkeley.edu | Berkeley High |
+			| first_name    | last_name | address     		| phone_number | email 			   | school 	   |
+			| Oski			| Bear      | 2650 Haste Street | 408-123-4567 | oski@berkeley.edu | Berkeley High |
 
 		Given the following timeslots exist:
 			| id | start_time     	| end_time      | day     | course    | mentor_teacher |
@@ -47,7 +47,7 @@ Feature: Students should be able to view the options
 		Then I should see "Physics"
 		Then I should see "High School"
 		Then I should see "Berkeley High"
-		Then I should see "Oski"
+		Then I should see "Oski Bear"
 
 	Scenario: Student should be able to see multiple field placements
 		Given the following assignments exist
@@ -63,7 +63,7 @@ Feature: Students should be able to view the options
 		Then I should see "Physics"
 		Then I should see "High School"
 		Then I should see "Berkeley High"
-		Then I should see "Oski"
+		Then I should see "Oski Bear"
 
 		# second timeslot
 		Then I should see "Tuesday"
@@ -71,5 +71,5 @@ Feature: Students should be able to view the options
 		Then I should see "Geometry"
 		Then I should see "High School"
 		Then I should see "Berkeley High"
-		Then I should see "Oski"
+		Then I should see "Oski Bear"
 

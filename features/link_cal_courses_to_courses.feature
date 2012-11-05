@@ -42,7 +42,6 @@ Scenario: Add a Cal Course
   And I should see "Educ 101"
   And I should see "Middle School"
   And I should see "8"
-  And I should see "Calculus"
   And I should see "monday|08:00AM|09:00AM"
   And I should see "Bob Ross"
   And I should not see "Precalc"

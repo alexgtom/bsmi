@@ -4,6 +4,5 @@ FactoryGirl.define do
   factory :course do
     name "Math"
     grade "1"
-    timeslots =  { FactoryGirl.generate(:timeslot) }
   end
 end

@@ -14,8 +14,8 @@ module NavigationHelpers
     case page_name
       when /^the mentor_teacher new schedule page$/      
         '/mentor_teacher/schedule/new'
-    when %r{/mentor_teacher/schedule}
-      '/mentor_teacher/schedule'
+    when %r{/mentor_teacher/schedule/new}
+      '/mentor_teacher/schedule/new'
       when /^the user\s?page$/
         '/user'
       when /^the users\s?page$/

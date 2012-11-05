@@ -2,7 +2,7 @@ Given /the following timeslots exist/ do |tb|
   tb.hashes.each do |t|
 
     if t.has_key?('mentor_teacher')
-      t['mentor_teacher'] = MentorTeacher.joins(:user).where("users.name" => t['mentor_teacher']).first
+      t['mentor_teacher'] = MentorTeacher.joins(:user).where("users.first_name" => t['mentor_teacher']).first
       if t['mentor_teacher'].nil?
         raise NullPointerException
       end

@@ -20,12 +20,15 @@ end
 
 Given /the following mentor teachers exist/ do |tb|
   tb.hashes.each do |t|
-    user = User.new({:name => t['name'],
-                     :address => t['address'],
-                     :phone_number => t['phone_number'],
-                     :email => t['email'],
-                     :password => '1234',
-                     :password_confirmation => '1234'})
+    user = User.new({
+      :first_name => t['first_name'],
+      :last_name => t['last_name'],
+      :address => t['address'],
+      :phone_number => t['phone_number'],
+      :email => t['email'],
+      :password => '1234',
+      :password_confirmation => '1234'
+    })
     owner = User.build_owner("MentorTeacher")
     owner.school = School.find_by_name!(t['school'])
     owner.save!

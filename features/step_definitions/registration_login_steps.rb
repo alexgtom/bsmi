@@ -24,6 +24,23 @@ Given /I am signed up/ do
   owner.save
 end
 
+# Given /I am logged in as:/ do |table|
+#   visit '/login'
+#   table.rows_hash.each do |name, value|
+#     fill_in(name, :with => value)
+#   end
+#   click "Login"
+# end
+
+
+def login(email, password)
+  visit '/login'
+  fill_in "Email", :with => email
+  fill_in "Password", :with => password
+  click_button "Login"
+  page.should have_content('Login successful')
+end 
+
 Then /^(?:|I )should be located at "([^"]*)"$/ do |page_name|
   current_path = URI.parse(current_url).path
   if current_path.respond_to? :should

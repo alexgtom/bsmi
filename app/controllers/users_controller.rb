@@ -13,6 +13,7 @@ class UsersController < ApplicationController
     @invite = Invite.find_redeemable(invite_code)
 
     user_type = params[:owner_type]
+
     begin
      owner = User.build_owner(user_type)
     rescue ArgumentError
@@ -38,7 +39,7 @@ class UsersController < ApplicationController
 #      end
 #      return
 #    end
-
+    
     if invite_code && @invite && @invite.email == @user.email && @invite.owner_type == @user.owner_type
       if @user.save and owner.save
         @invite.redeemed!

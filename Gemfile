@@ -18,6 +18,7 @@ group :development, :test do
   gem 'ruby-debug19', :require => 'ruby-debug'
   gem 'debugger'
   gem 'capybara'
+  gem 'capybara-webkit'
   gem 'launchy'
   gem 'rspec-rails', '~> 2.4'
   gem 'shoulda-matchers'

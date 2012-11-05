@@ -8,7 +8,7 @@ FactoryGirl.define do
 
     email { "#{name}@bsmi.org" }
     password { name }
-    password_confirmation { name }
+    password_confirmation { password }
     phone_number '111-111-1111'
     address '111 St Way'
 

@@ -49,9 +49,20 @@ Given /I am signed up as a student advisor/ do
   owner.save
 end
 
+
 Given /I am invited and on the signup page/ do
   visit "/signup?owner_type=Student&invite_code=aa10df161da4c011d507dea384aa2d03cbc2e5ba"
 end
+
+
+def login(email, password)
+  visit '/login'
+  fill_in "Email", :with => email
+  fill_in "Password", :with => password
+  click_button "Login"
+  page.should have_content('Login successful')
+end 
+
 
 Then /^(?:|I )should be located at "([^"]*)"$/ do |page_name|
   current_path = URI.parse(current_url).path

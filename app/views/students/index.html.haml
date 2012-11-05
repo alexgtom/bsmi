@@ -16,7 +16,7 @@
       %td= student.first_name
       %td= student.last_name
       %td= student.email
-      %td= 'course'
+      %td= student.placements
       %td= link_to 'View Schedule', "students/#{student.id}/select_timeslots/summary"
       %td= link_to 'Edit', "/user/#{student.id}/adv_edit"
       %td= link_to 'Delete', student, method: :delete, data: { confirm: 'Are you sure?' }

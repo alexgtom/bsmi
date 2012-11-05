@@ -6,7 +6,7 @@ FactoryGirl.define do
   factory :user do
     first_name { FactoryGirl.generate(:user_name) }
     last_name { FactoryGirl.generate(:user_name) }
-    email { "#{name}@bsmi.org" }
+    email {"#{first_name}@bsmi.org"}
     password { name }
     password_confirmation { password }
     phone_number '111-111-1111'

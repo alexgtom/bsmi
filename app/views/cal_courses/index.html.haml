@@ -1,0 +1,23 @@
+%h1 Listing courses
+
+%table.table.table-hover
+  %tr
+    %th Name
+    %th School
+    %th Grade
+    %th
+    %th
+    %th
+
+  - @cal_courses.each do |course|
+    %tr
+      %td= course.name
+      %td= course.school_type
+      %td= course.course_grade
+      %td= link_to 'Show', course
+      %td= link_to 'Edit', edit_cal_course_path(course)
+      %td= link_to 'Destroy', course, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Course', new_cal_course_path

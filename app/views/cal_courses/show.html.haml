@@ -1,0 +1,29 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @cal_course.name
+%p
+  %b School Type:
+  = @cal_course.school_type
+%p
+  %b Grade:
+  = @cal_course.course_grade
+%p 
+  %b Timeslots:
+  %table#timeslots
+    %thread
+      %tr
+        %th Subject
+        %th Teacher
+        %th Timeslot
+    %body
+      - @times.each do |time|
+        %tr
+          %td= time.course.name
+          %td= time.mentor_teacher.user.name
+          %td= time.to_string
+
+= link_to 'Edit', edit_cal_course_path(@cal_course)
+\|
+= link_to 'Back', cal_courses_path

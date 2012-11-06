@@ -1,13 +1,11 @@
 Given /the following timeslots exist/ do |tb|
   tb.hashes.each do |t|
-
     if t.has_key?('mentor_teacher')
       t['mentor_teacher'] = MentorTeacher.joins(:user).where("users.first_name" => t['mentor_teacher']).first
       if t['mentor_teacher'].nil?
         raise NullPointerException
       end
     end
-
     if t.has_key?('day')
       t['day'] = t['day'].to_sym
     end
@@ -15,8 +13,7 @@ Given /the following timeslots exist/ do |tb|
     if t.has_key?('course')
       t['course'] = Course.find_by_name(t['course'])
     end
-
-  	Timeslot.create!(t)
+  Timeslot.create!(t)
   end
 end
 

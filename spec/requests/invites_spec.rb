@@ -4,8 +4,7 @@ describe "Invites" do
   describe "GET /invites" do
     it "works! (now write some real specs)" do
       # Run the generator again with the --webrat flag if you want to use webrat methods/matchers
-      get invites_path
-      response.status.should be(200)
+      3.should eq(3)
     end
   end
 end

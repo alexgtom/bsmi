@@ -5,37 +5,7 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-
-
-
-# --- Create timeslots
-
-(1..10).each do |i|
-  Student.create!   
-end
-
-(1..10).each do |i|
-  MentorTeacher.create!   
-end
-
-times = [["10:00 AM", "10:30 AM"], ["12:00 PM", "1:30 PM"], ["11:00 AM", "12:30 PM"],
-         ["4:00 PM", "5:00 PM"]]
-[:monday, :tuesday, :wednesday, :thursday, :friday].each do |day|
-  times.each.with_index do |time, i|
-    i += 1
-    start_time, end_time = time
-    Timeslot.create!(:start_time => start_time, :end_time => end_time,
-                     :mentor_teacher => MentorTeacher.find(i), :day => day)  
-  end
-end
-
-Timeslot.all.each.with_index do |ts, i|
-  i += 1
-  if (i < Student.count)
-    Preference.create!(:timeslot => ts, :student => Student.find(i), :ranking => i)
-  end
-end         
-
+     
 user = User.new({:first_name => 'Sangyoon',
                  :last_name => 'Park',
                  :street_address => '346 soda UC Berkeley',
@@ -109,9 +79,7 @@ School.create!(:district => wccusd, :level => ELEMENTARY_SCHOOL, :name => "Hardi
 School.create!(:district => wccusd, :level => ELEMENTARY_SCHOOL, :name => "Edward M. Downer")
 School.create!(:district => wccusd, :level => MIDDLE_SCHOOL, :name => "Helms")
 
-
 # --- Create courses
-
 high_school_courses = [
   "Physics", 
   "Geometry", 
@@ -142,20 +110,16 @@ end
 Course.create!(:name => "Math", :grade => "6")
 Course.create!(:name => "Math", :grade => "7")
 Course.create!(:name => "Math", :grade => "8")
-
 Course.create!(:name => "Science", :grade => "6")
 Course.create!(:name => "Science", :grade => "7")
 Course.create!(:name => "Science", :grade => "8")
-
 Course.create!(:name => "Pre Algebra", :grade => "6")
-
-
 
 # --- Create Student
 (1..10).each do |i|
   user = User.new({:first_name => "StudentName#{i}",
 	           :last_name => "StudentName#{i}",
-                   :address => 'myaddr',
+                   :street_address => 'myaddr',
                    :phone_number => '000-000-0000',
                    :email => "StudentEmail#{i}@gmail.com",
                    :password => '1234',
@@ -170,23 +134,21 @@ end
 (1..10).each do |i|
   user = User.new({:first_name => "TeacherName#{i}",
 		   :last_name => "TeacherName#{i}",
-                   :address => 'myaddr',
+                   :street_address => 'myaddr',
                    :phone_number => '000-000-0000',
                    :email => "TeacherEmail#{i}@gmail.com",
                    :password => '1234',
                    :password_confirmation => '1234'})
-  owner = User.build_owner("MentorTeacher")
-  owner.school = School.all[i % School.all.size]
-  owner.save!
+  owner = MentorTeacher.create(:user => user, :school => School.all[i % School.all.size])
   user.owner = owner
   user.save!
 end
 
-
 # --- Create timeslots
 times = [["10:00 AM", "10:30 AM"], ["12:00 PM", "1:30 PM"], ["11:00 AM", "12:30 PM"],
          ["4:00 PM", "5:00 PM"]]
-[:monday, :tuesday, :wednesday, :thursday, :friday].each do |day|
+
+Timeslot.weekdays.each do |day|
   times.each.with_index do |time, i|
     i += 1
     start_time, end_time = time
@@ -209,4 +171,4 @@ Timeslot.all.each.with_index do |ts, i|
   if (i < Student.count)
     Preference.create!(:timeslot => ts, :student => Student.find(i), :ranking => i)
   end
-end         
+end

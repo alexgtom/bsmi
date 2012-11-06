@@ -1,0 +1,37 @@
+<%= form_for(@cal_course) do |f| %>
+  <p>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :school_type %>
+    <%= f.select :school_type, :options => School::LEVEL %>
+  </p>
+  <p>
+    <%= f.label :course_grade %>
+    <%= f.select :course_grade, :options => Course::GRADE %>
+  </p>
+   <% if @entries.empty? %>
+     <%= f.label "No Timeslots are Available to Select" %>
+   <% else %>
+    <table>
+      <tr>
+        <th><%= f.label "Add?" %></td>
+        <th><%= f.label "School" %></td>
+        <th><%= f.label "Course" %></td>
+        <th><%= f.label "Teacher" %></td>
+        <th><%= f.label "Time Slot" %></td>
+      </tr>
+      <% @entries.each do |entry| %>
+        <tr>
+          <td><%= check_box_tag "timeslots[#{entry["time_id"]}]", 1, entry["checked"], :id => "timeslots[#{entry["time_id"]}]" %></td>
+          <td><%= entry["school_name"] %></td>
+          <td><%= entry["course"].name %></td>
+          <td><%= entry["teacher"] %></td>
+          <td><%= entry["time"] %></td>
+        </tr>
+      <% end %>
+    </table>
+  <% end %>
+  <%= f.submit 'Save' %>
+<% end %>

@@ -13,12 +13,14 @@ end
 
 
 watch("features/.*\.feature") do |match|
-  puts("asdfasdf")
   run_cuke match[0]
 end
 
-watch("features/step_definitions/.*_steps\.rb") do |match|
-  system "bundle exec cucumber"
+watch("features/step_definitions/(.*)_steps\.rb") do |match|
+  affected_features = Dir.glob("features/#{match[1]}*.feature")
+  affected_features.each do |f|
+    run_cuke f
+  end
 end
 
 ##################################################

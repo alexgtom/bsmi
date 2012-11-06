@@ -11,18 +11,28 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121104181650) do
+ActiveRecord::Schema.define(:version => 20121105051803) do
 
   create_table "advisors", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
+  create_table "cal_courses", :force => true do |t|
+    t.string   "name"
+    t.text     "timeslots"
+    t.string   "school_type"
+    t.string   "course_grade"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
   create_table "courses", :force => true do |t|
     t.string   "name"
     t.string   "grade"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.integer  "cal_course_id"
   end
 
   create_table "districts", :force => true do |t|
@@ -105,7 +115,8 @@ ActiveRecord::Schema.define(:version => 20121104181650) do
     t.time     "end_time"
     t.integer  "mentor_teacher_id"
     t.integer  "max_num_assistants"
-    t.integer  "course_id"
+    t.string   "course_id"
+    t.string   "cal_course_id"
   end
 
   create_table "users", :force => true do |t|

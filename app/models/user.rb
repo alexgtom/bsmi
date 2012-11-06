@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
 
   @@user_types = Hash[[Advisor, MentorTeacher, Student].map {|type| [type.name, type]}]
 
+
   def self.user_types
     @@user_types
   end
@@ -12,7 +13,6 @@ class User < ActiveRecord::Base
     if not self.valid_user_type? owner_type
       throw ArgumentError.new("#{owner_type} is not a valid owner type for User")
     end
-
     @@user_types[owner_type].new(options)
   end
 
@@ -25,10 +25,18 @@ class User < ActiveRecord::Base
     @@user_types.include? type_name
   end
 
+  def name
+    if self.first_name
+      if self.last_name
+        return self.first_name + ' ' + self.last_name
+      end
+      return self.first_name
+    end
+    return ' '
+  end
+
   belongs_to :owner, :polymorphic => true
   #Check that the polymorphic association specified is valid
-
+  
   validates :owner_type, :inclusion => { :in => @@user_types}
-
-
 end

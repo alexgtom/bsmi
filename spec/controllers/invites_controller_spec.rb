@@ -24,7 +24,7 @@ describe InvitesController do
   # Invite. As you add validations to Invite, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    {}
+    {:email => 'myemail', :invite_code => 'whatevercodeishere', :first_name => 'firstname', :last_name => 'lastname', :owner_type => 'myowner'}
   end
 
   # This should return the minimal set of values that should be in the session
@@ -32,6 +32,18 @@ describe InvitesController do
   # InvitesController. Be sure to keep this updated too.
   def valid_session
     {}
+  end
+
+  before (:each) do
+    controller.stub!(:require_admin).and_return(true)
+  end
+
+  describe "send_invitation" do
+    it "invite the user, and send email to that email address" do
+      invite = Invite.create! valid_attributes
+      get :send_invitation, {:id => invite.id}, valid_session
+      assigns(:invite).should eq(invite)
+    end
   end
 
   describe "GET index" do
@@ -42,26 +54,10 @@ describe InvitesController do
     end
   end
 
-  describe "GET show" do
-    it "assigns the requested invite as @invite" do
-      invite = Invite.create! valid_attributes
-      get :show, {:id => invite.to_param}, valid_session
-      assigns(:invite).should eq(invite)
-    end
-  end
-
   describe "GET new" do
     it "assigns a new invite as @invite" do
       get :new, {}, valid_session
       assigns(:invite).should be_a_new(Invite)
-    end
-  end
-
-  describe "GET edit" do
-    it "assigns the requested invite as @invite" do
-      invite = Invite.create! valid_attributes
-      get :edit, {:id => invite.to_param}, valid_session
-      assigns(:invite).should eq(invite)
     end
   end
 
@@ -79,9 +75,9 @@ describe InvitesController do
         assigns(:invite).should be_persisted
       end
 
-      it "redirects to the created invite" do
+      it "redirects to the index" do
         post :create, {:invite => valid_attributes}, valid_session
-        response.should redirect_to(Invite.last)
+        response.should redirect_to(:action => :index)
       end
     end
 
@@ -99,65 +95,6 @@ describe InvitesController do
         post :create, {:invite => {}}, valid_session
         response.should render_template("new")
       end
-    end
-  end
-
-  describe "PUT update" do
-    describe "with valid params" do
-      it "updates the requested invite" do
-        invite = Invite.create! valid_attributes
-        # Assuming there are no other invites in the database, this
-        # specifies that the Invite created on the previous line
-        # receives the :update_attributes message with whatever params are
-        # submitted in the request.
-        Invite.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, {:id => invite.to_param, :invite => {'these' => 'params'}}, valid_session
-      end
-
-      it "assigns the requested invite as @invite" do
-        invite = Invite.create! valid_attributes
-        put :update, {:id => invite.to_param, :invite => valid_attributes}, valid_session
-        assigns(:invite).should eq(invite)
-      end
-
-      it "redirects to the invite" do
-        invite = Invite.create! valid_attributes
-        put :update, {:id => invite.to_param, :invite => valid_attributes}, valid_session
-        response.should redirect_to(invite)
-      end
-    end
-
-    describe "with invalid params" do
-      it "assigns the invite as @invite" do
-        invite = Invite.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        Invite.any_instance.stub(:save).and_return(false)
-        put :update, {:id => invite.to_param, :invite => {}}, valid_session
-        assigns(:invite).should eq(invite)
-      end
-
-      it "re-renders the 'edit' template" do
-        invite = Invite.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        Invite.any_instance.stub(:save).and_return(false)
-        put :update, {:id => invite.to_param, :invite => {}}, valid_session
-        response.should render_template("edit")
-      end
-    end
-  end
-
-  describe "DELETE destroy" do
-    it "destroys the requested invite" do
-      invite = Invite.create! valid_attributes
-      expect {
-        delete :destroy, {:id => invite.to_param}, valid_session
-      }.to change(Invite, :count).by(-1)
-    end
-
-    it "redirects to the invites list" do
-      invite = Invite.create! valid_attributes
-      delete :destroy, {:id => invite.to_param}, valid_session
-      response.should redirect_to(invites_url)
     end
   end
 

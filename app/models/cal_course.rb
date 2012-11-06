@@ -11,20 +11,12 @@ class CalCourse < ActiveRecord::Base
 
   def create_selection_for_new_course
     entries = []
-    courses = Course.all
-    if courses
-      courses.each do |course|
-        times = course.timeslots
-        if not times.nil?
-          times.each do |time| 
-            tim = nil
-            if entry = time.build_entry 
-              entry["course"] = course
-            end
-            entries << entry
-          end
-        end
+    times = Timeslot.all
+    if times
+      times.each do |time|
+        entries << time.build_entry(self.id)
       end
+      entries.reject{|entry| entry == nil}
     end
     return entries
   end
@@ -33,7 +25,7 @@ class CalCourse < ActiveRecord::Base
     if not times.nil?
       times.keys.each do |time_id|
         add_to = Timeslot.find_by_id(time_id)
-        add_to.cal_course_id = self.id
+        add_to.cal_course = self
         add_to.save!
       end
     end
@@ -41,7 +33,7 @@ class CalCourse < ActiveRecord::Base
 
   def destroy_timeslot_associations
     self.timeslots.each do |timeslot|
-      timeslot.cal_course_id = nil
+      timeslot.cal_course = nil
       timeslot.save!
     end
   end

@@ -7,8 +7,8 @@
     %th= link_to 'Last Name', mentor_teachers_path(:sort => 'last_name')
     %th Email
     %th= link_to 'Course (to be implemented next iteration)', mentor_teachers_path(:sort => 'course')
-    %th
-    %th
+    -# %th
+    -# %th
 
   - @all_teacher.each do |teacher|
     %tr
@@ -16,10 +16,10 @@
       %td= teacher.last_name
       %td= teacher.email 
       %td= 'course to be implemented in next iteration'
-      %td= link_to 'Edit', "/user/#{teacher.id}/adv_edit"
-      %td= link_to 'Delete', teacher, method: :delete, data: { confirm: 'Are you sure?' }
+      -# %td= link_to 'Edit', "/user/#{teacher.id}/adv_edit"
+      -# %td= link_to 'Delete', teacher, method: :delete, data: { confirm: 'Are you sure?' }
       
-%br
-= link_to 'New Teacher', new_mentor_teacher_path
+-# %br
+-# = link_to 'New Teacher', new_mentor_teacher_path
 %br
 = link_to 'Back to Advisor Home Page', advisors_path

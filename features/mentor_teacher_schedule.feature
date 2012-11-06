@@ -17,7 +17,7 @@ Scenario: Enter the times and classes that I teach
    |class_name | start_time | end_time | num_assistants |
    | Calculus  | 10:00  AM  | 11:00 AM | 2          |
   And  I press "Save Schedule"
-  Then I should be on /mentor_teacher/schedule/new
+  Then I should be on /mentor_teacher/schedule
   And my schedule should look like: 
   | day     | class_name | start_time  | end_time | num_assistants |
   | Monday  | Calculus   | 10:00  AM  | 11:00 AM |          2 |

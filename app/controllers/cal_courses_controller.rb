@@ -57,8 +57,8 @@ class CalCoursesController < ApplicationController
   # PUT /cal_courses/1
   # PUT /cal_courses/1.json
   def update
-    @cal_course = CalCourse.find(params[:id])
-    if @cal_course.update_attributes(params[:cal_course]) 
+    @cal_course = CalCourse.find_by_id(params[:id])
+    if @cal_course and @cal_course.update_attributes(params[:cal_course]) 
       if @cal_course.update_timeslot_associations(params[:timeslots])
         flash[:notice] = "CalCourse '#{@cal_course.name}' Updated!"
         redirect_to cal_course_path @cal_course.id

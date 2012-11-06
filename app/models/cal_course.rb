@@ -10,7 +10,7 @@ class CalCourse < ActiveRecord::Base
   attr_protected #none
 
   def create_selection_for_new_course
-    entries = Array.new
+    entries = []
     courses = Course.all
     if courses
       courses.each do |course|

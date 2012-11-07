@@ -49,10 +49,6 @@ describe Timeslot do
       let(:valid_params) do
         JSON.dump(FactoryGirl.build(:cal_event_hash))
       end
-
-      it "should return a valid Timeslot" do
-        do_call.should be_valid
-      end
     end
 
     context "the event already exists" do
@@ -66,11 +62,6 @@ describe Timeslot do
                                     :db_id => @timeslot.id,
                                     :start => @timeslot.start_time + 3600
                                     ))
-      end
-
-      it "should find the appropriate event in the DB" do
-        Timeslot.should_receive(:find_by_id).with(@timeslot.id)
-        do_call
       end
 
       it "should update the appropriate event in the DB" do

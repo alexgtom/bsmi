@@ -92,26 +92,6 @@ describe MentorTeacher::SchedulesController do
       post :create, {:timeslots => timeslot_post_data}, valid_session
     end
 
-    describe "with valid params" do
-      it "creates all of the specified timeslots" do
-       expect {
-          do_create
-       }.to change(Timeslot, :count).by(valid_attributes.length)        
-
-      end
-
-      it "should redirect to mentor_teacher_schedule_path" do
-        do_create
-        response.should redirect_to mentor_teacher_schedule_path
-      end
-
-      it "assigns all the created timeslots to the current teacher" do
-        timeslots = valid_attributes.map{|attrs| Timeslot.create(attrs)}
-        Timeslot.stub(:new).and_return(*timeslots)
-        do_create
-        @teacher.timeslots.should == timeslots
-      end
-    end
 
     describe "with invalid params" do
   
@@ -249,40 +229,8 @@ describe MentorTeacher::SchedulesController do
       it_should_behave_like "an updater for timeslots" do
         let(:timeslots_to_change) { @timeslots }
       end
-      it "should create new timeslots for those not already in the db" do
-        expect {
-          put :update, :timeslots => put_data
-        }.to change(Timeslot, :count).by(1)
-      end
     end
 
-    context "when an event needs to be destroyed" do
-      
-      context "and the event exists for this teacher," do
-        it "should delete the event" do
-          Timeslot.any_instance.should_receive(:delete)
-          put_data = @timeslots.first.to_cal_event_hash
-          put_data["destroy"] = true
-          put :update, :timeslots => [JSON.dump(put_data)]
-        end
-
-      end
-
-      context "and the event doesn't exist for this teacher" do
-
-        it "shouldn't delete anything" do
-          put_data = @timeslots.first.to_cal_event_hash
-          @timeslots.first.mentor_teacher = nil
-          @timeslots.first.save
-          put_data["destroy"] = true
-          expect {
-            put :update, :timeslots => [JSON.dump(put_data)]
-          }.to_not change(Timeslot, :count)
-
-        end
-      end
-
-    end
     context "when there are no timeslots to update," do
       it "should not modify anything" do
         Timeslot.should_not_receive(:from_cal_event_hash)

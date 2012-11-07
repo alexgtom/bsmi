@@ -34,14 +34,6 @@ describe DistrictsController do
     {}
   end
 
-  describe "GET index" do
-    it "assigns all districts as @districts" do
-      district = District.create! valid_attributes
-      get :index, {}, valid_session
-      assigns(:districts).should eq([district])
-    end
-  end
-
   describe "GET show" do
     it "assigns the requested district as @district" do
       district = District.create! valid_attributes

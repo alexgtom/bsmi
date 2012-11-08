@@ -54,12 +54,14 @@ class Timeslot < ActiveRecord::Base
     return "#{self.day}|#{self.start_time.strftime("%I:%M%p")}|#{self.end_time.strftime("%I:%M%p")}"
   end
   
-  def build_entry
+  def build_entry(caller_id = 0)
     if self.mentor_teacher
       entry = self.mentor_teacher.build_entry
       if entry
         entry["time"] = self.to_string
         entry["time_id"] = self.id
+        entry["course"] = self.course
+        entry["checked"] = self.cal_course_id == caller_id.to_s
       end
       return entry
     end

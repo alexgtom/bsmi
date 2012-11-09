@@ -44,11 +44,11 @@ watch("spec/.*?/.*?_spec\.rb") do |match|
   run_spec match[0]
 end
 
-watch(%r{spec/factories( (?<all_factories>\.rb) | (?<factory> /.*?\.rb ))}x) do |match|
+watch(%r{spec/factories( (?<all_factories>\.rb) | /(?<factory> .*?)\.rb )}x) do |match|
   if match["all_factories"]
     run_spec("spec/models")
   elsif match["factory"]
-    run_spec("spec/models/#{match["factory"]}.rb")
+    run_spec("spec/models/#{match["factory"]}_spec.rb")
   end
 
 end

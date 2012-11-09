@@ -1,106 +1,93 @@
 require 'rglpk'
 
 class MatchingSolver
+  attr_accessor :preferences, :students, :timeslots
   def initialize(preferences)
     self.preferences = preferences
-    self.students = Hash.new
-    self.timeslots = Hash.new
-    t_index = s_index = 0
-    preferences.each  do |p|
-      if not self.students.include? p.student_id
-        self.students[p.student_id] = s_index
-        s_index += 1
-      end
-      if not self.timeslots.include? p.timeslot_id
-        self.timeslots[p.timeslot_id] = t_index
-        t_index += 1
-      end
-    end
+    self.students = Set.new(preferences.map {|p| p.student_id}).to_a
+    self.timeslots = Set.new(preferences.map {|p| p.timeslot_id}).to_a
   end
 
   def solve
-    #TODO
+    problem = MatchingProblem.new(preferences, students, timeslots)
+    return problem.solution
   end
-  attr_accessor :students, :timeslots
 
-  #Provide the constraints matrix for the linear program. Each row in the matrix
-  #corresponds either to a constraint on a timeslot or on a student.
-  
-  def constraints_matrix    
-    if @constraints_matrix
-      return @constraints_matrix
-    end
-    num_cols = self.variables.length
-    student_constraints = (1..self.students.length * num_cols).map {0}
-    timeslot_constraints = (1..self.timeslots.length * num_cols).map {0}
+
+  class MatchingProblem < Rglpk::Problem
     
-    self.preferences.each do |preference| 
-      student_row_offset = self.students[preference.student_id] * num_cols      
-      student_index = student_row_offset + self.var_index(student_id, timeslot_id)
-      student_constraints[student_index] = 1
+    attr_reader :students, :timeslots, :preferences
 
-      timeslot_row_offset = self.timeslots[preference.timeslot_id] * num_cols      
-      timeslot_index = timeslot_row_offset + self.var_index(student_id, timeslot_id)
-      timeslot_constraints[timeslot_index] = 1
+    def initialize(preferences, students, timeslots)
+      @preferences = preferences
+      @students = students
+      @timeslots = timeslots
+
+      self.initialize_vars
+      self.initialize_constraints
+      self.initialize_objective
     end
-    @constraints_matrix = student_constraints + timeslot_constraints
-    return @constraints_matrix
+
+    def solution
+      #Use cached solution if possible
+      if @solution
+        return @solution
+      end
+      
+      self.simplex
+      @solution = self.preferences.zip(self.cols).find_all{|p, col| col.get_prim > 0 }.
+        map { |p, col| p }      
+
+      return @solution
+    end
+
+    def initialize_objective
+      self.obj.dir = Rglpk::GLP_MIN
+      self.obj.coefs = self.preferences.map {|p| p.ranking}
+    end
+
+    def initialize_vars 
+      self.add_cols(self.preferences.length)
+      self.cols.zip(self.preferences).each do |col, pref|
+        col.name = "match_#{pref.student_id}_#{pref.timeslot_id}"
+      end
+    end
+
+    def initialize_constraints
+      self.add_rows(self.students.length + self.timeslots.length)
+      self.rows.each do |r|
+        r.set_bounds(Rglpk::GLP_UP, 0, 1)
+      end
+      
+      self.set_matrix(self.constraints_matrix.flatten)
+    end
+    
+    #Provide the constraints matrix for the linear program. Each row in the matrix
+    #corresponds either to a constraint on a timeslot or on a student.  
+    def constraints_matrix    
+      (self.students.map {|s| constraints_row_for_student s} +
+       self.timeslots.map {|t| constraints_row_for_timeslot t})
+    end
+
+    def constraints_row_for_student(student_id)
+      self.preferences.map do |p|
+        if p.student_id == student_id
+          1
+        else
+          0
+        end
+      end    
+    end
+
+    def constraints_row_for_timeslot(timeslot_id)
+      self.preferences.map do |p|
+        if p.timeslot_id == timeslot_id
+          1
+        else
+          0
+        end
+      end    
+    end
   end
+end  
 
-  #Map the combination of student_id and timeslot_id onto a column in the constraint
-  #matrix
-  def var_index(student_id, timeslot_id)
-    self.timeslots[timeslot_id]*self.students.length + self.students[student_id]
-  end
-end   
-
-# The same Brief Example as found in section 1.3 of 
-# glpk-4.44/doc/glpk.pdf.
-#
-# maximize
-#   z = 10 * x1 + 6 * x2 + 4 * x3
-#
-# subject to
-#   p:      x1 +     x2 +     x3 <= 100
-#   q: 10 * x1 + 4 * x2 + 5 * x3 <= 600
-#   r:  2 * x1 + 2 * x2 + 6 * x3 <= 300
-#
-# where all variables are non-negative
-#   x1 >= 0, x2 >= 0, x3 >= 0
-#    
-p = Rglpk::Problem.new
-p.name = "sample"
-p.obj.dir = Rglpk::GLP_MAX
-
-rows = p.add_rows(3)
-rows[0].name = "p"
-rows[0].set_bounds(Rglpk::GLP_UP, 0, 100)
-rows[1].name = "q"
-rows[1].set_bounds(Rglpk::GLP_UP, 0, 600)
-rows[2].name = "r"
-rows[2].set_bounds(Rglpk::GLP_UP, 0, 300)
-
-cols = p.add_cols(3)
-cols[0].name = "x1"
-cols[0].set_bounds(Rglpk::GLP_LO, 0.0, 0.0)
-cols[1].name = "x2"
-cols[1].set_bounds(Rglpk::GLP_LO, 0.0, 0.0)
-cols[2].name = "x3"
-cols[2].set_bounds(Rglpk::GLP_LO, 0.0, 0.0)
-
-p.obj.coefs = [10, 6, 4]
-
-p.set_matrix([
- 1, 1, 1,
-10, 4, 5,
- 2, 2, 6
-])
-
-p.simplex
-z = p.obj.get
-x1 = cols[0].get_prim
-x2 = cols[1].get_prim
-x3 = cols[2].get_prim
-
-printf("z = %g; x1 = %g; x2 = %g; x3 = %g\n", z, x1, x2, x3)
-#=> z = 733.333; x1 = 33.3333; x2 = 66.6667; x3 = 0

@@ -48,7 +48,10 @@ watch(%r{spec/factories( (?<all_factories>\.rb) | (?<factory> /.*?\.rb ))}x) do 
   if match["all_factories"]
     run_spec("spec/models")
   elsif match["factory"]
-    run_spec("spec/models/#{match["factory"]}.rb")
+    run_spec("spec/models/#{match["factory"]}_spec.rb")
+    #TODO: make this fine grained
+    run_spec("spec/models/factories_spec.rb")
+
   end
 
 end

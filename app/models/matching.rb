@@ -52,6 +52,8 @@ class MatchingSolver
       self.cols.zip(self.preferences).each do |col, pref|
         col.name = "match_#{pref.student_id}_#{pref.timeslot_id}"
       end
+      
+      self.cols.each {|c| c.set_bounds(Rglpk::GLP_DB, 0, 1)}
     end
 
     def initialize_constraints
@@ -59,7 +61,6 @@ class MatchingSolver
       self.rows.each do |r|
         r.set_bounds(Rglpk::GLP_UP, 0, 1)
       end
-      
       self.set_matrix(self.constraints_matrix.flatten)
     end
     

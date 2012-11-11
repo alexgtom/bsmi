@@ -8,7 +8,10 @@ describe 'validate FactoryGirl factories' do
       subject { FactoryGirl.build(factory.name) }
 
       it "is valid" do
-        subject.valid?.should be, subject.errors.full_messages
+        #Hack to not test factories for building non activerecords
+        unless not subject.respond_to?(:valid?)
+          subject.valid?.should be, subject.errors.full_messages 
+        end
       end
     end
   end

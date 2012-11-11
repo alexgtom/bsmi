@@ -1,28 +1,30 @@
 require 'rglpk'
 
 class MatchingSolver
-  attr_accessor :preferences, :students, :timeslots
+  attr_reader :preferences
   def initialize(preferences)
-    self.preferences = preferences
-    self.students = Set.new(preferences.map {|p| p.student_id}).to_a
-    self.timeslots = Set.new(preferences.map {|p| p.timeslot_id}).to_a
+    @preferences = preferences
   end
 
   def solve
-    problem = MatchingProblem.new(preferences, students, timeslots)
+    problem = MatchingProblem.new(preferences)
     return problem.solution
   end
 
-
+  #Represents an assignment problem instance between mentor teacher timeslots
+  #and students. 
   class MatchingProblem < Rglpk::Problem
     
     attr_reader :students, :timeslots, :preferences
 
-    def initialize(preferences, students, timeslots)
+    def initialize(preferences)           
+      super()
       @preferences = preferences
-      @students = students
-      @timeslots = timeslots
-
+      @students = Set.new(preferences.map {|p| p.student_id}).to_a
+      @timeslots = Set.new(preferences.map {|p| p.timeslot_id}).to_a
+    end
+    
+    def prepare_problem
       self.initialize_vars
       self.initialize_constraints
       self.initialize_objective
@@ -33,11 +35,10 @@ class MatchingSolver
       if @solution
         return @solution
       end
-      
+      self.prepare_problem
       self.simplex
       @solution = self.preferences.zip(self.cols).find_all{|p, col| col.get_prim > 0 }.
         map { |p, col| p }      
-
       return @solution
     end
 

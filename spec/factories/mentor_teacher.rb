@@ -8,9 +8,11 @@ FactoryGirl.define do
     school
     
     after(:create) do |teacher| 
-      teacher.user.save
+      if teacher.user.nil?
+        FactoryGirl.create(:user, :owner_type => "MentorTeacher", :owner_id => teacher.id)
+      end
     end
-    association :user, :strategy => :build
+#    association :user, :strategy => :build
     # user FactoryGirl.create(:user, :owner =>  #Generates a new user for this teacher
   end  
 

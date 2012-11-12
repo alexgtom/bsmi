@@ -172,3 +172,33 @@ Timeslot.all.each.with_index do |ts, i|
     Preference.create!(:timeslot => ts, :student => Student.find(i), :ranking => i)
   end
 end
+
+
+# --- Create Cal Courses
+# CalCourse(id: integer, name: string, timeslots: text, school_type: string,
+# course_grade: string, created_at: datetime, updated_at: datetime)
+cal_courses = [
+  'UGIS 80A',
+  'UGIS 80B',
+  'ED 130',
+  'ED 195C',
+  'UGIS 187',
+  'UGIS 81A',
+  'MATH 197',
+]
+
+cal_courses.each do |c|
+  CalCourse.create!(:name => c)
+end
+
+Timeslot.all.each_with_index do |t, i|
+  # assign timeslots to each cal course
+  num_cal_courses = CalCourse.all.size
+  CalCourse.all[i % num_cal_courses].timeslots << t
+end
+
+Course.all.each_with_index do |t, i|
+  # assign courses to each cal course
+  num_cal_courses = CalCourse.all.size
+  CalCourse.all[i % num_cal_courses].course << t
+end

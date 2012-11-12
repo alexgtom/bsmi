@@ -1,10 +1,15 @@
 class SelectTimeslotsController < ApplicationController
   include Wicked::Wizard
-  steps :monday, :tuesday, :wednesday, :thursday, :friday, :rank, :summary
+  steps :cal_course_selection, :monday, :tuesday, :wednesday, :thursday, :friday, :rank, :summary
   
   def show
     @student = Student.find(params[:student_id])
     @timeslots = Timeslot.where(:day => Timeslot.day_index(step))
+
+    case step
+    when :cal_course_selection
+      @cal_courses = CalCourse.all
+    end
 
     case step
     when :rank
@@ -24,7 +29,14 @@ class SelectTimeslotsController < ApplicationController
   def update
     student_id = params[:student_id]
     @student = Student.find(student_id)
-    
+
+    case step
+    when :cal_course_selection
+      params[:student][:cal_courses].each_value do |v|
+        CalCourse.find(v) << @student
+      end
+
+    end
 
     case step
     when :rank

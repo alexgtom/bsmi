@@ -1,0 +1,9 @@
+= render :partial => "sub_nav"
+
+= form_for @student, url: wizard_path do |f|
+  .row
+    = @cal_courses.each do |c|
+      = check_box_tag "student[cal_courses][]", c.id
+      = c.name
+  .row
+    = f.submit "Save", :class => "btn btn-primary"

@@ -20,8 +20,25 @@ class StudentsController < ApplicationController
     end
 =end   
   end
+
   def placements
     @placements = Student.find(params[:id]).placements
   end
+
+  def courses
+    @cal_courses = Student.find(params[:id]).cal_courses
+  end
+
+  def select_courses
+    @student = Student.find(params[:id])
+    @cal_courses = CalCourse.all
+
+    if params[:student] and params[:student][:cal_courses]
+      cal_courses = params[:student][:cal_courses].map { |id| CalCourse.find(id) }
+      @student.update_attribute(:cal_courses, cal_courses)
+      redirect_to action: "courses"
+    end
+  end
+
 end
 

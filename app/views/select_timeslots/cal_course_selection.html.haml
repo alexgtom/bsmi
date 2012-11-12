@@ -1,9 +1,9 @@
-= render :partial => "sub_nav"
-
+.row
+  Select the course(s) you are currently enrolled in:
 = form_for @student, url: wizard_path do |f|
-  .row
-    = @cal_courses.each do |c|
-      = check_box_tag "student[cal_courses][]", c.id
-      = c.name
-  .row
+  %ul.nav.nav-pills.nav-stacked
+    - @cal_courses.each do |c|
+      %li
+        = check_box_tag "student[cal_courses][]", c.id
+        = c.name
     = f.submit "Save", :class => "btn btn-primary"

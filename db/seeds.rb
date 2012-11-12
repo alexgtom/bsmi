@@ -160,10 +160,6 @@ Timeslot.weekdays.each do |day|
   end
 end
 
-# --- Give student 1 an assignment
-student = Student.find(1)
-student.placements << Timeslot.where(:day => Timeslot.day_index(:monday))[0]
-student.save!
 
 # --- Create preferences
 Timeslot.all.each.with_index do |ts, i|
@@ -202,3 +198,9 @@ Course.all.each_with_index do |t, i|
   num_cal_courses = CalCourse.all.size
   CalCourse.all[i % num_cal_courses].course << t
 end
+
+# --- Give student 1 an assignment
+student = Student.find(1)
+student.placements << Timeslot.where(:day => Timeslot.day_index(:monday))[0]
+student.cal_t courses << CalCourse.all[0]
+student.save!

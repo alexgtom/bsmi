@@ -35,9 +35,10 @@
           %a{:href => "/students/1/select_timeslots"} Select Timeslots
         %li
           %a{:href => "/students/1/select_timeslots/summary"} Timeslot Preference Summary
-        %li
-          %a{:href => mentor_teacher_schedule_path} Edit Schedule
         - if current_user
+          - if current_user.owner_type == "MentorTeacher"
+            %li
+              %a{:href => mentor_teacher_schedule_path} Edit Schedule
           %li
             %a{:href => edit_user_path(current_user.id)} Edit Profile
           %li

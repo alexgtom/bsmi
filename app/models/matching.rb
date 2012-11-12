@@ -32,9 +32,10 @@ class MatchingSolver
 
     def solution
       #Use cached solution if possible
-      if @solution
-        return @solution
-      end
+      # if @solution
+      #   return @solution
+      # end
+#      require 'debugger'; debugger
       self.prepare_problem
       self.simplex
       @solution = self.preferences.zip(self.cols).find_all{|p, col| col.get_prim > 0 }.
@@ -59,7 +60,7 @@ class MatchingSolver
     def initialize_constraints
       self.add_rows(self.students.length + self.timeslots.length)
       self.rows.each do |r|
-        r.set_bounds(Rglpk::GLP_UP, 0, 1)
+        r.set_bounds(Rglpk::GLP_FX, 1, 1)
       end
       self.set_matrix(self.constraints_matrix.flatten)
     end

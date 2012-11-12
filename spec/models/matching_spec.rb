@@ -3,8 +3,8 @@ require 'spec_helper'
 ######################################################################################
 # These tests are fairly pure unit tests for MatchingSolver, and as such don't 
 # actually solve any linear programs (in an effort to test the behavior of each
-# method in isolation. For proper integration tests, which will hit the linear solver,
-# see features/matching.feature
+# method in isolation. For proper integration tests (which will hit the linear solver)
+# see spec/integration/matching_spec
 ######################################################################################
  
 describe MatchingSolver do
@@ -12,6 +12,7 @@ describe MatchingSolver do
   before(:each) do
     @solver = MatchingSolver.new(preferences)
   end
+  
   describe :solve do
     let(:preferences) {[]}
     before(:each) do
@@ -126,7 +127,7 @@ describe MatchingSolver do
 
       it "should constrain each row to be in between 0 and 1" do
         fake_rows = 3.times.map { mock(:row) }
-        fake_rows.each {|r| r.should_receive(:set_bounds).with(Rglpk::GLP_UP, 0, 1)}
+        fake_rows.each {|r| r.should_receive(:set_bounds).with(Rglpk::GLP_FX, 1, 1)}
         @problem.stub(:rows).and_return(fake_rows)
         do_call
       end

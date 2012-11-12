@@ -4,7 +4,9 @@ class Student < ActiveRecord::Base
   has_one :user, :as => :owner
   has_and_belongs_to_many :placements, :uniq => true, :class_name => "Timeslot"
   accepts_nested_attributes_for :preferences
+  has_and_belongs_to_many :cal_courses
 
+  validate :cal_courses, :uniqueness => true
   validates_associated :preferences, :message => "must not be blank and the ranking number must be unique"
 
   def fix_ranking_gap

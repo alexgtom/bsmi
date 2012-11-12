@@ -4,9 +4,11 @@ class CalCourse < ActiveRecord::Base
   has_many :course
   has_many :timeslots
   has_many :mentor_teacher, :through => :timeslots
+  has_and_belongs_to_many :students
 
   #Validations
   validates_associated :course, :message => "Must not be blank"
+  validate :students, :uniqueness => true
   attr_protected #none
 
   def create_selection_for_new_course

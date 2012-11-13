@@ -30,10 +30,15 @@ Feature: Students should be able to view the options
 			| 3  | 11:00		   	| 12:00 		| tuesday | Geometry  | Oski           |
 			| 4  | 12:00		   	| 13:00 		| tuesday | Algebra 2 | Oski           |
 
-
-		Given the following student exist
+		Given the following cal course exist
 			| id |
 			| 1  |
+
+		Given the following users exist
+			| id | first_name | last_name | email             | type     | cal_courses |
+			| 1  | Oski 	  | Bear      | oski@berkeley.edu | Student  | 1           |
+
+		Given I am logged in as oski@berkeley.edu
 
 
 	Scenario: Student should be able to see field placement

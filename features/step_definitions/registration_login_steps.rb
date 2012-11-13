@@ -18,15 +18,31 @@ Given /the following student exist/ do |tb|
   end
 end
 
-Given /the following users exists/ do |tb|
+Given /the following users exist/ do |tb|
   tb.hashes.each do |t|
-    user = User.new({:name => t[:name],
-                :address => '346 soda UC Berkeley, United States',
+    user = User.new({
+                :first_name => t[:first_name],
+                :last_name => t[:last_name],
+                :street_address => '346 soda UC Berkeley',
+                :city => 'Berkeley',
+                :state => 'CA',
+                :zipcode => '94000',
                 :phone_number => '123-456-7890',
                 :email => t[:email],
-                :password => t[:pass],
-                :password_confirmation => t[:pass]})
+                :password => '1234',
+                :password_confirmation => '1234'})
     owner = User.build_owner(t[:type])
+    
+    if t[:cal_courses]
+      cal_course = CalCourse.find(t[:cal_courses.to_s])
+      owner.cal_courses << cal_course
+    end
+
+    if t[:id]
+      owner.id = t[:id]
+      user.id = t[:id]
+    end
+
     user.owner = owner
     user.save
     owner.save
@@ -55,6 +71,11 @@ Given /I am signed up as a student advisor/ do
   user.owner = owner
   user.save
   owner.save
+end
+
+Given /I am logged in as (.*)/ do |email| 
+  user = User.find_by_email(email)
+  login(email, '1234')
 end
 
 

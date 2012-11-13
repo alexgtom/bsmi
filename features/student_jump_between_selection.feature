@@ -9,9 +9,9 @@ Feature: Students should be able to jump between steps when picking their time s
 			| id |
 			| 1  |
 
-		Given the following student exist
-			| id | cal_courses |
-			| 1  | 1 		  |
+		Given the following users exist
+			| id | first_name | last_name | email             | pass | type     | cal_courses |
+			| 1  | Oski 	  | Bear      | oski@berkeley.edu | oski | Student  | 1           |
 
 		Given the following timeslots exist:
 			| start_time     | end_time     | day     | cal_course_id |
@@ -20,6 +20,7 @@ Feature: Students should be able to jump between steps when picking their time s
 			| 11:00		     | 12:00 		| tuesday | 1             |
 			| 12:00		     | 13:00 		| tuesday | 1             |
 
+		Given I am logged in as oski@berkeley.edu
 	Scenario: Jump between steps
 		When I go to /students/1/courses/1/select_timeslots
 		Then I should see "Monday"

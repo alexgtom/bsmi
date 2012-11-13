@@ -6,7 +6,15 @@ end
 
 Given /the following student exist/ do |tb|
   tb.hashes.each do |t|
-  	Student.create!(t)
+    if t[:cal_courses]
+      cal_course = CalCourse.find(t[:cal_courses.to_s])
+      t.delete(:cal_courses.to_s)
+  	  student = Student.new(t)
+      student.cal_courses << cal_course
+      student.save!
+    else
+  	  Student.create!(t)
+    end
   end
 end
 

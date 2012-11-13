@@ -26,6 +26,7 @@ class StudentsController < ApplicationController
   end
 
   def courses
+    @student = Student.find(params[:id])
     @cal_courses = Student.find(params[:id]).cal_courses
   end
 

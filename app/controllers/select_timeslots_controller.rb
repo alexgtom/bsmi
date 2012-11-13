@@ -3,8 +3,9 @@ class SelectTimeslotsController < ApplicationController
   steps :monday, :tuesday, :wednesday, :thursday, :friday, :rank, :summary
   
   def show
+    @cal_course = CalCourse.find(params[:cal_course_id])
     @student = Student.find(params[:student_id])
-    @timeslots = Timeslot.where(:day => Timeslot.day_index(step))
+    @timeslots = Timeslot.where(:day => Timeslot.day_index(step), :cal_course_id => params[:cal_course_id])
 
     case step
     when :rank
@@ -22,8 +23,8 @@ class SelectTimeslotsController < ApplicationController
   end
 
   def update
-    student_id = params[:student_id]
-    @student = Student.find(student_id)
+    @cal_course = CalCourse.find(params[:cal_course_id])
+    @student = Student.find(params[:student_id])
 
     case step
     when :cal_course_selection
@@ -114,4 +115,5 @@ class SelectTimeslotsController < ApplicationController
     end  
 
   end
+
 end

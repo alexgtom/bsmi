@@ -1,9 +1,9 @@
-= debug params
-
-.row
-  = form_for @student, url: select_courses_student_path, :html => { :class => "form-horizontal" } do |f|
-    %fieldset
-      %legend Select the course(s) you are currently enrolled in:
+.row-fluid
+  .page-header
+    %h1 Enrollment
+  .well
+    %h5 Select the course(s) you are currently enrolled in:
+    = form_for @student, url: select_courses_student_path, :html => { :class => "form-horizontal" } do |f|
       - @cal_courses.each do |c|
         %label.checkbox
           = check_box_tag "student[cal_courses][]", c.id

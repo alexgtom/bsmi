@@ -1,10 +1,8 @@
-
-/  = render :partial => "sub_nav"
-/  %h2= day.capitalize
 .row-fluid
   .span-12
-    %h2= day.capitalize
     = render :partial => "sub_nav"
+    .page-header
+      %h2= day.capitalize
     = form_for @student, url: wizard_path do |f|
       #timeslots
       .row-fluid
@@ -14,11 +12,3 @@
             = f.submit "Save & Continue", :class => "btn btn-primary"
       .row-fluid.spacer
         = render :partial => "day_selection", :locals => { :day => day, :calendar_id => day, :timeslots => @timeslots, :student => @student}
-/= form_for @student, url: wizard_path do |f|
-/  .span-12
-/    %p
-/      = f.submit "Save", :class => "btn btn-primary"
-/      = f.submit "Save & Continue", :class => "btn btn-primary"
-/  .span-12
-/    #timeslots
-/      = render :partial => "day_selection", :locals => { :day => day, :calendar_id => day, :timeslots => @timeslots, :student => @student}

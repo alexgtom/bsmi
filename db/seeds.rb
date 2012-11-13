@@ -202,5 +202,5 @@ end
 # --- Give student 1 an assignment
 student = Student.find(1)
 student.placements << Timeslot.where(:day => Timeslot.day_index(:monday))[0]
-student.cal_t courses << CalCourse.all[0]
+student.cal_courses << CalCourse.all[0]
 student.save!

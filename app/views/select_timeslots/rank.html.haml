@@ -1,31 +1,31 @@
-= render :partial => "sub_nav"
+.row-fluid
+  .span-12
+    = render :partial => "sub_nav"
+    .page-header
+      %h2 Rank Timeslots
+    = render :partial => "week_calendar", :locals => { :width => 940, :height => 700, :calendar_id => :rank, :timeslots => @timeslots}
 
-%section
-  %h2 Rank Timeslots
-  = render :partial => "week_calendar", :locals => { :width => 940, :height => 700, :calendar_id => :rank, :timeslots => @timeslots}
+    %h2 Pick Timeslot Preferences
+    Rank which timeslots you prefer where "1" is your most preferred timeslot.
+    = form_for @student, url: wizard_path do |f|
+      = f.error_messages
+      %table.table.table-striped
+        %thead
+          %tr
+            %th Rank
+            %th Day
+            %th Start Time
+            %th End Time
+        %tbody
+          = f.fields_for :preferences do |p|
+            %tr
+              %td
+                = p.select :ranking, (1..@student.preferences.size), :include_blank => true
+              %td
+                = p.object.timeslot.day.capitalize
+              %td
+                = p.object.timeslot.start_time.strftime("%l:%M %P")
+              %td
+                = p.object.timeslot.end_time.strftime("%l:%M %P")
 
-%section
-  %h2 Pick Timeslot Preferences
-  Rank which timeslots you prefer where "1" is your most preferred timeslot.
-= form_for @student, url: wizard_path do |f|
-  = f.error_messages
-  %table.table.table-striped
-    %thead
-      %tr
-        %th Rank
-        %th Day
-        %th Start Time
-        %th End Time
-    %tbody
-      = f.fields_for :preferences do |p|
-        %tr
-          %td
-            = p.select :ranking, (1..@student.preferences.size), :include_blank => true
-          %td
-            = p.object.timeslot.day.capitalize
-          %td
-            = p.object.timeslot.start_time.strftime("%l:%M %P")
-          %td
-            = p.object.timeslot.end_time.strftime("%l:%M %P")
-
-  = f.submit "Submit Rankings", :class => "btn btn-primary"
+      = f.submit "Submit Rankings", :class => "btn btn-primary"

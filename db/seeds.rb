@@ -117,8 +117,8 @@ Course.create!(:name => "Pre Algebra", :grade => "6")
 
 # --- Create Student
 (1..10).each do |i|
-  user = User.new({:first_name => "StudentName#{i}",
-	           :last_name => "StudentName#{i}",
+  user = User.new({:first_name => "First#{i}",
+    	           :last_name => "Last#{i}",
                    :street_address => 'myaddr',
                    :phone_number => '000-000-0000',
                    :email => "StudentEmail#{i}@gmail.com",
@@ -132,8 +132,8 @@ end
 
 # --- Create mentor teachers
 (1..10).each do |i|
-  user = User.new({:first_name => "TeacherName#{i}",
-		   :last_name => "TeacherName#{i}",
+  user = User.new({:first_name => "First#{i}",
+		   :last_name => "Last#{i}",
                    :street_address => 'myaddr',
                    :phone_number => '000-000-0000',
                    :email => "TeacherEmail#{i}@gmail.com",
@@ -163,12 +163,8 @@ end
 
 # --- Create preferences
 Timeslot.all.each.with_index do |ts, i|
-  i += 1
-  if (i < Student.count)
-    Preference.create!(:timeslot => ts, :student => Student.find(i), :ranking => i)
-  end
+  Preference.create!(:timeslot => ts, :student => Student.all[i % Student.all.size], :ranking => i)
 end
-
 
 # --- Create Cal Courses
 # CalCourse(id: integer, name: string, timeslots: text, school_type: string,
@@ -193,11 +189,28 @@ Timeslot.all.each_with_index do |t, i|
   CalCourse.all[i % num_cal_courses].timeslots << t
 end
 
+Student.all.each_with_index do |t, i|
+  # assign students to each cal course
+  num_cal_courses = CalCourse.all.size
+  CalCourse.all[i % num_cal_courses].students<< t
+end
+
 Course.all.each_with_index do |t, i|
   # assign courses to each cal course
   num_cal_courses = CalCourse.all.size
   CalCourse.all[i % num_cal_courses].course << t
 end
+
+Timeslot.all.each_with_index do |t, i|
+  # assign timeslots to each teacher
+  MentorTeacher.all[i % MentorTeacher.all.size].timeslots << t
+end
+
+Timeslot.all.each_with_index do |t, i|
+  # assign placements to each student
+  Student.all[i % Student.all.size].placements << t
+end
+
 
 # --- Give student 1 an assignment
 student = Student.find(1)

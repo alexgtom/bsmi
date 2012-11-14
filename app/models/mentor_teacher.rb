@@ -4,6 +4,7 @@ class MentorTeacher < ActiveRecord::Base
   
   has_one :user, :as => :owner
   has_many :timeslots
+  has_many :students, :through => :timeslots
 
   belongs_to :school
   

@@ -8,6 +8,7 @@
     %th= link_to 'Last Name', mentor_teachers_path(:sort => 'last_name')
     %th Email
     %th= link_to 'Course (to be implemented next iteration)', mentor_teachers_path(:sort => 'course')
+    %th Student(s) Mentored
     -# %th
     -# %th
 
@@ -17,6 +18,10 @@
       %td= teacher.last_name
       %td= teacher.email 
       %td= 'course to be implemented in next iteration'
+      %td
+        - teacher.owner.students.each do |s|
+          %ul.unstyled
+            %li= "#{s.user.first_name} #{s.user.last_name}"
       -# %td= link_to 'Edit', "/user/#{teacher.id}/adv_edit"
       -# %td= link_to 'Delete', teacher, method: :delete, data: { confirm: 'Are you sure?' }
       

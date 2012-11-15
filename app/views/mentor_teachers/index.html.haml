@@ -1,5 +1,5 @@
 .page-header
-  %h1 Teacher Roster
+  %h1 Mentor Teachers
   /%h2= "Seach Student By Name:" /
 
 %table.table.table-hover
@@ -14,14 +14,14 @@
 
   - @all_teacher.each do |teacher|
     %tr
-      %td= teacher.first_name
+      %td= link_to teacher.first_name, teacher
       %td= teacher.last_name
       %td= teacher.email 
       %td= 'course to be implemented in next iteration'
       %td
         - teacher.owner.students.each do |s|
           %ul.unstyled
-            %li= "#{s.user.first_name} #{s.user.last_name}"
+            %li= link_to "#{s.user.first_name} #{s.user.last_name}", s
       -# %td= link_to 'Edit', "/user/#{teacher.id}/adv_edit"
       -# %td= link_to 'Delete', teacher, method: :delete, data: { confirm: 'Are you sure?' }
       

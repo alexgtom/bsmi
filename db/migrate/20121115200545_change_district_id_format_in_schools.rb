@@ -1,9 +1,11 @@
 class ChangeDistrictIdFormatInSchools < ActiveRecord::Migration
   def up
-    change_column :schools, :district_id, :integer
+    remove_column :schools, :district_id
+    add_column :schools, :district_id, :integer
   end
 
   def down
-    change_column :schools, :district_id, :string
+    remove_column :schools, :district_id
+    add_column :schools, :district_id, :string
   end
 end

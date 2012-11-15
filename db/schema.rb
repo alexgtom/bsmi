@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121113233958) do
+ActiveRecord::Schema.define(:version => 20121115200545) do
 
   create_table "advisors", :force => true do |t|
     t.datetime "created_at", :null => false
@@ -79,9 +79,9 @@ ActiveRecord::Schema.define(:version => 20121113233958) do
   create_table "schools", :force => true do |t|
     t.string   "name"
     t.string   "level"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-    t.string   "district_id"
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
+    t.integer  "district_id", :limit => 255
   end
 
   create_table "sessions", :force => true do |t|

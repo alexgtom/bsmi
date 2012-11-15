@@ -1,15 +1,39 @@
 %p#notice= notice
 
-%p
-  %b Name:
-  = @school.name
-%p
-  %b Level:
-  = @school.level
-%p
-  %b District:
-  = @school.district.name if @school.district
+.page-header
+  %h1 
+    = @school.name
 
-= link_to 'Edit', edit_school_path(@school)
-\|
-= link_to 'Back', schools_path
+.pull-right
+  = link_to 'Edit', edit_school_path(@school), :class => 'btn'
+  = link_to 'Back', schools_path, :class => 'btn'
+
+%h2 School Information
+
+%table.table
+  %tr
+    %td
+      %b Name:
+    %td
+      = @school.name
+  %tr
+    %td
+      %b Level:
+    %td
+      = @school.level
+  %tr
+    %td
+      %b District:
+    %td
+      = link_to @school.district.name, @school.district if @school.district
+
+%h2 Mentor Teachers
+%table.table
+  %tr
+    %th First Name
+    %th Last Name
+  - @school.mentor_teachers.each do |m|
+    %tr
+      %td= link_to m.user.first_name, m
+      %td= m.user.last_name
+

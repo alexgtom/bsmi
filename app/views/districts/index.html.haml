@@ -1,20 +1,20 @@
+.pull-right
+  = link_to 'New District', new_district_path, :class => 'btn'
+
 .page-header
-  %h1 Listing districts
+  %h1 Districts
 
 %table.table.table-hover
   %tr
     %th Name
     %th
     %th
-    %th
 
   - @districts.each do |district|
     %tr
-      %td= district.name
-      %td= link_to 'Show', district
+      %td= link_to district.name, district
       %td= link_to 'Edit', edit_district_path(district)
       %td= link_to 'Destroy', district, method: :delete, data: { confirm: 'Are you sure?' }
 
 %br
 
-= link_to 'New District', new_district_path

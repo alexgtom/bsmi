@@ -1,5 +1,7 @@
+.pull-right
+  = link_to 'New Course', new_course_path, :class => 'btn'
 .page-header
-  %h1 Listing courses
+  %h1 Courses
 
 %table.table.table-hover
   %tr
@@ -7,16 +9,13 @@
     %th Grade
     %th
     %th
-    %th
 
   - @courses.each do |course|
     %tr
-      %td= course.name
+      %td= link_to course.name, course
       %td= course.grade
-      %td= link_to 'Show', course
       %td= link_to 'Edit', edit_course_path(course)
       %td= link_to 'Destroy', course, method: :delete, data: { confirm: 'Are you sure?' }
 
 %br
 
-= link_to 'New Course', new_course_path

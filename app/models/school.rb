@@ -7,4 +7,5 @@ class School < ActiveRecord::Base
   validates_inclusion_of :level, :in => LEVEL
   belongs_to :district
   has_many :mentor_teachers
+  has_many :students, :through => :mentor_teachers
 end

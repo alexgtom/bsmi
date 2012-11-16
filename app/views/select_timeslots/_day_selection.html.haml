@@ -12,7 +12,7 @@
         "'id': #{t.id}",
         "'start': new Date(year, month, day, #{t.start_time.strftime("%H")}, #{t.start_time.strftime("%M")} )",
         "'end': new Date(year, month, day, #{t.end_time.strftime("%H")}, #{t.end_time.strftime("%M")} )",
-        "'title' : 'SUBJECT'",
+        "'title' : '#{t.course.name}'",
         "'selected' : #{t.selected?(@student.id)}",
       ].join(',') + '}' }.join ','
         }

@@ -11,6 +11,17 @@ FactoryGirl.define do
     password_confirmation { password }
     phone_number '111-111-1111'
     street_address '111 St Way'
+    
 
+    after(:build) do |user|
+      if user.owner.nil?
+        owner = FactoryGirl.build(:mentor_teacher, :user => user)
+        user.owner = owner
+      end
+    end
+
+    after(:create) do |user|
+      user.owner.save unless user.owner.nil?
+    end
   end
 end

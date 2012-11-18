@@ -259,6 +259,15 @@ Then /^(?:|I )should be on (.+)$/ do |page_name|
   end
 end
 
+Then /^(?:|I )should be at url (.+)$/ do |path|
+  current_path = URI.parse(current_url).path
+  if current_path.respond_to? :should
+    current_path.should == path
+  else
+    assert_equal path, current_path
+  end
+end
+
 Then /^(?:|I )should have the following query string:$/ do |expected_pairs|
   query = URI.parse(current_url).query
   actual_params = query ? CGI.parse(query) : {}

@@ -6,64 +6,95 @@
     = csrf_meta_tags
     = yield :head
   %body
-    .navbar.navbar-inverse.navbar-fixed-top
+    .navbar.navbar-fixed-top
       .navbar-inner
-        .container
+        .container-fluid
           %a.btn.btn-navbar{"data-target" => ".nav-collapse", "data-toggle" => "collapse"}
             %span.icon-bar
             %span.icon-bar
             %span.icon-bar
-          %a.brand{:href => "#"} BSMI
+          %a.brand{:href => "#"} CalTeach
           .nav-collapse.collapse
-            %ul.nav
-    .container
-      %ul.nav.nav-pills
-        // Temporary navigation links
-        %li
-          %a{:href => mentor_teachers_path} Mentor Teachers
-        %li
-          %a{:href => cal_courses_path} Cal Courses
-        %li
-          %a{:href => advisors_path} Advisors
-        %li
-          %a{:href => courses_path} Courses
-        %li
-          %a{:href => schools_path} Schools
-        %li
-          %a{:href => districts_path} Districts
-        %li
-          %a{:href => "/students/1/select_timeslots"} Select Timeslots
-        %li
-          %a{:href => "/students/1/select_timeslots/summary"} Timeslot Preference Summary
-        - if current_user
-          %li
-            %a{:href => edit_user_path(current_user.id)} Edit Profile
-          %li
-            %a{:href => "/logout"} Logout
-        - else
-          %li
-            %a{:href => new_user_path} Register
-          %li
-            %a{:href => :login} Login
-      
-      - [:notice, :error, :error_list, :alert].each do |level| 
-        - unless flash[level].blank?
-          - if level == :notice
-            .alert.alert-info 
-              = flash[level]
-          - elsif level == :error
-            .alert.alert-error 
-              = flash[level]
-          - elsif level == :error_list
-            .alert.alert-error
-              %ul
-                - flash[level].each do |error|
-                  %li
-                    = error
-          - else
-            .alert.alert-block 
-              = flash[level]
-      = yield
+            %ul.nav.pull-right
+              - if current_user
+                %li
+                  %a{:href => "/logout"} Logout
+              - else
+                %li
+                  %a{:href => new_user_path} Register
+                %li
+                  %a{:href => :login} Login
+    .container-fluid      
+      .sidebar.left.sidebar-nav
+        .well
+          %ul.nav.nav-list
+            // Mentor Teachers
+            %li.nav-header
+              Mentor Teachers Menu
+            - if current_user
+              - if current_user.owner_type == "MentorTeacher"
+                %li
+                  %a{:href => mentor_teacher_schedule_path} Edit Schedule
+              %li
+                %a{:href => edit_user_path(current_user.id)} Edit Profile
+
+            // Student Advisors
+            %li.nav-header
+              Structure
+            %li
+              %a{:href => courses_path} Courses
+            %li
+              %a{:href => cal_courses_path} Cal Courses
+            %li
+              %a{:href => schools_path} Schools
+            %li
+              %a{:href => districts_path} Districts
+            %li.nav-header
+              Manage Users
+            %li
+              %a{:href => advisors_path} Advisors
+            %li
+              %a{:href => mentor_teachers_path} Mentor Teachers
+            %li
+              %a{:href => students_path} Students
+            
+            // Students
+            %li.nav-header
+              Student Menu
+            %li
+              %a{:href => "/students/1/courses"} Enrollment
+            %li
+              %a{:href => "/students/1/select_courses"} Select Courses
+            %li
+              %a{:href => "/students/1/courses/1/select_timeslots"} Select Timeslots
+            %li
+              %a{:href => "/students/1/courses/1/select_timeslots/summary"} Timeslot Preference Summary
+            %li
+              %a{:href => "/students/1/placements"} View Field Placements
+
+            // Cal Faculty
+            %li.nav-header
+              Faculty
+
+      .content.fixed-fixed
+        - [:notice, :error, :error_list, :alert].each do |level| 
+          - unless flash[level].blank?
+            - if level == :notice
+              .alert.alert-info 
+                = flash[level]
+            - elsif level == :error
+              .alert.alert-error 
+                = flash[level]
+            - elsif level == :error_list
+              .alert.alert-error
+                %ul
+                  - flash[level].each do |error|
+                    %li
+                      = error
+            - else
+              .alert.alert-block 
+                = flash[level]
+        = yield
 
 
 

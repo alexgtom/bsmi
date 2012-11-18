@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121105051803) do
+ActiveRecord::Schema.define(:version => 20121115202701) do
 
   create_table "advisors", :force => true do |t|
     t.datetime "created_at", :null => false
@@ -26,6 +26,14 @@ ActiveRecord::Schema.define(:version => 20121105051803) do
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
   end
+
+  create_table "cal_courses_students", :id => false, :force => true do |t|
+    t.integer "cal_course_id"
+    t.integer "student_id"
+  end
+
+  add_index "cal_courses_students", ["cal_course_id", "student_id"], :name => "index_cal_courses_students_on_cal_course_id_and_student_id"
+  add_index "cal_courses_students", ["student_id", "cal_course_id"], :name => "index_cal_courses_students_on_student_id_and_cal_course_id"
 
   create_table "courses", :force => true do |t|
     t.string   "name"
@@ -73,7 +81,7 @@ ActiveRecord::Schema.define(:version => 20121105051803) do
     t.string   "level"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
-    t.string   "district_id"
+    t.integer  "district_id"
   end
 
   create_table "sessions", :force => true do |t|
@@ -115,8 +123,8 @@ ActiveRecord::Schema.define(:version => 20121105051803) do
     t.time     "end_time"
     t.integer  "mentor_teacher_id"
     t.integer  "max_num_assistants"
-    t.string   "course_id"
-    t.string   "cal_course_id"
+    t.integer  "course_id"
+    t.integer  "cal_course_id"
   end
 
   create_table "users", :force => true do |t|

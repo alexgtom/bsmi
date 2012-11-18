@@ -1,26 +1,21 @@
-%h1 Advisor Start Page
-
-
-%h2= link_to "Student Roster", students_path
-%h2= link_to "Teacher Roster", mentor_teachers_path
-    
-%h3 Current Student Advisors:
+.page-header
+  %h1 Advisors
 
 %table.table.table-hover
   %tr
     %th= link_to 'First Name', advisors_path(:sort => 'first_name')
     %th= link_to 'Last Name', advisors_path(:sort => 'last_name')
     %th Email
-    %th
-    %th
+    -# %th
+    %tha
 
   - @all_advisor.each do |advisor|
     %tr
       %td= advisor.first_name
       %td= advisor.last_name
       %td= advisor.email 
-      %td= link_to 'Edit', advisor
+      -# %td= link_to 'Edit', advisor
       %td= link_to 'Delete', advisor, method: :delete, data: { confirm: 'Are you sure?' }
 %br
-
+ 
 = link_to 'New Advisor', new_advisor_path

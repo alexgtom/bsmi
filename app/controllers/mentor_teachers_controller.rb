@@ -11,7 +11,7 @@ class MentorTeachersController < ApplicationController
       when 'last_name'
          @all_teacher = @all_teacher.order(:last_name)
       #when 'course'
-      #   @all_student = @all_student.order(:placement)
+       #  @all_teacher = @all_teacher.order(:placement)
       end
     end
 =begin

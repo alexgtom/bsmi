@@ -1,6 +1,12 @@
 FactoryGirl.define do
-  factory :preference do
-    ranking 1
-    association :timeslot, factory: :timeslot
+  factory :preference do |p|
+    sequence(:ranking) do |i|
+      i % 10
+    end
+    
+    timeslot
+    student
+    # association :timeslot, :factory => :timeslot
+    # association :student, :factory => :student
   end
 end

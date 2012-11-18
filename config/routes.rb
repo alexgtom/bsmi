@@ -96,9 +96,13 @@ Bsmi::Application.routes.draw do
   resources :advisors
 
   resources :students do
-    resources :select_timeslots
+    resources :select_cal_courses
+    resources :select_timeslots, :path => 'courses/:cal_course_id/select_timeslots'
     member do 
       get 'placements'
+      get 'select_courses'
+      put 'select_courses'
+      get 'courses'
       get 'timeslot_selection'
       post 'timeslot_selection'
     end

@@ -1,9 +1,19 @@
 %p#notice= notice
 
-%p
-  %b Name:
-  = @district.name
+.pull-right
+  = link_to 'Edit', edit_district_path(@district), :class => 'btn'
+  = link_to 'Back', districts_path, :class => 'btn'
 
-= link_to 'Edit', edit_district_path(@district)
-\|
-= link_to 'Back', districts_path
+.page-header
+  %h1 
+    = @district.name
+
+%h2 Schools
+
+%table.table
+  - @district.school.each do |s|
+    %tr
+      %td
+        = link_to s.name, s
+
+

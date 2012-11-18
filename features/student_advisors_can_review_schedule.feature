@@ -7,28 +7,27 @@ Feature: Student advisors can review students/mentors schedule and contact info
 	Background:
 	    Given I am signed in as a student advisor and have students and teachers in system:
 		
-		
 		Scenario: view list of students with their information
 		  Given I am on the advisors page
-		  And I follow "Student Roster"
+		  And I follow "Students"
 		  Then I should be located at "/students"
 		  Then I should see "Andrew"
 		  Then I should see "Mains"
 		  Then I should see "andrew@berkeley.edu"
 		  Then I should see "Orion"
-          Then I should see "Allen"
+                  Then I should see "Allen"
 		  Then I should see "orion@berkeley.edu"
 
 		  
 		Scenario: view list of mentor teachers with their information
 		  Given I am on the advisors page
-		  And I follow "Teacher Roster"
+		  And I follow "Teachers"
 		  Then I should be located at "/mentor_teachers"
 		  Then I should see "Alex"
 		  Then I should see "Tom"
 		  Then I should see "alex@berkeley.edu"
 		  Then I should see "Tony"
-          Then I should see "Adam"
+                  Then I should see "Adam"
 		  Then I should see "tony@berkeley.edu"
 		
 	    Scenario: sort students by last name

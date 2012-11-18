@@ -11,7 +11,7 @@
               'id': #{t.id}, 
               'start': new Date(year, month, day + #{Timeslot.day_index(t.day)} - 1, #{t.start_time.strftime("%H")}, #{t.start_time.strftime("%M")} ),
               'end': new Date(year, month, day + #{Timeslot.day_index(t.day)} - 1, #{t.end_time.strftime("%H")}, #{t.end_time.strftime("%M")} ),
-              'title' : 'SUBJECT',
+              'title' : '#{t.course.name}',
 
             }," }.join '\n'
         }

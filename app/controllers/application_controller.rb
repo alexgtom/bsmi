@@ -23,6 +23,15 @@ class ApplicationController < ActionController::Base
         return false
       end
     end
+
+    def require_cal_faculty
+      unless current_user && current_user.owner_type == "CalFaculty" #admin for now
+        store_location
+        flash[:notice] = "Only Cal Faculty can access this page."
+        redirect_to new_user_session_url
+        return false
+      end
+    end
     
     def require_user
       unless current_user

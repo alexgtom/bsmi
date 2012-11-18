@@ -5,16 +5,22 @@ Feature: Ranking possible student times
 
 	Background: classes in timeslots
 
-		Given the following timeslots exist:
-			| id | start_time   | end_time          | day     |
-			| 1  | 8:00 am		| 9:00 am 			| monday  |
-			| 2  | 9:00 am		| 10:00 am 			| monday  |
-			| 3  | 11:00 am		| 12:00 pm			| tuesday |
-			| 4  | 12:00 pm	    | 1:00 pm 			| tuesday |
-
-		Given the following student exist
+		Given the following cal course exist
 			| id |
 			| 1  |
+
+		Given the following users exist
+			| id | first_name | last_name | email             | type     | cal_courses |
+			| 1  | Oski 	  | Bear      | oski@berkeley.edu | Student  | 1           |
+
+		Given the following timeslots exist
+			| start_time     | end_time     | day     | cal_course_id | 
+			| 8:00		     | 9:00 		| monday  | 1             |
+			| 9:00		     | 10:00 		| monday  | 1             |
+			| 11:00		     | 12:00 		| tuesday | 1             |
+			| 12:00		     | 13:00 		| tuesday | 1             |
+
+		Given I am logged in as oski@berkeley.edu
 	@javascript 
 	Scenario: User can't select the same ranking for two preferences
 		Given the following preferences exist:
@@ -23,7 +29,7 @@ Feature: Ranking possible student times
 			| 1          | 2           | 2       |
 			| 1          | 3           | 3       |
 			| 1          | 4           | 4       |
-		When I go to /students/1/select_timeslots/rank
+		When I go to /students/1/courses/1/select_timeslots/rank
 		When I select "1" from "student[preferences_attributes][0][ranking]"
 		When I select "1" from "student[preferences_attributes][1][ranking]"
 		When I select "3" from "student[preferences_attributes][2][ranking]"
@@ -33,7 +39,7 @@ Feature: Ranking possible student times
 
 		# these next steps chaeck to make sure the rankings have not been
 		# modified from before
-		When I go to /students/1/select_timeslots/summary
+		When I go to /students/1/courses/1/select_timeslots/summary
 		Then I should see /1.*8:00 am.*9:00 am/
 		Then I should see /2.*9:00 am.*10:00 am/
 		Then I should see /3.*11:00 am.*12:00 pm/
@@ -47,10 +53,10 @@ Feature: Ranking possible student times
 			| 1          | 2           | 2       |
 			| 1          | 3           | 3       |
 			| 1          | 4           | 4       |
-		When I go to /students/1/select_timeslots
+		When I go to /students/1/courses/1/select_timeslots
 		When I click element containing "09:00 am to 10:00 am"
 		And I press "Save"
-		When I go to /students/1/select_timeslots/summary
+		When I go to /students/1/courses/1/select_timeslots/summary
 		Then I should not see /9:00 am.*10:00 am/
 		Then I should see /1.*8:00 am.*9:00 am/
 		Then I should see /2.*11:00 am.*12:00 pm/
@@ -58,14 +64,14 @@ Feature: Ranking possible student times
 
 	@javascript 
 	Scenario: Enter my time preferences
-		When I go to /students/1/select_timeslots
+		When I go to /students/1/courses/1/select_timeslots
 		When I click element containing "08:00 am to 09:00 am"
 		When I click element containing "09:00 am to 10:00 am"
 		And I press "Save & Continue"
 		When I click element containing "11:00 am to 12:00 pm"
 		When I click element containing "12:00 pm to 01:00 pm"
 		And I press "Save & Continue"
-		When I go to /students/1/select_timeslots/rank
+		When I go to /students/1/courses/1/select_timeslots/rank
 		When I select "1" from "student[preferences_attributes][0][ranking]"
 		When I select "2" from "student[preferences_attributes][1][ranking]"
 		When I select "3" from "student[preferences_attributes][2][ranking]"

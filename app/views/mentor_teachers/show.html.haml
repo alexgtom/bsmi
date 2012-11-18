@@ -1,6 +1,63 @@
 %p#notice= notice
 
+.page-header
+  %h1 
+    = "#{@mentor_teacher.user.first_name} #{@mentor_teacher.user.last_name}"
 
-= link_to 'Edit', edit_mentor_teacher_path(@mentor_teacher)
-\|
-= link_to 'Back', mentor_teachers_path
+.pull-right
+  = link_to 'Edit', edit_mentor_teacher_path(@mentor_teacher), :class => 'btn'
+  = link_to 'Back', mentor_teachers_path, :class => 'btn'
+
+%h2 Mentor Teacher Information
+
+%table.table
+  %tr
+    %td
+      %b First Name:
+    %td
+      = @mentor_teacher.user.first_name
+  %tr
+    %td
+      %b Last Name:
+    %td
+      = @mentor_teacher.user.last_name
+  %tr
+    %td
+      %b Phone NUmber:
+    %td
+      = @mentor_teacher.user.phone_number
+  %tr
+    %td
+      %b Email:
+    %td
+      = mail_to @mentor_teacher.user.email
+  %tr
+    %td
+      %b Created:
+    %td
+      = @mentor_teacher.user.created_at
+  %tr
+    %td
+      %b Updated:
+    %td
+      = @mentor_teacher.user.updated_at
+  %tr
+    %td
+      %b Address:
+    %td
+      = @mentor_teacher.user.street_address
+  %tr
+    %td
+      %b City:
+    %td
+      = @mentor_teacher.user.city
+  %tr
+    %td
+      %b State:
+    %td
+      = @mentor_teacher.user.state
+  %tr
+    %td
+      %b Zip Code:
+    %td
+      = @mentor_teacher.user.zipcode

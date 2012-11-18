@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   acts_as_authentic do |c|
   end # block optional
 
-  @@user_types = Hash[[Advisor, MentorTeacher, Student].map {|type| [type.name, type]}]
+  @@user_types = Hash[[Advisor, MentorTeacher, Student, CalFaculty].map {|type| [type.name, type]}]
 
 
   def self.user_types

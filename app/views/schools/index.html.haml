@@ -1,23 +1,26 @@
-%h1 Listing schools
+.pull-right
+  = link_to 'New School', new_school_path, :class => 'btn'
+.page-header
+  %h1 Schools
 
 %table.table.table-hover
   %tr
     %th Name
     %th Level
     %th District
+    %th # Mentor Teachers
     %th
     %th
     %th
 
   - @schools.each do |school|
     %tr
-      %td= school.name
+      %td= link_to school.name, school
       %td= school.level
       %td= school.district.name if school.district
-      %td= link_to 'Show', school
+      %td= school.mentor_teachers.size
       %td= link_to 'Edit', edit_school_path(school)
       %td= link_to 'Destroy', school, method: :delete, data: { confirm: 'Are you sure?' }
 
 %br
 
-= link_to 'New School', new_school_path

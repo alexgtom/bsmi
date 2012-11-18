@@ -1,0 +1,21 @@
+.page-header
+  %h1 My Mentor Teachers
+
+%table.table.table-hover
+  %tr
+    %th= link_to 'First Name', cal_faculty_my_mentor_teachers_path(:sort => 'first_name')
+    %th= link_to 'Last Name', cal_faculty_my_mentor_teachers_path(:sort => 'last_name')
+    %th Email
+    %th Student(s) Mentored
+
+  - @my_faculties.each do |faculty|
+    %tr
+      %td= link_to faculty.user.first_name, cal_faculty_show_user_path(faculty.user)
+      %td= faculty.user.last_name
+      %td= faculty.user.email 
+      %td
+        - faculty.user.owner.students.uniq{|x| x.id}.each do |c|
+          %ul.unstyled
+            %li= link_to "#{c.user.email}", cal_faculty_show_user_path(c.user)
+
+%br

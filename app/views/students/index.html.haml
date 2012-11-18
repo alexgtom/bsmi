@@ -1,5 +1,5 @@
 .page-header
-  %h1 Student Roster
+  %h1 Students
 /%h2= "Seach Student By Name:" /
 
 %table.table.table-hover
@@ -9,7 +9,7 @@
     %th Email
     %th= link_to 'Course (to be implemented next iteration)', students_path(:sort => 'course') 
     %th Mentor Teacher(s)
-    %th
+    %th= link_to 'placement'
     %th
     %th
     %th

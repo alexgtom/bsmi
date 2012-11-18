@@ -7,7 +7,7 @@
     %th= link_to 'First Name', mentor_teachers_path(:sort => 'first_name')
     %th= link_to 'Last Name', mentor_teachers_path(:sort => 'last_name')
     %th Email
-    %th= link_to 'Course (to be implemented next iteration)', mentor_teachers_path(:sort => 'course')
+    %th= link_to 'course', mentor_teachers_path(:sort => 'course')
     %th Student(s) Mentored
     -# %th
     -# %th
@@ -17,7 +17,7 @@
       %td= link_to teacher.first_name, teacher
       %td= teacher.last_name
       %td= teacher.email 
-      %td= 'course to be implemented in next iteration'
+      %td= 'course'
       %td
         - teacher.owner.students.each do |s|
           %ul.unstyled

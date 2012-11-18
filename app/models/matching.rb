@@ -45,11 +45,6 @@ class BipartiteGraph
     @sides.freeze
 
     @dummy_edges = Set.new
-    if preferences
-      preferences.each do |p| 
-        self.add_edge(p.student_id, p.timeslot_id, p.ranking)
-      end
-    end
   end
 
   def add_node(value, type, options = {})
@@ -120,46 +115,47 @@ class BipartiteGraph
 end
 
 class MatchingSolver
-  attr_reader :preferences
-  def initialize(preferences)
+  attr_reader :preferences, :graph
+  def initialize(preferences, students, timeslots)
     @preferences = preferences
-    @students = Set.new(preferences.map {|p| p.student_id}).to_a
-    @timeslots = Set.new(preferences.map {|p| p.timeslot_id}).to_a
+    @students = students
+    @timeslots = timeslots
+    @graph = BipartiteGraph.new
+    
+    @students.each do |s|
+      @graph.add_node(s.id, :student)
+    end
+    @timeslots.each do |t|
+      @graph.add_node(t.id, :timeslot)
+    end
+
+    @preferences.each do |p|
+      @graph.add_edge(BipartiteGraph::Node.new(p.student_id, :student),
+                      BipartiteGraph::Node.new(p.timeslot_id, :timeslot),
+                      p.ranking
+                      )
+    end
   end
 
   def solve
     self.normalize_graph
     problem = MatchingProblem.new(preferences, students, timeslots)
-    return problem.solution
+    return extract_solution(problem.solution)
   end
 
   #Problem: not enough teachers for students
   #Solution: make dummy nodes for timeslots that can accomodate more
   private
 
+  #Goals
+  #Equal numbers of teachers and students
+  #Each timeslot duplicated up to max num students
+  #Give everyone an edge to everything
+  #If pick dummy edge for student, not actually matched
   def normalize_graph
     self.expand_timeslots
     self.graph.equalize_sides
-    self.graph.connect
-        
-    #Goals
-    #Equal numbers of teachers and students
-    #Each timeslot duplicated up to max num students
-    #Give everyone an edge to everything
-    #If pick dummy edge for student, not actually matched
-
-    #3 classes of dummy:
-    # Dummy student to real timeslot = don't use timeslot
-    # Real student to dummy timeslot = student is unmatched
-    # Real student, real timeslot, dummy edge = student is unmatched
-
-    # More students than timeslots:
-    #   -> dummy timeslots
-
-    # More timeslots than students:
-    #   -> dummy students
-    
-    # Can't have both
+    self.graph.connect        
   end
 
   #Split each timeslot into timeslot.max_num_assistant nodes, each of which can then
@@ -185,8 +181,14 @@ class MatchingSolver
   end
 
 
+  #Matchings = set of chosen edges
+  #No dummies involved
   def extract_solution(matchings)
-    
+    return matchings.reject do |m|
+      m.student.dummy? or 
+      m.timeslot.dummy? or 
+      self.graph.dummy_edge?(m.student, m.timeslot)
+    end
   end
   #Represents an assignment problem instance between mentor teacher timeslots
   #and students. 

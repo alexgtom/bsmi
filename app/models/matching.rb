@@ -1,12 +1,50 @@
 require 'rglpk'
 require 'set'
 
-class Graph
+class BipartiteGraph
   attr_accessor :adjacency_list
+
+#Need ways of determining: duplicate node, dummy node
+  class Node
+    attr_reader :value, :type
+
+    def initialize(value, type, options = {})
+      @value = value
+      @type = type
+      @dummy = options[:dummy] || false
+      @duplicate = options[:duplicate] || false
+    end
+
+    def ==(other)
+      if not other.instance_of? Node
+        return false
+      else
+        return value == other.value and 
+          type == other.type and
+          @dummy == other.dummy? and
+          @duplicate == other.duplicate?               
+      end
+    end
+
+    def hash
+      return value.hash
+    end
+
+    def dummy?
+      return @dummy
+    end
+
+    def duplicate?
+      return @duplicate
+    end
+  end
 
   def initialize(preferences=nil)
     self.adjacency_list = Hash.new {|hash, key| hash[key] = Hash.new}
+    @sides = Hash[[:student, Set.new], [:timeslot, Set.new]]
+    @sides.freeze
 
+    @dummy_edges = Set.new
     if preferences
       preferences.each do |p| 
         self.add_edge(p.student_id, p.timeslot_id, p.ranking)
@@ -14,12 +52,66 @@ class Graph
     end
   end
 
-  def add_edge(s, t, weight=1)
-    self.adjacency_list[s][t] = weight
+  def add_node(value, type, options = {})
+    unless @sides.include? type
+      throw ArgumentError.new("#{type} isn't a valid type for the graph")
+    end
+
+    node = Node.new(value, type, options)
+    @sides[type].add(node)
+
+    unless self.adjacency_list.include? node
+      self.adjacency_list[node] = Hash.new
+    end
+
+    return node
   end
 
+  def timeslots
+    return @sides[:timeslot]
+  end
+
+  def students
+    return @sides[:student]
+  end
+
+  def equalize_sides
+    if students.length == timeslots.length
+      return
+    end
+    
+    dummy_type = students.length > timeslots.length ? :timeslot : :student
+    
+    (students.length - timeslots.length).abs.times do |i|
+        self.add_node(i, dummy_type, :dummy => true)
+    end  
+  end
+  
+  DUMMY_EDGE_WEIGHT = 10000
+  #Fully connect the two sides of the graph
+  #Any edges that didn't exist previously are added with a very high weight. This ensure 
+  #that our algorithm will only pick these edges when there isn't a better option.
+  def connect 
+    self.students.each do |s|
+      self.timeslots.each do |t|
+        if not connected? s, t
+          self.add_edge(s, t, DUMMY_EDGE_WEIGHT)
+          @dummy_edges.add([s,t])
+        end
+      end
+    end
+  end
+
+  def add_edge(student_node, timeslot_node, weight=1)
+    self.adjacency_list[s][t] = weight
+  end
+  
   def connected?(s, t)
     return self.adjacency_list[s].include? t
+  end
+
+  def dummy_edge?(s,t)
+    return @dummy_edges.include? [s,t]
   end
 
   def edge_weight(s,t)
@@ -47,12 +139,9 @@ class MatchingSolver
 
   def normalize_graph
     self.expand_timeslots
-
-    self.equalize_graph_sides
-    self.connect_graph
-    #Make sure everyone has an edge to everyone else
-    
-    
+    self.graph.equalize_sides
+    self.graph.connect
+        
     #Goals
     #Equal numbers of teachers and students
     #Each timeslot duplicated up to max num students
@@ -73,25 +162,28 @@ class MatchingSolver
     # Can't have both
   end
 
+  #Split each timeslot into timeslot.max_num_assistant nodes, each of which can then
+  #be matched separately
   def expand_timeslots
+    timeslots_to_students = Hash.new {|hash, key| hash[key] = []}
+    self.preferences.each do |p|
+      timeslots_to_students[p.timeslot] << [p.student_id, p.ranking]
+    end
     
-  end
-
-  def equalize_graph_sides
-
-  end
-
-  DUMMY_EDGE_WEIGHT = 1000
-
-  def connect_graph
-    self.students.each do |s|
-      self.timeslots.each do |t|
-        if not self.graph.connected?(s,t)
-          self.graph.add_edge(s,t, DUMMY_EDGE_WEIGHT)
+    self.timeslots_to_students.each_pair do |timeslot, student_list|
+      dup_nodes = (timeslot.max_num_assistants - 1).times.map do
+        self.graph.add_node(timeslot.id, :timeslot, :duplicate => true)
+      end
+      
+      dup_nodes.each do |dup_node|
+        student_list.each do |student_id, ranking|        
+          student_node = Graph::Node.new(student_id, :student)
+          self.graph.add_edge(student_node, dup_node, ranking)
         end
       end
     end
   end
+
 
   def extract_solution(matchings)
     

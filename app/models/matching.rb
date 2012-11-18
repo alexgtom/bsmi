@@ -19,10 +19,10 @@ class BipartiteGraph
       if not other.instance_of? Node
         return false
       else
-        return value == other.value and 
-          type == other.type and
-          @dummy == other.dummy? and
-          @duplicate == other.duplicate?               
+        return (value == other.value and 
+          type == other.type and          
+          @dummy == other.dummy? and 
+          @duplicate == other.duplicate?)
       end
     end
 
@@ -47,19 +47,29 @@ class BipartiteGraph
       @timeslot = timeslot_node
       @weight = weight
     end
+
+    def hash
+      return [@student, @timeslot].hash
+    end
+
+    def ==(other)
+      return (other.instance_of? Edge and
+        other.student == self.student and
+        other.timeslot == self.timeslot)
+    end
   end
   
   attr_reader :num_edges
   def initialize(preferences=nil)
     self.adjacency_list = Hash.new {|hash, key| hash[key] = Hash.new}
-    @sides = Hash[[:student, Set.new], [:timeslot, Set.new]]
+    @sides = Hash[[[:student, Set.new], [:timeslot, Set.new]]]
     @sides.freeze
     @num_edges = 0
     @dummy_edges = Set.new
   end
 
   def edges
-    Enumerator.new do |enum, yielder|
+    Enumerator.new do |yielder|
       self.adjacency_list.each_pair do |student, timeslots|
         timeslots.each_pair do |t, weight|
           yielder << Edge.new(student, t, weight)
@@ -121,7 +131,7 @@ class BipartiteGraph
 
   def add_edge(student_node, timeslot_node, weight=1)
     @num_edges += 1
-    self.adjacency_list[s][t] = weight
+    self.adjacency_list[student_node][timeslot_node] = weight
   end
   
   def connected?(s, t)
@@ -162,14 +172,14 @@ class MatchingSolver
 
   def solve
     self.normalize_graph
-    problem = MatchingProblem.new(preferences, students, timeslots)
+    problem = MatchingProblem.new(self.graph)
     return extract_solution(problem.solution)
   end
 
   #Problem: not enough teachers for students
   #Solution: make dummy nodes for timeslots that can accomodate more
-  private
 
+  protected
   #Goals
   #Equal numbers of teachers and students
   #Each timeslot duplicated up to max num students
@@ -189,14 +199,14 @@ class MatchingSolver
       timeslots_to_students[p.timeslot] << [p.student_id, p.ranking]
     end
     
-    self.timeslots_to_students.each_pair do |timeslot, student_list|
+    timeslots_to_students.each_pair do |timeslot, student_list|
       dup_nodes = (timeslot.max_num_assistants - 1).times.map do
         self.graph.add_node(timeslot.id, :timeslot, :duplicate => true)
       end
       
       dup_nodes.each do |dup_node|
         student_list.each do |student_id, ranking|        
-          student_node = Graph::Node.new(student_id, :student)
+          student_node = BipartiteGraph::Node.new(student_id, :student)
           self.graph.add_edge(student_node, dup_node, ranking)
         end
       end
@@ -233,8 +243,8 @@ class MatchingSolver
     def solution
       self.prepare_problem
       self.simplex
-      @solution = self.preferences.zip(self.cols).find_all{|p, col| col.get_prim > 0 }.
-        map { |p, col| p }      
+      @solution = self.graph.edges.zip(self.cols).find_all{|e, col| col.get_prim > 0 }.
+        map { |e, col| e }      
       return @solution
     end
 

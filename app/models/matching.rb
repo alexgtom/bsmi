@@ -39,13 +39,35 @@ class BipartiteGraph
     end
   end
 
+  class Edge
+    attr_reader :student, :timeslot, :weight
+
+    def initialize(student_node, timeslot_node, weight)
+      @student = student_node
+      @timeslot = timeslot_node
+      @weight = weight
+    end
+  end
+  
+  attr_reader :num_edges
   def initialize(preferences=nil)
     self.adjacency_list = Hash.new {|hash, key| hash[key] = Hash.new}
     @sides = Hash[[:student, Set.new], [:timeslot, Set.new]]
     @sides.freeze
-
+    @num_edges = 0
     @dummy_edges = Set.new
   end
+
+  def edges
+    Enumerator.new do |enum, yielder|
+      self.adjacency_list.each_pair do |student, timeslots|
+        timeslots.each_pair do |t, weight|
+          yielder << Edge.new(student, t, weight)
+        end
+      end
+    end
+  end
+
 
   def add_node(value, type, options = {})
     unless @sides.include? type
@@ -98,6 +120,7 @@ class BipartiteGraph
   end
 
   def add_edge(student_node, timeslot_node, weight=1)
+    @num_edges += 1
     self.adjacency_list[s][t] = weight
   end
   
@@ -194,13 +217,11 @@ class MatchingSolver
   #and students. 
   class MatchingProblem < Rglpk::Problem
     
-    attr_reader :students, :timeslots, :preferences
+    attr_reader :graph
 
-    def initialize(preferences, students, timeslots)           
+    def initialize(graph)
       super()
-      @preferences = preferences
-      @students = students
-      @timeslots = timeslots
+      @graph = graph
     end
     
     def prepare_problem
@@ -219,20 +240,20 @@ class MatchingSolver
 
     def initialize_objective
       self.obj.dir = Rglpk::GLP_MIN
-      self.obj.coefs = self.preferences.map {|p| p.ranking}
+      self.obj.coefs = self.graph.edges.map {|e| e.weight}
     end
 
     def initialize_vars 
-      self.add_cols(self.preferences.length)
-      self.cols.zip(self.preferences).each do |col, pref|
-        col.name = "match_#{pref.student_id}_#{pref.timeslot_id}"
+      self.add_cols(self.graph.num_edges)
+      self.cols.zip(self.graph.edges).each do |col, pref|
+        col.name = "match_#{pref.student.value}_#{pref.timeslot.value}"
       end
       
       self.cols.each {|c| c.set_bounds(Rglpk::GLP_DB, 0, 1)}
     end
 
     def initialize_constraints
-      self.add_rows(self.students.length + self.timeslots.length)
+      self.add_rows(self.graph.students.length + self.graph.timeslots.length)
       self.rows.each do |r|
         r.set_bounds(Rglpk::GLP_FX, 1, 1)
       end
@@ -242,13 +263,13 @@ class MatchingSolver
     #Provide the constraints matrix for the linear program. Each row in the matrix
     #corresponds either to a constraint on a timeslot or on a student.  
     def constraints_matrix    
-      (self.students.map {|s| constraints_row_for_student s} +
-       self.timeslots.map {|t| constraints_row_for_timeslot t})
+      (self.graph.students.map {|s| constraints_row_for_student s} +
+       self.graph.timeslots.map {|t| constraints_row_for_timeslot t})
     end
 
     def constraints_row_for_student(student_id)
-      self.preferences.map do |p|
-        if p.student_id == student_id
+      self.graph.edges.map do |e|
+        if e.student.value == student_id
           1
         else
           0
@@ -257,8 +278,8 @@ class MatchingSolver
     end
 
     def constraints_row_for_timeslot(timeslot_id)
-      self.preferences.map do |p|
-        if p.timeslot_id == timeslot_id
+      self.graph.edges.map do |e|
+        if e.timeslot.value == timeslot_id
           1
         else
           0

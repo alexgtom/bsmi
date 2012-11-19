@@ -1,29 +1,34 @@
 %p#notice= notice
 
-%p
-  %b Name:
-  = @cal_course.name
-%p
-  %b School Type:
-  = @cal_course.school_type
-%p
-  %b Grade:
-  = @cal_course.course_grade
-%p 
-  %b Timeslots:
-  %table#timeslots
-    %thread
-      %tr
-        %th Subject
-        %th Teacher
-        %th Timeslot
-    %body
-      - @times.each do |time|
-        %tr
-          %td= time.course.name
-          %td= time.mentor_teacher.user.name
-          %td= time.to_string
+.page-header
+  %h1 
+    = @cal_course.name
 
-= link_to 'Edit', edit_cal_course_path(@cal_course)
-\|
-= link_to 'Back', cal_courses_path
+.pull-right
+  = link_to 'Edit', edit_cal_course_path(@cal_course), :class => 'btn'
+  = link_to 'Back', cal_courses_path, :class => 'btn'
+
+%h2 School Information
+%table.table
+  %tr
+    %td
+      %b School Type:
+    %td
+      = @cal_course.school_type
+  %tr
+    %td
+      %b Course Grade:
+    %td
+      = @cal_course.course_grade
+
+%h2 Timeslots:
+%table.table
+  %tr
+    %th Subject
+    %th Teacher
+    %th Timeslot
+  - @times.each do |time|
+    %tr
+      %td= link_to time.course.name, time.course
+      %td= link_to time.mentor_teacher.user.name, time.mentor_teacher
+      %td= time.to_string

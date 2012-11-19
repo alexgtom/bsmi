@@ -61,7 +61,7 @@ class Timeslot < ActiveRecord::Base
         entry["time"] = self.to_string
         entry["time_id"] = self.id
         entry["course"] = self.course
-        entry["checked"] = self.cal_course_id == caller_id.to_s
+        entry["checked"] = self.cal_course_id == caller_id
       end
       return entry
     end

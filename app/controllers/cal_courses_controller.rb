@@ -3,6 +3,17 @@ class CalCoursesController < ApplicationController
   # GET /cal_courses.json
   def index
     @cal_courses = CalCourse.all
+    if params[:sort] || session[:sort] != nil
+      sort = params[:sort] || session[:sort]
+      case sort
+      when "name"
+        @cal_courses.sort_by! {|course| course[:name]}
+      when "school"
+        @cal_courses.sort_by! {|course| course[:school_type] || ""}
+      when "grade"
+        @cal_courses.sort_by! {|course| course[:course_grade] || ""}
+      end
+    end
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @cal_courses }

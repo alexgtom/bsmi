@@ -19,6 +19,7 @@ class CalCourse < ActiveRecord::Base
         entries << time.build_entry(self.id)
       end
       entries.reject{|entry| entry == nil}
+      entries.sort_by{|entry| entry["school_name"]}
     end
     return entries
   end

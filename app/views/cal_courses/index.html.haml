@@ -5,13 +5,11 @@
 
 %table.table.table-hover
   %tr
-    %th Name
-    %th School
-    %th Grade
+    %th= link_to 'Name', cal_courses_path(:sort => 'name')
+    %th= link_to 'School', cal_courses_path(:sort => 'school')
+    %th= link_to 'Course Grade', cal_courses_path(:sort => 'grade')
     %th
     %th
-    %th
-
   - @cal_courses.each do |course|
     %tr
       %td= link_to course.name, course

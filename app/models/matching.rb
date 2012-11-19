@@ -1,6 +1,15 @@
 require 'rglpk'
 require 'set'
 
+
+class Matching < ActiveRecord::Base
+  attr_protected #none  
+  belongs_to :student
+  belongs_to :timeslot
+  
+end
+
+
 class BipartiteGraph
   attr_accessor :adjacency_list
 
@@ -222,10 +231,17 @@ class MatchingSolver
   #Matchings = set of chosen edges
   #No dummies involved
   def extract_solution(matchings)
-    return matchings.reject do |m|
+    matchings = matchings.reject do |m|
       m.student.dummy? or 
       m.timeslot.dummy? or 
       self.graph.dummy_edge?(m.student, m.timeslot)
+    end
+
+    return matchings.map do |m|
+      Matching.create(:student_id => m.student.value,
+                      :timeslot_id => m.timeslot.value,
+                      :ranking => m.weight
+                      )
     end
   end
   #Represents an assignment problem instance between mentor teacher timeslots

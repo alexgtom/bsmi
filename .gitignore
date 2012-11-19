@@ -18,7 +18,7 @@
 *~
 
 # Ignore rspec coverage directory
-/coverage
+*coverage
 
 /spec/controllers/coverage
 /spec/coverage

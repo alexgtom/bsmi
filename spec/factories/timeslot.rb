@@ -44,6 +44,8 @@ FactoryGirl.define do
    
     start_time { FactoryGirl.generate(:time) }
     end_time {start_time + 3600} #One hour after
+
+    max_num_assistants 1
 #    day {Timeslot.day_list[start_time.wday]}
 
 

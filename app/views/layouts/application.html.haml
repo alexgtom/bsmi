@@ -75,6 +75,10 @@
             // Cal Faculty
             %li.nav-header
               Faculty
+            %li
+              %a{:href => "/cal_faculty/my_students"} My Students
+            %li
+              %a{:href => "/cal_faculty/my_mentor_teachers"} My Mentor Teachers
 
       .content.fixed-fixed
         - [:notice, :error, :error_list, :alert].each do |level| 

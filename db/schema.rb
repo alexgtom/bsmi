@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121115202701) do
+ActiveRecord::Schema.define(:version => 20121119040248) do
 
   create_table "advisors", :force => true do |t|
     t.datetime "created_at", :null => false
@@ -27,6 +27,11 @@ ActiveRecord::Schema.define(:version => 20121115202701) do
     t.datetime "updated_at",   :null => false
   end
 
+  create_table "cal_courses_cal_faculties", :id => false, :force => true do |t|
+    t.integer "cal_course_id"
+    t.integer "cal_faculty_id"
+  end
+
   create_table "cal_courses_students", :id => false, :force => true do |t|
     t.integer "cal_course_id"
     t.integer "student_id"
@@ -34,6 +39,11 @@ ActiveRecord::Schema.define(:version => 20121115202701) do
 
   add_index "cal_courses_students", ["cal_course_id", "student_id"], :name => "index_cal_courses_students_on_cal_course_id_and_student_id"
   add_index "cal_courses_students", ["student_id", "cal_course_id"], :name => "index_cal_courses_students_on_student_id_and_cal_course_id"
+
+  create_table "cal_faculties", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "courses", :force => true do |t|
     t.string   "name"
@@ -61,6 +71,14 @@ ActiveRecord::Schema.define(:version => 20121115202701) do
 
   add_index "invites", ["id", "email"], :name => "index_invites_on_id_and_email"
   add_index "invites", ["id", "invite_code"], :name => "index_invites_on_id_and_invite_code"
+
+  create_table "matchings", :force => true do |t|
+    t.integer  "student_id"
+    t.integer  "timeslot_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.integer  "ranking"
+  end
 
   create_table "mentor_teachers", :force => true do |t|
     t.datetime "created_at", :null => false

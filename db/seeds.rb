@@ -39,7 +39,35 @@ users.each do |u|
   owner.save
 end
 
-    
+# --- Create Cal Faculties
+(1..10).each do |i|
+  user = User.new({:first_name => "Cal Faculty#{i}",
+		   :last_name => "Last#{i}",
+                   :street_address => 'myaddr',
+                   :phone_number => '000-000-0000',
+                   :email => "CalFacultyEmail#{i}@gmail.com",
+                   :password => '1234',
+                   :password_confirmation => '1234'})
+  owner = User.build_owner("CalFaculty")
+  user.owner = owner
+  user.save
+  owner.save
+end
+
+=begin
+# --- Insert some cal_course-cal_faculty matching into cal_courses_cal_faculties
+(1..10).each do |i|
+  insert = CalCoursesCalFaculties.new({:cal_course_id => i,
+                                       :cal_faculty_id => i})
+  insert.save
+end
+(1..3).each do |i|
+  insert = CalCoursesCalFaculties.new({:cal_course_id => 3,
+                                       :cal_faculty_id => i})
+  insert.save
+end
+=end
+
 # --- Create districts
 busd = District.create!(:name => "BUSD")
 ousd = District.create!(:name => "OUSD")
@@ -217,3 +245,11 @@ student = Student.find(1)
 student.placements << Timeslot.where(:day => Timeslot.day_index(:monday))[0]
 student.cal_courses << CalCourse.all[0]
 student.save!
+
+
+# --- Add relations for cal_faculties and cal_courses
+CalCourse.all.each_with_index do |t, i|
+  # assign cal course to each cal_faculty
+  CalFaculty.all[i % CalCourse.all.size].cal_courses<< t
+  CalFaculty.all[(i+7) % CalCourse.all.size].cal_courses<< t
+end

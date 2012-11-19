@@ -5,13 +5,13 @@ require 'spec_helper'
 describe "The matching solution" do
 
   before(:each) do
-    @solver = MatchingSolver.new(preferences)
+    @solver = MatchingSolver.new(preferences, students, timeslots)
   end
 
   shared_examples_for "a good matching:" do
     
-    let(:students) { Set.new(preferences.map {|p| p.student_id}) }
-    let(:timeslots) { Set.new(preferences.map {|p| p.timeslot_id}) }
+    let(:students) { Set.new(preferences.map {|p| p.student}) }
+    let(:timeslots) { Set.new(preferences.map {|p| p.timeslot}) }
 
     it "should match every student to exactly one timeslot" do
       counts = Hash.new(0) 
@@ -105,12 +105,17 @@ describe "The matching solution" do
       end
     end
     
-    preference_hash.each_pair do |student, ts_ranking_pairs|
+    preference_hash.each_pair do |student_name, ts_ranking_pairs|
       ts_ranking_pairs.each do |pair|
-        timeslot, ranking = pair        
+        timeslot_name, ranking = pair                
+        student = FactoryGirl.build_stubbed(:student,
+                                            :id => extract_id(student_name))
+        timeslot = FactoryGirl.build_stubbed(:timeslot,
+                                             :id => extract_id(timeslot_name))
+
         prefs << FactoryGirl.build_stubbed(:preference,
-                                           :student_id => extract_id(student),
-                                           :timeslot_id => extract_id(timeslot),
+                                           :student => student,
+                                           :timeslot => timeslot,
                                            :ranking => ranking)
       end
     end

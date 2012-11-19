@@ -11,7 +11,7 @@ Bsmi::Application.routes.draw do
 
   resources :user_sessions
 
-
+  resources :matchings
   resources :invites
 
   match 'login' => "user_sessions#new",      :as => :login

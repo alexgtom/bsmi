@@ -33,7 +33,7 @@ Given /the following users exist/ do |tb|
                 :password_confirmation => '1234'})
     owner = User.build_owner(t[:type])
     
-    if t[:cal_courses]
+    if (t[:type] != "MentorTeacher") and t[:cal_courses]
       cal_course = CalCourse.find(t[:cal_courses.to_s])
       owner.cal_courses << cal_course
     end

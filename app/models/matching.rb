@@ -15,7 +15,7 @@ class BipartiteGraph
       @duplicate = options[:duplicate] || false
     end
 
-    def ==(other)
+    def eql?(other)
       if not other.instance_of? Node
         return false
       else
@@ -24,6 +24,10 @@ class BipartiteGraph
           @dummy == other.dummy? and 
           @duplicate == other.duplicate?)
       end
+    end
+
+    def ==(other)
+      return self.eql?(other)
     end
 
     def hash
@@ -52,7 +56,7 @@ class BipartiteGraph
       return [@student, @timeslot].hash
     end
 
-    def ==(other)
+    def eql?(other)
       return (other.instance_of? Edge and
         other.student == self.student and
         other.timeslot == self.timeslot)
@@ -80,6 +84,7 @@ class BipartiteGraph
 
 
   def add_node(value, type, options = {})
+
     unless @sides.include? type
       throw ArgumentError.new("#{type} isn't a valid type for the graph")
     end
@@ -156,10 +161,10 @@ class MatchingSolver
     @graph = BipartiteGraph.new
     
     @students.each do |s|
-      @graph.add_node(s.id, :student)
+      @graph.add_node(s, :student)
     end
     @timeslots.each do |t|
-      @graph.add_node(t.id, :timeslot)
+      @graph.add_node(t, :timeslot)
     end
 
     @preferences.each do |p|
@@ -179,7 +184,7 @@ class MatchingSolver
   #Problem: not enough teachers for students
   #Solution: make dummy nodes for timeslots that can accomodate more
 
-  protected
+
   #Goals
   #Equal numbers of teachers and students
   #Each timeslot duplicated up to max num students

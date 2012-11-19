@@ -59,6 +59,61 @@ describe MatchingSolver do
       end
     end
   end
+  
+  describe :expand_timeslots do
+    
+    before(:each) do
+      @timeslots = [FactoryGirl.build_stubbed(:timeslot, :max_num_assistants => 2),
+                    FactoryGirl.build_stubbed(:timeslot, :max_num_assistants => 1)]
+      @students = FactoryGirl.build_stubbed_list(:student, 3)
+      
+      @preferences = @timeslots.zip(@students).map do |t, s|        
+        FactoryGirl.build_stubbed(:preference, :student => s,
+                                        :timeslot => t)        
+      end
+      
+      @solver = MatchingSolver.new(@preferences, @students, @timeslots)
+    end
+
+    it "should add nodes for each timeslot up to its maximum" do
+      @solver.graph.should_receive(:add_node).exactly(1).times
+      @solver.expand_timeslots
+    end
+
+    it "should add edges to the new from all students with edges to the original" do
+      @solver.graph.should_receive(:add_edge).exactly(1).times
+      @solver.expand_timeslots      
+    end
+  end
+end
+
+describe BipartiteGraph do
+  
+  before(:each) do
+    @graph = BipartiteGraph.new
+  end
+  
+  describe :add_node do
+    context "the node being added is already in the graph" do
+      before(:each) do
+        @graph.add_node(2, :student)
+      end
+
+      it "shouldn't place a new node in the adjacency list", :focus => true do
+        @graph.add_node(2, :student)
+        @graph.adjacency_list.length.should be 1
+      end
+    end
+
+    context "graph is empty" do
+      it "shouldn't place a new node in the adjacency list" do
+        @graph.add_node(2, :student)
+        @graph.adjacency_list.length.should be 1
+      end
+    end
+  end
+
+
 end
 describe MatchingSolver::MatchingProblem do
   let(:preferences) { FactoryGirl.build_stubbed_list(:preference, 4) }
@@ -221,7 +276,7 @@ describe MatchingSolver::MatchingProblem do
     end
   end
 
-  describe :constraints_row_for_timeslot, :focus => true do
+  describe :constraints_row_for_timeslot do
     it_behaves_like "a constraint row" do
       let(:constraint_type) { :timeslot }
     end

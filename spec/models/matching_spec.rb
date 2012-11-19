@@ -113,6 +113,49 @@ describe BipartiteGraph do
     end
   end
 
+  describe :connect do
+    before(:each) do
+      @graph = BipartiteGraph.new
+
+      @student_nodes = 2.times.map{|i| @graph.add_node(i, :student)}
+      @timeslot_nodes = 2.times.map{|i| @graph.add_node(i, :timeslot)}
+
+      @student_nodes.zip(@timeslot_nodes).each do |s, t|
+        @graph.add_edge(s, t)
+      end
+    end
+
+    it "should add edges only between unconnected nodes" do
+#      @graph.connected?(@student_nodes[0], @timeslot_nodes[1]).should be false
+      @graph.connect
+      @graph.num_edges.should be 4
+    end
+
+    it "should add edges with dummy weights" do
+      @graph.connect
+      dummy_edge_weight = BipartiteGraph::DUMMY_EDGE_WEIGHT
+      Set.new(@graph.edges.map{|e| e.weight}).should == 
+        Set.new([1,1] + [dummy_edge_weight, dummy_edge_weight])
+    end
+  end
+
+  describe "connected?" do
+
+    before(:each) do
+      @graph = BipartiteGraph.new
+      @student_node = @graph.add_node(2, :student)
+      @timeslot_node = @graph.add_node(4, :timeslot)
+    end
+    it "should return true when there is an edge between s and t" do
+      @graph.add_edge(@student_node, @timeslot_node)
+      @graph.connected?(@student_node, @timeslot_node).should be true
+    end
+
+    it "should return false when there is no edge between s and t" do
+      @graph.connected?(@student_node, @timeslot_node).should be false
+    end
+  end
+
 
 end
 describe MatchingSolver::MatchingProblem do
@@ -255,8 +298,7 @@ describe MatchingSolver::MatchingProblem do
       @problem.graph.stub(:edges).and_return(4.times.map{ mock(:edge)})
            
       @problem.graph.edges.each.with_index do |e, i|
-        e.stub(constraint_type).and_return(mock(:node,                        
-                                                :value => i))          
+        e.stub(constraint_type).and_return(i)
       end
     end
 

@@ -6,13 +6,13 @@ class BipartiteGraph
 
 #Need ways of determining: duplicate node, dummy node
   class Node
-    attr_reader :value, :type
+    attr_reader :value, :type, :dup_num
 
     def initialize(value, type, options = {})
       @value = value
       @type = type
       @dummy = options[:dummy] || false
-      @duplicate = options[:duplicate] || false
+      @dup_num = options[:dup_num] || 0
     end
 
     def eql?(other)
@@ -20,9 +20,9 @@ class BipartiteGraph
         return false
       else
         return (value == other.value and 
-          type == other.type and          
-          @dummy == other.dummy? and 
-          @duplicate == other.duplicate?)
+                type == other.type and          
+                @dummy == other.dummy? and 
+                @dup_num == other.dup_num)
       end
     end
 
@@ -39,7 +39,7 @@ class BipartiteGraph
     end
 
     def duplicate?
-      return @duplicate
+      return @dup_num > 0
     end
   end
 
@@ -135,7 +135,7 @@ class BipartiteGraph
   end
 
   def add_edge(student_node, timeslot_node, weight=1)
-    @num_edges += 1
+    @num_edges += 1    
     self.adjacency_list[student_node][timeslot_node] = weight
   end
   
@@ -161,10 +161,10 @@ class MatchingSolver
     @graph = BipartiteGraph.new
     
     @students.each do |s|
-      @graph.add_node(s, :student)
+      @graph.add_node(s.id, :student)
     end
     @timeslots.each do |t|
-      @graph.add_node(t, :timeslot)
+      @graph.add_node(t.id, :timeslot)
     end
 
     @preferences.each do |p|
@@ -205,8 +205,8 @@ class MatchingSolver
     end
     
     timeslots_to_students.each_pair do |timeslot, student_list|
-      dup_nodes = (timeslot.max_num_assistants - 1).times.map do
-        self.graph.add_node(timeslot.id, :timeslot, :duplicate => true)
+      dup_nodes = (timeslot.max_num_assistants - 1).times.map do |i|
+        self.graph.add_node(timeslot.id, :timeslot, :dup_num => i + 1)
       end
       
       dup_nodes.each do |dup_node|
@@ -271,7 +271,7 @@ class MatchingSolver
       self.add_rows(self.graph.students.length + self.graph.timeslots.length)
       self.rows.each do |r|
         r.set_bounds(Rglpk::GLP_FX, 1, 1)
-      end
+      end      
       self.set_matrix(self.constraints_matrix.flatten)
     end
     
@@ -282,9 +282,9 @@ class MatchingSolver
        self.graph.timeslots.map {|t| constraints_row_for_timeslot t})
     end
 
-    def constraints_row_for_student(student_id)
+    def constraints_row_for_student(student_node)
       self.graph.edges.map do |e|
-        if e.student.value == student_id
+        if e.student == student_node
           1
         else
           0
@@ -292,9 +292,9 @@ class MatchingSolver
       end    
     end
 
-    def constraints_row_for_timeslot(timeslot_id)
+    def constraints_row_for_timeslot(timeslot_node)
       self.graph.edges.map do |e|
-        if e.timeslot.value == timeslot_id
+        if e.timeslot == timeslot_node
           1
         else
           0

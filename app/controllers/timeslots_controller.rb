@@ -1,18 +1,10 @@
 class TimeslotsController < ApplicationController
   def destroy
-
-    @placement = Student.find().placements.find(params[:id])
-    @placement.destroy
-
-    redirect_to courses_url
-    #User.find(2).owner.placements.destroy(1)
+    @name = Student.find_by_id(session[:student_id]).user.first_name + Student.find_by_id(session[:student_id]).user.last_name
+    @placements = Student.find_by_id(session[:student_id]).placements
+    @placements.destroy(params[:id])
+    session[:student_id] = nil
+    redirect_to students_path, :notice => "The selected placement has been removed for #{@name}"
   end
 
-    @course = Course.find(params[:id])
-
-    if @course.update_attributes(params[:course])
-      redirect_to @course, notice: 'Course was successfully updated.' 
-    else
-      render action: "edit" 
-    end
 end

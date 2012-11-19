@@ -17,12 +17,17 @@ class StudentsController < ApplicationController
   end
 
   def edit_placements
-    @placements = Student.find(params[:id]).placements
-    @first_name = User.find(params[:id]).first_name
-    @last_name = User.find(params[:id]).last_name
-    @student = Student.find(params[:id])
+    if Student.find_by_id(params[:id]) == nil
+       redirect_to students_path, :notice => "No such a student exists, or student has been removed"
+    else
+      @placements = Student.find(params[:id]).placements
+      @first_name = User.find(params[:id]).first_name
+      @last_name = User.find(params[:id]).last_name
+      @student = Student.find(params[:id])
+    end
   end
   
+
   def update
     @student = Student.find(params[:id])
     @new_placement = Timeslot.find_by_id(params[:student][:placement])
@@ -37,6 +42,10 @@ class StudentsController < ApplicationController
   def courses
     @student = Student.find(params[:id])
     @cal_courses = Student.find(params[:id]).cal_courses
+  end
+
+  def remove_placement
+    User.find(2).owner.placements.destroy()
   end
 
   def select_courses

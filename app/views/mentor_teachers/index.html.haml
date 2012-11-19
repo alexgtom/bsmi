@@ -13,7 +13,7 @@
 
   - @all_teacher.each do |teacher|
     %tr
-      %td= link_to teacher.first_name, teacher
+      %td= link_to teacher.first_name, teacher.owner
       %td= teacher.last_name
       %td= teacher.email 
       %td 
@@ -22,11 +22,8 @@
             %li= "#{timeslot.course.grade} #{timeslot.course.name}"
       %td
         - teacher.owner.students.each do |s|
-          %ul.unstyled
-            %li= link_to "#{s.user.first_name} #{s.user.last_name}", s
+          - if s.user != nil
+            %ul.unstyled
+              %li= link_to "#{s.user.first_name} #{s.user.last_name}", s
       %td= link_to 'Delete', teacher, method: :delete, data: { confirm: 'Are you sure?' }
-      
--# %br
--# = link_to 'New Teacher', new_mentor_teacher_path
-%br
-= link_to 'Back to Advisor Home Page', advisors_path
+%h3= link_to 'Back to Advisor Home Page', advisors_path

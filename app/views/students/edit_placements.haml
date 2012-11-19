@@ -1,0 +1,32 @@
+.page-header 
+  %h2="Enter New Field Placement(s) for: #{@first_name} #{@last_name}"
+= render 'form'
+
+%h3 Current Field Placements
+- @placements.to_enum.with_index(1).each do |p, i|
+  %table.table.table-bordered
+    %tr
+      %td Day
+      %td= p.day.capitalize
+    %tr
+      %td Time
+      %td
+        ="#{p.start_time.strftime("%l:%M %p")} to #{p.end_time.strftime("%l:%M %p")}"
+    %tr 
+      %td Course
+      %td= p.course.name
+    %tr 
+      %td Grade
+      %td= p.course.grade
+    %tr 
+      %td School Name
+      %td= "#{p.mentor_teacher.school.name}"
+    %tr 
+      %td School Level
+      %td= "#{p.mentor_teacher.school.level}"
+    %tr
+      %td Mentor Teacher
+      %td= "#{p.mentor_teacher.user.first_name} #{p.mentor_teacher.user.last_name}"
+    %tr
+      %td= link_to 'Remove', p, method: :delete, data: { confirm: 'Are you sure?' }
+%h3= link_to 'Back to Student Roster', students_path

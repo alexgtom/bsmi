@@ -6,5 +6,9 @@
         - @student.errors.full_messages.each do |msg|
           %li= msg
 
+  .field
+    %h3= f.label 'Enter New Timeslot id'
+    = f.text_field :placements
+  
   .actions
-    = f.submit 'Save'
+    = f.submit 'Update'

@@ -28,8 +28,8 @@
         %td Mentor Teacher
         %td= "#{p.mentor_teacher.user.first_name} #{p.mentor_teacher.user.last_name}"
       %tr
-        %td= link_to "Remove", :controller => :timeslots, :action=> :destroy, :id=> p.id, :student_id => params[:id], :method=> :delete
-        -#%td= link_to 'Remove', , :student_id => params[:id], method: :delete, data: { confirm: 'Are you sure?' }
+        -#%td= link_to "Remove", timeslots_destroy_path(:id=> p.id, :student_id => params[:id]), :method=> :delete
+        %td= link_to 'Remove', timeslots_destroy_path(:timeslot_id=> p.id, :student_id => params[:id]), method: :delete, data: { confirm: 'Are you sure?' }
         %td= params[:id]
         -#%td= link_to "Add to cart", {:controller => "car", :action => "add_to_cart", :car => car.id }
 

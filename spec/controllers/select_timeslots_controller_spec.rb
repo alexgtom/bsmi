@@ -26,7 +26,6 @@ describe SelectTimeslotsController do
 
   it 'should process the rankings entered by the student' do
     Student.should_receive(:find).and_return(@student)
-    Preference.should_receive(:find_by_id).and_return([@preference]) 
     put :update, {:id => :rank, :student_id => 1, :cal_course_id => @cal_course.id, :student => {:preferences_attributes => {1 => {:id => @preference.id }}}}
   end
   

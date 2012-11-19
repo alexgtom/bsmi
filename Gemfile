@@ -96,4 +96,4 @@ gem "rails-settings-cached"
 
 #Linear program solver wrapper for backend
 #Has a dependency of GLPK
-gem "rglpk"
+#gem "rglpk"

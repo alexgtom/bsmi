@@ -144,8 +144,12 @@ class BipartiteGraph
   end
 
   def add_edge(student_node, timeslot_node, weight=1)
-    @num_edges += 1    
+    previously_connected = connected?(student_node, timeslot_node)
     self.adjacency_list[student_node][timeslot_node] = weight
+
+    if not previously_connected
+      @num_edges += 1    
+    end
   end
   
   def connected?(s, t)
@@ -162,7 +166,7 @@ class BipartiteGraph
 end
 
 class MatchingSolver
-  attr_reader :preferences, :graph
+  attr_reader :preferences, :graph, :students, :timeslots
   def initialize(preferences, students, timeslots)
     @preferences = preferences
     @students = students
@@ -187,7 +191,8 @@ class MatchingSolver
   def solve
     self.normalize_graph
     problem = MatchingProblem.new(self.graph)
-    return extract_solution(problem.solution)
+    solution = problem.solution
+    return extract_solution(solution)
   end
 
   #Problem: not enough teachers for students
@@ -276,8 +281,8 @@ class MatchingSolver
 
     def initialize_vars 
       self.add_cols(self.graph.num_edges)
-      self.cols.zip(self.graph.edges).each do |col, pref|
-        col.name = "match_#{pref.student.value}_#{pref.timeslot.value}"
+      self.cols.zip(self.graph.edges).each do |col, edge|
+        col.name = "match_#{edge.student.value}_#{edge.timeslot.value}"
       end
       
       self.cols.each {|c| c.set_bounds(Rglpk::GLP_DB, 0, 1)}

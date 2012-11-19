@@ -41,7 +41,7 @@ describe "The matching solution" do
   end
 
   subject { @solver.solve }
-  context "in a simple example", :focus => true do
+  context "in a simple example" do
     let(:preferences) do
       build_preferences(:s1 => [[:t1, 1], [:t2, 2]],
                         :s2 => [[:t1, 1]])
@@ -63,10 +63,10 @@ describe "The matching solution" do
     it_behaves_like "a good matching:"
   end
 
-  context "when everyone has a different first choice" do
+  context "when everyone has a different first choice",  do
     let(:preferences) do
       build_preferences(:s1 => [[:t1, 1], [:t2, 2]],
-                        :s2 => [[:t2, 1], [:t2, 2]],
+                        :s2 => [[:t2, 1], [:t3, 2]],
                         :s3 => [[:t3, 1], [:t2, 2]])
     end
     let(:desired_matching_score) { 3 }
@@ -94,38 +94,40 @@ describe "The matching solution" do
   def build_preferences(preference_hash) 
     prefs = []
 
-    def extract_id(thing)
-      id_pattern = /.*?(\d+)$/
-      thing = thing.to_s
-      match = id_pattern.match(thing)
-      if match
-        return match[1].to_i
-      else
-        throw ArgumentError.new("Can't extract an id from #{thing}; needs a number at the end")
-      end
-    end
+    # def extract_id(thing)
+    #   id_pattern = /.*?(\d+)$/
+    #   thing = thing.to_s
+    #   match = id_pattern.match(thing)
+    #   if match
+    #     return match[1].to_i
+    #   else
+    #     throw ArgumentError.new("Can't extract an id from #{thing}; needs a number at the end")
+    #   end
+    # end
 
     student_objs = Hash.new
     timeslot_objs = Hash.new
+
+
+    preference_hash.each_pair do |student_name, ts_ranking_pairs|
+      student_objs[student_name] = FactoryGirl.build_stubbed(:student)
+      
+      ts_ranking_pairs.each do |pair|
+        timeslot_name, ranking = pair                        
+
+        if not timeslot_objs.include? timeslot_name
+          timeslot_objs[timeslot_name] = FactoryGirl.build_stubbed(:timeslot)
+        end
+        
+      end
+    end
+
     preference_hash.each_pair do |student_name, ts_ranking_pairs|
       ts_ranking_pairs.each do |pair|
-        timeslot_name, ranking = pair                
-        
-        student_id, timeslot_id = extract_id(student_name), extract_id(timeslot_name)
-        #Build and cache dependents
-        unless student_objs.include? student_id
-          student_objs[student_id] = FactoryGirl.build_stubbed(:student,      
-                                                               :id => student_id)
-        end
-
-        unless timeslot_objs.include? timeslot_id
-          timeslot_objs[timeslot_id] = FactoryGirl.build_stubbed(:timeslot,
-                                                                 :id => timeslot_id)
-        end
-
+        timeslot_name, ranking = pair                        
         prefs << FactoryGirl.build_stubbed(:preference,
-                                           :student => student_objs[student_id],
-                                           :timeslot => timeslot_objs[timeslot_id],
+                                           :student => student_objs[student_name],
+                                           :timeslot => timeslot_objs[timeslot_name],
                                            :ranking => ranking)
       end
     end

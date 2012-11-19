@@ -45,7 +45,7 @@ class SelectTimeslotsController < ApplicationController
         end
         
         params[:student][:preferences_attributes].each_value do |v|
-          p = @student.preferences.find_by_id(v[:id])
+          p = Preference.find_by_id(v[:id])
           p.ranking = v[:ranking]
           if not p.valid?
             valid = false

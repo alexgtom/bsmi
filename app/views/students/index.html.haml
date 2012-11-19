@@ -28,6 +28,6 @@
             %li=link_to "#{c.name} Preferences", student_select_timeslots_path(student.id, c.id)
       %td
         %ul.unstyled
-          %li=link_to 'View/Edit Placement(s)', "students/#{student.id}/edit_placements"
+          %li=link_to 'View/Edit Placement(s)', "students/#{student.owner.id}/edit_placements"
       %td= link_to 'Delete', student, method: :delete, data: { confirm: 'Are you sure?' }
 %h3= link_to 'Back to Advisor Home Page', advisors_path

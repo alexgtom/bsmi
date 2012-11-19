@@ -21,8 +21,8 @@ class StudentsController < ApplicationController
        redirect_to students_path, :notice => "No such a student exists, or student has been removed"
     else
       @placements = Student.find(params[:id]).placements
-      @first_name = User.find(params[:id]).first_name
-      @last_name = User.find(params[:id]).last_name
+      @first_name = Student.find(params[:id]).user.first_name
+      @last_name = Student.find(params[:id]).user.last_name
       @student = Student.find(params[:id])
     end
   end
@@ -36,16 +36,10 @@ class StudentsController < ApplicationController
     else
       render action: "edit" 
     end
-    #User.find(2).owner.placements<<(Timeslot.find(1))
-    #User.find(2).owner.placements.destroy(1)
   end
   def courses
     @student = Student.find(params[:id])
     @cal_courses = Student.find(params[:id]).cal_courses
-  end
-
-  def remove_placement
-    User.find(2).owner.placements.destroy()
   end
 
   def select_courses

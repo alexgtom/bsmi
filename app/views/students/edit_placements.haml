@@ -1,6 +1,5 @@
 .page-header
   %h2="Edit Field Placement(s) for: #{@first_name} #{@last_name}"
-- session[:student_id] = params[:id]
 -#= render 'form'
 %h3 Current Field Placements
 - @placements.to_enum.with_index(1).each do |p, i|
@@ -29,7 +28,9 @@
         %td Mentor Teacher
         %td= "#{p.mentor_teacher.user.first_name} #{p.mentor_teacher.user.last_name}"
       %tr
-        -#%td= link_to "Remove", :controller => "students", :action => "remove_placement", :placement => p, :id => params[:id]
-        %td= link_to 'Remove', p, method: :delete, data: { confirm: 'Are you sure?' }
+        %td= link_to "Remove", :controller => :timeslots, :action=> :destroy, :id=> p.id, :student_id => params[:id], :method=> :delete
+        -#%td= link_to 'Remove', , :student_id => params[:id], method: :delete, data: { confirm: 'Are you sure?' }
+        %td= params[:id]
+        -#%td= link_to "Add to cart", {:controller => "car", :action => "add_to_cart", :car => car.id }
 
 %h3= link_to 'Back to Student Roster', students_path

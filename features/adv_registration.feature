@@ -78,7 +78,7 @@ Scenario: I can add/edit/delete a user
   And  I fill in "Password confirmation" with "1234"
   And  I press "Register"
   Then I should be located at "/students"
-  And I should see "Student Roster"
+  And I should see "Students"
   And I should see "testuser@test.edu"
   When I go to /user/2/adv_edit
   Then I should see "Edit Account"

@@ -33,10 +33,10 @@ class StudentsController < ApplicationController
     if Student.find_by_id(params[:id]) == nil
        redirect_to students_path, :notice => "No such a student exists, or student has been removed"
     else
-      @placements = Student.find(params[:id]).placements
-      @first_name = Student.find(params[:id]).user.first_name
-      @last_name = Student.find(params[:id]).user.last_name
-      @student = Student.find(params[:id])
+      @student = Student.find_by_id(params[:id])
+      @placements = @student.placements
+      @first_name = @student.user.first_name
+      @last_name = @student.user.last_name
     end
   end
   

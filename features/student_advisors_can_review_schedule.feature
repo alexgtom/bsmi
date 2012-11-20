@@ -15,7 +15,7 @@ Feature: Student advisors can review students/mentors schedule and contact info
 		  Then I should see "Mains"
 		  Then I should see "andrew@berkeley.edu"
 		  Then I should see "Orion"
-                  Then I should see "Allen"
+          Then I should see "Allen"
 		  Then I should see "orion@berkeley.edu"
 
 		  

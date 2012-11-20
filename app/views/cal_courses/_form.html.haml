@@ -1,0 +1,48 @@
+!!!
+%html
+  %head
+    = yield(:javascripts)
+
+= form_for @cal_course do |f|
+  - if @cal_course.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@cal_course.errors.count, "error")} prohibited this course from being saved:"
+      %ul
+        - @cal_course.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :name
+    = f.text_field :name
+  .field
+    = f.label :school_type
+    = f.select :school_type, School::LEVEL.unshift("All")
+  .field
+    = f.label :grade
+    = f.select :course_grade, Course::GRADE.unshift("All")
+
+  - if @entries and @entries.empty?
+    f.label "No Timeslots are Available to Select"
+  - else
+    - content_for :javascripts do
+      = javascript_include_tag "~/bsmi/app/assets/cal_courses_entries.js"
+    %table.table.table-hover#entries_table
+      %tr
+        %th Add?
+        %th School Type
+        %th Grade
+        %th School
+        %th Course
+        %th Teacher
+        %th Time Slot
+      - @entries.each do |entry|
+        %tr
+          %td= check_box_tag "timeslots[#{entry["time_id"]}]", 1, entry["checked"], :id => "timeslots[#{entry["time_id"]}]"
+          %td= entry["school_level"]
+          %td= entry["grade"]
+          %td= entry["school_name"]
+          %td= entry["course"].name
+          %td= entry["teacher"]
+          %td= entry["time"]
+  .actions
+    = f.submit 'Save'

@@ -1,6 +1,10 @@
 .page-header
   %h2="Edit Field Placement(s) for: #{@first_name} #{@last_name}"
--#= render 'form'
+%h3= 'Add new placement by entering timeslot ID'
+= form_tag("edit_placements", :method => :post) do
+  = text_field_tag :new_timeslot
+  = submit_tag "Update"
+
 %h3 Current Field Placements
 - @placements.to_enum.with_index(1).each do |p, i|
   - if p.mentor_teacher.user != nil
@@ -29,7 +33,8 @@
         %td= "#{p.mentor_teacher.user.first_name} #{p.mentor_teacher.user.last_name}"
       %tr
         -#%td= link_to "Remove", timeslots_destroy_path(:id=> p.id, :student_id => params[:id]), :method=> :delete
-        %td= link_to 'Remove', timeslots_destroy_path(:timeslot_id=> p.id, :student_id => params[:id]), method: :delete, data: { confirm: 'Are you sure?' }
+        -#%td= link_to 'Remove', timeslots_destroy_path(:timeslot_id=> p.id, :student_id => params[:id]), method: :delete, data: { confirm: 'Are you sure?' }
+        %td= link_to 'Delete', p(:timeslot_id=> p.id, :student_id => params[:id]), method: :delete, data: { confirm: 'Are you sure?' }
         %td= params[:id]
         -#%td= link_to "Add to cart", {:controller => "car", :action => "add_to_cart", :car => car.id }
 

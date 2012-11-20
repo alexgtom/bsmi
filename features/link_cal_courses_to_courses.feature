@@ -13,7 +13,7 @@ Background: classes, mentor teachers and timeslots are created
   Given the following courses exist:
   | name	| grade		|
   | Calculus	| HIGH_SCHOOL	|
-  | Precalc	| 8		|
+  | Precalc	| 5		|
   | Math	| 2		|
   Given the following districts exist:
   | name		|
@@ -24,50 +24,77 @@ Background: classes, mentor teachers and timeslots are created
   | Ocean View		| Elementary School	| Berkeley North |
   Given the following cal course exists:
   | name        | school_type		| course_grade	|
-  | Educ 111	| Elementary School	| 8		|
+  | Educ 111	| Elementary School	| 5		|
+  | Math 101    | Middle School         | 6             |
   Given Given the following mentor teachers exist:
   | first_name|last_name| email	| password| type    | school    | street_address   | phone_number |
   | Bob | Ross | se@se.com  | 12345 | MentorTeacher | El Cerrito High | 1 Er way  | 000-111-222  |
   | Ren | Gar  | col@col.net| 23456 | MentorTeacher | Ocean View      | 2 Re Blvd | 333-444-555  |
 
 
-Scenario: Add a Cal Course
+Scenario: Add succesfully a Cal Course
   Given I am in the CalCourse new page
   And  I fill in "Name" with "Educ 101"
   And  I select "Middle School" from "School type"
-  And  I select "8" from "Course grade"
+  And  I select "5" from "Course grade"
   And  I check "timeslots[1]"
   And  I press "Save"
-  Then I should be located at "/cal_courses/2"
+  Then I should be located at "/cal_courses/3"
   And I should see "Educ 101"
   And I should see "Middle School"
-  And I should see "8"
+  And I should see "5"
   And I should see "monday|08:00AM|09:00AM"
   And I should see "Bob Ross"
   And I should not see "Precalc"
   And I should not see "Ren Gar"
 
+Scenario: Add a Cal Course with errors
+  Given I am in the CalCourse new page
+  And  I fill in "Name" with "Educ 121"
+  And  I select "All" from "School type"
+  And  I select "All" from "Course grade"
+  And  I check "timeslots[1]"
+  And  I press "Save"
+  Then I should be located at "/cal_courses"
+  And I should see "You cannot select All as School Type or Course Grad"
+
 Scenario: Check the Index Page and delete action
   Given I am in the CalCourse index page
   Then I should see "Educ 111"
+  And I should see "Math 101"
   And I should see "Elementary School"
-  And I should see "8"
+  And I should see "Middle School"
+  And I should see "5"
+  And I should see "6"
   And I should not see "Educ 101"
-  And I should not see "Middle School"
+  And I should not see "7"
   And I should not see "High School"
   And I follow "Destroy"
   And I should see "'Educ 111' succesfully destroyed."
+  And I should see "Math 101"
+  And I should see "Middle School"
+  And I should see "6"
   And I should not see "Elementary School"
-  And I should not see "8"
+  And I should not see "5"
   And I should not see "Educ 101"
-  And I should not see "Middle School"
   And I should not see "High School"
+
+Scenario: Check the Index Page sorting feature
+  Given I am in the CalCourse index page
+  Then I should see "Educ 111"
+  And I should see "Math 101"
+  And I follow "Name"
+  Then I should see "Educ 111" before "Math 101"
+  And I follow "School"
+  Then I should see "Elementary School" before "Middle School"
+  And I follow "Course Grade"
+  Then I should see "5" before "6"
 
 Scenario: Check the Show page
   Given I am in the CalCourse show 1 page
   Then I should see "Educ 111"
   And I should see "Elementary School"
-  And I should see "8"
+  And I should see "5"
   And I should not see "Educ 101"
   And I should not see "Middle School"
   And I should not see "High School"
@@ -101,7 +128,7 @@ Scenario: Check the Edit Page
   Then I should be located at "/cal_courses/1"
   And I should see "Educ 111"
   And I should see "Elementary School"
-  And I should see "8"
+  And I should see "5"
   And I should see "tuesday|11:00AM|12:00AM"
   And I should see "tuesday|12:00AM|01:00PM"
   And I should see "monday|08:00AM|09:00AM"

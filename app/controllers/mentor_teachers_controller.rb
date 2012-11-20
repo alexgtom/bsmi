@@ -3,8 +3,6 @@ class MentorTeachersController < ApplicationController
   # GET /mentor_teachers.json
   def index
     @all_teacher = User.where(:owner_type => "MentorTeacher")
-    debugger 
-    a =nil
     if params[:sort] || session[:sort] != nil
       sort = params[:sort] || session[:sort]
       case sort

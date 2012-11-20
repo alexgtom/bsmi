@@ -25,3 +25,4 @@ Given /the following cal course exist/ do |tb|
     CalCourse.create!(t)
   end
 end
+

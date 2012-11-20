@@ -18,7 +18,7 @@
     = f.label :school_type
     = f.select :school_type, School::LEVEL.unshift("All")
   .field
-    = f.label :grade
+    = f.label :course_grade
     = f.select :course_grade, Course::GRADE.unshift("All")
 
   - if @entries and @entries.empty?

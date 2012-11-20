@@ -108,4 +108,3 @@ class CalCoursesController < ApplicationController
     end
   end
 end  
-

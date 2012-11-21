@@ -39,13 +39,12 @@ Given /the following users exist/ do |tb|
     end
 
     if t[:id]
-      owner.id = t[:id]
       user.id = t[:id]
     end
 
     user.owner = owner
-    user.save
-    owner.save
+    user.save!
+    owner.save!
   end
 end
 

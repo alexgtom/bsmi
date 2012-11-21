@@ -21,7 +21,7 @@ Feature: Students should be able to view the options
 
 		Given the following mentor teachers exist:
 			| first_name    | last_name | address     		| phone_number | email 			   | school 	   |
-			| Oski			| Bear      | 2650 Haste Street | 408-123-4567 | oski@berkeley.edu | Berkeley High |
+			| Oski			| Bear      | 2650 Haste Street | 408-123-4567 | mt@berkeley.edu | Berkeley High |
 
 		Given the following timeslots exist:
 			| id | start_time     	| end_time      | day     | course    | mentor_teacher |
@@ -36,7 +36,7 @@ Feature: Students should be able to view the options
 
 		Given the following users exist
 			| id | first_name | last_name | email             | type     | cal_courses |
-			| 1  | Oski 	  | Bear      | oski@berkeley.edu | Student  | 1           |
+			| 2  | Oski 	  | Bear      | oski@berkeley.edu | Student  | 1           |
 
 		Given I am logged in as oski@berkeley.edu
 
@@ -44,9 +44,9 @@ Feature: Students should be able to view the options
 	Scenario: Student should be able to see field placement
 		Given the following assignments exist
 			| user_id | timeslot_id |
-			| 1		  | 1			|
+			| 2		  | 1			|
 
-		When I go to /students/1/placements
+		When I go to /students/2/placements
 		Then I should see "Monday"
 		Then I should see "8:00 AM to 9:00 AM"
 		Then I should see "Physics"

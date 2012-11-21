@@ -1,4 +1,4 @@
-require 'rglpk'
+#require 'rglpk'
 require 'set'
 
 

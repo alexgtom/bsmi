@@ -3,7 +3,7 @@
 FactoryGirl.define do
   factory :cal_course do
     name "MyString"
-#    timeslots { FactoryGirl.generate(:timeslot) }
-#    courses  { FactoryGirl.generate(:course) }
+    school_type "Elementary School"
+    course_grade "4"
   end
 end

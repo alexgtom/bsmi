@@ -10,7 +10,12 @@ class UserSessionsController < ApplicationController
     @user_session = UserSession.new(params[:user_session])
     if @user_session.save
       flash[:notice] = "Login successful!"
-      redirect_back_or_default account_url(@current_user)
+
+      if @user_session.user.owner_type == "Student"
+        redirect_to splash_student_path(@user_session.user.owner_id)
+      else
+        redirect_back_or_default account_url(@current_user)
+      end
     else
       render :action => :new
     end

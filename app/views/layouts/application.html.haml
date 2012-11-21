@@ -18,67 +18,73 @@
             %ul.nav.pull-right
               - if current_user
                 %li
-                  %a{:href => "/logout"} Logout
+                  %a{:href => logout_path} Logout
               - else
                 %li
                   %a{:href => new_user_path} Register
                 %li
-                  %a{:href => :login} Login
+                  %a{:href => login_path} Login
     .container-fluid      
       .sidebar.left.sidebar-nav
-        .well
-          %ul.nav.nav-list
-            // Mentor Teachers
-            %li.nav-header
-              Mentor Teachers Menu
-            - if current_user
-              - if current_user.owner_type == "MentorTeacher"
+        - if current_user
+          - if ["MentorTeacher", "CalFaculty", "StudentAdvisor"].include? current_user.owner_type
+            .well
+              %ul.nav.nav-list
+                // Mentor Teachers
+                %li.nav-header
+                  Mentor Teachers Menu
+                - if current_user
+                  - if current_user.owner_type == "MentorTeacher"
+                    %li
+                      %a{:href => mentor_teacher_schedule_path} Edit Schedule
+                  %li
+                    %a{:href => edit_user_path(current_user.id)} Edit Profile
+
+                // Student Advisors
+                %li.nav-header
+                  Structure
                 %li
-                  %a{:href => mentor_teacher_schedule_path} Edit Schedule
-              %li
-                %a{:href => edit_user_path(current_user.id)} Edit Profile
+                  %a{:href => courses_path} Courses
+                %li
+                  %a{:href => cal_courses_path} Cal Courses
+                %li
+                  %a{:href => schools_path} Schools
+                %li
+                  %a{:href => districts_path} Districts
+                %li.nav-header
+                  Manage Users
+                %li
+                  %a{:href => advisors_path} Advisors
+                %li
+                  %a{:href => mentor_teachers_path} Mentor Teachers
+                %li
+                  %a{:href => students_path} Students
+                
+                // Cal Faculty
+                %li.nav-header
+                  Faculty
+                %li
+                  %a{:href => "/cal_faculty/my_students"} My Students
+                %li
+                  %a{:href => "/cal_faculty/my_mentor_teachers"} My Mentor Teachers
 
-            // Student Advisors
-            %li.nav-header
-              Structure
-            %li
-              %a{:href => courses_path} Courses
-            %li
-              %a{:href => cal_courses_path} Cal Courses
-            %li
-              %a{:href => schools_path} Schools
-            %li
-              %a{:href => districts_path} Districts
-            %li.nav-header
-              Manage Users
-            %li
-              %a{:href => advisors_path} Advisors
-            %li
-              %a{:href => mentor_teachers_path} Mentor Teachers
-            %li
-              %a{:href => students_path} Students
-            
-            // Students
-            %li.nav-header
-              Student Menu
-            %li
-              %a{:href => "/students/1/courses"} Enrollment
-            %li
-              %a{:href => "/students/1/select_courses"} Select Courses
-            %li
-              %a{:href => "/students/1/courses/1/select_timeslots"} Select Timeslots
-            %li
-              %a{:href => "/students/1/courses/1/select_timeslots/summary"} Timeslot Preference Summary
-            %li
-              %a{:href => "/students/1/placements"} View Field Placements
-
-            // Cal Faculty
-            %li.nav-header
-              Faculty
-            %li
-              %a{:href => "/cal_faculty/my_students"} My Students
-            %li
-              %a{:href => "/cal_faculty/my_mentor_teachers"} My Mentor Teachers
+        - if current_user
+          - if current_user.owner_type == "Student"
+            .well
+              %ul.nav.nav-list
+                // Students
+                %li
+                  %a{:href => edit_user_path(current_user.id)} Edit Profile
+                %li
+                  %a{:href => courses_student_path(current_user.id)} Enrollment
+                %li
+                  %a{:href => select_courses_student_path(current_user.id)} Select Courses
+                %li
+                  %a{:href => student_select_timeslots_path(current_user.id, 1)} Select Timeslots
+                %li
+                  %a{:href => student_select_timeslots_path(current_user.id, 1, 'summary')} Timeslot Preference Summary
+                %li
+                  %a{:href => placements_student_path(current_user.id)} View Field Placements
 
       .content.fixed-fixed
         - [:notice, :error, :error_list, :alert].each do |level| 

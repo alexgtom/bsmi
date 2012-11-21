@@ -116,7 +116,7 @@ Bsmi::Application.routes.draw do
       post 'remove_placement'
       get 'select_courses'
       put 'select_courses'
-      get 'courses'
+      get 'courses', :as => 'courses'
       get 'timeslot_selection'
       post 'timeslot_selection'
     end

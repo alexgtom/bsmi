@@ -1,6 +1,63 @@
 %p#notice= notice
 
+.page-header
+  %h1 
+    = "#{@student.user.first_name} #{@student.user.last_name}"
 
-= link_to 'Edit', edit_student_path(@student)
-\|
-= link_to 'Back', students_path
+.pull-right
+  = link_to 'Edit', edit_student_path(@student), :class => 'btn'
+  = link_to 'Back', students_path, :class => 'btn'
+
+%h2 student Information
+
+%table.table
+  %tr
+    %td
+      %b First Name:
+    %td
+      = @student.user.first_name
+  %tr
+    %td
+      %b Last Name:
+    %td
+      = @student.user.last_name
+  %tr
+    %td
+      %b Phone NUmber:
+    %td
+      = @student.user.phone_number
+  %tr
+    %td
+      %b Email:
+    %td
+      = mail_to @student.user.email
+  %tr
+    %td
+      %b Created:
+    %td
+      = @student.user.created_at
+  %tr
+    %td
+      %b Updated:
+    %td
+      = @student.user.updated_at
+  %tr
+    %td
+      %b Address:
+    %td
+      = @student.user.street_address
+  %tr
+    %td
+      %b City:
+    %td
+      = @student.user.city
+  %tr
+    %td
+      %b State:
+    %td
+      = @student.user.state
+  %tr
+    %td
+      %b Zip Code:
+    %td
+      = @student.user.zipcode

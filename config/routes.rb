@@ -108,6 +108,12 @@ Bsmi::Application.routes.draw do
     resources :select_timeslots, :path => 'courses/:cal_course_id/select_timeslots'
     member do 
       get 'placements'
+      get 'edit_placements'
+      put 'edit_placements'
+      post 'edit_placements'
+      delete 'edit_placements'
+      get 'remove_placement'
+      post 'remove_placement'
       get 'select_courses'
       put 'select_courses'
       get 'courses'
@@ -115,6 +121,7 @@ Bsmi::Application.routes.draw do
       post 'timeslot_selection'
     end
   end
+  match '/timeslots/destroy', :controller => :timeslots, :action => :destroy
   resources :timeslots
   resources :settings
 end

@@ -1,6 +1,63 @@
-%h2= link_to "Student Roster", students_path
-%h2= link_to "Teacher Roster", #mentor_teachers_path
-%h2= "Seach Student By Name:" 
-<form>  <input type="text" class="search-query" placeholder="Search"> <button type="submit" class="btn">Submit</button> </form>
-%h2= "Seach Teacher By Name:" 
-<form>  <input type="text" class="search-query" placeholder="Search"> <button type="submit" class="btn">Submit</button> </form>
+%p#notice= notice
+
+.page-header
+  %h1 
+    = "#{@advisor.user.first_name} #{@advisor.user.last_name}"
+
+.pull-right
+  = link_to 'Edit', edit_advisor_path(@advisor), :class => 'btn'
+  = link_to 'Back', advisors_path, :class => 'btn'
+
+%h2 Advisor Information
+
+%table.table
+  %tr
+    %td
+      %b First Name:
+    %td
+      = @advisor.user.first_name
+  %tr
+    %td
+      %b Last Name:
+    %td
+      = @advisor.user.last_name
+  %tr
+    %td
+      %b Phone NUmber:
+    %td
+      = @advisor.user.phone_number
+  %tr
+    %td
+      %b Email:
+    %td
+      = mail_to @advisor.user.email
+  %tr
+    %td
+      %b Created:
+    %td
+      = @advisor.user.created_at
+  %tr
+    %td
+      %b Updated:
+    %td
+      = @advisor.user.updated_at
+  %tr
+    %td
+      %b Address:
+    %td
+      = @advisor.user.street_address
+  %tr
+    %td
+      %b City:
+    %td
+      = @advisor.user.city
+  %tr
+    %td
+      %b State:
+    %td
+      = @advisor.user.state
+  %tr
+    %td
+      %b Zip Code:
+    %td
+      = @advisor.user.zipcode

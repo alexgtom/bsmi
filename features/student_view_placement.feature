@@ -19,9 +19,9 @@ Feature: Students should be able to view the options
 			| district | level       | name          |
 			| BUSD     | High School | Berkeley High |
 
-		Given the following mentor teachers exist:
-			| first_name    | last_name | address     		| phone_number | email 			   | school 	   |
-			| Oski			| Bear      | 2650 Haste Street | 408-123-4567 | oski@berkeley.edu | Berkeley High |
+		Given the following users exist:
+			| id | first_name    | last_name | address     		| phone_number | email 			   | school 	   | type |
+			| 2 | Oski			| Bear      | 2650 Haste Street | 408-123-4567 | mt@berkeley.edu | Berkeley High | MentorTeacher |
 
 		Given the following timeslots exist:
 			| id | start_time     	| end_time      | day     | course    | mentor_teacher |

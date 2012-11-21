@@ -18,12 +18,12 @@
             %ul.nav.pull-right
               - if current_user
                 %li
-                  %a{:href => "/logout"} Logout
+                  %a{:href => logout_path} Logout
               - else
                 %li
                   %a{:href => new_user_path} Register
                 %li
-                  %a{:href => :login} Login
+                  %a{:href => login_path} Login
     .container-fluid      
       .sidebar.left.sidebar-nav
         .well

@@ -2,7 +2,7 @@
   .span-12
     = render :partial => "sub_nav"
     .page-header
-      %h1 Summary
+      %h2= "#{@cal_course.name} | Summary"
     %h2 Selected Timeslots
     = render :partial => "week_calendar", :locals => { :height => 700, :calendar_id => :rank, :timeslots => @timeslots}
     %h2 Timeslot Preferences

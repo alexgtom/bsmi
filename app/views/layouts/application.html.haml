@@ -71,21 +71,20 @@
         - if current_user
           - if current_user.owner_type == "Student"
             // Students
-            %ul
-              %li STEP 1: Enrollment
-              %ul
-                %li
-                  %a{:href => select_courses_student_path(current_user.id)} Select Courses
-              %li STEP 2: Pick Timeslot Preferences
-              %ul
-                - current_user.owner.cal_courses.each do |c|
-                  %li
-                    %a{:href => student_select_timeslots_path(current_user.id, c.id)}= c.name
+            %ul.nav.nav-list
+              %li.nav-header STEP 1: Enrollment
               %li
-                %a{:href => student_select_timeslots_path(current_user.id, 1, 'summary')} Timeslot Preference Summary
+                %a{:href => select_courses_student_path(current_user.id)} Select Courses
+              %li.nav-header STEP 2: Timeslot Preferences
+              - current_user.owner.cal_courses.order("name ASC").each do |c|
+                %li
+                  %a{:href => student_select_timeslots_path(current_user.id, c.id)}= c.name
+              %li.nav-header STEP 3: Field Placements
               %li
                 %a{:href => placements_student_path(current_user.id)} View Field Placements
-            %ul.nav.nav-tabs.nav-stacked
+            
+              %li.divider
+
               %li
                 %a{:href => edit_user_path(current_user.id)} Edit Profile
               %li

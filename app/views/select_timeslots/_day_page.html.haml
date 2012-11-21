@@ -2,7 +2,7 @@
   .span-12
     = render :partial => "sub_nav"
     .page-header
-      %h2= day.capitalize
+      %h2= "#{@cal_course.name} | #{day.capitalize}"
     = form_for @student, url: "#{wizard_path}", :cal_course_id => @cal_course.id do |f|
       #timeslots
       .row-fluid

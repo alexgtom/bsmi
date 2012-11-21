@@ -42,7 +42,7 @@ class StudentsController < ApplicationController
   
 
   def update
-    @student = User.find(params[:id])
+    @student = User.find(params[:id]).owner
     @new_placement = Timeslot.find_by_id(params[:student][:placement])
     if @student.update_attributes(params[:placements])
       redirect_to @student, notice: 'Placements was successfully updated.' 
@@ -50,24 +50,35 @@ class StudentsController < ApplicationController
       render action: "edit" 
     end
   end
+
   def courses
-    @student = User.find(params[:id])
-    @cal_courses = User.find(params[:id]).cal_courses
+    @student = User.find(params[:id]).owner
+    @cal_courses = User.find(params[:id]).owner.cal_courses
   end
 
   def select_courses
-    @student = User.find(params[:id])
+    @student = User.find(params[:id]).owner
     @cal_courses = CalCourse.all
 
     if params[:student] and params[:student][:cal_courses]
       cal_courses = params[:student][:cal_courses].map { |id| CalCourse.find(id) }
-      @student.update_attribute(:cal_courses, cal_courses)
-      redirect_to action: "courses"
+
+      @student.cal_courses = cal_courses
+      @student.save!
+
+      # redirect to timeslot page of first Cal Course
+      redirect_to student_select_timeslots_path(@student.id, @student.cal_courses.order("name ASC").first)
+    elsif params[:student] and params[:student][:check]
+      # zero cal courses checked
+      @student.cal_courses.destroy_all
     end
   end
 
+  def splash
+  end
+
   def show
-    @student = User.find(params[:id])
+    @student = User.find(params[:id]).owner
   end
 end
 

@@ -1,7 +1,7 @@
-Feature: Show List of students enrolled in my cal_course
+Feature: Show List of mentor teachers enrolled in my cal_course
 	As an cal faculty
-	I want to see all students assigned to my course
-	So that I can see the contact information of those students
+	I want to see all mentor teachers assigned to my course
+	So that I can see the contact information of those mentor teachers
 
 Background: cal_courses, cal_faculty(me), students exitsts
   Given the following timeslots exist:
@@ -32,7 +32,7 @@ Scenario: Login as a cal_faculty and see my menus
   And I follow "My Mentor Teachers"
   Then I should be located at "/cal_faculty/my_mentor_teachers"
 
-Scenario: should see list of my students enrolled in my cal_course
+Scenario: should see list of my mentor teachers enrolled in my cal_course
   Given I am on the login page
   And I fill in "Email" with "calfaculty@berk.edu"
   And I fill in "Password" with "1234"

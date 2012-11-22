@@ -40,10 +40,10 @@ class MentorTeacher::SchedulesController < ApplicationController
     end
     if all_correct
       flash[:notice] = "Schedule was successfully created."
-      redirect_to mentor_teacher_schedule_path and return
+      redirect_to mentor_teacher_schedule_path
     else
       flash[:notice] = "There were some problems saving your schedule"
-      redirect_to new_mentor_teacher_schedule_path and return
+      redirect_to new_mentor_teacher_schedule_path 
     end
   end
 

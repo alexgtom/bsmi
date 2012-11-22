@@ -93,7 +93,7 @@ gem 'selenium-webdriver', '2.25.0'
 gem 'thin'
 gem 'mechanize'
 gem "rails-settings-cached"
-
+gem 'settingslogic'
 
 gem "heroku-rglpk", :git => "https://github.com/andrewmains12/heroku-rglpk.git"
 

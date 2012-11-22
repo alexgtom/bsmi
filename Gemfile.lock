@@ -7,6 +7,12 @@ GIT
       actionpack (>= 3.1)
       railties (>= 3.1)
 
+GIT
+  remote: https://github.com/andrewmains12/heroku-rglpk.git
+  revision: fab49693a5447f1e9f206b6c3f801091eaf3aaef
+  specs:
+    heroku-rglpk (0.2.1)
+
 GEM
   remote: https://rubygems.org/
   specs:

@@ -9,40 +9,38 @@ describe CalFaculty::MyStudentsController do
     { }
   end
   describe "GET index" do
-    it "list all my(cal_faculty) assigned mentor_teachers" do
+    it "list all my(cal_faculty) assigned students" do
       @passing_params = {:sort => nil}    
-      user = User.create! valid_attributes
-      user.should_receive(:owner_id).and_return(user.id)
+      student = FactoryGirl.create(:student)
+      user = FactoryGirl.create(:cal_faculty)
       controller.stub!(:require_cal_faculty).and_return(true)
-      controller.stub!(:current_user).and_return(user)
-      user.should_receive(:students).and_return([user])
-      CalFaculty.stub!(:find).and_return(user)
+      controller.stub!(:current_user).and_return(user.user)
+      user.should_receive(:students).and_return([student])
+      CalFaculty.should_receive(:find).and_return(user)
       get :index, @passing_params, valid_session
-      assigns(:my_students).should eq([user])
+      assigns(:my_students).should eq([student])
     end
-    it "list all sorted by first_name" do
+    it "list all sort by first_name" do
       @passing_params = {:sort => "first_name"}    
-      user = User.create! valid_attributes
-      user.should_receive(:owner_id).and_return(user.id)
+      student = FactoryGirl.create(:student)
+      user = FactoryGirl.create(:cal_faculty)
       controller.stub!(:require_cal_faculty).and_return(true)
-      controller.stub!(:current_user).and_return(user)
-      user.should_receive(:students).and_return([user])
-      user.should_receive(:user).and_return(user)
-      CalFaculty.stub!(:find).and_return(user)
+      controller.stub!(:current_user).and_return(user.user)
+      user.should_receive(:students).and_return([student])
+      CalFaculty.should_receive(:find).and_return(user)
       get :index, @passing_params, valid_session
-      assigns(:my_students).should eq([user])
+      assigns(:my_students).should eq([student])
     end
-    it "list all sorted by last_name" do
+    it "list all sort by last_name" do
       @passing_params = {:sort => "last_name"}    
-      user = User.create! valid_attributes
-      user.should_receive(:owner_id).and_return(user.id)
+      student = FactoryGirl.create(:student)
+      user = FactoryGirl.create(:cal_faculty)
       controller.stub!(:require_cal_faculty).and_return(true)
-      controller.stub!(:current_user).and_return(user)
-      user.should_receive(:students).and_return([user])
-      user.should_receive(:user).and_return(user)
-      CalFaculty.stub!(:find).and_return(user)
+      controller.stub!(:current_user).and_return(user.user)
+      user.should_receive(:students).and_return([student])
+      CalFaculty.should_receive(:find).and_return(user)
       get :index, @passing_params, valid_session
-      assigns(:my_students).should eq([user])
+      assigns(:my_students).should eq([student])
     end
   end
 end

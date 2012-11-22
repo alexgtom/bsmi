@@ -4,7 +4,7 @@ class SelectTimeslotsController < ApplicationController
   
   def show
     @cal_course = CalCourse.find(params[:cal_course_id])
-    @student = Student.find(params[:student_id])
+    @student = User.find(params[:student_id]).owner
     @timeslots = Timeslot.where(:day => Timeslot.day_index(step), :cal_course_id => params[:cal_course_id])
 
     case step
@@ -24,7 +24,7 @@ class SelectTimeslotsController < ApplicationController
 
   def update
     @cal_course = CalCourse.find(params[:cal_course_id])
-    @student = Student.find(params[:student_id])
+    @student = User.find(params[:student_id]).owner
 
     case step
     when :cal_course_selection

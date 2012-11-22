@@ -5,11 +5,11 @@ Feature: Link Cal courses to K-12 subjects/grades
 
 Background: classes, mentor teachers and timeslots are created
   Given the following timeslots exist:
-  | start_time | end_time | day     | course_id | mentor_teacher_id	| cal_course_id	|
-  | 8:00 AM    | 9:00 AM  | monday  | 1	        | 1			| 1		|
-  | 9:00 AM    | 10:00 AM | monday  | 2	        | 1			| 1		|
-  | 11:00 AM   | 12:00 AM | tuesday | 3	        | 2			| 5		|
-  | 12:00 AM   | 1:00 PM  | tuesday | 1	        | 1			| 5		|
+	  | id | start_time | end_time | day     | course_id | mentor_teacher_id	| cal_course_id	|
+  	  | 1  | 8:00 AM    | 9:00 AM  | monday  | 1	     | 1	        		| 1		|
+  	  | 2  | 9:00 AM    | 10:00 AM | monday  | 2	     | 1	        		| 1		|
+  	  | 3  | 11:00 AM   | 12:00 AM | tuesday | 3	     | 2	        		| 5		|
+  	  | 4  | 12:00 AM   | 1:00 PM  | tuesday | 1	     | 1	        		| 5		|
   Given the following courses exist:
   | name	| grade		|
   | Calculus	| HIGH_SCHOOL	|
@@ -36,7 +36,7 @@ Scenario: Add a Cal Course
   And  I fill in "Name" with "Educ 101"
   And  I select "Middle School" from "School type"
   And  I select "8" from "Course grade"
-  And  I check "timeslots_1"
+  And  I check "timeslots[1]"
   And  I press "Save"
   Then I should be located at "/cal_courses/2"
   And I should see "Educ 101"
@@ -95,8 +95,8 @@ Scenario: Check the Edit Page
   And I should see "monday|09:00AM|10:00AM"
   And I should see "tuesday|11:00AM|12:00AM"
   And I should see "tuesday|12:00AM|01:00PM"
-  And  I check "timeslots_3"
-  And  I check "timeslots_4"
+  And  I check "timeslots[3]"
+  And  I check "timeslots[4]"
   And  I press "Save"
   Then I should be located at "/cal_courses/1"
   And I should see "Educ 111"

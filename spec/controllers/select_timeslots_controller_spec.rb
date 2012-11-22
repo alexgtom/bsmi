@@ -1,26 +1,8 @@
 require 'spec_helper'
 
 describe SelectTimeslotsController do
-  def create_student
-    user = User.new({
-       :first_name => "FirstName",
-       :last_name => "LastName",
-       :street_address => 'myaddr',
-       :phone_number => '000-000-0000',
-       :email => "StudentEmail@gmail.com",
-       :password => '1234',
-       :password_confirmation => '1234'
-    })
-
-    owner = Student.create!(:user => user)
-
-    user.owner = owner
-    user.save!
-    
-    user
-  end
   before(:each) do
-    @student = create_student
+    @student = FactoryGirl.create(:student).user
     @timeslot = FactoryGirl.create(:timeslot)
     @preference = FactoryGirl.create(:preference)
     @cal_course = FactoryGirl.create(:cal_course)

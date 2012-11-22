@@ -9,7 +9,7 @@ FactoryGirl.define do
     
     after(:create) do |teacher| 
       if teacher.user.nil?
-        FactoryGirl.create(:user, :owner_type => "MentorTeacher", :owner_id => teacher.id)
+        teacher.user = FactoryGirl.create(:user, :owner_type => "MentorTeacher", :owner_id => teacher.id)
       end
     end
 #    association :user, :strategy => :build

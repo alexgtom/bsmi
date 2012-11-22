@@ -94,6 +94,5 @@ gem 'thin'
 gem 'mechanize'
 gem "rails-settings-cached"
 
-#Linear program solver wrapper for backend
-#Has a dependency of GLPK
-gem "rglpk"
+gem "heroku-rglpk", :git => "https://github.com/andrewmains12/heroku-rglpk.git"
+

@@ -17,7 +17,7 @@ group :development, :test do
   gem 'sqlite3'
   gem 'ruby-debug19', :require => 'ruby-debug'
   gem 'debugger'
-  gem 'capybara'
+  gem 'capybara', '~> 1.1.3'
 #  gem 'capybara-webkit'
   gem 'launchy'
   gem 'rspec-rails', '~> 2.4'
@@ -101,4 +101,5 @@ gem "heroku-rglpk", :git => "https://github.com/andrewmains12/heroku-rglpk.git"
 #Linear program solver wrapper for backend
 #Has a dependency of GLPK
 #gem "rglpk"
+
 

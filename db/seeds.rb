@@ -160,13 +160,15 @@ end
 
 # --- Create mentor teachers
 (1..10).each do |i|
-  user = User.new({:first_name => "First#{i}",
-		   :last_name => "Last#{i}",
+  user = User.new({
+                   :first_name => "First#{i}",
+		           :last_name => "Last#{i}",
                    :street_address => 'myaddr',
                    :phone_number => '000-000-0000',
                    :email => "TeacherEmail#{i}@gmail.com",
                    :password => '1234',
-                   :password_confirmation => '1234'})
+                   :password_confirmation => '1234'
+  })
   owner = MentorTeacher.create(:user => user, :school => School.all[i % School.all.size])
   user.owner = owner
   user.save!

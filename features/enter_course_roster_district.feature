@@ -14,9 +14,9 @@ Feature: Enter/Upload Course List/Roster/School Districts
 			| UGIS 81A 	|
 			| MATH 197 	|
 
-		Given the following student exist
-			| id |
-			| 1  |
+		Given the following users exist
+			| id | first_name | last_name | email             | type     | cal_courses |
+			| 1  | Oski 	  | Bear      | oski@berkeley.edu | Student  | 1           |
 
 	Scenario: Student course selections should show up on courses page
 		When I go to /students/1/select_courses

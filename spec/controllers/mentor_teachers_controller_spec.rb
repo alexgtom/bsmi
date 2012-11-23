@@ -23,6 +23,25 @@ describe MentorTeachersController do
   # This should return the minimal set of attributes required to create a valid
   # MentorTeacher. As you add validations to MentorTeacher, be sure to
   # update the return value of this method accordingly.
+  def create_mentor_teacher
+    user = User.new({
+       :first_name => "FirstName",
+       :last_name => "LastName",
+       :street_address => 'myaddr',
+       :phone_number => '000-000-0000',
+       :email => "TeacherEmail@gmail.com",
+       :password => '1234',
+       :password_confirmation => '1234'
+    })
+
+    owner = MentorTeacher.create!(:user => user, :school => mock_model(School))
+
+    user.owner = owner
+    user.save!
+    
+    user.owner
+  end
+
   def valid_attributes
     {}
   end
@@ -36,7 +55,7 @@ describe MentorTeachersController do
 
   describe "GET show" do
     it "assigns the requested mentor_teacher as @mentor_teacher" do
-      mentor_teacher = MentorTeacher.create! valid_attributes
+      mentor_teacher = create_mentor_teacher
       get :show, {:id => mentor_teacher.to_param}, valid_session
       assigns(:mentor_teacher).should eq(mentor_teacher)
     end
@@ -51,7 +70,7 @@ describe MentorTeachersController do
 
   describe "GET edit" do
     it "assigns the requested mentor_teacher as @mentor_teacher" do
-      mentor_teacher = MentorTeacher.create! valid_attributes
+      mentor_teacher = create_mentor_teacher
       get :edit, {:id => mentor_teacher.to_param}, valid_session
       assigns(:mentor_teacher).should eq(mentor_teacher)
     end
@@ -97,9 +116,9 @@ describe MentorTeachersController do
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested mentor_teacher" do
-        mentor_teacher = MentorTeacher.create! valid_attributes
+        mentor_teacher = create_mentor_teacher
         # Assuming there are no other mentor_teachers in the database, this
-        # specifies that the MentorTeacher created on the previous line
+        # specifies that the create_mentor_teacher
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         MentorTeacher.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
@@ -107,13 +126,13 @@ describe MentorTeachersController do
       end
 
       it "assigns the requested mentor_teacher as @mentor_teacher" do
-        mentor_teacher = MentorTeacher.create! valid_attributes
+        mentor_teacher = create_mentor_teacher
         put :update, {:id => mentor_teacher.to_param, :mentor_teacher => valid_attributes}, valid_session
         assigns(:mentor_teacher).should eq(mentor_teacher)
       end
 
       it "redirects to the mentor_teacher" do
-        mentor_teacher = MentorTeacher.create! valid_attributes
+        mentor_teacher = create_mentor_teacher
         put :update, {:id => mentor_teacher.to_param, :mentor_teacher => valid_attributes}, valid_session
         response.should redirect_to(mentor_teacher)
       end
@@ -121,7 +140,7 @@ describe MentorTeachersController do
 
     describe "with invalid params" do
       it "assigns the mentor_teacher as @mentor_teacher" do
-        mentor_teacher = MentorTeacher.create! valid_attributes
+        mentor_teacher = create_mentor_teacher
         # Trigger the behavior that occurs when invalid params are submitted
         MentorTeacher.any_instance.stub(:save).and_return(false)
         put :update, {:id => mentor_teacher.to_param, :mentor_teacher => {}}, valid_session
@@ -129,7 +148,7 @@ describe MentorTeachersController do
       end
 
       it "re-renders the 'edit' template" do
-        mentor_teacher = MentorTeacher.create! valid_attributes
+        mentor_teacher = create_mentor_teacher
         # Trigger the behavior that occurs when invalid params are submitted
         MentorTeacher.any_instance.stub(:save).and_return(false)
         put :update, {:id => mentor_teacher.to_param, :mentor_teacher => {}}, valid_session
@@ -140,14 +159,14 @@ describe MentorTeachersController do
 
   describe "DELETE destroy" do
     it "destroys the requested mentor_teacher" do
-      mentor_teacher = MentorTeacher.create! valid_attributes
+      mentor_teacher = create_mentor_teacher
       expect {
         delete :destroy, {:id => mentor_teacher.to_param}, valid_session
       }.to change(MentorTeacher, :count).by(-1)
     end
 
     it "redirects to the mentor_teachers list" do
-      mentor_teacher = MentorTeacher.create! valid_attributes
+      mentor_teacher = create_mentor_teacher
       delete :destroy, {:id => mentor_teacher.to_param}, valid_session
       response.should redirect_to(mentor_teachers_url)
     end

@@ -5,11 +5,11 @@ Feature: Link Cal courses to K-12 subjects/grades
 
 Background: classes, mentor teachers and timeslots are created
   Given the following timeslots exist:
-  | start_time | end_time | day     | course_id | mentor_teacher_id	| cal_course_id	|
-  | 8:00 AM    | 9:00 AM  | monday  | 1	        | 1			| 1		|
-  | 9:00 AM    | 10:00 AM | monday  | 2	        | 1			| 1		|
-  | 11:00 AM   | 12:00 AM | tuesday | 3	        | 2			| 5		|
-  | 12:00 AM   | 1:00 PM  | tuesday | 1	        | 1			| 5		|
+	  | id | start_time | end_time | day     | course_id | mentor_teacher_id	| cal_course_id	|
+  	  | 1  | 8:00 AM    | 9:00 AM  | monday  | 1	     | 1	        		| 1		|
+  	  | 2  | 9:00 AM    | 10:00 AM | monday  | 2	     | 1	        		| 1		|
+  	  | 3  | 11:00 AM   | 12:00 AM | tuesday | 3	     | 2	        		| 5		|
+  	  | 4  | 12:00 AM   | 1:00 PM  | tuesday | 1	     | 1	        		| 5		|
   Given the following courses exist:
   | name	| grade		|
   | Calculus	| HIGH_SCHOOL	|

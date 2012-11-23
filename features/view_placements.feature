@@ -19,9 +19,9 @@ Feature: View placements
 			| district | level       | name          |
 			| BUSD     | High School | Berkeley High |
 
-		Given the following mentor teachers exist:
-			| first_name    | last_name | address     		| phone_number | email 			   | school 	   |
-			| Oski			| Bear      | 2650 Haste Street | 408-123-4567 | oski@berkeley.edu | Berkeley High |
+		Given the following users exist:
+			| id | first_name    | last_name | address     		| phone_number | email 			   | school 	   | type 		   |
+			|  3 | Oski			 | Bear      | 2650 Haste Street | 408-123-4567 | mt@berkeley.edu | Berkeley High | MentorTeacher |
 
 		Given the following timeslots exist:
 			| id | start_time     	| end_time      | day     | course    | mentor_teacher |
@@ -36,7 +36,7 @@ Feature: View placements
 			| 1  | Oski 	  | Bear      | oski@berkeley.edu | Student  | 1           |
 		Given the following users exist
 			| id | first_name | last_name | email             | type     | 
-			| 2  | MT		  | Bear      | mt@berkeley.edu   | CalFaculty |
+			| 2  | cf		  | Bear      | cf@berkeley.edu   | CalFaculty |
 
 		Given I am logged in as mt@berkeley.edu
 

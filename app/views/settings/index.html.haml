@@ -1,0 +1,15 @@
+.page-header
+  %h1 Settings
+.span-12
+  = form_tag settings_path, {:class => 'form-horizontal', :method => :post} do
+    .control-group
+      %label.control-label Minimum # of preferences required
+      .controls
+        = text_field_tag 'student_min_preferences', @setting.student_min_preferences
+    .control-group
+      %label.control-label Maximum # of preferences required
+      .controls
+        = text_field_tag 'student_max_preferences', @setting.student_max_preferences
+    .control-group
+      .controls
+        = submit_tag "Save", :class => 'btn'

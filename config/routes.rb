@@ -127,5 +127,4 @@ Bsmi::Application.routes.draw do
   end
   match '/timeslots/destroy', :controller => :timeslots, :action => :destroy
   resources :timeslots
-  resources :settings
 end

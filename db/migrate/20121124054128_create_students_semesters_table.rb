@@ -1,14 +1,14 @@
 class CreateStudentsSemestersTable < ActiveRecord::Migration
   def up
-    create_table :students_semesters, :id => false do |t|
+    create_table :semesters_students, :id => false do |t|
         t.references :student
         t.references :semester
     end
-    add_index :students_semesters, [:student_id, :semester_id]
-    add_index :students_semesters, [:semester_id, :student_id]
+    add_index :semesters_students, [:student_id, :semester_id]
+    add_index :semesters_students, [:semester_id, :student_id]
   end
 
   def down
-    drop_table :students_semesters
+    drop_table :semesters_students
   end
 end

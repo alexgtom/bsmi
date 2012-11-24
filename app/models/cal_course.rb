@@ -5,6 +5,7 @@ class CalCourse < ActiveRecord::Base
   has_many :timeslots
   has_many :mentor_teacher, :through => :timeslots
   has_and_belongs_to_many :students
+  belongs_to :semester
 
   #Validations
   validates_associated :course, :message => "Must not be blank"

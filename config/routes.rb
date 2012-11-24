@@ -1,4 +1,6 @@
 Bsmi::Application.routes.draw do
+  resources :deadlines
+
   resources :semesters
 
   resources :invites

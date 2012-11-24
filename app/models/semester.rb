@@ -4,8 +4,7 @@ class Semester < ActiveRecord::Base
   has_and_belongs_to_many :mentor_teachers
   has_and_belongs_to_many :students
   has_many :cal_courses
-  has_many :preferences
+  has_many :preferences, :through => :timeslots
   has_many :timeslots
-
   SEASON = ["Fall", "Spring", "Summer"]
 end

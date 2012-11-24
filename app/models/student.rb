@@ -1,6 +1,7 @@
 class Student < ActiveRecord::Base  
   has_many :preferences
   has_many :mentor_teachers, :through => :placements
+  has_and_belongs_to_many :semesters
 
   has_one :user, :as => :owner
   has_and_belongs_to_many :placements, :uniq => true, :class_name => "Timeslot"

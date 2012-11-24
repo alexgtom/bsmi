@@ -6,4 +6,6 @@ class Semester < ActiveRecord::Base
   has_many :cal_courses
   has_many :preferences
   has_many :timeslots
+
+  SEASON = ["Fall", "Spring", "Summer"]
 end

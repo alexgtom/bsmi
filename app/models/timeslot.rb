@@ -20,6 +20,7 @@ class Timeslot < ActiveRecord::Base
   belongs_to :mentor_teacher
   belongs_to :course
   belongs_to :cal_course
+  belongs_to :semester, :through => :cal_course
 
   #Validations
   validates :day, :presence => true

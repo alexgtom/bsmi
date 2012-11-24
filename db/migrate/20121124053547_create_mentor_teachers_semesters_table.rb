@@ -9,5 +9,6 @@ class CreateMentorTeachersSemestersTable < ActiveRecord::Migration
   end
 
   def down
+    drop_table :mentor_teachers_semesters
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121124053547) do
+ActiveRecord::Schema.define(:version => 20121124054128) do
 
   create_table "advisors", :force => true do |t|
     t.datetime "created_at", :null => false
@@ -151,6 +151,14 @@ ActiveRecord::Schema.define(:version => 20121124053547) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "students_semesters", :id => false, :force => true do |t|
+    t.integer "student_id"
+    t.integer "semester_id"
+  end
+
+  add_index "students_semesters", ["semester_id", "student_id"], :name => "index_students_semesters_on_semester_id_and_student_id"
+  add_index "students_semesters", ["student_id", "semester_id"], :name => "index_students_semesters_on_student_id_and_semester_id"
 
   create_table "students_timeslots", :id => false, :force => true do |t|
     t.integer "timeslot_id"

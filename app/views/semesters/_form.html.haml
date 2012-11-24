@@ -7,8 +7,9 @@
           %li= msg
 
   .field
-    = f.label :name
+    = f.label "Semester"
     = f.select :name, Semester::SEASON
+    = f.select :year, (Time.now.year+10).downto(2000).to_a, :selected => Time.now.year
   .field
     = f.label :start_date
     = f.date_select :start_date

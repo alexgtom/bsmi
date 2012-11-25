@@ -16,7 +16,6 @@ class AdvisorsController < ApplicationController
          @all_advisor = @all_advisor.order(:last_name)
       end
     end
-    debugger
   end
 
   # GET /advisors/1

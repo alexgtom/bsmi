@@ -6,6 +6,7 @@ class Semester < ActiveRecord::Base
   has_many :cal_courses
   has_many :preferences, :through => :timeslots
   has_many :timeslots
+  belongs_to :registration_deadline, :class_name => "Deadline"
 
   validates_length_of :year, :is => 4
 

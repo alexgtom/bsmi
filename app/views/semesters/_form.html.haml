@@ -5,16 +5,30 @@
       %ul
         - @semester.errors.full_messages.each do |msg|
           %li= msg
-
+  %h2 Semester
   .field
     = f.label "Semester"
-    = f.select :name, Semester::SEASON
-    = f.select :year, (Time.now.year+10).downto(2000).to_a, :selected => Time.now.year
+    = f.select :name, Semester::SEASON, {}, {:class => 'input-small'}
+    = f.select :year, (Time.now.year+10).downto(2000).to_a, {:selected => Time.now.year}, {:class => 'input-small'}
   .field
     = f.label :start_date
-    = f.date_select :start_date
+    = f.date_select :start_date, {:use_short_month => 1}, {:class => 'input-small'}
   .field
     = f.label :end_date
-    = f.date_select :end_date
+    = f.date_select :end_date, {:use_short_month => 1}, {:class => 'input-small'}
+  .field
+
+  %h2 Registration Deadline
+  = fields_for @registration_deadline do |d|
+    .field
+      = d.label :title
+      = d.text_field :title, :value => 'Last day to submit your field placement preferences'
+    .field
+      = d.label :summary
+      = d.text_area :summary, :value => 'Be sure to submit your field placement preferences before the deadline'
+    .field
+      = d.label :due_date
+      = d.datetime_select :due_date, {:use_short_month => 1}, {:class => 'input-small'}
+
   .actions
     = f.submit 'Save', :class => 'btn'

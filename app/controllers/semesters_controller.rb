@@ -25,6 +25,7 @@ class SemestersController < ApplicationController
   # GET /semesters/new.json
   def new
     @semester = Semester.new
+    @registration_deadline = Deadline.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -35,12 +36,14 @@ class SemestersController < ApplicationController
   # GET /semesters/1/edit
   def edit
     @semester = Semester.find(params[:id])
+    @registration_deadline = @semester.registration_deadline
   end
 
   # POST /semesters
   # POST /semesters.json
   def create
     @semester = Semester.new(params[:semester])
+    @registration_deadline = Deadline.new(params[:registration_deadline])
 
     respond_to do |format|
       if @semester.save
@@ -73,6 +76,7 @@ class SemestersController < ApplicationController
   # DELETE /semesters/1.json
   def destroy
     @semester = Semester.find(params[:id])
+    @semester.registration_deadline.destroy
     @semester.destroy
 
     respond_to do |format|

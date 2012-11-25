@@ -20,9 +20,6 @@ require 'spec_helper'
 
 describe SemestersController do
 
-  # This should return the minimal set of attributes required to create a valid
-  # Semester. As you add validations to Semester, be sure to
-  # update the return value of this method accordingly.
   def valid_attributes
     { 
       "name" => "MyString",
@@ -39,7 +36,7 @@ describe SemestersController do
 
   describe "GET index" do
     it "assigns all semesters as @semesters" do
-      semester = Semester.create! valid_attributes
+      semester = FactoryGirl.create(:semester)
       get :index, {}, valid_session
       assigns(:semesters).should eq([semester])
     end
@@ -47,7 +44,7 @@ describe SemestersController do
 
   describe "GET show" do
     it "assigns the requested semester as @semester" do
-      semester = Semester.create! valid_attributes
+      semester = FactoryGirl.create(:semester)
       get :show, {:id => semester.to_param}, valid_session
       assigns(:semester).should eq(semester)
     end
@@ -62,7 +59,7 @@ describe SemestersController do
 
   describe "GET edit" do
     it "assigns the requested semester as @semester" do
-      semester = Semester.create! valid_attributes
+      semester = FactoryGirl.create(:semester)
       get :edit, {:id => semester.to_param}, valid_session
       assigns(:semester).should eq(semester)
     end
@@ -108,7 +105,7 @@ describe SemestersController do
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested semester" do
-        semester = Semester.create! valid_attributes
+        semester = FactoryGirl.create(:semester)
         # Assuming there are no other semesters in the database, this
         # specifies that the Semester created on the previous line
         # receives the :update_attributes message with whatever params are
@@ -118,13 +115,13 @@ describe SemestersController do
       end
 
       it "assigns the requested semester as @semester" do
-        semester = Semester.create! valid_attributes
+        semester = FactoryGirl.create(:semester)
         put :update, {:id => semester.to_param, :semester => valid_attributes}, valid_session
         assigns(:semester).should eq(semester)
       end
 
       it "redirects to the semester" do
-        semester = Semester.create! valid_attributes
+        semester = FactoryGirl.create(:semester)
         put :update, {:id => semester.to_param, :semester => valid_attributes}, valid_session
         response.should redirect_to(semester)
       end
@@ -132,7 +129,7 @@ describe SemestersController do
 
     describe "with invalid params" do
       it "assigns the semester as @semester" do
-        semester = Semester.create! valid_attributes
+        semester = FactoryGirl.create(:semester)
         # Trigger the behavior that occurs when invalid params are submitted
         Semester.any_instance.stub(:save).and_return(false)
         put :update, {:id => semester.to_param, :semester => { "name" => "invalid value" }}, valid_session
@@ -140,7 +137,7 @@ describe SemestersController do
       end
 
       it "re-renders the 'edit' template" do
-        semester = Semester.create! valid_attributes
+        semester = FactoryGirl.create(:semester)
         # Trigger the behavior that occurs when invalid params are submitted
         Semester.any_instance.stub(:save).and_return(false)
         put :update, {:id => semester.to_param, :semester => { "name" => "invalid value" }}, valid_session
@@ -151,14 +148,14 @@ describe SemestersController do
 
   describe "DELETE destroy" do
     it "destroys the requested semester" do
-      semester = Semester.create! valid_attributes
+      semester = FactoryGirl.create(:semester)
       expect {
         delete :destroy, {:id => semester.to_param}, valid_session
       }.to change(Semester, :count).by(-1)
     end
 
     it "redirects to the semesters list" do
-      semester = Semester.create! valid_attributes
+      semester = FactoryGirl.create(:semester)
       delete :destroy, {:id => semester.to_param}, valid_session
       response.should redirect_to(semesters_url)
     end

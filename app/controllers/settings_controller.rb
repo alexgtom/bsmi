@@ -1,8 +1,4 @@
 class SettingsController < ApplicationController
-  def index
-    @setting = Setting
-  end
-
   def create
     # this is really UPDATE not create
     # it updates the settings when submitted from index

@@ -18,4 +18,11 @@ describe Setting do
     Setting['!@#$'] = 2
     Setting['!@#$'].should eq("2")
   end
+
+  it "should update the same instance of a setting if it already exists" do
+    Setting['a'] = 1
+    Setting['a'].should eq("1")
+    Setting['a'] = 2
+    Setting['a'].should eq("2")
+  end
 end

@@ -7,8 +7,8 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 # --- Create Semesters
-Semester.create(:name => "Fall 2012", :start_date => Date.new(2012, 8, 22), :end_date => Date.new(2012, 12, 14))
-Semester.create(:name => "Spring 2012", :start_date => Date.new(2012, 1, 16), :end_date => Date.new(2012, 5, 13))
+Semester.create!(:name => "Fall", :year => "2012", :start_date => Date.new(2012, 8, 22), :end_date => Date.new(2012, 12, 14))
+Semester.create!(:name => "Spring 2012", :year => "2012", :start_date => Date.new(2012, 1, 16), :end_date => Date.new(2012, 5, 13))
 
 # --- Create Advisor
 user = User.new({:first_name => 'Sangyoon',

@@ -1,9 +1,9 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
-  factory :cal_course do
+  factory :semester do
     name "MyString"
-    school_type "Elementary School"
-    course_grade "4"
+    start_date "2012-11-23"
+    end_date "2012-11-23"
   end
 end

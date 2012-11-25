@@ -3,4 +3,5 @@ class CalFaculty < ActiveRecord::Base
   has_one :user, :as => :owner
   has_and_belongs_to_many :cal_courses
   has_many :students, :through => :cal_courses, :uniq => true
+  has_and_belongs_to_many :semesters
 end

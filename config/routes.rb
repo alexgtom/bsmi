@@ -1,4 +1,6 @@
 Bsmi::Application.routes.draw do
+  resources :semesters
+
   resources :invites
 
   resources :courses
@@ -10,6 +12,8 @@ Bsmi::Application.routes.draw do
   resources :schools
 
   resources :user_sessions
+
+  resources :settings
 
   resources :matchings
   resources :invites
@@ -124,5 +128,4 @@ Bsmi::Application.routes.draw do
   end
   match '/timeslots/destroy', :controller => :timeslots, :action => :destroy
   resources :timeslots
-  resources :settings
 end

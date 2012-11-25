@@ -5,7 +5,12 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-     
+
+# --- Create Semesters
+Semester.create!(:name => "Fall", :year => "2012", :start_date => Date.new(2012, 8, 22), :end_date => Date.new(2012, 12, 14))
+Semester.create!(:name => "Spring 2012", :year => "2012", :start_date => Date.new(2012, 1, 16), :end_date => Date.new(2012, 5, 13))
+
+# --- Create Advisor
 user = User.new({:first_name => 'Sangyoon',
                  :last_name => 'Park',
                  :street_address => '346 soda UC Berkeley',
@@ -21,24 +26,6 @@ user.owner = owner
 user.save
 owner.save
 
-users = ["student1@test.com", "student2@test.com", "student3@test.com", "student4@test.com"]
-users.each do |u|
-  user = User.new({:first_name => u,
-                   :last_name => 'Anon',
-                   :street_address => '346 soda UC Berkeley',
-                   :city => 'Berkeley',
-                   :state => 'CA',
-                   :zipcode => '94000',
-                   :phone_number => '123-456-7890',
-                   :email => u,
-                   :password => '1234',
-                   :password_confirmation => '1234'})
-  owner = User.build_owner("Student")
-  user.owner = owner
-  user.save
-  owner.save
-end
-
 # --- Create Cal Faculties
 (1..10).each do |i|
   user = User.new({:first_name => "Cal Faculty#{i}",
@@ -52,21 +39,11 @@ end
   user.owner = owner
   user.save
   owner.save
+  owner.semesters = Semester.all
+  Semester.all.each do |sem|
+    sem.cal_facultys << owner
+  end
 end
-
-=begin
-# --- Insert some cal_course-cal_faculty matching into cal_courses_cal_faculties
-(1..10).each do |i|
-  insert = CalCoursesCalFaculties.new({:cal_course_id => i,
-                                       :cal_faculty_id => i})
-  insert.save
-end
-(1..3).each do |i|
-  insert = CalCoursesCalFaculties.new({:cal_course_id => 3,
-                                       :cal_faculty_id => i})
-  insert.save
-end
-=end
 
 # --- Create districts
 busd = District.create!(:name => "BUSD")
@@ -143,7 +120,31 @@ Course.create!(:name => "Science", :grade => "7")
 Course.create!(:name => "Science", :grade => "8")
 Course.create!(:name => "Pre Algebra", :grade => "6")
 
-# --- Create Student
+# --- Create Students
+users = ["student1@test.com", "student2@test.com", "student3@test.com", "student4@test.com"]
+users.each do |u|
+  user = User.new({:first_name => u,
+                   :last_name => 'Anon',
+                   :street_address => '346 soda UC Berkeley',
+                   :city => 'Berkeley',
+                   :state => 'CA',
+                   :zipcode => '94000',
+                   :phone_number => '123-456-7890',
+                   :email => u,
+                   :password => '1234',
+                   :password_confirmation => '1234'})
+  owner = User.build_owner("Student")
+  owner.save!
+  owner.semesters = Semester.all
+  Semester.all.each do |sem|
+    sem.students << owner
+  end
+  user.owner = owner
+  user.save
+  owner.save
+end
+
+# --- Create Students part 2
 (1..10).each do |i|
   user = User.new({:first_name => "First#{i}",
     	           :last_name => "Last#{i}",
@@ -154,6 +155,10 @@ Course.create!(:name => "Pre Algebra", :grade => "6")
                    :password_confirmation => '1234'})
   owner = User.build_owner("Student")
   owner.save!
+  owner.semesters = Semester.all
+  Semester.all.each do |sem|
+    sem.students << owner
+  end
   user.owner = owner
   user.save!
 end
@@ -162,38 +167,19 @@ end
 (1..10).each do |i|
   user = User.new({
                    :first_name => "First#{i}",
-		           :last_name => "Last#{i}",
+		   :last_name => "Last#{i}",
                    :street_address => 'myaddr',
                    :phone_number => '000-000-0000',
                    :email => "TeacherEmail#{i}@gmail.com",
                    :password => '1234',
                    :password_confirmation => '1234'
   })
-  owner = MentorTeacher.create(:user => user, :school => School.all[i % School.all.size])
+  owner = MentorTeacher.create(:user => user, :school => School.all[i % School.all.size], :semesters => Semester.all)
   user.owner = owner
   user.save!
-end
-
-# --- Create timeslots
-times = [["10:00 AM", "10:30 AM"], ["12:00 PM", "1:30 PM"], ["11:00 AM", "12:30 PM"],
-         ["4:00 PM", "5:00 PM"]]
-
-Timeslot.weekdays.each do |day|
-  times.each.with_index do |time, i|
-    i += 1
-    start_time, end_time = time
-    Timeslot.create!(:start_time => start_time, 
-                     :end_time => end_time,
-                     :mentor_teacher => MentorTeacher.find(i), 
-                     :day => day, 
-                     :course => Course.all[i % Course.all.size])  
+  Semester.all.each do |sem|
+    sem.mentor_teachers << owner
   end
-end
-
-
-# --- Create preferences
-Timeslot.all.each.with_index do |ts, i|
-  Preference.create!(:timeslot => ts, :student => Student.all[i % Student.all.size], :ranking => i)
 end
 
 # --- Create Cal Courses
@@ -209,14 +195,42 @@ cal_courses = [
   'MATH 197',
 ]
 
-cal_courses.each do |c|
-  CalCourse.create!(:name => c)
+cal_courses.each.with_index do |c, i|
+  sem = Semester.all[i % Semester.all.size]
+  cal_course = CalCourse.create!(:name => c, :semester => sem)
+  sem.cal_courses << cal_course
+end
+
+# --- Create timeslots
+times = [["10:00 AM", "10:30 AM"], ["12:00 PM", "1:30 PM"], ["11:00 AM", "12:30 PM"],
+         ["4:00 PM", "5:00 PM"]]
+
+Timeslot.weekdays.each do |day|
+  times.each.with_index do |time, i|
+    i += 1
+    start_time, end_time = time
+    sem = Semester.all[i % Semester.all.size]
+    timeslot = Timeslot.create!(:start_time => start_time, 
+                     :end_time => end_time,
+                     :mentor_teacher => MentorTeacher.find(i), 
+                     :day => day, 
+                     :course => Course.all[i % Course.all.size],
+                     :semester => sem) 
+    sem.timeslots << timeslot
+  end
 end
 
 Timeslot.all.each_with_index do |t, i|
   # assign timeslots to each cal course
   num_cal_courses = CalCourse.all.size
-  CalCourse.all[i % num_cal_courses].timeslots << t
+  cal_course = CalCourse.all[i % num_cal_courses]
+  cal_course.timeslots << t
+  t.semester = cal_course.semester
+end
+
+# --- Create preferences
+Timeslot.all.each.with_index do |ts, i|
+  Preference.create!(:timeslot => ts, :student => Student.all[i % Student.all.size], :ranking => i)
 end
 
 Student.all.each_with_index do |t, i|
@@ -248,10 +262,9 @@ student.placements << Timeslot.where(:day => Timeslot.day_index(:monday))[0]
 student.cal_courses << CalCourse.all[0]
 student.save!
 
-
 # --- Add relations for cal_faculties and cal_courses
 CalCourse.all.each_with_index do |t, i|
   # assign cal course to each cal_faculty
-  CalFaculty.all[i % CalCourse.all.size].cal_courses<< t
-  CalFaculty.all[(i+7) % CalCourse.all.size].cal_courses<< t
+  CalFaculty.all[i % CalFaculty.all.size].cal_courses<< t
+  CalFaculty.all[(i+7) % CalFaculty.all.size].cal_courses<< t
 end

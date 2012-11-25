@@ -20,6 +20,7 @@ class Timeslot < ActiveRecord::Base
   belongs_to :mentor_teacher
   belongs_to :course
   belongs_to :cal_course
+  has_one :semester, :through => :cal_course
 
   #Validations
   validates :day, :presence => true
@@ -61,7 +62,8 @@ class Timeslot < ActiveRecord::Base
         entry["time"] = self.to_string
         entry["time_id"] = self.id
         entry["course"] = self.course
-        entry["checked"] = self.cal_course_id == caller_id.to_s
+        entry["grade"] = self.course.grade if self.course
+        entry["checked"] = self.cal_course_id == caller_id
       end
       return entry
     end

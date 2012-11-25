@@ -22,13 +22,22 @@
   = fields_for @registration_deadline do |d|
     .field
       = d.label :title
-      = d.text_field :title, :value => 'Last day to submit your field placement preferences'
+      = d.text_field :title, :value => 'Last day to submit your field placement preferences', :class => 'input-xxlarge'
     .field
       = d.label :summary
-      = d.text_area :summary, :value => 'Be sure to submit your field placement preferences before the deadline'
+      = d.text_area :summary, :value => 'Be sure to submit your field placement preferences before the deadline', :rows => 5, :class => 'input-xxlarge'
     .field
       = d.label :due_date
       = d.datetime_select :due_date, {:use_short_month => 1}, {:class => 'input-small'}
+
+  %h2 Cal Courses Offered
+  - @cal_courses.each do |c|
+    %label.checkbox
+      - if @semester.cal_courses.exists?(c.id)
+        = check_box_tag "semester[cal_courses][]", c.id, true
+      - else
+        = check_box_tag "semester[cal_courses][]", c.id
+      = c.name
 
   .actions
     = f.submit 'Save', :class => 'btn'

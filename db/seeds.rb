@@ -223,8 +223,6 @@ Timeslot.all.each_with_index do |t, i|
   # assign timeslots to each cal course
   num_cal_courses = CalCourse.all.size
   cal_course = CalCourse.all[i % num_cal_courses]
-  cal_course.timeslots << t
-  #t.semester = cal_course.semester
 end
 
 # --- Create preferences
@@ -236,12 +234,6 @@ Student.all.each_with_index do |t, i|
   # assign students to each cal course
   num_cal_courses = CalCourse.all.size
   CalCourse.all[i % num_cal_courses].students<< t
-end
-
-Course.all.each_with_index do |t, i|
-  # assign courses to each cal course
-  num_cal_courses = CalCourse.all.size
-  CalCourse.all[i % num_cal_courses].course << t
 end
 
 Timeslot.all.each_with_index do |t, i|

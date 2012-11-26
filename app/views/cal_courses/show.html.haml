@@ -8,6 +8,17 @@
   = link_to 'Edit', edit_cal_course_path(@cal_course), :class => 'btn'
   = link_to 'Back', cal_courses_path, :class => 'btn'
 
+%h2 Course Teachers
+%table.table
+  %tr
+    %th Name
+    %th Email
+  - @cal_course.cal_faculties.each do |cal_faculty|
+    %tr
+      %td= cal_faculty.user.name
+      %td= cal_faculty.user.email
+
+    
 %h2 School Information
 %table.table
   %tr

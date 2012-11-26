@@ -14,6 +14,18 @@
   .field
     = f.label :name
     = f.text_field :name
+
+  %table.table.table-hover#cal_faculty_table
+    %tr
+      %th Add?
+      %th Name
+      %th Email
+    - CalFaculty.all.each do |cal_faculty|
+      %tr
+        %td= check_box_tag "cal_faculty[#{cal_faculty.id}]", 1, @cal_course.cal_faculties.include?(cal_faculty), :id => "cal_faculty[#{cal_faculty.id}]"
+        %td= cal_faculty.user.name
+        %td= cal_faculty.user.email
+
   .field
     = f.label :school_type
     = f.select :school_type, School::LEVEL.unshift("All")

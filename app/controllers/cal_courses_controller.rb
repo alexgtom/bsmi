@@ -1,4 +1,5 @@
 class CalCoursesController < ApplicationController
+#before filter -- advisor or cal_faculty only access for everything
   # GET /cal_courses
   # GET /cal_courses.json
   def index
@@ -54,6 +55,8 @@ class CalCoursesController < ApplicationController
   # POST /cal_courses
   # POST /cal_courses.json
   def create
+    debugger
+    b = nil
     @cal_course = CalCourse.new(params[:cal_course])
     if not School::LEVEL.include?(params[:cal_course][:school_type]) or not Course::GRADE.include?(params[:cal_course][:course_grade])
       flash[:error] = 'You cannot select All as School Type or Course Grade'
@@ -62,7 +65,7 @@ class CalCoursesController < ApplicationController
       return
     end
     if @cal_course.save  
-      @cal_course.build_timeslot_associations(params[:timeslots])
+      @cal_course.build_associations(params[:timeslots], params[:cal_faculty])
       flash[:notice] = 'The course was successfully created.'
         redirect_to cal_course_path @cal_course.id
     else
@@ -76,6 +79,8 @@ class CalCoursesController < ApplicationController
   # PUT /cal_courses/1.json
   def update
     @cal_course = CalCourse.find_by_id(params[:id])
+    debugger
+    a = nil
     if not School::LEVEL.include?(params[:cal_course][:school_type]) or not Course::GRADE.include?(params[:cal_course][:course_grade])
       flash[:error] = 'You cannot select All as School Type or Course Grade'
       @entries = @cal_course.create_selection_for_new_course
@@ -83,7 +88,7 @@ class CalCoursesController < ApplicationController
       return
     end
     if @cal_course and @cal_course.update_attributes(params[:cal_course]) 
-      if @cal_course.update_timeslot_associations(params[:timeslots])
+      if @cal_course.update_associations(params[:timeslots], params[:cal_faculty])
         flash[:notice] = "CalCourse '#{@cal_course.name}' Updated!"
         redirect_to cal_course_path @cal_course.id
       end
@@ -93,6 +98,7 @@ class CalCoursesController < ApplicationController
       render :action => :edit
     end
   end
+
 
   # DELETE /cal_courses/1
   # DELETE /cal_courses/1.json

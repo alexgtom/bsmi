@@ -1,8 +1,6 @@
 Bsmi::Application.routes.draw do
   resources :semesters
 
-  resources :invites
-
   resources :courses
 
   resources :cal_courses
@@ -14,7 +12,11 @@ Bsmi::Application.routes.draw do
   resources :user_sessions
 
   resources :matchings
+
+  match '/invites/new_excel' => 'invites#new_excel', :as => 'new_invite_excel'
+  match '/invites/uploadFile_and_invite' => 'invites#uploadFile_and_invite', :as => 'uploadFile_and_invite'
   resources :invites
+
 
   match 'login' => "user_sessions#new",      :as => :login
   match 'logout' => "user_sessions#destroy", :as => :logout

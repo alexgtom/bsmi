@@ -1,5 +1,6 @@
 class StudentsController < ApplicationController
   def index
+    store_location
     @all_student = User.where(:owner_type => "Student")
     if params[:sort] || session[:sort] != nil
       sort = params[:sort] || session[:sort]
@@ -13,7 +14,8 @@ class StudentsController < ApplicationController
   end
 
   def placements
-    @placements = User.find(params[:id]).owner.placements
+    #@placements = User.find(params[:id]).owner.placements
+    @placements = Student.find(params[:id]).placements
   end
 
   def edit_placements
@@ -42,7 +44,8 @@ class StudentsController < ApplicationController
   
 
   def update
-    @student = User.find(params[:id]).owner
+    #@student = User.find(params[:id]).owner
+    @student = Student.find(params[:id])
     @new_placement = Timeslot.find_by_id(params[:student][:placement])
     if @student.update_attributes(params[:placements])
       redirect_to @student, notice: 'Placements was successfully updated.' 
@@ -51,12 +54,15 @@ class StudentsController < ApplicationController
     end
   end
   def courses
-    @student = User.find(params[:id]).owner
-    @cal_courses = User.find(params[:id]).owner.cal_courses
+    #@student = User.find(params[:id]).owner
+    #@cal_courses = User.find(params[:id]).owner.cal_courses
+    @student = Student.find(params[:id])
+    @cal_courses = Student.find(params[:id]).cal_courses
   end
 
   def select_courses
-    @student = User.find(params[:id]).owner
+    #@student = User.find(params[:id]).owner
+    @student = Student.find(params[:id])
     @cal_courses = CalCourse.all
 
     if params[:student] and params[:student][:cal_courses]
@@ -67,7 +73,9 @@ class StudentsController < ApplicationController
   end
 
   def show
-    @student = User.find(params[:id]).owner
+    store_location
+    #@student = User.find(params[:id]).owner
+    @student = Student.find(params[:id])
   end
 end
 

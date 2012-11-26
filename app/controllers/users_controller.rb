@@ -124,7 +124,7 @@ class UsersController < ApplicationController
   def adv_update
     @user = User.find(params[:id])
     if @user.update_attributes(params[:user])
-      flash[:notice] = "User '#{@user.email}'Updated!"
+      flash[:notice] = "User '#{@user.email}' Updated!"
       redirect_back_or_default "/students"
       return
     else

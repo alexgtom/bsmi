@@ -32,11 +32,17 @@ group :development, :test do
   gem 'jasminerice'
   gem 'debugger'
   gem 'quiet_assets'
+  gem "spreadsheet"
+  gem "carrierwave"
+  gem "rubyXL"
 end
 
 group :production do
   gem 'pg'
   gem 'authlogic'
+  gem "spreadsheet"
+  gem "carrierwave"
+  gem "rubyXL"
 end
 
 group :development do

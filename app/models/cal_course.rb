@@ -1,8 +1,8 @@
 class CalCourse < ActiveRecord::Base
   attr_accessible :course_grade, :name, :school_type, :timeslots
   #Associations
-  has_many :course
   has_many :timeslots
+  has_many :courses, :through => :timeslots
   has_many :mentor_teacher, :through => :timeslots
   has_and_belongs_to_many :students
   belongs_to :semester

@@ -62,7 +62,8 @@ class Timeslot < ActiveRecord::Base
         entry["time"] = self.to_string
         entry["time_id"] = self.id
         entry["course"] = self.course
-        entry["checked"] = self.cal_course_id == caller_id.to_s
+        entry["grade"] = self.course.grade if self.course
+        entry["checked"] = self.cal_course_id == caller_id
       end
       return entry
     end
@@ -114,6 +115,12 @@ class Timeslot < ActiveRecord::Base
       'end' => to_js_time(self.end_time, self.day),
       'num_assistants' => self.max_num_assistants
     }.merge(overrides)
+  end
+
+  def getSchoolName
+    t = self.mentor_teacher
+    s = t.school if t 
+    s.name if s
   end
   
   def selected?(student_id)

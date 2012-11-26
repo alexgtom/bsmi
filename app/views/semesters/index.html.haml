@@ -1,11 +1,13 @@
 .pull-right
-  = link_to 'New Semester', new_semester_path
+  = link_to 'New Semester', new_semester_path, :class => 'btn'
 .page-header
   %h1 Semesters
 
 %table.table.table-hover
   %tr
+    %th Status
     %th Name
+    %th Year
     %th Start date
     %th End date
     %th
@@ -14,10 +16,11 @@
 
   - @semesters.each do |semester|
     %tr
-      %td= semester.name
+      %td= semester.status
+      %td= link_to semester.name, semester
+      %td= semester.year
       %td= semester.start_date
       %td= semester.end_date
-      %td= link_to 'Show', semester
       %td= link_to 'Edit', edit_semester_path(semester)
       %td= link_to 'Destroy', semester, method: :delete, data: { confirm: 'Are you sure?' }
 

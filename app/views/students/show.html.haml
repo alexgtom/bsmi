@@ -6,7 +6,8 @@
   = link_to 'Edit', advisor_edit_user_path(@student.user.id), :class => 'btn'
   = link_to 'Back', students_path, :class => 'btn'
 
-%h2 student Information
+%h2 Student Information
+
 %table.table
   %tr
     %td
@@ -58,3 +59,27 @@
       %b Zip Code:
     %td
       = @student.user.zipcode
+
+%h2 Enrollment
+%table.table
+  %tr
+    %th Semseter:
+    %th CalCourse:
+    %th School:
+    %th Course:
+    %th Teacher:
+    %th Time:
+  - @student.placements.reject{|entry| entry.cal_course == nil}.sort!{|a, b| a.semester <=> b.semester}.each do |timeslot|
+    %tr
+      %td= timeslot.semester.description if timeslot.semester
+      %td= timeslot.cal_course.name if timeslot.cal_course
+      %td= timeslot.getSchoolName
+      - if timeslot.course
+        %td= link_to timeslot.course.name, timeslot.course
+      - else
+        %td= "No Course"
+      - if timeslot.mentor_teacher
+        %td= link_to timeslot.mentor_teacher.user.name, timeslot.mentor_teacher
+      - else
+        %td= "No Mentor Teacher"
+      %td= timeslot.to_string

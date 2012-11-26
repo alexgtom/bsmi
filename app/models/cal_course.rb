@@ -1,15 +1,12 @@
 class CalCourse < ActiveRecord::Base
   attr_accessible :course_grade, :name, :school_type, :timeslots
   #Associations
-  has_many :course
   has_many :timeslots
+  has_many :courses, :through => :timeslots
   has_many :mentor_teacher, :through => :timeslots
   has_and_belongs_to_many :students
   belongs_to :semester
 
-  #Validations
-  validates_associated :course, :message => "Must not be blank"
-  validate :students, :uniqueness => true
   attr_protected #none
 
   def create_selection_for_new_course
@@ -20,6 +17,7 @@ class CalCourse < ActiveRecord::Base
         entries << time.build_entry(self.id)
       end
       entries.reject{|entry| entry == nil}
+      entries.sort_by{|entry| entry["school_name"]}
     end
     return entries
   end

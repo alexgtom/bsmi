@@ -5,15 +5,48 @@
       %ul
         - @semester.errors.full_messages.each do |msg|
           %li= msg
-
+  %h2 Semester
   .field
-    = f.label :name
-    = f.select :name, Semester::SEASON
+    = f.label "Semester"
+    = f.select :name, Semester::SEASONS, {}, {:class => 'input-small'}
+    = f.select :year, (Time.now.year+10).downto(2000).to_a, {:selected => Time.now.year}, {:class => 'input-small'}
   .field
     = f.label :start_date
-    = f.date_select :start_date
+    = f.date_select :start_date, {:use_short_month => 1}, {:class => 'input-small'}
   .field
     = f.label :end_date
-    = f.date_select :end_date
+    = f.date_select :end_date, {:use_short_month => 1}, {:class => 'input-small'}
+  .field
+    = f.label :status
+    = f.select :status, Semester::STATUSES, {}, {:class => 'input-small'}
+    %span.help-block "Public" means that semester is registerable by students. "Private" means the semester is only viewable by Mentor Teachers, Students Advisors, and Cal Faculty
+
+  %h2 Registration Deadline
+  = fields_for :registration_deadline do |d|
+    .field
+      = d.label :title
+      - if @registration_deadline.title
+        = d.text_field :title, :value => @registration_deadline.title, :class => 'input-xxlarge'
+      - else
+        = d.text_field :title, :value => 'Last day to submit your field placement preferences', :class => 'input-xxlarge'
+    .field
+      = d.label :summary
+      - if @registration_deadline.summary
+        = d.text_area :summary, :value => @registration_deadline.summary, :rows => 5, :class => 'input-xxlarge'
+      - else
+        = d.text_area :summary, :value => 'Be sure to submit your field placement preferences before the deadline', :rows => 5, :class => 'input-xxlarge'
+    .field
+      = d.label :due_date
+      = d.datetime_select :due_date, {:use_short_month => 1}, {:class => 'input-small'}
+
+  %h2 Cal Courses Offered
+  - @cal_courses.each do |c|
+    %label.checkbox
+      - if @semester.cal_courses.exists?(c.id)
+        = check_box_tag "semester[cal_courses][]", c.id, true
+      - else
+        = check_box_tag "semester[cal_courses][]", c.id
+      = c.name
+
   .actions
     = f.submit 'Save', :class => 'btn'

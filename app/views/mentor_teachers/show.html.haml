@@ -61,3 +61,28 @@
       %b Zip Code:
     %td
       = @mentor_teacher.user.zipcode
+%h2 Courses
+%table.table
+  %tr
+    %th Semester:
+    %th CalCourse:
+    %th School:
+    %th Course:
+    %th Students:
+    %th Time:
+  - @mentor_teacher.timeslots.reject{|entry| entry.cal_course == nil}.sort!{|a, b| a.semester <=> b.semester}.each do |timeslot|
+    %tr
+      %td= timeslot.semester.description if timeslot.semester
+      %td= timeslot.cal_course.name if timeslot.cal_course
+      %td= timeslot.getSchoolName
+      - if timeslot.course
+        %td= link_to timeslot.course.name, timeslot.course
+      - else
+        %td= "No Course"
+      %td
+        - timeslot.students.each do |s|
+          - if s.user != nil
+            %ul.unstyled
+              %li= link_to "#{s.user.first_name} #{s.user.last_name}", s
+      %td= timeslot.to_string
+

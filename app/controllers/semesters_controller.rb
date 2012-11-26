@@ -69,6 +69,9 @@ class SemestersController < ApplicationController
   # PUT /semesters/1.json
   def update
     @semester = Semester.find(params[:id])
+    @registration_deadline = @semester.registration_deadline
+    @cal_courses = CalCourse.all
+
     if params[:semester][:cal_courses]
       params[:semester][:cal_courses] = params[:semester][:cal_courses].map { |c| CalCourse.find(c) }
     end

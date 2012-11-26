@@ -8,7 +8,7 @@
   %h2 Semester
   .field
     = f.label "Semester"
-    = f.select :name, Semester::SEASON, {}, {:class => 'input-small'}
+    = f.select :name, Semester::SEASONS, {}, {:class => 'input-small'}
     = f.select :year, (Time.now.year+10).downto(2000).to_a, {:selected => Time.now.year}, {:class => 'input-small'}
   .field
     = f.label :start_date
@@ -17,6 +17,8 @@
     = f.label :end_date
     = f.date_select :end_date, {:use_short_month => 1}, {:class => 'input-small'}
   .field
+    = f.label :status
+    = f.select :name, Semester::STATUSES, {}, {:class => 'input-small'}
 
   %h2 Registration Deadline
   = fields_for @registration_deadline do |d|

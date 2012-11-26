@@ -7,8 +7,31 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 # --- Create Semesters
-Semester.create!(:name => "Fall", :year => "2012", :start_date => Date.new(2012, 8, 22), :end_date => Date.new(2012, 12, 14))
-Semester.create!(:name => "Spring 2012", :year => "2012", :start_date => Date.new(2012, 1, 16), :end_date => Date.new(2012, 5, 13))
+Semester.create!(
+  :name => Semester::FALL, 
+  :year => "2012", 
+  :start_date => Date.new(2012, 8, 22), 
+  :end_date => Date.new(2012, 12, 14),
+  :registration_deadline => Deadline.new(
+    :title => "Registraiton Deadline",
+    :summary => "You must have you preferences selected by this deadline",
+    :due_date => Date.new(2012, 1, 16),
+  ),
+  :status => Semester::PUBLIC,
+)
+
+Semester.create!(
+  :name => Semester::SPRING, 
+  :year => "2012", 
+  :start_date => Date.new(2012, 1, 16), 
+  :end_date => Date.new(2012, 5, 13),
+  :registration_deadline => Deadline.new(
+    :title => "Registraiton Deadline",
+    :summary => "You must have you preferences selected by this deadline",
+    :due_date => Date.new(2012, 1, 16),
+  ),
+  :status => Semester::PUBLIC,
+)
 
 # --- Create Advisor
 user = User.new({:first_name => 'Sangyoon',

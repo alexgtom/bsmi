@@ -1,4 +1,13 @@
 class Semester < ActiveRecord::Base
+  PUBLIC = "Public"
+  PRIVATE = "Private"
+  FALL = "Fall"
+  SPRING = "Spring"
+  SUMMER = "Summer"
+
+  SEASONS = [FALL, SPRING, SUMMER]
+  STATUSES = [PUBLIC, PRIVATE]
+
   attr_protected #none
   has_and_belongs_to_many :cal_facultys
   has_and_belongs_to_many :mentor_teachers
@@ -10,5 +19,6 @@ class Semester < ActiveRecord::Base
 
   validates_length_of :year, :is => 4
 
-  SEASON = ["Fall", "Spring", "Summer"]
+  validates_inclusion_of :name, :in => SEASONS
+  validates_inclusion_of :status, :in => STATUSES
 end

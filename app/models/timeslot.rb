@@ -19,7 +19,7 @@ class Timeslot < ActiveRecord::Base
   has_and_belongs_to_many :students, :uniq => true
   belongs_to :mentor_teacher
   belongs_to :course
-  has_one :cal_course
+  belongs_to :cal_course
   has_one :semester, :through => :cal_course
 
   #Validations
@@ -115,6 +115,12 @@ class Timeslot < ActiveRecord::Base
       'end' => to_js_time(self.end_time, self.day),
       'num_assistants' => self.max_num_assistants
     }.merge(overrides)
+  end
+
+  def getSchoolName
+    t = self.mentor_teacher
+    s = t.school if t 
+    s.name if s
   end
   
   def selected?(student_id)

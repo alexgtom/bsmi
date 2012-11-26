@@ -32,7 +32,7 @@ class MentorTeachersController < ApplicationController
   # GET /mentor_teachers/1
   # GET /mentor_teachers/1.json
   def show
-    @mentor_teacher = User.find(params[:id]).owner
+    @mentor_teacher = MentorTeacher.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -53,7 +53,7 @@ class MentorTeachersController < ApplicationController
 
   # GET /mentor_teachers/1/edit
   def edit
-    @mentor_teacher = User.find(params[:id]).owner
+    @mentor_teacher = MentorTeacher.find(params[:id])
   end
 
   # POST /mentor_teachers
@@ -75,7 +75,7 @@ class MentorTeachersController < ApplicationController
   # PUT /mentor_teachers/1
   # PUT /mentor_teachers/1.json
   def update
-    @mentor_teacher = User.find(params[:id]).owner
+    @mentor_teacher = MentorTeacher.find(params[:id])
 
     respond_to do |format|
       if @mentor_teacher.update_attributes(params[:mentor_teacher])
@@ -91,7 +91,7 @@ class MentorTeachersController < ApplicationController
   # DELETE /mentor_teachers/1
   # DELETE /mentor_teachers/1.json
   def destroy
-    @mentor_teacher = User.find(params[:id]).owner
+    @mentor_teacher = MentorTeacher.find(params[:id])
     @mentor_teacher.destroy
 
     respond_to do |format|

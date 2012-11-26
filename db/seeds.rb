@@ -7,8 +7,8 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 # --- Create Semesters
-Semester.create!(:name => "Fall", :year => "2012", :start_date => Date.new(2012, 8, 22), :end_date => Date.new(2012, 12, 14))
-Semester.create!(:name => "Spring 2012", :year => "2012", :start_date => Date.new(2012, 1, 16), :end_date => Date.new(2012, 5, 13))
+Semester.create!(:name => Semester::SEASON[0], :year => "2012", :start_date => Date.new(2012, 8, 22), :end_date => Date.new(2012, 12, 14))
+Semester.create!(:name => Semester::SEASON[2], :year => "2012", :start_date => Date.new(2012, 1, 16), :end_date => Date.new(2012, 5, 13))
 
 # --- Create Advisor
 user = User.new({:first_name => 'Sangyoon',
@@ -215,16 +215,14 @@ Timeslot.weekdays.each do |day|
       :mentor_teacher => MentorTeacher.find(i), 
       :day => day, 
       :course => Course.all[i % Course.all.size],
-    ) 
+      ) 
   end
 end
 
 Timeslot.all.each_with_index do |t, i|
   # assign timeslots to each cal course
-  num_cal_courses = CalCourse.all.size
-  cal_course = CalCourse.all[i % num_cal_courses]
+  CalCourse.all[i % CalCourse.all.size].timeslots << t
 end
-
 # --- Create preferences
 Timeslot.all.each.with_index do |ts, i|
   Preference.create!(:timeslot => ts, :student => Student.all[i % Student.all.size], :ranking => i)
@@ -232,8 +230,7 @@ end
 
 Student.all.each_with_index do |t, i|
   # assign students to each cal course
-  num_cal_courses = CalCourse.all.size
-  CalCourse.all[i % num_cal_courses].students<< t
+  CalCourse.all[i % CalCourse.all.size].students<< t
 end
 
 Timeslot.all.each_with_index do |t, i|

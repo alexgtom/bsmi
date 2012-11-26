@@ -5,11 +5,11 @@
     .control-group
       %label.control-label Minimum # of preferences required
       .controls
-        = text_field_tag 'student_min_preferences', @setting.student_min_preferences
+        = text_field_tag 'student_min_preferences', Setting['student_min_preferences']
     .control-group
       %label.control-label Maximum # of preferences required
       .controls
-        = text_field_tag 'student_max_preferences', @setting.student_max_preferences
+        = text_field_tag 'student_max_preferences', Setting['student_max_preferences']
     .control-group
       .controls
         = submit_tag "Save", :class => 'btn'

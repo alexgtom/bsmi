@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121124103013) do
+ActiveRecord::Schema.define(:version => 20121126031903) do
 
   create_table "advisors", :force => true do |t|
     t.datetime "created_at", :null => false
@@ -131,9 +131,11 @@ ActiveRecord::Schema.define(:version => 20121124103013) do
     t.string   "name"
     t.date     "start_date"
     t.date     "end_date"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
     t.integer  "year"
+    t.integer  "registration_deadline_id"
+    t.string   "status"
   end
 
   create_table "semesters_students", :id => false, :force => true do |t|
@@ -155,15 +157,11 @@ ActiveRecord::Schema.define(:version => 20121124103013) do
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
 
   create_table "settings", :force => true do |t|
-    t.string   "var",                      :null => false
-    t.text     "value"
-    t.integer  "thing_id"
-    t.string   "thing_type", :limit => 30
-    t.datetime "created_at",               :null => false
-    t.datetime "updated_at",               :null => false
+    t.string   "key"
+    t.string   "value"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
-
-  add_index "settings", ["thing_type", "thing_id", "var"], :name => "index_settings_on_thing_type_and_thing_id_and_var", :unique => true
 
   create_table "students", :force => true do |t|
     t.datetime "created_at", :null => false

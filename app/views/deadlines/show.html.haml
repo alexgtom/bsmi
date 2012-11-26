@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Title:
+  = @deadline.title
+%p
+  %b Summary:
+  = @deadline.summary
+%p
+  %b Due date:
+  = @deadline.due_date
+
+= link_to 'Edit', edit_deadline_path(@deadline)
+\|
+= link_to 'Back', deadlines_path

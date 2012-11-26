@@ -19,7 +19,7 @@ class Timeslot < ActiveRecord::Base
   has_and_belongs_to_many :students, :uniq => true
   belongs_to :mentor_teacher
   belongs_to :course
-  belongs_to :cal_course
+  has_one :cal_course
   has_one :semester, :through => :cal_course
 
   #Validations

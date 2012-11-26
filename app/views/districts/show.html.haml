@@ -11,7 +11,7 @@
 %h2 Schools
 
 %table.table
-  - @district.school.each do |s|
+  - @district.schools.each do |s|
     %tr
       %td
         = link_to s.name, s

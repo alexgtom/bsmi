@@ -5,5 +5,6 @@ FactoryGirl.define do
     name "MyString"
     school_type "Elementary School"
     course_grade "4"
+
   end
 end

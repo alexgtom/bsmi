@@ -19,6 +19,7 @@
   .field
     = f.label :status
     = f.select :name, Semester::STATUSES, {}, {:class => 'input-small'}
+    %span.help-block "Public" means that semester is registerable by students. "Private" means the semester is only viewable by Mentor Teachers, Students Advisors, and Cal Faculty
 
   %h2 Registration Deadline
   = fields_for @registration_deadline do |d|

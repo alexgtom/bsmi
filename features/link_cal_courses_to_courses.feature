@@ -22,10 +22,13 @@ Background: classes, mentor teachers and timeslots are created
   | name		| level			| district 	 |
   | El Cerrito High	| High School		| Berkeley North |
   | Ocean View		| Elementary School	| Berkeley North |
+  Given the following semester exists:
+  | name   | year  | start_date   |  end_date  |
+  | Fall   | 2012  | 2012-08-22   | 2012-12-16 |
   Given the following cal course exists:
-  | name        | school_type		| course_grade	|
-  | Educ 111	| Elementary School	| 5		|
-  | Math 101    | Middle School         | 6             |
+  | name        | school_type		| course_grade	|  semester_id |
+  | Educ 111	| Elementary School	| 5		| 1            |
+  | Math 101    | Middle School         | 6             | 1            |
   Given Given the following mentor teachers exist:
   | first_name|last_name| email	| password| type    | school    | street_address   | phone_number |
   | Bob | Ross | se@se.com  | 12345 | MentorTeacher | El Cerrito High | 1 Er way  | 000-111-222  |
@@ -37,6 +40,7 @@ Scenario: Add succesfully a Cal Course
   And  I fill in "Name" with "Educ 101"
   And  I select "Middle School" from "School type"
   And  I select "5" from "Course grade"
+  And  I select "Fall 2012" from "Semester"
   And  I check "timeslots[1]"
   And  I press "Save"
   Then I should be located at "/cal_courses/3"

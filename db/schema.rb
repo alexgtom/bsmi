@@ -62,6 +62,14 @@ ActiveRecord::Schema.define(:version => 20121126000918) do
     t.integer  "cal_course_id"
   end
 
+  create_table "deadlines", :force => true do |t|
+    t.string   "title"
+    t.text     "summary"
+    t.datetime "due_date"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "districts", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false

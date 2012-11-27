@@ -40,7 +40,7 @@ class CalCourse < ActiveRecord::Base
   end
 
   def update_timeslot_associations(times)
-    self.destroy_timeslot_associations()
+    #self.destroy_timeslot_associations()
     self.build_timeslot_associations(times)
   end
 

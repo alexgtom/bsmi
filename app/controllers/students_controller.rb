@@ -53,7 +53,7 @@ class StudentsController < ApplicationController
 
   def courses
     @student = User.find(params[:id]).owner
-    @cal_courses = User.find(params[:id]).owner.cal_courses
+    @cal_courses = @student.cal_courses
   end
 
   def select_courses

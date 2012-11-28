@@ -64,4 +64,5 @@ class Semester < ActiveRecord::Base
       nil
     end
   end
+
 end

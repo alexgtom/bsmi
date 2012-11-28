@@ -6,17 +6,17 @@ class SelectTimeslotsController < ApplicationController
     @semester = Semester.find(params[:semester_id])
     @cal_course = CalCourse.find(params[:cal_course_id])
     @student = User.find(params[:student_id]).owner
-    @timeslots = Timeslot.where(:day => Timeslot.day_index(step), :cal_course_id => params[:cal_course_id])
+    @timeslots = Timeslot.find_by_semester_id(@semester.id).where(:day => Timeslot.day_index(step), :cal_course_id => params[:cal_course_id])
 
     case step
     when :rank
-      @timeslots = Timeslot.find(@student.preferences.map{ |p| p.timeslot_id })
+      @timeslots = Timeslot.find_by_semester_id(@semester.id).find(@student.preferences.map{ |p| p.timeslot_id })
       @preferences = @student.preferences
     end
 
     case step
     when :summary
-      @timeslots = Timeslot.find(@student.preferences.map{ |p| p.timeslot_id })
+      @timeslots = Timeslot.find_by_semester_id(@semester.id).find(@student.preferences.map{ |p| p.timeslot_id })
       @preferences = @student.preferences.order("ranking ASC")
     end
 
@@ -78,7 +78,7 @@ class SelectTimeslotsController < ApplicationController
         
         if params[step]
           params[step].each do |timeslot_id|
-            p = Preference.find_by_student_id_and_timeslot_id(@student.id, timeslot_id)
+            p = Preference.where(["student_id = ? AND timeslot_id = ?", @student.id, timeslot_id]).first
             if not p
               p = Preference.create(:student_id => @student.id, :timeslot_id => timeslot_id)
             end

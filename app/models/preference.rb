@@ -10,4 +10,7 @@ class Preference < ActiveRecord::Base
   validates :student_id, :presence => true
   validates :timeslot_id, :presence => true
 
+  def self.find_by_semester_id(semester_id)
+      self.select { |i| i.timeslot.cal_course.semester_id == semester_id }
+  end
 end

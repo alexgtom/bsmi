@@ -9,8 +9,8 @@ Feature: Ranking possible student times
 			| 1  | Fall | 2012 | Public |
 
 		Given the following cal course exist
-			| id |
-			| 1  |
+			| id | semester_id |
+			| 1  | 1           |
 		Given the following courses exist
 			| id | name | grade |
 			| 1  | MATH | 1     |

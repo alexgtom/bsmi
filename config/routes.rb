@@ -111,21 +111,17 @@ Bsmi::Application.routes.draw do
 
   resources :students do
     resources :select_cal_courses
-    resources :select_timeslots, :path => 'courses/:cal_course_id/select_timeslots'
+    resources :select_timeslots, :path => 'semesters/:semester_id/courses/:cal_course_id/select_timeslots'
     member do 
       get 'splash'
-      get 'placements'
-      get 'edit_placements'
-      put 'edit_placements'
-      post 'edit_placements'
-      delete 'edit_placements'
-      get 'remove_placement'
-      post 'remove_placement'
-      get 'select_courses'
-      put 'select_courses'
-      get 'courses', :as => 'courses'
-      get 'timeslot_selection'
-      post 'timeslot_selection'
+      get 'placements', :path => 'semesters/:semester_id/placements'
+      get 'edit_placements', :path => 'semesters/:semester_id/edit_placements'
+      put 'edit_placements', :path => 'semesters/:semester_id/edit_placements'
+      post 'edit_placements', :path => 'semesters/:semester_id/edit_placements'
+      delete 'edit_placements', :path => 'semesters/:semester_id/edit_placements'
+      get 'select_courses', :path => 'semesters/:semester_id/select_course'
+      put 'select_courses', :path => 'semesters/:semester_id/select_course'
+      get 'courses', :as => 'courses', :path => 'semesters/:semester_id/courses'
     end
   end
   match '/timeslots/destroy', :controller => :timeslots, :action => :destroy

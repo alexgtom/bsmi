@@ -3,6 +3,7 @@ class SelectTimeslotsController < ApplicationController
   steps :monday, :tuesday, :wednesday, :thursday, :friday, :rank, :summary
   
   def show
+    @semester = Semester.find(params[:semester_id])
     @cal_course = CalCourse.find(params[:cal_course_id])
     @student = User.find(params[:student_id]).owner
     @timeslots = Timeslot.where(:day => Timeslot.day_index(step), :cal_course_id => params[:cal_course_id])
@@ -23,6 +24,7 @@ class SelectTimeslotsController < ApplicationController
   end
 
   def update
+    @semester = Semester.find(params[:semester_id])
     @cal_course = CalCourse.find(params[:cal_course_id])
     @student = User.find(params[:student_id]).owner
 

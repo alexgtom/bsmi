@@ -71,7 +71,7 @@ class StudentsController < ApplicationController
       @student.save!
 
       # redirect to timeslot page of first Cal Course
-      redirect_to student_select_timeslots_path(@student.id, @student.cal_courses.order("name ASC").first)
+      redirect_to student_select_timeslots_path(@student.id, @semester.id, @student.cal_courses.order("name ASC").first)
     elsif params[:student] and params[:student][:check]
       # zero cal courses checked
       @student.cal_courses.destroy_all

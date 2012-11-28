@@ -119,8 +119,8 @@ Bsmi::Application.routes.draw do
       put 'edit_placements', :path => 'semesters/:semester_id/edit_placements'
       post 'edit_placements', :path => 'semesters/:semester_id/edit_placements'
       delete 'edit_placements', :path => 'semesters/:semester_id/edit_placements'
-      get 'select_courses', :path => 'semesters/:semester_id/select_course'
-      put 'select_courses', :path => 'semesters/:semester_id/select_course'
+      get 'select_courses', :path => 'semesters/:semester_id/select_courses'
+      put 'select_courses', :path => 'semesters/:semester_id/select_courses'
       get 'courses', :as => 'courses', :path => 'semesters/:semester_id/courses'
     end
   end

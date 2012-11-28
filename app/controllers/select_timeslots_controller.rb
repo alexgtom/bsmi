@@ -78,7 +78,7 @@ class SelectTimeslotsController < ApplicationController
         
         if params[step]
           params[step].each do |timeslot_id|
-            p = Preference.where(["student_id = ? AND timeslot_id = ?", @student.id, timeslot_id]).first
+            p = Preference.find_by_student_id_and_timeslot_id(@student.id, timeslot_id)
             if not p
               p = Preference.create(:student_id => @student.id, :timeslot_id => timeslot_id)
             end

@@ -4,6 +4,10 @@ Feature: View placements
 	So that I can know what kind of schedule students get assigned.
 
 	Background:
+		Given the following semesters exist
+			| id | name | year | status |
+			| 1  | Fall | 2012 | Public |
+
 		Given the following courses exist:
 			| name 	    | grade 	  |
 			| Physics   | High School |
@@ -28,8 +32,8 @@ Feature: View placements
 			| 1  | 8:00		   		| 9:00 			| monday  | Physics   | Oski           |
 
 		Given the following cal course exist
-			| id |
-			| 1  |
+			| id | semester_id |
+			| 1  | 1           |
 
 		Given the following users exist
 			| id | first_name | last_name | email             | type     | cal_courses |
@@ -46,7 +50,7 @@ Feature: View placements
 			| user_id | timeslot_id |
 			| 1		  | 1			|
 
-		When I go to /students/1/placements
+		When I go to /students/1/semesters/1/placements
 		Then I should see "Monday"
 		Then I should see "8:00 AM to 9:00 AM"
 		Then I should see "Physics"

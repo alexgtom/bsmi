@@ -15,8 +15,7 @@ class StudentsController < ApplicationController
 
   def placements
     @semester = Semester.find(params[:semester_id])
-    #@placements = User.find(params[:id]).owner.placements
-    @placements = Student.find(params[:id]).placements
+    @placements = User.find(params[:id]).owner.placements
   end
 
   def edit_placements
@@ -55,16 +54,13 @@ class StudentsController < ApplicationController
   end
 
   def courses
-    #@student = User.find(params[:id]).owner
-    #@cal_courses = User.find(params[:id]).owner.cal_courses
-    @student = Student.find(params[:id])
-    @cal_courses = Student.find(params[:id]).cal_courses
+    @student = User.find(params[:id]).owner
+    @cal_courses = User.find(params[:id]).owner.cal_courses
   end
 
   def select_courses
     @semester = Semester.find(params[:semester_id])
-    #@student = User.find(params[:id]).owner
-    @student = Student.find(params[:id])
+    @student = User.find(params[:id]).owner
     @cal_courses = CalCourse.all
 
     if params[:student] and params[:student][:cal_courses]
@@ -86,8 +82,7 @@ class StudentsController < ApplicationController
 
   def show
     store_location
-    #@student = User.find(params[:id]).owner
-    @student = Student.find(params[:id])
+    @student = User.find(params[:id]).owner
   end
 end
 

@@ -1,0 +1,40 @@
+.sidebar.left.sidebar-nav
+  .well
+    %ul.nav.nav-list
+      // Mentor Teachers
+      %li.nav-header
+        Mentor Teachers Menu
+      - if current_user
+        - if current_user.owner_type == "MentorTeacher"
+          %li
+            %a{:href => mentor_teacher_schedule_path} Edit Schedule
+        %li
+          %a{:href => edit_user_path(current_user.id)} Edit Profile
+
+      // Student Advisors
+      %li.nav-header
+        Structure
+      %li
+        %a{:href => courses_path} Courses
+      %li
+        %a{:href => cal_courses_path} Cal Courses
+      %li
+        %a{:href => schools_path} Schools
+      %li
+        %a{:href => districts_path} Districts
+      %li.nav-header
+        Manage Users
+      %li
+        %a{:href => advisors_path} Advisors
+      %li
+        %a{:href => mentor_teachers_path} Mentor Teachers
+      %li
+        %a{:href => students_path} Students
+      
+      // Cal Faculty
+      %li.nav-header
+        Faculty
+      %li
+        %a{:href => "/cal_faculty/my_students"} My Students
+      %li
+        %a{:href => "/cal_faculty/my_mentor_teachers"} My Mentor Teachers

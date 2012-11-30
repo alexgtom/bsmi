@@ -20,7 +20,6 @@ class StudentsController < ApplicationController
   end
 
   def edit_placements
-    @semester = Semester.find(params[:semester_id])
     if params[:new_timeslot] != nil
        if User.find_by_id(params[:id]).owner.placements.find_by_id(params[:new_timeslot]) == nil
           User.find_by_id(params[:id]).owner.placements << Timeslot.find_by_id(params[:new_timeslot])
@@ -83,7 +82,6 @@ class StudentsController < ApplicationController
   end
 
   def splash
-    @semester = Semester.current_semester
   end
 
   def show

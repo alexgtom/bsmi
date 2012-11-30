@@ -3,20 +3,19 @@ class SelectTimeslotsController < ApplicationController
   steps :monday, :tuesday, :wednesday, :thursday, :friday, :rank, :summary
   
   def show
-    @semester = Semester.find(params[:semester_id])
     @cal_course = CalCourse.find(params[:cal_course_id])
     @student = User.find(params[:student_id]).owner
-    @timeslots = Timeslot.find_by_semester_id(@semester.id).where(:day => Timeslot.day_index(step), :cal_course_id => params[:cal_course_id])
+    @timeslots = Timeslot.find_by_semester_id(semester).where(:day => Timeslot.day_index(step), :cal_course_id => params[:cal_course_id])
 
     case step
     when :rank
-      @timeslots = Timeslot.find_by_semester_id(@semester.id).find(@student.preferences.map{ |p| p.timeslot_id })
+      @timeslots = Timeslot.find_by_semester_id(semester).find(@student.preferences.map{ |p| p.timeslot_id })
       @preferences = @student.preferences
     end
 
     case step
     when :summary
-      @timeslots = Timeslot.find_by_semester_id(@semester.id).find(@student.preferences.map{ |p| p.timeslot_id })
+      @timeslots = Timeslot.find_by_semester_id(semester).find(@student.preferences.map{ |p| p.timeslot_id })
       @preferences = @student.preferences.order("ranking ASC")
     end
 
@@ -24,7 +23,6 @@ class SelectTimeslotsController < ApplicationController
   end
 
   def update
-    @semester = Semester.find(params[:semester_id])
     @cal_course = CalCourse.find(params[:cal_course_id])
     @student = User.find(params[:student_id]).owner
 

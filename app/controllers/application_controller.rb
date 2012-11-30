@@ -2,12 +2,21 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   
   #filter_parameter_logging :password, :password_confirmation # there are underscores :-|
-  helper_method :current_user_session, :current_user
+  helper_method :current_user_session, :current_user, :semester
 
   private
     def current_user_session
       return @current_user_session if defined?(@current_user_session)
       @current_user_session = UserSession.find
+    end
+
+    def semester
+      return @semester if defined?(@semester)
+      if params[:semester_id]
+        @semester = Semester.find(params[:semester_id]) || Semester::current_semester
+      else
+        @semester = Semester::current_semester
+      end
     end
 
     def current_user

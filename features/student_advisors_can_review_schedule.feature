@@ -5,10 +5,11 @@ Feature: Student advisors can review students/mentors schedule and contact info
 	
 	
 	Background:
-	    Given I am signed in as a student advisor and have students and teachers in system:
+		Given I have students and teachers in system
+		Given I am logged in as myemail@nowhere.com
 		
 		Scenario: view list of students with their information
-		  Given I am on the advisors page
+		  When I go to /user
 		  And I follow "Students"
 		  Then I should be located at "/students"
 		  Then I should see "Andrew"
@@ -20,7 +21,7 @@ Feature: Student advisors can review students/mentors schedule and contact info
 
 		  
 		Scenario: view list of mentor teachers with their information
-		  Given I am on the advisors page
+		  When I go to /user
 		  And I follow "Teachers"
 		  Then I should be located at "/mentor_teachers"
 		  Then I should see "Alex"

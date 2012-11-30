@@ -1,4 +1,4 @@
-Given /I am signed in as a student advisor and have students and teachers in system/ do
+Given /I have students and teachers in system/ do
     user = User.new({:first_name => 'Sangyoon',
     :last_name => 'Park',
     :street_address => '346 soda UC Berkeley',

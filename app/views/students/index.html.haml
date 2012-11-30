@@ -25,7 +25,7 @@
       %td
         - student.owner.cal_courses.each do |c|
           %ul.unstyled
-            %li=link_to "#{c.name} Preferences", student_select_timeslots_path(student.id, c.id)
+            %li=link_to "#{c.name} Preferences", student_select_timeslots_path(student.id, semester.id, c.id)
       %td
         %ul.unstyled
           %li=link_to 'View/Edit Placement(s)', "students/#{student.owner.id}/edit_placements"

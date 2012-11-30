@@ -4,10 +4,13 @@ Feature: Students should be able to jump between steps when picking their time s
 	So that I can see which step I'm on and how many steps are left.
 
 	Background: classes in timeslots
+		Given the following semesters exist
+			| id | name | year | status |
+			| 1  | Fall | 2012 | Public |
 
 		Given the following cal course exist
-			| id |
-			| 1  |
+			| id | semester_id |
+			| 1  | 1           |
 
 		Given the following courses exist
 			| id | name | grade |
@@ -26,7 +29,7 @@ Feature: Students should be able to jump between steps when picking their time s
 
 		Given I am logged in as oski@berkeley.edu
 	Scenario: Jump between steps
-		When I go to /students/1/courses/1/select_timeslots
+		When I go to /students/1/semesters/1/courses/1/select_timeslots
 		Then I should see "Monday"
 		Then I should see "Tuesday"
 		Then I should see "Wednesday"

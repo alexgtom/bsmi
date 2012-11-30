@@ -6,27 +6,30 @@ describe SelectTimeslotsController do
     @timeslot = FactoryGirl.create(:timeslot)
     @preference = FactoryGirl.create(:preference)
     @cal_course = FactoryGirl.create(:cal_course)
+    @semester = FactoryGirl.create(:semester)
   end
 
   it 'should show the timeslots available for that day' do
     User.should_receive(:find).and_return(@student)
-    Timeslot.should_receive(:where).with(:day => 1, :cal_course_id => @cal_course.id.to_s)
-    get :show, {:id => :monday, :student_id => @student.id, :cal_course_id => @cal_course.id}
+    #Timeslot.should_receive(:find_by_semester_id).with(@semester.id).and_return(mock_model())
+    #Timeslot.should_receive(:where).and_return([@timeslot])
+    Timeslot.stub_chain(:find_by_semester_id, :where).and_return([@timeslot])
+    get :show, {:id => :monday, :semester_id => @semester.id, :student_id => @student.id, :cal_course_id => @cal_course.id}
   end
 
   it 'should show the ranking for the timeslots for the choices the student picked' do
     User.should_receive(:find).and_return(@student)
-    get :show, {:id => :rank, :student_id => @student.id, :cal_course_id => @cal_course.id}
+    get :show, {:id => :rank, :semester_id => @semester.id, :student_id => @student.id, :cal_course_id => @cal_course.id}
   end
 
   it 'should show a summary of all the student\'s timeslot rankings' do
     User.should_receive(:find).and_return(@student)
-    get :show, {:id => :summary, :student_id => @student.id, :cal_course_id => @cal_course.id}
+    get :show, {:id => :summary, :semester_id => @semester.id, :student_id => @student.id, :cal_course_id => @cal_course.id}
   end
 
   it 'should process the rankings entered by the student' do
     User.should_receive(:find).and_return(@student)
-    put :update, {:id => :rank, :student_id => @student.id, :cal_course_id => @cal_course.id, :student => {:preferences_attributes => {1 => {:id => @preference.id }}}}
+    put :update, {:id => :rank, :semester_id => @semester.id, :student_id => @student.id, :cal_course_id => @cal_course.id, :student => {:preferences_attributes => {1 => {:id => @preference.id }}}}
   end
   
   describe 'should process the timeslots entered by the student' do
@@ -34,13 +37,13 @@ describe SelectTimeslotsController do
       it 'when "Save" is pressed' do
         User.should_receive(:find).and_return(@student)
         Preference.should_receive(:where).and_return([@preference]) 
-        put :update, {:id => :monday, :student_id => @student.id, :cal_course_id => @cal_course.id, :monday => [@timeslot.id], :commit => 'Save'}
+        put :update, {:id => :monday, :semester_id => @semester.id, :student_id => @student.id, :cal_course_id => @cal_course.id, :monday => [@timeslot.id], :commit => 'Save'}
       end
 
       it 'when "Save & Continue" is pressed' do
         User.should_receive(:find).and_return(@student)
         Preference.should_receive(:where).and_return([@preference]) 
-        put :update, {:id => :monday, :student_id => @student.id, :cal_course_id => @cal_course.id, :monday => [@timeslot.id], :commit => 'Save & Continue'}
+        put :update, {:id => :monday, :semester_id => @semester.id, :student_id => @student.id, :cal_course_id => @cal_course.id, :monday => [@timeslot.id], :commit => 'Save & Continue'}
       end
   end
 end

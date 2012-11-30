@@ -14,28 +14,30 @@ class StudentsController < ApplicationController
   end
 
   def placements
+    @semester = Semester.find(params[:semester_id])
     #@placements = User.find(params[:id]).owner.placements
     @placements = Student.find(params[:id]).placements
   end
 
   def edit_placements
+    @semester = Semester.find(params[:semester_id])
     if params[:new_timeslot] != nil
-       if Student.find_by_id(params[:id]).placements.find_by_id(params[:new_timeslot]) == nil
-          Student.find_by_id(params[:id]).placements << Timeslot.find_by_id(params[:new_timeslot])
+       if User.find_by_id(params[:id]).owner.placements.find_by_id(params[:new_timeslot]) == nil
+          User.find_by_id(params[:id]).owner.placements << Timeslot.find_by_id(params[:new_timeslot])
        else
        	  redirect_to edit_placements_student_path(params[:id]), :notice => "The student already has the placement you were trying to add."
        end
     end
     if params[:student_id] != nil && params[:timeslot_id] != nil
       @name = User.find_by_id(params[:student_id]).first_name + User.find_by_id(params[:student_id]).last_name
-      @placements = Student.find_by_id(params[:student_id]).placements
+      @placements = User.find_by_id(params[:student_id]).owner.placements
       @placements.delete(Timeslot.find_by_id(params[:timeslot_id]))
       redirect_to edit_placements_student_path(params[:student_id]), :notice => "The selected placement has been removed for #{@name}"
     end
     if User.find_by_id(params[:id]) == nil
        redirect_to students_path, :notice => "No such a student exists, or student has been removed"
     else
-      @student = Student.find_by_id(params[:id])
+      @student = User.find_by_id(params[:id]).owner
       @placements = @student.placements
       @first_name = @student.user.first_name
       @last_name = @student.user.last_name
@@ -44,7 +46,7 @@ class StudentsController < ApplicationController
   
 
   def update
-    @student = Student.find(params[:id])
+    @student = User.find(params[:id]).owner
     @new_placement = Timeslot.find_by_id(params[:student][:placement])
     if @student.update_attributes(params[:placements])
       redirect_to @student, notice: 'Placements was successfully updated.' 
@@ -52,6 +54,7 @@ class StudentsController < ApplicationController
       render action: "edit" 
     end
   end
+
   def courses
     #@student = User.find(params[:id]).owner
     #@cal_courses = User.find(params[:id]).owner.cal_courses
@@ -60,15 +63,27 @@ class StudentsController < ApplicationController
   end
 
   def select_courses
+    @semester = Semester.find(params[:semester_id])
     #@student = User.find(params[:id]).owner
     @student = Student.find(params[:id])
     @cal_courses = CalCourse.all
 
     if params[:student] and params[:student][:cal_courses]
       cal_courses = params[:student][:cal_courses].map { |id| CalCourse.find(id) }
-      @student.update_attribute(:cal_courses, cal_courses)
-      redirect_to action: "courses"
+
+      @student.cal_courses = cal_courses
+      @student.save!
+
+      # redirect to timeslot page of first Cal Course
+      redirect_to student_select_timeslots_path(@student.id, @semester.id, @student.cal_courses.order("name ASC").first)
+    elsif params[:student] and params[:student][:check]
+      # zero cal courses checked
+      @student.cal_courses.destroy_all
     end
+  end
+
+  def splash
+    @semester = Semester.current_semester
   end
 
   def show

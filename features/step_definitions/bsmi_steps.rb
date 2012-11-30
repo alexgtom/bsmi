@@ -159,6 +159,22 @@ Given /the following schools exist/ do |tb|
   end
 end
 
+Given /the following semesters exist/ do |tb|
+  tb.hashes.each do |t|
+    if not t['start_date']
+      t['start_date'] = Date.today - 10
+    end
+    if not t['end_date']
+      t['end_date'] = Date.today + 10
+    end
+    if not t['registration_deadline_id']
+      d = Deadline.create!(:due_date => DateTime.now + 10)
+      t['registration_deadline_id'] = d.id
+    end
+  	Semester.create!(t)
+  end
+end
+
 Given /the following assignments exist/ do |tb|
   tb.hashes.each do |t|
     student = User.find(t['user_id']).owner

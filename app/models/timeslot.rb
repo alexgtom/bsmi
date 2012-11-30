@@ -127,4 +127,7 @@ class Timeslot < ActiveRecord::Base
     Preference.where(["student_id = ?", student_id]).where(:timeslot_id => id).size > 0
   end
   
+  def self.find_by_semester_id(semester_id)
+      self.joins(:cal_course).where("cal_courses.semester_id = ?", semester_id)
+  end
 end

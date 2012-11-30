@@ -6,5 +6,6 @@ FactoryGirl.define do
     school_type "Elementary School"
     course_grade "4"
 
+    association :semester, factory: :semester
   end
 end

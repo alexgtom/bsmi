@@ -4,6 +4,9 @@ Feature: Students should be able to view the options
 	So that I can select my field placement
 
 	Background:
+		Given the following semesters exist
+			| id | name | year | status |
+			| 1  | Fall | 2012 | Public |
 		Given the following courses exist:
 			| name 	    | grade 	  |
 			| Physics   | High School |
@@ -31,8 +34,8 @@ Feature: Students should be able to view the options
 			| 4  | 12:00		   	| 13:00 		| tuesday | Algebra 2 | Oski           |
 
 		Given the following cal course exist
-			| id |
-			| 1  |
+			| id | semester_id |
+			| 1  | 1           |
 
 		Given the following users exist
 			| id | first_name | last_name | email             | type     | cal_courses |
@@ -46,7 +49,7 @@ Feature: Students should be able to view the options
 			| user_id | timeslot_id |
 			| 1		  | 1			|
 
-		When I go to /students/1/placements
+		When I go to /students/1/semesters/1/placements
 		Then I should see "Monday"
 		Then I should see "8:00 AM to 9:00 AM"
 		Then I should see "Physics"
@@ -60,7 +63,7 @@ Feature: Students should be able to view the options
 			| 1		  | 1			|
 			| 1		  | 3       	|
 
-		When I go to /students/1/placements
+		When I go to /students/1/semesters/1/placements
 
 		# first timeslot
 		Then I should see "Monday"

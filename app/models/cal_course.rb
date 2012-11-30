@@ -51,6 +51,5 @@ class CalCourse < ActiveRecord::Base
   def update_associations(times, cal_faculties)
     self.destroy_associations()
     self.build_associations(times, cal_faculties)
-  end
 
 end

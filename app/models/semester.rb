@@ -55,4 +55,14 @@ class Semester < ActiveRecord::Base
       end
     end
   end
+
+  def self.current_semester
+    sem = Semester.where("start_date < ? AND end_date > ?", Date.today, Date.today)
+    if sem
+      sem.first
+    else
+      nil
+    end
+  end
+
 end

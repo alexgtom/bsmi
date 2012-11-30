@@ -13,7 +13,7 @@
             %span.icon-bar
             %span.icon-bar
             %span.icon-bar
-          %a.brand{:href => "#"} CalTeach
+          %a.brand{:href => "#"} CalTeach STePs
           .nav-collapse.collapse
             %ul.nav.pull-right
               - if current_user
@@ -25,64 +25,16 @@
                 %li
                   %a{:href => login_path} Login
     .container-fluid      
-      .sidebar.left.sidebar-nav
-        .well
-          %ul.nav.nav-list
-            // Mentor Teachers
-            %li.nav-header
-              Mentor Teachers Menu
-            - if current_user
-              - if current_user.owner_type == "MentorTeacher"
-                %li
-                  %a{:href => mentor_teacher_schedule_path} Edit Schedule
-              %li
-                %a{:href => edit_user_path(current_user.id)} Edit Profile
+      - if current_user
+        - if current_user.owner_type == "Student"
+          = render :partial => "student_view", :locals => { :current_user => current_user, :semester => @semester }
+        - elsif current_user.owner_type == "MentorTeacher"
+          = render :partial => "mentor_teacher_view", :locals => { :current_user => current_user, :semester => @semester }
+        - elsif current_user.owner_type == "CalFaculty"
+          = render :partial => "cal_faculty_view", :locals => { :current_user => current_user, :semester => @semester }
 
-            // Student Advisors
-            %li
-              %a{:href => settings_path} Settings
-            %li.nav-header
-              Structure
-            %li
-              %a{:href => courses_path} Courses
-            %li
-              %a{:href => cal_courses_path} Cal Courses
-            %li
-              %a{:href => schools_path} Schools
-            %li
-              %a{:href => districts_path} Districts
-            %li
-              %a{:href => semesters_path} Semesters
-            %li.nav-header
-              Manage Users
-            %li
-              %a{:href => advisors_path} Advisors
-            %li
-              %a{:href => mentor_teachers_path} Mentor Teachers
-            %li
-              %a{:href => students_path} Students
-            
-            // Students
-            %li.nav-header
-              Student Menu
-            %li
-              %a{:href => "/students/1/courses"} Enrollment
-            %li
-              %a{:href => "/students/1/select_courses"} Select Courses
-            %li
-              %a{:href => "/students/1/courses/1/select_timeslots"} Select Timeslots
-            %li
-              %a{:href => "/students/1/courses/1/select_timeslots/summary"} Timeslot Preference Summary
-            %li
-              %a{:href => "/students/1/placements"} View Field Placements
-
-            // Cal Faculty
-            %li.nav-header
-              Faculty
-            %li
-              %a{:href => "/cal_faculty/my_students"} My Students
-            %li
-              %a{:href => "/cal_faculty/my_mentor_teachers"} My Mentor Teachers
+        - elsif current_user.owner_type == "StudentAdvisor"
+          = render :partial => "student_advisor_view", :locals => { :current_user => current_user, :semester => @semester }
 
       .content.fixed-fixed
         - [:notice, :error, :error_list, :alert].each do |level| 

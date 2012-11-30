@@ -3,19 +3,20 @@ class SelectTimeslotsController < ApplicationController
   steps :monday, :tuesday, :wednesday, :thursday, :friday, :rank, :summary
   
   def show
+    @semester = Semester.find(params[:semester_id])
     @cal_course = CalCourse.find(params[:cal_course_id])
     @student = User.find(params[:student_id]).owner
-    @timeslots = Timeslot.where(:day => Timeslot.day_index(step), :cal_course_id => params[:cal_course_id])
+    @timeslots = Timeslot.find_by_semester_id(@semester.id).where(:day => Timeslot.day_index(step), :cal_course_id => params[:cal_course_id])
 
     case step
     when :rank
-      @timeslots = Timeslot.find(@student.preferences.map{ |p| p.timeslot_id })
+      @timeslots = Timeslot.find_by_semester_id(@semester.id).find(@student.preferences.map{ |p| p.timeslot_id })
       @preferences = @student.preferences
     end
 
     case step
     when :summary
-      @timeslots = Timeslot.find(@student.preferences.map{ |p| p.timeslot_id })
+      @timeslots = Timeslot.find_by_semester_id(@semester.id).find(@student.preferences.map{ |p| p.timeslot_id })
       @preferences = @student.preferences.order("ranking ASC")
     end
 
@@ -23,6 +24,7 @@ class SelectTimeslotsController < ApplicationController
   end
 
   def update
+    @semester = Semester.find(params[:semester_id])
     @cal_course = CalCourse.find(params[:cal_course_id])
     @student = User.find(params[:student_id]).owner
 
@@ -87,21 +89,7 @@ class SelectTimeslotsController < ApplicationController
         intersection = current & from_form
         deleted = current - intersection
 
-        logger.debug "current: #{current}"
-        logger.debug "from_form: #{from_form}"
-        logger.debug "intersection: #{intersection}"
-        logger.debug "deleted: #{deleted}"
-
         deleted.each do |preference_id|
-          #p = Preference.find(preference_id)
-          #if p.ranking and p.ranking <= @student.preferences.size
-          #  start_rank = p.ranking + 1
-          #  [start_rank..@student.preferences.size].each do |new_rank|
-          #    n = Preference.find(:student_id => @student.id, :ranking => new_rank)
-          #    n.ranking = new_rank - 1
-          #    n.save!
-          #  end
-          #end
           Preference.delete(preference_id)
         end
 

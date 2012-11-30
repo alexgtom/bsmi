@@ -4,6 +4,9 @@ Feature: advisor can change pairings
 	So that I can finalize students' placements.
 
 	Background:
+		Given the following semesters exist
+			| id | name | year | status |
+			| 1  | Fall | 2012 | Public |
 		Given the following courses exist:
 			| name 	    | grade 	  |
 			| Physics   | High School |
@@ -28,8 +31,8 @@ Feature: advisor can change pairings
 			| 1  | 8:00		   		| 9:00 			| monday  | Physics   | Oski           |
 
 		Given the following cal course exist
-			| id |
-			| 1  |
+			| id | semester_id |
+			| 1  | 1           |
 
 		Given the following users exist
 			| id | first_name    | last_name    | email                | type     | cal_courses |
@@ -47,7 +50,7 @@ Feature: advisor can change pairings
 			| user_id | timeslot_id  |
 			| 3		     | 1			|
 
-		When I go to /students/3/edit_placements
+		When I go to /students/3/semesters/1/edit_placements
 		Then I should see "Monday"
 		Then I should see "8:00 AM to 9:00 AM"
 		Then I should see "Physics"
@@ -61,7 +64,7 @@ Feature: advisor can change pairings
 			| user_id | timeslot_id |
 			| 3		  | 1			|
 
-		When I go to /students/3/edit_placements
+		When I go to /students/3/semesters/1/edit_placements
 		Then I should see "Monday"
 		Then I should see "8:00 AM to 9:00 AM"
 		Then I should see "Physics"
@@ -80,7 +83,7 @@ Feature: advisor can change pairings
 		
     Scenario: Student Advisor should be able to add new field placement
     
-		When I go to /students/3/edit_placements
+		When I go to /students/3/semesters/1/edit_placements
 		Then I should not see "Monday"
 		Then I should not see "8:00 AM to 9:00 AM"
 		Then I should not see "Physics"

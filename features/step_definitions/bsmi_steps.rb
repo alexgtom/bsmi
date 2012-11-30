@@ -342,6 +342,21 @@ Given /I am invited and on the signup page/ do
   visit "/signup?owner_type=Student&invite_code=aa10df161da4c011d507dea384aa2d03cbc2e5ba"
 end
 
+Given /we are currently in a semester/ do
+  Semester.create!(
+    :name => Semester::FALL, 
+    :year => "2012", 
+    :start_date => Date.today - 10, 
+    :end_date => Date.today + 10,
+    :registration_deadline => Deadline.new(
+      :title => "Registraiton Deadline",
+      :summary => "You must have you preferences selected by this deadline",
+      :due_date => Date.new(2012, 1, 16),
+    ),
+    :status => Semester::PUBLIC,
+  )
+end
+
 
 def login(email, password)
   visit '/login'

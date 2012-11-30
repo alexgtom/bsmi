@@ -5,6 +5,7 @@ Feature: A user can signup and login to the web application
   So that I can use the webapp
 
 Background: invites in database
+  Given we are currently in a semester
 
   Given the following invites exist:
   | owner_type | email                  | invite_code                              | first_name | last_name |

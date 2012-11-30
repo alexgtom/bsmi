@@ -1,6 +1,6 @@
 %ul.nav.nav-tabs
   - Semester.where(:status => Semester::PUBLIC).each do |s|
-    - if s == Semester.current_semester
+    - if s == semester
       %li.active
         %a= "#{s.name} #{s.year}"
     - else

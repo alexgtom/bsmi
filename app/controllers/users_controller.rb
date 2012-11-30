@@ -46,13 +46,16 @@ class UsersController < ApplicationController
         @invite.redeemed!
         flash[:notice] = "Your account has been created."
         redirect_to user_path @user.id
+        return
       else
         flash[:notice] = "There was a problem creating you."
         render :action => :new
+        return
       end
     else
       flash[:notice] = "there is something wrong with this invitation."
       render :action => :new
+      return
     end
     
   end

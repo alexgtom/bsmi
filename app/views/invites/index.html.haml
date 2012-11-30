@@ -6,8 +6,8 @@
     %th User Type
     %th First Name
     %th Last Name
-    %th Email 
-    %th URL
+    %th Email
+    %th Status
 
   - @invites.each do |invite|
     %tr
@@ -17,8 +17,12 @@
       %td= invite.email
       %td
         - if invite.invited?
-          Invited
-          = link_to 'url', "/signup?owner_type=#{invite.owner_type}&invite_code=#{invite.invite_code}"
+          - if invite.redeemed_at == nil
+            Invited
+            = link_to 'url', "/signup?owner_type=#{invite.owner_type}&invite_code=#{invite.invite_code}"
+          - else
+            Joined at 
+            = invite.redeemed_at
         - else
           = link_to '[Invite]', send_invitation_path(invite), :data => {:confirm => 'Send invitation? '}, :method => :post
 %br

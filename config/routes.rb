@@ -109,9 +109,12 @@ Bsmi::Application.routes.draw do
 
   resources :advisors
 
+  match 'error' => "select_timeslots#error", :as => :error
+
   resources :students do
     resources :select_cal_courses
-    resources :select_timeslots, :path => 'semesters/:semester_id/courses/:cal_course_id/select_timeslots'
+    resources :select_timeslots, :path => 'semesters/:semester_id/courses/:cal_course_id/select_timeslots' do
+    end
     member do 
       get 'splash'
       get 'placements', :path => 'semesters/:semester_id/placements'

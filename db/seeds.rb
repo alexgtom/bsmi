@@ -7,7 +7,7 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 # --- Create Semesters
-Semester.create!(
+fall_semester = Semester.create!(
   :name => Semester::FALL, 
   :year => "2012", 
   :start_date => Date.new(2012, 8, 22), 
@@ -20,7 +20,7 @@ Semester.create!(
   :status => Semester::PUBLIC,
 )
 
-Semester.create!(
+spring_semester = Semester.create!(
   :name => Semester::SPRING, 
   :year => "2012", 
   :start_date => Date.new(2012, 1, 16), 
@@ -238,6 +238,7 @@ Timeslot.weekdays.each do |day|
       :mentor_teacher => MentorTeacher.find(i), 
       :day => day, 
       :course => Course.all[i % Course.all.size],
+      :semester => fall_semester,
       ) 
   end
 end

@@ -9,17 +9,32 @@ class SelectTimeslotsController < ApplicationController
 
     case step
     when :rank
-      @timeslots = Timeslot.find_by_semester_id(semester).find(@student.preferences.map{ |p| p.timeslot_id })
+      begin
+        @timeslots = Timeslot.find_by_semester_id(semester).find(@student.preferences.map{ |p| p.timeslot_id })
+      rescue ActiveRecord::RecordNotFound
+        flash[:error] = "Error: Cannot rank until timeslots have been selected"
+        redirect_to :action => "error" 
+        return
+      end
       @preferences = @student.preferences
     end
 
     case step
     when :summary
-      @timeslots = Timeslot.find_by_semester_id(semester).find(@student.preferences.map{ |p| p.timeslot_id })
+      begin
+        @timeslots = Timeslot.find_by_semester_id(semester).find(@student.preferences.map{ |p| p.timeslot_id })
+      rescue ActiveRecord::RecordNotFound
+        flash[:error] = "Error: Cannot view summary until timeslots have been selected"
+        redirect_to :action => "error" 
+        return
+      end
       @preferences = @student.preferences.order("ranking ASC")
     end
 
     render_wizard 
+  end
+
+  def error
   end
 
   def update

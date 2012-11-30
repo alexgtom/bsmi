@@ -13,7 +13,12 @@ ActionMailer::Base.delivery_method = :smtp
 ActionMailer::Base.perform_deliveries = true
 ActionMailer::Base.raise_delivery_errors = true
 ActionMailer::Base.smtp_settings = {
- :address => "localhost",
- :enable_starttls_auto => false
+  :address              => "calmail.berkeley.edu",  
+  :port                 => 587,                 
+  :domain               => 'berkeley.edu',  
+  :user_name            => 'secretsvd@berkeley.edu',      
+  :password             => '12345Password',      
+  :authentication       => 'plain',             
+  :enable_starttls_auto => true
 }
 

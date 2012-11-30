@@ -1,1 +1,6 @@
-<%= redeem_invitation_url(@invite.invite_code) %>
+Hello, <%= @invite.first_name %> <%= @invite.last_name %>. <br>
+You are invited to bsmi webpage. <br>
+Click link below to sign up! <br>
+<a href="<%= url_for(:controller=>'users', :action=>'new', :invite_code =>"#{@invite.invite_code}", :owner_type => "#{@invite.owner_type}", :only_path=>false) %>"><%= url_for(:controller=>'users', :action=>'new', :invite_code =>"#{@invite.invite_code}", :owner_type => "#{@invite.owner_type}", :only_path=>false) %></a><br>
+<br>
+Thank you!<br>

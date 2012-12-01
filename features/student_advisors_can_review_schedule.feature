@@ -5,6 +5,7 @@ Feature: Student advisors can review students/mentors schedule and contact info
 	
 	
 	Background:
+		Given we are currently in a semester
 		Given I have students and teachers in system
 		Given I am logged in as myemail@nowhere.com
 		

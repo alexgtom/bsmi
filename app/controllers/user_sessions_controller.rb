@@ -11,7 +11,7 @@ class UserSessionsController < ApplicationController
     if @user_session.save
       flash[:notice] = "Login successful!"
 
-      if @user_session.user.owner_type == "Student"
+      if @user_session.user and @user_session.user.owner_type == "Student"
         redirect_to splash_student_path(@user_session.user.owner_id)
       else
         redirect_back_or_default account_url(@current_user)

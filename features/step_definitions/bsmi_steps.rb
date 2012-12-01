@@ -175,6 +175,38 @@ Given /the following semesters exist/ do |tb|
   end
 end
 
+Given /a semester with a passed deadline with id (.*)/ do |id|
+  Semester.create!(
+    :id => id,
+    :start_date => Date.today - 20, 
+    :end_date => Date.today + 10,
+    :year => "2000",
+    :name => "Fall",
+    :status => "Public",
+    :registration_deadline => Deadline.create!(
+      :due_date => DateTime.now - 10,
+      :title => "Registraiton Deadline",
+      :summary => "You must have you preferences selected by this deadline",
+  ),
+  )
+end
+
+Given /a semester with a not passed deadline with id (.*)/ do  |id|
+  Semester.create!(
+    :id => id,
+    :start_date => Date.today - 20, 
+    :end_date => Date.today + 10,
+    :year => "2000",
+    :name => "Fall",
+    :status => "Public",
+    :registration_deadline => Deadline.create!(
+      :due_date => DateTime.now + 10,
+      :title => "Registraiton Deadline",
+      :summary => "You must have you preferences selected by this deadline",
+  ),
+  )
+end
+
 Given /the following assignments exist/ do |tb|
   tb.hashes.each do |t|
     student = User.find(t['user_id']).owner
@@ -393,3 +425,10 @@ Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
   page.body.should match /#{e1}.*?#{e2}/m
 end
 
+Then /^I should see "([^"]*)" button/ do |name|
+    response.should have_selector("form input[value=#{name}]")
+end
+
+Then /^I should not see "([^"]*)" button/ do |name|
+    response.should_not have_selector("form input[value=#{name}]")
+end

@@ -4,6 +4,9 @@ Feature: A student advisor can invite/add/edit/delete a user
   I want to invite/add/edit/delete users
   So that I can manage the webapp
 
+Background:
+  Given we are currently in a semester
+
 Scenario: I can't access invite page without login as an advisor
   Given I am signed up as a student advisor
   And I go to /invites

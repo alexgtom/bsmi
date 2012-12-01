@@ -2,10 +2,10 @@
   - Semester.where(:status => Semester::PUBLIC).each do |s|
     - if s == semester
       %li.active
-        %a= "#{s.name} #{s.year}"
+        =link_to "#{s.name} #{s.year}", s
     - else
       %li
-        %a= "#{s.name} #{s.year}"
+        =link_to "#{s.name} #{s.year}", s
 .sidebar.left.sidebar-nav
   %ul.nav.nav-list
     %li.nav-header STEP 1: Enrollment

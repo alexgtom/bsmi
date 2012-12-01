@@ -65,4 +65,8 @@ class Semester < ActiveRecord::Base
     end
   end
 
+  def self.past_deadline?
+    DateTime.now > current_semester.registration_deadline.due_date
+  end
+
 end

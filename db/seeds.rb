@@ -224,6 +224,7 @@ cal_courses.each.with_index do |c, i|
   sem.cal_courses << cal_course
 end
 
+
 # --- Create timeslots
 times = [["10:00 AM", "10:30 AM"], ["12:00 PM", "1:30 PM"], ["11:00 AM", "12:30 PM"],
          ["4:00 PM", "5:00 PM"]]
@@ -238,7 +239,6 @@ Timeslot.weekdays.each do |day|
       :mentor_teacher => MentorTeacher.find(i), 
       :day => day, 
       :course => Course.all[i % Course.all.size],
-      :semester => fall_semester,
       ) 
   end
 end
@@ -247,6 +247,7 @@ Timeslot.all.each_with_index do |t, i|
   # assign timeslots to each cal course
   CalCourse.all[i % CalCourse.all.size].timeslots << t
 end
+
 # --- Create preferences
 Timeslot.all.each.with_index do |ts, i|
   Preference.create!(:timeslot => ts, :student => Student.all[i % Student.all.size], :ranking => i)

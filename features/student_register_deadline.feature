@@ -30,11 +30,8 @@ Feature: Students should be able to change their schedules without approval from
 
 		When I go to /students/1/semesters/1/courses/1/select_timeslots/monday
 		Then I should see "The deadline for registration has already passed."
-		Then I should not see "Save" button
-		Then I should not see "Save & Continue" button
 		When I go to /students/1/semesters/1/courses/1/select_timeslots/rank
 		Then I should see "The deadline for registration has already passed."
-		Then I should not see "Submit Rankings" button
 
 	Scenario: Students cannot change timeslot preferences after deadline
 		Given a semester with a not passed deadline with id 1
@@ -61,8 +58,5 @@ Feature: Students should be able to change their schedules without approval from
 
 		When I go to /students/1/semesters/1/courses/1/select_timeslots/monday
 		Then I should not see "The deadline for registration has already passed."
-		Then I should see "Save" button
-		Then I should see "Save & Continue" button
-
 		When I go to /students/1/semesters/1/courses/1/select_timeslots/rank
 		Then I should not see "The deadline for registration has already passed."

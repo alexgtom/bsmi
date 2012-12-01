@@ -75,6 +75,10 @@ class StudentsController < ApplicationController
   end
 
   def splash
+    @semester = Semester.find(params[:semester_id])
+  end
+
+  def home
   end
 
   def show

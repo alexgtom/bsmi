@@ -16,4 +16,4 @@
     = f.label :district
     = f.collection_select :district, District.all, :id, :name, {:include_blank => true, :selected => params[:id] ? School.find(params[:id]).district.id : nil}
   .actions
-    = f.submit 'Save'
+    = f.submit 'Save', :class => "btn"

@@ -2,5 +2,5 @@
 
 <%= form_for @user, :url => "/user/adv_create" do |f| %>
   <%= render :partial => "form", :object => f, :locals => { :user => @user } %>
-  <%= f.submit "Register" %>
+  <%= f.submit "Register", :class => "btn" %>
 <% end %>

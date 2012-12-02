@@ -3,7 +3,7 @@
 </div>
 <%= form_for @user, :url => account_path do |f| %>
   <%= render :partial => "form", :object => f, :locals => { :user => @user } %>
-  <%= f.submit "Update" %>
+  <%= f.submit "Update", :class => "btn" %>
 <% end %>
 
 <br /><%= link_to "My Profile", account_path %>

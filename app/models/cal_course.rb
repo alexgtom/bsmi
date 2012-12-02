@@ -1,5 +1,5 @@
 class CalCourse < ActiveRecord::Base
-  attr_accessible :course_grade, :name, :school_type, :timeslots
+  attr_accessible :name, :school_type, :timeslots
   #Associations
   has_many :timeslots
   has_many :courses, :through => :timeslots
@@ -42,7 +42,7 @@ class CalCourse < ActiveRecord::Base
   end
 
   def update_timeslot_associations(times)
-    #self.destroy_timeslot_associations()
+    self.destroy_timeslot_associations()
     self.build_timeslot_associations(times)
   end
 

@@ -44,7 +44,8 @@ Bsmi::Application.routes.draw do
 
   resources :mentor_teachers
   namespace :mentor_teacher do
-    resource :schedule      
+    resources :my_students  
+    resource :schedule    
   end
 
   namespace :cal_faculty do

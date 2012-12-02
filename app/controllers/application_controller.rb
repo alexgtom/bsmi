@@ -50,6 +50,15 @@ class ApplicationController < ActionController::Base
         return false
       end
     end
+
+    def require_mentor_teacher
+      unless current_user && current_user.owner_type == "MentorTeacher"
+        store_location
+        flash[:notice] = "Only Mentor Teacher can access this page."
+        redirect_to new_user_session_url
+        return false
+      end
+    end
     
     def require_user
       unless current_user

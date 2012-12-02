@@ -8,8 +8,10 @@
         - if current_user.owner_type == "MentorTeacher"
           %li
             %a{:href => mentor_teacher_schedule_path} Edit Schedule
-        %li
-          %a{:href => edit_user_path(current_user.id)} Edit Profile
+          %li
+            %a{:href => edit_user_path(current_user.id)} Edit Profile
+          %li
+            %a{:href => mentor_teacher_my_students_path} My Students
 
       // Student Advisors
       %li.nav-header

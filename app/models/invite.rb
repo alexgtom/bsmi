@@ -22,7 +22,7 @@ class Invite < ActiveRecord::Base
   end
 
   def redeemed!
-    self.redeemed_at = Time.now
+    self.redeemed_at = Time.now.utc
     self.save!
   end
   

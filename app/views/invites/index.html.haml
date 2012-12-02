@@ -19,7 +19,8 @@
         - if invite.invited?
           - if invite.redeemed_at == nil
             Invited
-            = link_to 'url', "/signup?owner_type=#{invite.owner_type}&invite_code=#{invite.invite_code}"
+            = link_to '[url]', "/signup?owner_type=#{invite.owner_type}&invite_code=#{invite.invite_code}"
+            = link_to '[ReInvite]', send_invitation_path(invite), :data => {:confirm => 'Send invitation? '}, :method => :post
           - else
             Joined at 
             = invite.redeemed_at.in_time_zone('Pacific Time (US & Canada)')

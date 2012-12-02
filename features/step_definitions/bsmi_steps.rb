@@ -171,7 +171,7 @@ Given /the following semesters exist/ do |tb|
       t['end_date'] = Date.today + 10
     end
     if not t['registration_deadline_id']
-      d = Deadline.create!(:due_date => DateTime.now + 10)
+      d = Deadline.create!(:due_date => DateTime.now + 10, :title => "Registration deadline", :summary => "summary here")
       t['registration_deadline_id'] = d.id
     end
   	Semester.create!(t)

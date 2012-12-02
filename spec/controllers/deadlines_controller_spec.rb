@@ -24,7 +24,11 @@ describe DeadlinesController do
   # Deadline. As you add validations to Deadline, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    { "title" => "MyString" }
+    { 
+      "title" => "MyString",
+      "summary" => "MmyText",
+      "due_date" => DateTime.now,
+    }
   end
 
   # This should return the minimal set of values that should be in the session
@@ -36,7 +40,7 @@ describe DeadlinesController do
 
   describe "GET index" do
     it "assigns all deadlines as @deadlines" do
-      deadline = Deadline.create! valid_attributes
+      deadline = FactoryGirl.create(:deadline)
       get :index, {}, valid_session
       assigns(:deadlines).should eq([deadline])
     end
@@ -44,7 +48,7 @@ describe DeadlinesController do
 
   describe "GET show" do
     it "assigns the requested deadline as @deadline" do
-      deadline = Deadline.create! valid_attributes
+      deadline = FactoryGirl.create(:deadline)
       get :show, {:id => deadline.to_param}, valid_session
       assigns(:deadline).should eq(deadline)
     end
@@ -59,7 +63,7 @@ describe DeadlinesController do
 
   describe "GET edit" do
     it "assigns the requested deadline as @deadline" do
-      deadline = Deadline.create! valid_attributes
+      deadline = FactoryGirl.create(:deadline)
       get :edit, {:id => deadline.to_param}, valid_session
       assigns(:deadline).should eq(deadline)
     end
@@ -105,7 +109,7 @@ describe DeadlinesController do
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested deadline" do
-        deadline = Deadline.create! valid_attributes
+        deadline = FactoryGirl.create(:deadline)
         # Assuming there are no other deadlines in the database, this
         # specifies that the Deadline created on the previous line
         # receives the :update_attributes message with whatever params are
@@ -115,13 +119,13 @@ describe DeadlinesController do
       end
 
       it "assigns the requested deadline as @deadline" do
-        deadline = Deadline.create! valid_attributes
+        deadline = FactoryGirl.create(:deadline)
         put :update, {:id => deadline.to_param, :deadline => valid_attributes}, valid_session
         assigns(:deadline).should eq(deadline)
       end
 
       it "redirects to the deadline" do
-        deadline = Deadline.create! valid_attributes
+        deadline = FactoryGirl.create(:deadline)
         put :update, {:id => deadline.to_param, :deadline => valid_attributes}, valid_session
         response.should redirect_to(deadline)
       end
@@ -129,7 +133,7 @@ describe DeadlinesController do
 
     describe "with invalid params" do
       it "assigns the deadline as @deadline" do
-        deadline = Deadline.create! valid_attributes
+        deadline = FactoryGirl.create(:deadline)
         # Trigger the behavior that occurs when invalid params are submitted
         Deadline.any_instance.stub(:save).and_return(false)
         put :update, {:id => deadline.to_param, :deadline => { "title" => "invalid value" }}, valid_session
@@ -137,7 +141,7 @@ describe DeadlinesController do
       end
 
       it "re-renders the 'edit' template" do
-        deadline = Deadline.create! valid_attributes
+        deadline = FactoryGirl.create(:deadline)
         # Trigger the behavior that occurs when invalid params are submitted
         Deadline.any_instance.stub(:save).and_return(false)
         put :update, {:id => deadline.to_param, :deadline => { "title" => "invalid value" }}, valid_session
@@ -148,14 +152,14 @@ describe DeadlinesController do
 
   describe "DELETE destroy" do
     it "destroys the requested deadline" do
-      deadline = Deadline.create! valid_attributes
+      deadline = FactoryGirl.create(:deadline)
       expect {
         delete :destroy, {:id => deadline.to_param}, valid_session
       }.to change(Deadline, :count).by(-1)
     end
 
     it "redirects to the deadlines list" do
-      deadline = Deadline.create! valid_attributes
+      deadline = FactoryGirl.create(:deadline)
       delete :destroy, {:id => deadline.to_param}, valid_session
       response.should redirect_to(deadlines_url)
     end

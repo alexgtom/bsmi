@@ -84,8 +84,6 @@ class CalCoursesController < ApplicationController
   # PUT /cal_courses/1.json
   def update
     @cal_course = CalCourse.find_by_id(params[:id])
-    @cal_course.semester_id = params[:cal_course][:semester_id]
-    @cal_course.save!
     #params[:cal_course][:semester] = Semester.find_by_id(@cal_course.semester_id)
     #@semester = Semester.find(@cal_course.semester_id)
     #if not @semester.cal_courses.find(@cal_course)

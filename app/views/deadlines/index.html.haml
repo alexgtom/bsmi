@@ -11,10 +11,9 @@
 
   - @deadlines.each do |deadline|
     %tr
-      %td= deadline.title
+      %td= link_to deadline.title, deadline
       %td= deadline.summary
       %td= deadline.due_date
-      %td= link_to 'Show', deadline
       %td= link_to 'Edit', edit_deadline_path(deadline)
       %td= link_to 'Destroy', deadline, method: :delete, data: { confirm: 'Are you sure?' }
 

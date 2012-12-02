@@ -1,6 +1,14 @@
 .sidebar.left.sidebar-nav
   .well
     %ul.nav.nav-list
+
+      %li.nav-header
+        Settings 
+      %li
+        %a{:href => settings_path(current_user.id)} Settings
+
+      %li.nav-header
+        Profile 
       %li
         %a{:href => edit_user_path(current_user.id)} Edit Profile
 

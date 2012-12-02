@@ -22,7 +22,7 @@ Background: classes, mentor teachers and timeslots are created
   | name		| level			| district 	 |
   | El Cerrito High	| High School		| Berkeley North |
   | Ocean View		| Elementary School	| Berkeley North |
-  Given the following semester exists:
+  Given the following semesters exists:
   | name   | year  | start_date   |  end_date  |
   | Fall   | 2012  | 2012-08-22   | 2012-12-16 |
   Given the following cal course exists:
@@ -59,8 +59,7 @@ Scenario: Add a Cal Course with errors
   And  I select "All" from "Course grade"
   And  I check "timeslots[1]"
   And  I press "Save"
-  Then I should be located at "/cal_courses"
-  And I should see "You cannot select All as School Type or Course Grad"
+  Then I should be located at "/cal_courses/new"
 
 Scenario: Check the Index Page and delete action
   Given I am in the CalCourse index page

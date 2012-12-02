@@ -19,8 +19,11 @@
   .field
     = f.label :course_grade
     = f.select :course_grade, Course::GRADE.unshift("All")
+  .field
+    = f.label :semester
+    = f.select :semester, semesters, {:include_blank => true}
 
-  - if @entries and @entries.empty?
+  - if @entries and @entries.size == 0
     f.label "No Timeslots are Available to Select"
   - else
     - content_for :javascripts do

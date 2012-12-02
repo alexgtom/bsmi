@@ -1,6 +1,6 @@
 %h1 Editing Cal Course
 
-= render 'form'
+= render :partial => 'form', :locals => {:semesters => @semesters}
 
 = link_to 'Show', @cal_course
 \|

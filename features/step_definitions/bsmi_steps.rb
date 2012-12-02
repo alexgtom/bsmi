@@ -161,6 +161,9 @@ end
 
 Given /the following semesters exist/ do |tb|
   tb.hashes.each do |t|
+    if not t['status']
+      t['status'] = Semester::PUBLIC
+    end
     if not t['start_date']
       t['start_date'] = Date.today - 10
     end

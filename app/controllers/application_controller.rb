@@ -33,6 +33,15 @@ class ApplicationController < ActionController::Base
       end
     end
 
+    def require_student
+      unless current_user && current_user.owner_type == "Student"
+        store_location
+        flash[:notice] = "Only student can access this page."
+        redirect_to new_user_session_url
+        return false
+      end
+    end
+
     def require_cal_faculty
       unless current_user && current_user.owner_type == "CalFaculty"
         store_location

@@ -33,10 +33,12 @@ class Setting < ActiveRecord::Base
       if not self.defaults[key]
         return nil
       else
-        return self.defaults[key].to_s
+        default = self.defaults[key].to_s
+        return Integer(default) rescue default
       end
     else
-      return self.find_by_key(key).value.to_s
+      value = self.find_by_key(key).value.to_s
+      return Integer(value) rescue value
     end
   end
 end

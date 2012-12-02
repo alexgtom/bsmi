@@ -35,7 +35,7 @@ class CalCoursesController < ApplicationController
   def edit
     @cal_course = CalCourse.find(params[:id])
     @entries = @cal_course.create_selection_for_new_course
-    @semesters = Semester.all {|s| ["#{s.name} #{s.year}". s.id]}
+    @semesters = Semester.all.collect {|s| ["#{s.name} #{s.year}", s.id]}
   end
 
   # GET /cal_courses/new
@@ -56,12 +56,12 @@ class CalCoursesController < ApplicationController
   # POST /cal_courses
   # POST /cal_courses.json
   def create
-    if not Semester.find_by_id(params[:cal_course][:semester])
-      flash[:error] = "Semester is required"
-      redirect_to :action => :new
-      return
-    end
-    params[:cal_course][:semester] = Semester.find(params[:cal_course][:semester])
+    #if not Semester.find_by_id(params[:cal_course][:semester])
+    #  flash[:error] = "Semester is required"
+    #  redirect_to :action => :new
+    #  return
+    #end
+    #params[:cal_course][:semester] = Semester.find(params[:cal_course][:semester])
     @cal_course = CalCourse.new(params[:cal_course])
     if not School::LEVEL.include?(params[:cal_course][:school_type]) or not Course::GRADE.include?(params[:cal_course][:course_grade])
       flash[:error] = 'You cannot select All as School Type or Course Grade'
@@ -84,11 +84,13 @@ class CalCoursesController < ApplicationController
   # PUT /cal_courses/1.json
   def update
     @cal_course = CalCourse.find_by_id(params[:id])
-    params[:cal_course][:semester] = Semester.find_by_id(@cal_course.semester_id)
-    @semester = Semester.find(@cal_course.semester_id)
-    if not @semester.cal_courses.find(@cal_course)
-      @semester.cal_courses << @cal_course
-    end
+    @cal_course.semester_id = params[:cal_course][:semester_id]
+    @cal_course.save!
+    #params[:cal_course][:semester] = Semester.find_by_id(@cal_course.semester_id)
+    #@semester = Semester.find(@cal_course.semester_id)
+    #if not @semester.cal_courses.find(@cal_course)
+    #  @semester.cal_courses << @cal_course
+    #end
 
     if not School::LEVEL.include?(params[:cal_course][:school_type]) or not Course::GRADE.include?(params[:cal_course][:course_grade])
       flash[:error] = 'You cannot select All as School Type or Course Grade'

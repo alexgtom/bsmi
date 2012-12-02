@@ -21,7 +21,7 @@
     = f.select :course_grade, Course::GRADE.unshift("All")
   .field
     = f.label :semester
-    = f.select :semester, semesters, {:include_blank => true}
+    = f.select :semester_id, semesters, {:include_blank => true}
 
   - if @entries and @entries.size == 0
     f.label "No Timeslots are Available to Select"

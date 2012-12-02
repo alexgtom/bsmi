@@ -5,6 +5,58 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+names = %w(
+  Selina
+  Merlin
+  Buford
+  Antonia
+  Roy
+  Rozella
+  Brad
+  Ida
+  Jessenia
+  Garnett
+  Yon
+  Domonique
+  Norma
+  Marcus
+  Billi
+  Valentine
+  Hang
+  Charlena
+  Lan
+  Miles
+  Carry
+  Shante
+  Blaine
+  Eveline
+  Shantell
+  Drucilla
+  Debera
+  Alphonse
+  Georgianna
+  Gertrude
+  Everette
+  Frederick
+  Delilah
+  Markita
+  Walton
+  Lyndsay
+  Keesha
+  Hong
+  Florencio
+  Sue
+  Adelaide
+  Craig
+  Stanford
+  Zoila
+  Leslie
+  Solomon
+  Verdell
+  Alexandria
+  Hayden
+  Roseanne
+)
 
 # --- Create Semesters
 fall_semester = Semester.create!(
@@ -145,9 +197,9 @@ Course.create!(:name => "Pre Algebra", :grade => "6")
 
 # --- Create Students
 users = ["student1@test.com", "student2@test.com", "student3@test.com", "student4@test.com"]
-users.each do |u|
-  user = User.new({:first_name => u,
-                   :last_name => 'Anon',
+users.each_with_index do |u, i|
+  user = User.new({:first_name => names[i % names.size],
+                   :last_name => names[(i + 10) % names.size],
                    :street_address => '346 soda UC Berkeley',
                    :city => 'Berkeley',
                    :state => 'CA',
@@ -169,8 +221,9 @@ end
 
 # --- Create Students part 2
 (1..10).each do |i|
-  user = User.new({:first_name => "First#{i}",
-    	           :last_name => "Last#{i}",
+  user = User.new({
+                   :first_name => names[i % names.size],
+    	           :last_name => names[(i + 6) % names.size],
                    :street_address => 'myaddr',
                    :phone_number => '000-000-0000',
                    :email => "StudentEmail#{i}@gmail.com",
@@ -189,8 +242,8 @@ end
 # --- Create mentor teachers
 (1..10).each do |i|
   user = User.new({
-                   :first_name => "First#{i}",
-		   :last_name => "Last#{i}",
+                   :first_name => names[(i + 2)% names.size],
+    	           :last_name => names[(i + 13) % names.size],
                    :street_address => 'myaddr',
                    :phone_number => '000-000-0000',
                    :email => "TeacherEmail#{i}@gmail.com",

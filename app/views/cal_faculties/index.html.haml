@@ -1,0 +1,19 @@
+.page-header
+  %h1 Cal Faculties
+
+%table.table.table-hover
+  %tr
+    %th= link_to 'First Name', cal_faculties_path(:sort => 'first_name')
+    %th= link_to 'Last Name', cal_faculties_path(:sort => 'last_name')
+    %th Email
+    %th
+
+  - @all_faculties.each do |cal_faculty|
+    %tr
+      %td= link_to cal_faculty.first_name, cal_faculty.owner
+      %td= cal_faculty.last_name
+      %td= cal_faculty.email 
+      %td= link_to 'Delete', cal_faculty, method: :delete, data: { confirm: 'Are you sure?' }
+%br
+ 
+-#= link_to 'New Cal faculty', new_cal_faculty_path

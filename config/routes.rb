@@ -62,6 +62,8 @@ Bsmi::Application.routes.draw do
 
   resources :advisors
 
+  resources :cal_faculties
+
   match 'error' => "select_timeslots#error", :as => :error
 
   resources :students do

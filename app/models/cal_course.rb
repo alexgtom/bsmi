@@ -10,6 +10,7 @@ class CalCourse < ActiveRecord::Base
   attr_protected #none
 
   validates_presence_of :semester, :name
+  validates_uniqueness_of :name
 
   def create_selection_for_new_course
     entries = []

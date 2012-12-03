@@ -79,7 +79,7 @@ spring_semester = Semester.create!(
   :end_date => Date.today - 10,
   :registration_deadline => Deadline.new(
     :title => "Registraiton Deadline",
-    :summary => "You must have you preferences selected by this deadline",
+    :summary => "You must have your preferences selected by this deadline",
     :due_date => Date.today - 20,
   ),
   :status => Semester::PUBLIC,

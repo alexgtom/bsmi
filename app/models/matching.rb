@@ -129,9 +129,16 @@ class BipartiteGraph
   end
   
   DUMMY_EDGE_WEIGHT = 10000
-  #Fully connect the two sides of the graph
-  #Any edges that didn't exist previously are added with a very high weight. This ensure 
-  #that our algorithm will only pick these edges when there isn't a better option.
+  
+  #Offset to add to edges between students and duplicated timeslots 
+  #(those that would result in a pairing if chosen). The offset is intended
+  #to make these solutions less optimal
+  DUP_EDGE_OFFSET = 100
+
+  #Fully connect the two sides of the graph Any edges that didn't
+  #exist previously are added with a very high weight. This ensures
+  #that our algorithm will only pick these edges when there isn't a
+  #better option.
   def connect 
     self.students.each do |s|
       self.timeslots.each do |t|
@@ -207,7 +214,7 @@ class MatchingSolver
   def normalize_graph
     self.expand_timeslots
     self.graph.equalize_sides
-    self.graph.connect        
+    self.graph.connect
   end
 
   #Split each timeslot into timeslot.max_num_assistant nodes, each of which can then
@@ -226,7 +233,8 @@ class MatchingSolver
       dup_nodes.each do |dup_node|
         student_list.each do |student_id, ranking|        
           student_node = BipartiteGraph::Node.new(student_id, :student)
-          self.graph.add_edge(student_node, dup_node, ranking)
+          self.graph.add_edge(student_node, dup_node, 
+                              ranking + BipartiteGraph::DUP_EDGE_OFFSET)
         end
       end
     end

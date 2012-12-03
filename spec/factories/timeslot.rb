@@ -33,7 +33,7 @@ FactoryGirl.define do
     make_time(n, :slots_per_hour => 0.5)
   end
 
-  sequence :num_assistants do |n|
+  sequence :max_num_assistants do |n|
     n % 2
   end
 

@@ -109,6 +109,9 @@ end
 
 Given /the following cal course exist/ do |tb|
   tb.hashes.each do |t|
+    if not t['name']
+      t['name'] = 'CS 61A'
+    end
     CalCourse.create!(t)
   end
 end

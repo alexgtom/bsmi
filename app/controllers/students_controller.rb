@@ -87,7 +87,7 @@ class StudentsController < ApplicationController
 
   def show
     store_location
-    @student = User.find(params[:id]).owner
+    @student = Student.find(params[:id])
   end
 end
 

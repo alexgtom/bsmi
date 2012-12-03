@@ -5,7 +5,7 @@
     = "#{@advisor.user.first_name} #{@advisor.user.last_name}"
 
 .pull-right
-  = link_to 'Edit', edit_advisor_path(@advisor), :class => 'btn'
+  = link_to 'Edit', advisor_edit_user_path(@advisor.user.id), :class => 'btn'
   
 
 %h2 Advisor Information

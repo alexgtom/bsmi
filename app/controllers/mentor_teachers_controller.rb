@@ -32,6 +32,7 @@ class MentorTeachersController < ApplicationController
   # GET /mentor_teachers/1
   # GET /mentor_teachers/1.json
   def show
+    store_location
     @mentor_teacher = MentorTeacher.find(params[:id])
 
     respond_to do |format|

@@ -7,12 +7,6 @@ GIT
       actionpack (>= 3.1)
       railties (>= 3.1)
 
-GIT
-  remote: https://github.com/andrewmains12/heroku-rglpk.git
-  revision: 760859ce23c6e9d253324a584da6ee351700c48f
-  specs:
-    heroku-rglpk (0.2.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -285,7 +279,6 @@ DEPENDENCIES
   factory_girl_rails
   haml
   haml-rails
-  heroku-rglpk!
   jasmine
   jasmine-headless-webkit
   jasminerice

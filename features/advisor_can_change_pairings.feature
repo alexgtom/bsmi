@@ -1,7 +1,7 @@
 Feature: advisor can change pairings
 	As a student advisor
 	I want to add new placement and remove automated placements for students
-	So that I can finalize students' placements.
+	So that I can finalize students placements.
 
 	Background:
 		Given the following semesters exist
@@ -31,8 +31,8 @@ Feature: advisor can change pairings
 			| 1  | 8:00		   		| 9:00 			| monday  | Physics   | Oski           |
 
 		Given the following cal course exist
-			| id | semester_id |
-			| 1  | 1           |
+			| id | semester_id | name     |
+			| 1  | 1           | EDUC 101 |
 
 		Given the following users exist
 			| id | first_name    | last_name    | email                | type     | cal_courses |

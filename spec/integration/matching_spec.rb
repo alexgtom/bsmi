@@ -7,7 +7,7 @@ describe "The matching solution" do
   let(:timeslots) { Set.new(preferences.map {|p| p.timeslot}) }
 
   before(:each) do
-    @solver = MatchingSolver.new(preferences, students, timeslots)
+    @solver = Matching.new(preferences, students, timeslots)
   end
 
   shared_examples_for "a good matching:" do
@@ -15,7 +15,7 @@ describe "The matching solution" do
     it "should match every student to exactly one timeslot" do
       counts = Hash.new(0) 
       subject.each do |matching|
-        counts[matching.student_id] += 1
+        counts[matching[:student_id]] += 1
       end
       students.each do |s|
         counts[s.id].should eq(1), "Student #{s} wasn't matched"
@@ -25,7 +25,7 @@ describe "The matching solution" do
     it "should match every timeslot to at least one student" do
       counts = Hash.new(0) 
       subject.each do |matching|
-        counts[matching.timeslot_id] += 1
+        counts[matching[:timeslot_id]] += 1
       end
       timeslots.each do |t|
         counts[t.id].should be >= 1, "Timeslot #{t} wasn't matched"
@@ -103,7 +103,7 @@ describe "The matching solution" do
     it "should pair only as needed" do
       counts = Hash.new(0) 
       subject.each do |matching|
-        counts[matching.timeslot_id] += 1
+        counts[matching[:timeslot_id]] += 1
       end
       timeslots.each do |t|
         counts[t.id].should eq(1)
@@ -186,7 +186,7 @@ describe "The matching solution" do
 
 
   def matching_score
-    subject.map {|p| p.ranking}.reduce(:+)
+    subject.map {|p| p[:ranking]}.reduce(:+)
   end
 
 end

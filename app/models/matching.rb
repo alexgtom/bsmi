@@ -2,18 +2,9 @@ require 'rglpk'
 require 'set'
 
 
-class Matching < ActiveRecord::Base
-  attr_protected #none  
-  belongs_to :student
-  belongs_to :timeslot
-  
-end
-
-
 class BipartiteGraph
   attr_accessor :adjacency_list
 
-#Need ways of determining: duplicate node, dummy node
   class Node
     attr_reader :value, :type, :dup_num
 
@@ -69,6 +60,13 @@ class BipartiteGraph
       return (other.instance_of? Edge and
         other.student == self.student and
         other.timeslot == self.timeslot)
+    end
+
+    def to_hash
+      {:student_id => self.student.value,
+        :timeslot_id => self.timeslot.value,
+        :ranking => self.weight
+      }
     end
   end
   
@@ -172,7 +170,7 @@ class BipartiteGraph
   end
 end
 
-class MatchingSolver
+class Matching
   attr_reader :preferences, :graph, :students, :timeslots
   def initialize(preferences, students, timeslots)
     @preferences = preferences
@@ -251,10 +249,7 @@ class MatchingSolver
     end
 
     return matchings.map do |m|
-      Matching.create(:student_id => m.student.value,
-                      :timeslot_id => m.timeslot.value,
-                      :ranking => m.weight
-                      )
+      m.to_hash
     end
   end
   #Represents an assignment problem instance between mentor teacher timeslots

@@ -1,7 +1,5 @@
 require 'spec_helper'
 
-
-
 describe "The matching solution" do
 
   before(:each) do
@@ -83,8 +81,7 @@ describe "The matching solution" do
   # Construct a list of preferences from preference_hash
   #
   #preference_hash: Hash mapping students to lists of timeslot-ranking pairs.
-  #Both students and timeslots can be represented by anything ending in a number--i.e
-  # :t1, "t1" and 1 are all valid (the id for the timeslot is taken off the end).
+  #Both students and timeslots can be represented by any symbol.
   #
   # Sample use:       
   #     build_preferences(:s1 => [[:t1, 1], [:t2, 2]],
@@ -94,20 +91,8 @@ describe "The matching solution" do
   def build_preferences(preference_hash) 
     prefs = []
 
-    # def extract_id(thing)
-    #   id_pattern = /.*?(\d+)$/
-    #   thing = thing.to_s
-    #   match = id_pattern.match(thing)
-    #   if match
-    #     return match[1].to_i
-    #   else
-    #     throw ArgumentError.new("Can't extract an id from #{thing}; needs a number at the end")
-    #   end
-    # end
-
     student_objs = Hash.new
     timeslot_objs = Hash.new
-
 
     preference_hash.each_pair do |student_name, ts_ranking_pairs|
       student_objs[student_name] = FactoryGirl.build_stubbed(:student)

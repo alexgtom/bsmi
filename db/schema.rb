@@ -181,6 +181,7 @@ ActiveRecord::Schema.define(:version => 20121126031903) do
     t.time     "end_time"
     t.integer  "mentor_teacher_id"
     t.integer  "max_num_assistants"
+    t.integer  "course_id"
     t.integer  "cal_course_id"
   end
 

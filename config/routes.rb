@@ -34,7 +34,7 @@ Bsmi::Application.routes.draw do
   match '/user/:id/adv_edit' => 'users#adv_edit', :as => 'advisor_edit_user'
   match '/user/adv_edit' => 'users#adv_update', :as => 'advisor_update_user'
 
-  match '/user/:id/cf_show' => 'users#cf_show', :as => 'cal_faculty_show_user'
+  match '/user/:id/user_show' => 'users#user_show', :as => 'user_show_user'
 
   match '/send_invitation/:id' => 'invites#send_invitation', :as => 'send_invitation'
   match '/signup/:invite_code' => 'users#new', :as => 'redeem_invitation'

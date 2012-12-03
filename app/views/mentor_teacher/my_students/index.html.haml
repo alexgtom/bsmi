@@ -9,7 +9,7 @@
 
   - @my_students.each do |student|
     %tr
-      %td= link_to student.user.first_name, cal_faculty_show_user_path(student.user)
+      %td= link_to student.user.first_name, user_show_user_path(student.user)
       %td= student.user.last_name
       %td= student.user.email 
 %br

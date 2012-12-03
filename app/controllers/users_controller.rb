@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   before_filter :require_no_user, :only => [:new, :create]
   before_filter :require_user, :only => [:show, :edit, :update]
   before_filter :require_admin, :only => [:destroy, :adv_new, :adv_create, :adv_show, :adv_edit, :adv_update]
-  before_filter :require_cal_faculty, :only => [:cf_show]
+  before_filter :only => [:user_show] do |c| c.send(:require_user_type, "CalFaculty, MentorTeacher") end
   
   def new
     @user = User.new
@@ -115,8 +115,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
-  #add checking permission, later
-  def cf_show
+  def user_show
     @user = User.find(params[:id])
   end
 

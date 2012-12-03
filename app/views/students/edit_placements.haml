@@ -4,7 +4,7 @@
 = form_tag("edit_placements", :method => :post) do
 
   = text_field_tag :new_timeslot
-  = submit_tag "Update"
+  = submit_tag "Update", :class => "btn"
 
 %h3 Current Field Placements
 - @placements.to_enum.with_index(1).each do |p, i|

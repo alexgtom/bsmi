@@ -1,27 +1,27 @@
-%ul.nav.nav-tabs
-  - Semester.where(:status => Semester::PUBLIC).each do |s|
-    - if s == semester
-      %li.active
-        %a= "#{s.name} #{s.year}"
-    - else
-      %li
-        %a= "#{s.name} #{s.year}"
-.sidebar.left.sidebar-nav
-  %ul.nav.nav-list
-    %li.nav-header STEP 1: Enrollment
-    %li
-      %a{:href => select_courses_student_path(current_user.id, semester.id)} Select Courses
-    %li.nav-header STEP 2: Timeslot Preferences
-    - current_user.owner.cal_courses.order("name ASC").each do |c|
-      %li
-        %a{:href => student_select_timeslots_path(current_user.id, semester.id, c.id)}= c.name
-    %li.nav-header STEP 3: Field Placements
-    %li
-      %a{:href => placements_student_path(current_user.id, semester.id)} View Field Placements
+.navbar
+  .navbar-inner
+    %ul.nav
+      %li= link_to "Home", home_student_path
+      - Semester.where(:status => Semester::PUBLIC).each do |s|
+        %li= link_to "#{s.name} #{s.year}", splash_student_path(current_user.id, semester.id)
 
-    %li.divider
+- if not current_page?(home_student_path)
+  .sidebar.left.sidebar-nav
+    %ul.nav.nav-list
+      %li.nav-header STEP 1: Enrollment
+      %li
+        %a{:href => select_courses_student_path(current_user.id, semester.id)} Select Courses
+      %li.nav-header STEP 2: Timeslot Preferences
+      - current_user.owner.cal_courses.order("name ASC").each do |c|
+        %li
+          %a{:href => student_select_timeslots_path(current_user.id, semester.id, c.id)}= c.name
+      %li.nav-header STEP 3: Field Placements
+      %li
+        %a{:href => placements_student_path(current_user.id, semester.id)} View Field Placements
 
-    %li
-      %a{:href => edit_user_path(current_user.id)} Edit Profile
-    %li
-      %a{:href => courses_student_path(current_user.id, semester.id)} Enrollment
+      %li.divider
+
+      %li
+        %a{:href => edit_user_path(current_user.id)} Edit Profile
+      %li
+        %a{:href => courses_student_path(current_user.id, semester.id)} Enrollment

@@ -109,6 +109,9 @@ end
 
 Given /the following cal course exist/ do |tb|
   tb.hashes.each do |t|
+    if not t['name']
+      t['name'] = 'CS 61A'
+    end
     CalCourse.create!(t)
   end
 end
@@ -161,6 +164,9 @@ end
 
 Given /the following semesters exist/ do |tb|
   tb.hashes.each do |t|
+    if not t['status']
+      t['status'] = Semester::PUBLIC
+    end
     if not t['start_date']
       t['start_date'] = Date.today - 10
     end
@@ -168,11 +174,43 @@ Given /the following semesters exist/ do |tb|
       t['end_date'] = Date.today + 10
     end
     if not t['registration_deadline_id']
-      d = Deadline.create!(:due_date => DateTime.now + 10)
+      d = Deadline.create!(:due_date => DateTime.now + 10, :title => "Registration deadline", :summary => "summary here")
       t['registration_deadline_id'] = d.id
     end
   	Semester.create!(t)
   end
+end
+
+Given /a semester with a passed deadline with id (.*)/ do |id|
+  Semester.create!(
+    :id => id,
+    :start_date => Date.today - 20, 
+    :end_date => Date.today + 10,
+    :year => "2000",
+    :name => "Fall",
+    :status => "Public",
+    :registration_deadline => Deadline.create!(
+      :due_date => DateTime.now - 10,
+      :title => "Registraiton Deadline",
+      :summary => "You must have you preferences selected by this deadline",
+  ),
+  )
+end
+
+Given /a semester with a not passed deadline with id (.*)/ do  |id|
+  Semester.create!(
+    :id => id,
+    :start_date => Date.today - 20, 
+    :end_date => Date.today + 10,
+    :year => "2000",
+    :name => "Fall",
+    :status => "Public",
+    :registration_deadline => Deadline.create!(
+      :due_date => DateTime.now + 10,
+      :title => "Registraiton Deadline",
+      :summary => "You must have you preferences selected by this deadline",
+  ),
+  )
 end
 
 Given /the following assignments exist/ do |tb|
@@ -393,3 +431,10 @@ Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
   page.body.should match /#{e1}.*?#{e2}/m
 end
 
+Then /^I should see "([^"]*)" button/ do |name|
+    response.should have_selector("form input[value=#{name}]")
+end
+
+Then /^I should not see "([^"]*)" button/ do |name|
+    response.should_not have_selector("form input[value=#{name}]")
+end

@@ -3,9 +3,9 @@ class MentorTeacher < ActiveRecord::Base
   attr_protected #none
   
   has_one :user, :as => :owner
-  has_many :timeslots
+  has_many :timeslots, :uniq => true
   has_many :students, :through => :timeslots
-  has_and_belongs_to_many :semesters
+  has_and_belongs_to_many :semesters, :uniq => true
 
   belongs_to :school
   

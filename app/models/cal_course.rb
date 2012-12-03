@@ -1,5 +1,5 @@
 class CalCourse < ActiveRecord::Base
-  attr_accessible :course_grade, :name, :school_type, :timeslots
+  attr_accessible :name, :school_type, :timeslots
   #Associations
   has_many :timeslots
   has_many :courses, :through => :timeslots
@@ -9,6 +9,9 @@ class CalCourse < ActiveRecord::Base
   has_and_belongs_to_many :cal_faculties
 
   attr_protected #none
+
+  validates_presence_of :semester, :name
+  validates_uniqueness_of :name
 
   def create_selection_for_new_course
     entries = []

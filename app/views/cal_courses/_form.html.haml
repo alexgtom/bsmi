@@ -29,10 +29,10 @@
     = f.label :school_type
     = f.select :school_type, School::LEVEL.unshift("All")
   .field
-    = f.label :course_grade
-    = f.select :course_grade, Course::GRADE.unshift("All")
+    = f.label :semester
+    = f.select :semester_id, semesters, {:include_blank => true}
 
-  - if @entries and @entries.empty?
+  - if @entries and @entries.size == 0
     f.label "No Timeslots are Available to Select"
   - else
     - content_for :javascripts do
@@ -41,7 +41,6 @@
       %tr
         %th Add?
         %th School Type
-        %th Grade
         %th School
         %th Course
         %th Teacher
@@ -50,10 +49,9 @@
         %tr
           %td= check_box_tag "timeslots[#{entry["time_id"]}]", 1, entry["checked"], :id => "timeslots[#{entry["time_id"]}]"
           %td= entry["school_level"]
-          %td= entry["grade"]
           %td= entry["school_name"]
-          %td= entry["course"].name
+          %td= entry["course"].name if entry["course"]
           %td= entry["teacher"]
           %td= entry["time"]
   .actions
-    = f.submit 'Save'
+    = f.submit 'Save', :class => "btn"

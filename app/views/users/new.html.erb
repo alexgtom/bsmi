@@ -1,6 +1,7 @@
-<h1>Register</h1>
-
+<div class="page-header">
+  <h1>Register</h1>
+</div>
 <%= form_for @user do |f| %>
   <%= render :partial => "form", :object => f, :locals => { :user => @user } %>
-  <%= f.submit "Register" %>
+  <%= f.submit "Register", :class => "btn" %>
 <% end %>

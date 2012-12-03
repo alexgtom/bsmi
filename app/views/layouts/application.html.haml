@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 %html
   %head
     %title Bsmi
@@ -18,6 +19,8 @@
             %ul.nav.pull-right
               - if current_user
                 %li
+                  %a= "Logged in as #{current_user.email}"
+                %li
                   %a{:href => logout_path} Logout
               - else
                 %li
@@ -34,6 +37,8 @@
           = render :partial => "cal_faculty_view", :locals => { :current_user => current_user, :semester => semester }
         - elsif current_user.owner_type == "Advisor"
           = render :partial => "advisor_view", :locals => { :current_user => current_user, :semester => semester }
+        - else
+          = render :partial => "guest_view"
 
       .content.fixed-fixed
         - [:notice, :error, :error_list, :alert].each do |level| 

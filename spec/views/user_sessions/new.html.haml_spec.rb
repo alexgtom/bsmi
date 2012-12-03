@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "user_sessions/new.html.erb" do
+describe "user_sessions/new.html.haml" do
   before(:each) do
     Authlogic::Session::Base.controller = Authlogic::ControllerAdapters::RailsAdapter.new(self)
     @user_session = assign(:user_session, stub_model(UserSession,

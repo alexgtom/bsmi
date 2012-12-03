@@ -1,0 +1,16 @@
+%h1 Login
+= form_for @user_session, :as => :user_session, :url => { :action => "create" } do |f|
+  = render "user_sessions/shared/error_messages", :target => @user_session
+  .control-group
+    = f.label :email, :class => "control-label"
+    .controls
+      = f.text_field :email
+  .control-group
+    = f.label :password, :class => "control-label"
+    .controls
+      = f.password_field :password
+  .control-group
+    %label.checkbox
+      = f.check_box :remember_me
+      Remember me
+    = f.submit "Login", :class => "btn"

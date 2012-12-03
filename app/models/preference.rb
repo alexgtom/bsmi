@@ -3,6 +3,7 @@ class Preference < ActiveRecord::Base
   belongs_to :student
   belongs_to :timeslot
   has_one :semester, :through => :timeslot
+  has_one :cal_course, :through => :timeslot
 
   #validates :ranking, :presence => true
   validates_uniqueness_of :ranking, :scope => [:student_id], :allow_null => true, :allow_blank => true

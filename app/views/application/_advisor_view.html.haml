@@ -1,17 +1,17 @@
 .sidebar.left.sidebar-nav
   .well
     %ul.nav.nav-list
-      // Mentor Teachers
-      %li.nav-header
-        Mentor Teachers Menu
-      - if current_user
-        - if current_user.owner_type == "MentorTeacher"
-          %li
-            %a{:href => mentor_teacher_schedule_path} Edit Schedule
-        %li
-          %a{:href => edit_user_path(current_user.id)} Edit Profile
 
-      // Student Advisors
+      %li.nav-header
+        Settings 
+      %li
+        %a{:href => settings_path(current_user.id)} Settings
+
+      %li.nav-header
+        Profile 
+      %li
+        %a{:href => edit_user_path(current_user.id)} Edit Profile
+
       %li.nav-header
         Structure
       %li
@@ -33,10 +33,3 @@
       %li
         %a{:href => students_path} Students
       
-      // Cal Faculty
-      %li.nav-header
-        Faculty
-      %li
-        %a{:href => "/cal_faculty/my_students"} My Students
-      %li
-        %a{:href => "/cal_faculty/my_mentor_teachers"} My Mentor Teachers

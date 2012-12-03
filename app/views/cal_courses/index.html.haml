@@ -7,14 +7,12 @@
   %tr
     %th= link_to 'Name', cal_courses_path(:sort => 'name')
     %th= link_to 'School', cal_courses_path(:sort => 'school')
-    %th= link_to 'Course Grade', cal_courses_path(:sort => 'grade')
     %th
     %th
   - @cal_courses.each do |course|
     %tr
       %td= link_to course.name, course
       %td= course.school_type
-      %td= course.course_grade
       %td= link_to 'Edit', edit_cal_course_path(course)
       %td= link_to 'Destroy', course, method: :delete, data: { confirm: 'Are you sure?' }
 

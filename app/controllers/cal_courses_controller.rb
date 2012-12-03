@@ -11,8 +11,6 @@ class CalCoursesController < ApplicationController
         @cal_courses.sort_by! {|course| course[:name]}
       when "school"
         @cal_courses.sort_by! {|course| course[:school_type] || ""}
-      when "grade"
-        @cal_courses.sort_by! {|course| course[:course_grade] || ""}
       end
     end
     respond_to do |format|
@@ -36,6 +34,7 @@ class CalCoursesController < ApplicationController
   def edit
     @cal_course = CalCourse.find(params[:id])
     @entries = @cal_course.create_selection_for_new_course
+    @semesters = Semester.all.collect {|s| ["#{s.name} #{s.year}", s.id]}
   end
 
   # GET /cal_courses/new
@@ -43,6 +42,7 @@ class CalCoursesController < ApplicationController
   def new
     @cal_course = CalCourse.new
     @entries = @cal_course.create_selection_for_new_course
+    @semesters = Semester.all.collect {|s| ["#{s.name} #{s.year}", s.id]}
     if @entries.nil?
       @entries = Array.new
     end
@@ -55,22 +55,17 @@ class CalCoursesController < ApplicationController
   # POST /cal_courses
   # POST /cal_courses.json
   def create
-    debugger
-    b = nil
-    @cal_course = CalCourse.new(params[:cal_course])
-    if not School::LEVEL.include?(params[:cal_course][:school_type]) or not Course::GRADE.include?(params[:cal_course][:course_grade])
-      flash[:error] = 'You cannot select All as School Type or Course Grade'
-      @entries = @cal_course.create_selection_for_new_course
-      render :action => :new
-      return
-    end
-    if @cal_course.save  
-      @cal_course.build_associations(params[:timeslots], params[:cal_faculty])
-      flash[:notice] = 'The course was successfully created.'
+    if School::LEVEL.include?(params[:cal_course][:school_type]) and params[:cal_course][:semester_id] != ""
+      @cal_course = CalCourse.new(params[:cal_course])
+      if @cal_course.save  
+        @cal_course.build_timeslot_associations(params[:timeslots])
+        flash[:notice] = 'The course was successfully created.'
         redirect_to cal_course_path @cal_course.id
+      end
     else
-      flash[:error] = 'The input data is not correct'
+      flash[:error] = 'Something went Wrong. Did you select a Semester and a School Type?'
       @entries = @cal_course.create_selection_for_new_course
+      @semesters = Semester.all.collect {|s| ["#{s.name} #{s.year}", s.id]}
       render :action => :new
     end
   end
@@ -79,8 +74,12 @@ class CalCoursesController < ApplicationController
   # PUT /cal_courses/1.json
   def update
     @cal_course = CalCourse.find_by_id(params[:id])
-    debugger
-    a = nil
+    #params[:cal_course][:semester] = Semester.find_by_id(@cal_course.semester_id)
+    #@semester = Semester.find(@cal_course.semester_id)
+    #if not @semester.cal_courses.find(@cal_course)
+    #  @semester.cal_courses << @cal_course
+    #end
+
     if not School::LEVEL.include?(params[:cal_course][:school_type]) or not Course::GRADE.include?(params[:cal_course][:course_grade])
       flash[:error] = 'You cannot select All as School Type or Course Grade'
       @entries = @cal_course.create_selection_for_new_course
@@ -93,8 +92,9 @@ class CalCoursesController < ApplicationController
         redirect_to cal_course_path @cal_course.id
       end
     else
-      flash[:error] = 'Something went wrong'
+      flash[:error] = 'Something went Wrong. Did you select a Semester and a School Type?'
       @entries = @cal_course.create_selection_for_new_course
+      @semesters = Semester.all.collect {|s| ["#{s.name} #{s.year}", s.id]}
       render :action => :edit
     end
   end

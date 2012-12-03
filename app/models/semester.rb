@@ -12,7 +12,7 @@ class Semester < ActiveRecord::Base
   has_and_belongs_to_many :cal_facultys
   has_and_belongs_to_many :mentor_teachers
   has_and_belongs_to_many :students
-  has_many :cal_courses
+  has_many :cal_courses, :uniq => true
   has_many :preferences, :through => :timeslots
   has_many :timeslots, :through => :cal_courses
   belongs_to :registration_deadline, :class_name => "Deadline", :dependent => :destroy
@@ -63,6 +63,10 @@ class Semester < ActiveRecord::Base
     else
       nil
     end
+  end
+
+  def self.past_deadline?
+    DateTime.now > current_semester.registration_deadline.due_date
   end
 
 end

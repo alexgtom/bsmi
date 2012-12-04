@@ -1,17 +1,20 @@
 require 'spec_helper'
 
 describe CalCoursesController do
+  before(:each) do
+    @semester = FactoryGirl.create(:semester)
+  end
 
   def valid_attributes
-    {:name => "Educ 1011", :school_type => "Elementary School", :course_grade => "8", :semester_id => "1"}
+    {:name => "Educ 1011", :school_type => "Elementary School", :course_grade => "8", :semester_id => @semester.id}
   end
 
   def invalid_parameters_school
-    {:name => "Educ 1011", :school_type => "All", :course_grade => "8", :semester_id => "1"}
+    {:name => "Educ 1011", :school_type => "All", :course_grade => "8", :semester_id => @semester.id}
   end
 
   def invalid_parameters_grade
-    {:name => "Educ 1011", :school_type => "Elementary School", :course_grade => "All", :semester_id => "1" }
+    {:name => "Educ 1011", :school_type => "Elementary School", :course_grade => "All", :semester_id => @semester.id }
   end
 
   def valid_timeslots

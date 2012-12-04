@@ -97,6 +97,7 @@ gem "rails-settings-cached"
 
 gem "heroku-rglpk", :git => "https://github.com/andrewmains12/heroku-rglpk.git"
 
+gem 'spreadsheet'
 
 gem 'prawn'
 

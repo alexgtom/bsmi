@@ -1,3 +1,4 @@
+
 class Student < ActiveRecord::Base  
   has_many :preferences
   has_many :mentor_teachers, :through => :placements

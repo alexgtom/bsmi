@@ -22,5 +22,11 @@
       %td School Level
       %td= "#{p.mentor_teacher.school.level}"
     %tr
-      %td Mentor Teacher
+      %td Mentor Teacher Name
       %td= "#{p.mentor_teacher.user.first_name} #{p.mentor_teacher.user.last_name}"
+    %tr
+      %td Mentor Teacher Phone #
+      %td= p.mentor_teacher.user.phone_number
+    %tr
+      %td Mentor Teacher Email 
+      %td= p.mentor_teacher.user.email

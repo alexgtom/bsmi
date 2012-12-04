@@ -15,7 +15,7 @@ class CalCourse < ActiveRecord::Base
 
   def create_selection_for_new_course
     entries = []
-    times = Timeslot.all
+    times = Timeslot.all.delete_if{|x| x.cal_course_id != nil and x.cal_course_id != self.id }
     if times
       times.each do |time|
         entries << time.build_entry(self.id)

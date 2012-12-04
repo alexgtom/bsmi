@@ -294,6 +294,8 @@ Given /^I am a mentor teacher$/ do
   login(user.email, password)
 end
 
+
+
 Given /the following student exist/ do |tb|
   tb.hashes.each do |t|
     if t[:cal_courses]
@@ -393,6 +395,10 @@ Given /we are currently in a semester/ do
     ),
     :status => Semester::PUBLIC,
   )
+end
+
+Given /matchings have been performed for this semester/ do
+  Semester.current_semester.update_attribute(:matchings_performed, true)
 end
 
 

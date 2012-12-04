@@ -20,8 +20,10 @@ require 'ruby-debug'
 # that an instance is receiving a specific message.
 
 describe SemestersController do
-
   before(:each) do
+    current_user = mock("i am the user")
+    current_user.stub!(:owner_type).and_return("Advisor")
+    controller.stub!(:current_user).and_return(current_user)
     @registration_deadline = FactoryGirl.create(:deadline)
   end
 

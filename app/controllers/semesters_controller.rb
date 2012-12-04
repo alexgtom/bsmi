@@ -1,4 +1,7 @@
 class SemestersController < ApplicationController
+  before_filter :require_admin, :only => [:index, :show, :new, :edit]
+
+
   # GET /semesters
   # GET /semesters.json
   def index

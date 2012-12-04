@@ -17,6 +17,7 @@ class StudentsController < ApplicationController
   def placements
     @semester = Semester.find(params[:semester_id])
     @placements = User.find(params[:id]).owner.placements
+    #@placements = @placements.select { |x| x.semester.id == @semester.id }
   end
 
   def edit_placements

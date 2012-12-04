@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_filter :require_no_user, :only => [:new, :create]
   before_filter :require_user, :only => [:show, :edit, :update]
-  before_filter :require_admin, :only => [:destroy, :adv_new, :adv_create, :adv_show, :adv_edit, :adv_update]
+  before_filter :only => [:destroy, :adv_new, :adv_create, :adv_show, :adv_edit, :adv_update] do |c| c.send(:require_user_type, "Advisor") end
   before_filter :only => [:user_show] do |c| c.send(:require_user_type, "CalFaculty, MentorTeacher") end
   
   def new

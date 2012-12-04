@@ -85,12 +85,42 @@ class StudentsController < ApplicationController
     @student = Student.find(params[:id])
   end
 
-  def send_repo
-    @student = Student.find(params[:id])
-    if @student
-      @student.send_report
-    end
-    redirect_to student_path @student.id
+  def download_pdf
+    teacher = MentorTeacher.find(params[:id])
+    send_data generate_pdf(teacher),
+              filename: "#{teacher.user.name}.pdf",
+              type: "application/pdf"
+  end
+ 
+  private
+  def generate_pdf(student)
+    Prawn::Document.new do
+      text "UC Berkeley", :size => 20, :align => :right, :style => :bold
+      stroke {y=@y-30; line [1,y], [bounds.width,y]}
+      text "CalTeach Student Report", :size => 24, :align => :center, :style => :bold
+      text "Date: #{Time.now.to_s}"
+      text "Name: #{student.user.name}"
+      text "Address: #{student.user.street_address}" 
+      text "Email: #{student.user.email}"
+      student.placements.each do |timeslot| 
+        teacher = timeslot.mentor_teacher ? timeslot.mentor_teacher.user.name : " "
+        entry = timeslot.build_entry(student.id)
+        school = entry["school_name"]
+        course = entry["course"] ? entry["course"].name : " "
+        grade = entry["course"] ? entry["course"].grade : " "
+        time = entry["time"]
+        data = [ ['Semester',"#{timeslot.semester.description}"],
+                 ['Cal Course', "#{timeslot.cal_course.name}"],
+                 ['School', school],
+                 ['Course', course],
+                 ['Grade', grade],
+                 ['Time', time],
+                 ['Teacher', teacher]
+        ]
+        move_down(30)
+        table data, :header => false, :column_widths => {0 => 80, 1 => 400}
+      end
+    end.render
   end
 end
 

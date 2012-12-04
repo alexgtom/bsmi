@@ -19,7 +19,7 @@
       %td 
         - teacher.owner.timeslots.each do |timeslot|
           %ul.unstyled
-            %li= "#{timeslot.course.grade} #{timeslot.course.name}"
+            %li= timeslot.course.name if timeslot.course
       %td
         - teacher.owner.students.each do |s|
           - if s.user != nil

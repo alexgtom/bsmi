@@ -1,3 +1,5 @@
+require "prawn"
+
 class MentorTeachersController < ApplicationController
   # GET /mentor_teachers
   # GET /mentor_teachers.json
@@ -98,5 +100,45 @@ class MentorTeachersController < ApplicationController
       format.html { redirect_to mentor_teachers_url }
       format.json { head :no_content }
     end
+  end
+
+  def download_pdf
+    teacher = MentorTeacher.find(params[:id])
+    send_data generate_pdf(teacher),
+              filename: "#{teacher.user.name}.pdf",
+              type: "application/pdf"
+  end
+ 
+  private
+  def generate_pdf(teacher)
+    Prawn::Document.new do
+      text "UC Berkeley", :size => 20, :align => :right, :style => :bold
+      stroke {y=@y-30; line [1,y], [bounds.width,y]}
+      text "CalTeach Mentor Teacher Report", :size => 24, :align => :center, :style => :bold
+      text "Date: #{Time.now.to_s}"
+      text "Name: #{teacher.user.name}"
+      text "Address: #{teacher.user.street_address}" 
+      text "Email: #{teacher.user.email}"
+
+      teacher.timeslots.each do |timeslot| 
+        students = timeslot.students
+        students.collect!{|student| ['Student' , student.user.name]}
+        entry = timeslot.build_entry(teacher.id)
+        school = entry["school_name"]
+        course = entry["course"] ? entry["course"].name : " "
+        grade = entry["course"] ? entry["course"].grade : " "
+        time = entry["time"]
+        data = [ ['Semester',"#{timeslot.semester.description}"],
+                 ['Cal Course', "#{timeslot.cal_course.name}"],
+                 ['School', school],
+                 ['Course', course],
+                 ['Grade', grade],
+                 ['Time', time],
+        ]
+        data += students
+        move_down(30)
+        table data, :header => false, :column_widths => {0 => 80, 1 => 400}
+      end
+    end.render
   end
 end

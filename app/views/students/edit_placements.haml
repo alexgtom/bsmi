@@ -19,10 +19,10 @@
           ="#{p.start_time.strftime("%l:%M %p")} to #{p.end_time.strftime("%l:%M %p")}"
       %tr 
         %td Course
-        %td= p.course.name
+        %td= p.course.name if p.course
       %tr 
         %td Grade
-        %td= p.course.grade
+        %td= p.course.grade if p.course
       %tr 
         %td School Name
         %td= "#{p.mentor_teacher.school.name}"

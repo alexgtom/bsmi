@@ -52,7 +52,7 @@ class Timeslot < ActiveRecord::Base
   end 
 
   def to_string
-    return "#{self.day}|#{self.start_time.strftime("%I:%M%p")}|#{self.end_time.strftime("%I:%M%p")}"
+    return "#{self.day.capitalize}|#{self.start_time.strftime("%I:%M%p")}|#{self.end_time.strftime("%I:%M%p")}"
   end
   
   def build_entry(caller_id)

@@ -11,7 +11,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(:version => 20121204021747) do
+=======
+ActiveRecord::Schema.define(:version => 20121204013105) do
+>>>>>>> master
 
   create_table "advisors", :force => true do |t|
     t.datetime "created_at", :null => false
@@ -22,9 +26,8 @@ ActiveRecord::Schema.define(:version => 20121204021747) do
     t.string   "name"
     t.text     "timeslots"
     t.string   "school_type"
-    t.string   "course_grade"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
     t.integer  "semester_id"
   end
 
@@ -176,6 +179,7 @@ ActiveRecord::Schema.define(:version => 20121204021747) do
     t.integer  "max_num_assistants", :default => 1
     t.integer  "course_id"
     t.integer  "cal_course_id"
+    t.integer  "course_id"
   end
 
   create_table "users", :force => true do |t|

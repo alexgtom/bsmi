@@ -1,30 +1,31 @@
 require 'rglpk'
 require 'set'
 
-module Matching
-  class BipartiteGraph
-    attr_accessor :adjacency_list
+#TODO: This is basically the same as Preference--factor out common code into a base
+#class/table
 
-    class Node
-      attr_reader :value, :type, :dup_num
+class Matching < ActiveRecord::Base
+  attr_protected #none  
+  belongs_to :student
+  belongs_to :timeslot  
 
-      def initialize(value, type, options = {})
-        @value = value
-        @type = type
-        @dummy = options[:dummy] || false
-        @dup_num = options[:dup_num] || 0
-      end
+  has_one :semester, :through => :timeslot
+  has_one :cal_course, :through => :timeslot
 
-      def eql?(other)
-        if not other.instance_of? Node
-          return false
-        else
-          return (value == other.value and 
-                  type == other.type and          
-                  @dummy == other.dummy? and 
-                  @dup_num == other.dup_num)
-        end
-      end
+  validates :student_id, :presence => true
+  validates :timeslot_id, :presence => true
+end
+
+
+module MatchingBackend
+
+class BipartiteGraph
+  attr_accessor :adjacency_list
+
+#Need ways of determining: duplicate node, dummy node
+  class Node
+    attr_reader :value, :type, :dup_num
+
 
       def ==(other)
         return self.eql?(other)
@@ -329,6 +330,4 @@ module Matching
       end    
     end
   end
-
-
 end

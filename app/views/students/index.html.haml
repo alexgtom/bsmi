@@ -30,7 +30,4 @@
       %td
         %ul.unstyled
           %li=link_to 'View/Edit Placement(s)', edit_placements_student_path(student.id, semester.id)
-      %td
-        %ul.unstyled
-          %li=link_to 'Get Report', send_repo_student_path(student.id, semester.id)
       %td= link_to 'Delete', student, method: :delete, data: { confirm: 'Are you sure?' }

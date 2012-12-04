@@ -95,8 +95,7 @@ gem 'mechanize'
 gem "rails-settings-cached"
 
 #gem "heroku-rglpk", :git => "https://github.com/andrewmains12/heroku-rglpk.git"
-
-
+gem 'prawn'
 #Linear program solver wrapper for backend
 #Has a dependency of GLPK
 #gem "rglpk"

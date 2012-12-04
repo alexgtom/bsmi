@@ -40,7 +40,11 @@ Bsmi::Application.routes.draw do
   match 'signup' => 'users#new', :as => :signup
 
 
-  resources :mentor_teachers
+  resources :mentor_teachers do
+    member do
+      get 'download_pdf'
+    end
+  end
   namespace :mentor_teacher do
     resource :schedule      
   end
@@ -61,11 +65,14 @@ Bsmi::Application.routes.draw do
 
   match 'error' => "select_timeslots#error", :as => :error
 
-  resources :students do
+  #match 'student/:stundet_id/send_student_report' => 'students#send_repo', :as => 'send_student_rep'
+  #match '/send_student_report' => 'students#send_repo', :as => 'send_student_repo'
+  resources :students do 
     resources :select_cal_courses
     resources :select_timeslots, :path => 'semesters/:semester_id/courses/:cal_course_id/select_timeslots' do
     end
     member do 
+      get 'download_pdf'
       get 'home'
       get 'splash', :path => 'semesters/:semester_id/splash'
       get 'placements', :path => 'semesters/:semester_id/placements'

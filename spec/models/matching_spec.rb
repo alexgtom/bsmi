@@ -1,18 +1,18 @@
 require 'spec_helper'
 
 ######################################################################################
-# These tests are fairly pure unit tests for MatchingSolver, and as such don't 
+# These tests are fairly pure unit tests for Matching, and as such don't 
 # actually solve any linear programs (in an effort to test the behavior of each
 # method in isolation. For proper integration tests (which will hit the linear solver)
 # see spec/integration/matching_spec
 ######################################################################################
  
-describe MatchingSolver do
+describe MatchingBackend::MatchingSolver do  
   let(:preferences) { FactoryGirl.build_stubbed_list(:preference, 4) }
   before(:each) do
     students = Set.new(preferences.map{|p| p.student})
     timeslots = Set.new(preferences.map{|p| p.timeslot})
-    @solver = MatchingSolver.new(preferences, students, timeslots)
+    @solver = MatchingBackend::MatchingSolver.new(preferences, students, timeslots)
   end
   
   describe :solve do
@@ -24,18 +24,18 @@ describe MatchingSolver do
     end
 
     it "should instantiate a new MatchingProblem" do
-      MatchingSolver::MatchingProblem.should_receive(:new).and_return {@problem_mock}
+      MatchingBackend::MatchingProblem.should_receive(:new).and_return {@problem_mock}
       @solver.solve
     end
 
     it "should extract the problems solution" do
-      MatchingSolver::MatchingProblem.stub(:new) {@problem_mock}
+      MatchingBackend::MatchingProblem.stub(:new) {@problem_mock}
       @solver.should_receive(:extract_solution).with(@test_res)
       @solver.solve
     end
 
     it "should normalize the graph" do
-      MatchingSolver::MatchingProblem.stub(:new) {@problem_mock}
+      MatchingBackend::MatchingProblem.stub(:new) {@problem_mock}
       @solver.should_receive(:normalize_graph)
       @solver.solve
     end
@@ -72,7 +72,7 @@ describe MatchingSolver do
                                         :timeslot => t)        
       end
       
-      @solver = MatchingSolver.new(@preferences, @students, @timeslots)
+      @solver = MatchingBackend::MatchingSolver.new(@preferences, @students, @timeslots)
     end
 
     it "should add nodes for each timeslot up to its maximum" do
@@ -87,10 +87,9 @@ describe MatchingSolver do
   end
 end
 
-describe BipartiteGraph do
-  
+describe MatchingBackend::BipartiteGraph do  
   before(:each) do
-    @graph = BipartiteGraph.new
+    @graph = MatchingBackend::BipartiteGraph.new
   end
   
   describe :add_node do
@@ -115,7 +114,7 @@ describe BipartiteGraph do
 
   describe :connect do
     before(:each) do
-      @graph = BipartiteGraph.new
+      @graph = MatchingBackend::BipartiteGraph.new
 
       @student_nodes = 2.times.map{|i| @graph.add_node(i, :student)}
       @timeslot_nodes = 2.times.map{|i| @graph.add_node(i, :timeslot)}
@@ -133,7 +132,7 @@ describe BipartiteGraph do
 
     it "should add edges with dummy weights" do
       @graph.connect
-      dummy_edge_weight = BipartiteGraph::DUMMY_EDGE_WEIGHT
+      dummy_edge_weight = MatchingBackend::BipartiteGraph::DUMMY_EDGE_WEIGHT
       Set.new(@graph.edges.map{|e| e.weight}).should == 
         Set.new([1,1] + [dummy_edge_weight, dummy_edge_weight])
     end
@@ -142,7 +141,7 @@ describe BipartiteGraph do
   describe "connected?" do
 
     before(:each) do
-      @graph = BipartiteGraph.new
+      @graph = MatchingBackend::BipartiteGraph.new
       @student_node = @graph.add_node(2, :student)
       @timeslot_node = @graph.add_node(4, :timeslot)
     end
@@ -158,10 +157,10 @@ describe BipartiteGraph do
 
 
 end
-describe MatchingSolver::MatchingProblem do
+describe MatchingBackend::MatchingProblem do
   let(:preferences) { FactoryGirl.build_stubbed_list(:preference, 4) }
   before(:each) do
-    @graph = BipartiteGraph.new
+    @graph = MatchingBackend::BipartiteGraph.new
     students = Set.new(preferences.map{|p| p.student})
     preferences.each do |p|
       s_node = @graph.add_node(p.student, :student)
@@ -169,7 +168,7 @@ describe MatchingSolver::MatchingProblem do
       @graph.add_edge(s_node, t_node, p.ranking)
     end
     #Instantiate a problem with params specified by the specific test cases
-    @problem = MatchingSolver::MatchingProblem.new(@graph)      
+    @problem = MatchingBackend::MatchingProblem.new(@graph)      
   end
 
   describe :solution do

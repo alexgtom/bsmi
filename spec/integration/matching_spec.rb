@@ -1,41 +1,41 @@
 require 'spec_helper'
 
-
-
 describe "The matching solution" do
 
+
+  let(:students) { Set.new(preferences.map {|p| p.student}) }
+  let(:timeslots) { Set.new(preferences.map {|p| p.timeslot}) }
+
   before(:each) do
-    @solver = MatchingSolver.new(preferences, students, timeslots)
+    @solver = MatchingBackend::MatchingSolver.new(preferences, students, timeslots)
   end
 
   shared_examples_for "a good matching:" do
     
-    let(:students) { Set.new(preferences.map {|p| p.student}) }
-    let(:timeslots) { Set.new(preferences.map {|p| p.timeslot}) }
-
     it "should match every student to exactly one timeslot" do
       counts = Hash.new(0) 
       subject.each do |matching|
-        counts[matching.student_id] += 1
+        counts[matching[:student_id]] += 1
       end
       students.each do |s|
         counts[s.id].should eq(1), "Student #{s} wasn't matched"
       end
     end
 
-    it "should match every timeslot to exactly one student" do
+    it "should match every timeslot to at least one student" do
       counts = Hash.new(0) 
       subject.each do |matching|
-        counts[matching.timeslot_id] += 1
+        counts[matching[:timeslot_id]] += 1
       end
       timeslots.each do |t|
-        counts[t.id].should eq(1), "Timeslot #{t} wasn't matched"
+        counts[t.id].should be >= 1, "Timeslot #{t} wasn't matched"
+        counts[t.id].should be <= t.max_num_assistants, "Timeslot #{t} was matched too many times"
       end
     end
 
 
     it "should have the correct matching score" do
-      subject.map {|p| p.ranking}.reduce(:+).should eq(desired_matching_score)
+      matching_score.should eq(desired_matching_score)
     end
 
   end
@@ -74,7 +74,67 @@ describe "The matching solution" do
     it_behaves_like "a good matching:"
   end
 
+  context "when some students need to be paired" do
+    let(:preferences) do
+      build_preferences( {:s1 => [[:t1, 1], [:t2, 2], [:t3, 3]],
+                          :s2 => [[:t1, 1], [:t2, 2], [:t3, 3]],
+                          :s3 => [[:t1, 1], [:t2, 2], [:t3, 3]],
+                          :s4 => [[:t1, 1], [:t2, 2], [:t3, 3]]},
+                         {:t2 => {:max_num_assistants => 2}}
+                        )
+    end
+    #8 is actual cost of matching; add offset b/c dup node chosen
+    let(:desired_matching_score) { 8 + MatchingBackend::BipartiteGraph::DUP_EDGE_OFFSET } 
 
+    it_behaves_like "a good matching:" 
+  end
+
+
+  context "when pairing would otherwise give a lower score" do
+    let(:preferences) do
+      build_preferences({ :s1 => [[:t1, 1], [:t2, 2], [:t3, 3]],
+                          :s2 => [[:t1, 1], [:t2, 2], [:t3, 3]],
+                          :s3 => [[:t1, 1], [:t2, 2], [:t3, 3]]
+                        },
+                        {:t1 => {:max_num_assistants => 2}})
+                        
+    end
+
+    it "should pair only as needed" do
+      counts = Hash.new(0) 
+      subject.each do |matching|
+        counts[matching[:timeslot_id]] += 1
+      end
+      timeslots.each do |t|
+        counts[t.id].should eq(1)
+      end
+    end
+    let(:desired_matching_score) { 6 }
+    it_behaves_like "a good matching:"
+  end
+
+
+  #####################################################
+  # Non perfect matchings
+  #####################################################
+
+  context "when a good matching is impossible" do
+
+    let(:preferences) do
+      build_preferences(:s1 => [[:t1, 1], [:t2, 2]],
+                        :s2 => [[:t1, 2], [:t2, 1]],
+                        :s3 => [[:t1, 1]])
+    end
+
+    it "still gives the lowest score possible" do
+      matching_score.should eq(2)
+    end
+
+    it "should match as many people as possible" do
+      subject.length.should eq(2)
+    end
+
+  end
 
 ##################################################
 # Helpers
@@ -83,31 +143,18 @@ describe "The matching solution" do
   # Construct a list of preferences from preference_hash
   #
   #preference_hash: Hash mapping students to lists of timeslot-ranking pairs.
-  #Both students and timeslots can be represented by anything ending in a number--i.e
-  # :t1, "t1" and 1 are all valid (the id for the timeslot is taken off the end).
+  #Both students and timeslots can be represented by any symbol.
   #
   # Sample use:       
   #     build_preferences(:s1 => [[:t1, 1], [:t2, 2]],
   #                       :s2 => [[:t2, 1], [:t2, 2]],
   #                       :s3 => [[:t3, 1], [:t2, 2]])
 
-  def build_preferences(preference_hash) 
+  def build_preferences(preference_hash, timeslot_options = {}) 
     prefs = []
-
-    # def extract_id(thing)
-    #   id_pattern = /.*?(\d+)$/
-    #   thing = thing.to_s
-    #   match = id_pattern.match(thing)
-    #   if match
-    #     return match[1].to_i
-    #   else
-    #     throw ArgumentError.new("Can't extract an id from #{thing}; needs a number at the end")
-    #   end
-    # end
 
     student_objs = Hash.new
     timeslot_objs = Hash.new
-
 
     preference_hash.each_pair do |student_name, ts_ranking_pairs|
       student_objs[student_name] = FactoryGirl.build_stubbed(:student)
@@ -116,7 +163,10 @@ describe "The matching solution" do
         timeslot_name, ranking = pair                        
 
         if not timeslot_objs.include? timeslot_name
-          timeslot_objs[timeslot_name] = FactoryGirl.build_stubbed(:timeslot)
+          options_for_timeslot = timeslot_options[timeslot_name] || {}
+          timeslot_objs[timeslot_name] = FactoryGirl.build_stubbed(:timeslot,
+                                                                   options_for_timeslot
+                                                                   )
         end
         
       end
@@ -134,5 +184,9 @@ describe "The matching solution" do
     return prefs
   end
 
+
+  def matching_score
+    subject.map {|p| p[:ranking]}.reduce(:+)
+  end
 
 end

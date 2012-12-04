@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121204013105) do
+ActiveRecord::Schema.define(:version => 20121204021747) do
 
   create_table "advisors", :force => true do |t|
     t.datetime "created_at", :null => false
@@ -22,9 +22,8 @@ ActiveRecord::Schema.define(:version => 20121204013105) do
     t.string   "name"
     t.text     "timeslots"
     t.string   "school_type"
-    t.string   "course_grade"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
     t.integer  "semester_id"
   end
 
@@ -131,11 +130,12 @@ ActiveRecord::Schema.define(:version => 20121204013105) do
     t.string   "name"
     t.date     "start_date"
     t.date     "end_date"
-    t.datetime "created_at",               :null => false
-    t.datetime "updated_at",               :null => false
+    t.datetime "created_at",                                  :null => false
+    t.datetime "updated_at",                                  :null => false
     t.integer  "year"
     t.integer  "registration_deadline_id"
     t.string   "status"
+    t.boolean  "matchings_performed",      :default => false
   end
 
   create_table "semesters_students", :id => false, :force => true do |t|
@@ -176,11 +176,11 @@ ActiveRecord::Schema.define(:version => 20121204013105) do
   create_table "timeslots", :force => true do |t|
     t.time     "start_time"
     t.integer  "day"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
     t.time     "end_time"
     t.integer  "mentor_teacher_id"
-    t.integer  "max_num_assistants"
+    t.integer  "max_num_assistants", :default => 1
     t.integer  "cal_course_id"
     t.integer  "course_id"
   end

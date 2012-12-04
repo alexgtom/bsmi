@@ -1,9 +1,11 @@
+require 'matching'
 class CalCourse < ActiveRecord::Base
   attr_accessible :name, :school_type, :timeslots
   #Associations
   has_many :timeslots
   has_many :courses, :through => :timeslots
   has_many :mentor_teacher, :through => :timeslots
+  has_many :matchings, :through => :students
   has_and_belongs_to_many :students
   belongs_to :semester
   has_and_belongs_to_many :cal_faculties
@@ -55,4 +57,33 @@ class CalCourse < ActiveRecord::Base
     self.destroy_associations()
     self.build_associations(times, cal_faculties)
   end
+
+
+  #Perform matchings for students in this Cal course.  
+  def match 
+#User.where(:id => accounts.project(:user_id).where(accounts[:user_id].not_eq(6)))
+    preferences = Preference.where(:student_id => self.students.select(:id),
+                                   :timeslot_id => self.timeslots.select(:id))
+    solver = MatchingBackend::MatchingSolver.new(preferences, self.students, self.timeslots)
+
+    solution = solver.solve
+
+    solution.each do |match|
+      Matching.create(match)      
+    end
+  end
+
+  def self.current_semester_courses
+    self.joins(:semester).where('semesters.id = ?', Semester.current_semester.id)
+  end
+  
+  def self.match_all 
+    self.current_semester_courses.each do |course|
+      course.match
+    end
+    cur_semester = Semester.current_semester
+    cur_semester.matchings_performed = true
+    cur_semester.save       
+  end
+
 end

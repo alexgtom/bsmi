@@ -5,6 +5,7 @@ class CalCourse < ActiveRecord::Base
   has_many :timeslots
   has_many :courses, :through => :timeslots
   has_many :mentor_teacher, :through => :timeslots
+  has_many :matchings, :through => :students
   has_and_belongs_to_many :students
   belongs_to :semester
 
@@ -53,18 +54,26 @@ class CalCourse < ActiveRecord::Base
 #User.where(:id => accounts.project(:user_id).where(accounts[:user_id].not_eq(6)))
     preferences = Preference.where(:student_id => self.students.select(:id),
                                    :timeslot_id => self.timeslots.select(:id))
-    solver = Matching::MatchingSolver.new(preferences, self.students, self.timeslots)
+    solver = MatchingBackend::MatchingSolver.new(preferences, self.students, self.timeslots)
 
     solution = solver.solve
 
     solution.each do |match|
-      Student.find(match[:student_id]).placements << Timeslot.find(match[:timeslot_id])
+      Matching.create(match)      
     end
   end
 
+  def self.current_semester_courses
+    self.joins(:semester).where('semesters.id = ?', Semester.current_semester.id)
+  end
   
   def self.match_all 
-    self.all.each {|course| course.match}
+    self.current_semester_courses.each do |course|
+      course.match
+    end
+    cur_semester = Semester.current_semester
+    cur_semester.matchings_performed = true
+    cur_semester.save       
   end
 
 end

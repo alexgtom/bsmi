@@ -14,6 +14,21 @@ class Matching < ActiveRecord::Base
 
   validates :student_id, :presence => true
   validates :timeslot_id, :presence => true
+
+  
+  def self.by_cal_course(semester)
+    matchings = self.joins(:semester, :cal_course).
+      where('semesters.id' => semester.id).
+      includes(:timeslot, :student, :cal_course)
+    
+    rtn = Hash.new {|hash, key| hash[key] = []}
+
+    matchings.each do |matching|
+      rtn[matching.cal_course] << matching
+    end
+    return rtn
+  end
+  
 end
 
 

@@ -1,13 +1,16 @@
 class MatchingsController < ApplicationController
   
   def show
-    if not Semester.current_semester.matchings_performed
+    cur_semester = Semester.current_semester
+    if not cur_semester.matchings_performed
       redirect_to new_matching_path
     end
+
+    @placements_by_course = Matching.by_cal_course(cur_semester)
   end
 
   def new
-    @placements_by_course = CalCourse.placements_by_course
+
   end
 
   def create

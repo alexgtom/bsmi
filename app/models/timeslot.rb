@@ -54,7 +54,11 @@ class Timeslot < ActiveRecord::Base
   def to_string
     return "#{self.day.capitalize}|#{self.start_time.strftime("%I:%M%p")}|#{self.end_time.strftime("%I:%M%p")}"
   end
-  
+
+  def standard_string
+   "#{self.day.capitalize} #{self.start_time.strftime("%I:%M %p")}-#{self.end_time.strftime("%I:%M %p")}"
+  end
+
   def build_entry(caller_id)
     if self.mentor_teacher
       entry = self.mentor_teacher.build_entry

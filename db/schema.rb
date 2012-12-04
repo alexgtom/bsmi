@@ -11,11 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-<<<<<<< HEAD
 ActiveRecord::Schema.define(:version => 20121204021747) do
-=======
-ActiveRecord::Schema.define(:version => 20121204013105) do
->>>>>>> master
 
   create_table "advisors", :force => true do |t|
     t.datetime "created_at", :null => false
@@ -91,6 +87,14 @@ ActiveRecord::Schema.define(:version => 20121204013105) do
 
   add_index "invites", ["id", "email"], :name => "index_invites_on_id_and_email"
   add_index "invites", ["id", "invite_code"], :name => "index_invites_on_id_and_invite_code"
+
+  create_table "matchings", :force => true do |t|
+    t.integer  "student_id"
+    t.integer  "timeslot_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.integer  "ranking"
+  end
 
   create_table "mentor_teachers", :force => true do |t|
     t.datetime "created_at", :null => false
@@ -177,7 +181,6 @@ ActiveRecord::Schema.define(:version => 20121204013105) do
     t.time     "end_time"
     t.integer  "mentor_teacher_id"
     t.integer  "max_num_assistants", :default => 1
-    t.integer  "course_id"
     t.integer  "cal_course_id"
     t.integer  "course_id"
   end

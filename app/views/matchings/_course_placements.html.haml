@@ -13,7 +13,8 @@
       
     - placements.each do |p|
       %tr 
-        %td= p.student.user.name
+        %td 
+          %a{:href => edit_placements_student_path(p.student_id, :semester_id => p.timeslot.semester.id)}= p.student.user.name   
         %td= p.timeslot.mentor_teacher.user.name
         %td= p.timeslot.mentor_teacher.school.name
         %td= p.timeslot.standard_string

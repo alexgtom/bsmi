@@ -3,8 +3,6 @@ Bsmi::Application.routes.draw do
 
   resources :semesters
 
-  resources :invites
-
   resources :courses
 
   resources :cal_courses
@@ -18,7 +16,11 @@ Bsmi::Application.routes.draw do
   resources :settings
 
   resources :matchings
+
+  match '/invites/new_excel' => 'invites#new_excel', :as => 'new_invite_excel'
+  match '/invites/uploadFile_and_invite' => 'invites#uploadFile_and_invite', :as => 'uploadFile_and_invite'
   resources :invites
+
 
   match 'login' => "user_sessions#new",      :as => :login
   match 'logout' => "user_sessions#destroy", :as => :logout
@@ -32,7 +34,7 @@ Bsmi::Application.routes.draw do
   match '/user/:id/adv_edit' => 'users#adv_edit', :as => 'advisor_edit_user'
   match '/user/adv_edit' => 'users#adv_update', :as => 'advisor_update_user'
 
-  match '/user/:id/cf_show' => 'users#cf_show', :as => 'cal_faculty_show_user'
+  match '/user/:id/user_show' => 'users#user_show', :as => 'user_show_user'
 
   match '/send_invitation/:id' => 'invites#send_invitation', :as => 'send_invitation'
   match '/signup/:invite_code' => 'users#new', :as => 'redeem_invitation'
@@ -42,7 +44,8 @@ Bsmi::Application.routes.draw do
 
   resources :mentor_teachers
   namespace :mentor_teacher do
-    resource :schedule      
+    resources :my_students  
+    resource :schedule    
   end
 
   namespace :cal_faculty do
@@ -58,6 +61,8 @@ Bsmi::Application.routes.draw do
   match '/error' => 'pages#error'
 
   resources :advisors
+
+  resources :cal_faculties
 
   match 'error' => "select_timeslots#error", :as => :error
 

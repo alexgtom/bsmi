@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   before_filter :require_no_user, :only => [:new, :create]
   skip_before_filter :require_user, :only => [:new, :create]
   before_filter :require_admin, :only => [:destroy, :adv_new, :adv_create, :adv_show, :adv_edit, :adv_update]
-  before_filter :require_cal_faculty, :only => [:cf_show]
+  before_filter :only => [:user_show] do |c| c.send(:require_user_type, "CalFaculty, MentorTeacher") end
   
   def new
     @user = User.new
@@ -46,13 +46,16 @@ class UsersController < ApplicationController
         @invite.redeemed!
         flash[:notice] = "Your account has been created."
         redirect_to user_path @user.id
+        return
       else
         flash[:notice] = "There was a problem creating you."
         render :action => :new
+        return
       end
     else
       flash[:notice] = "there is something wrong with this invitation."
       render :action => :new
+      return
     end
     
   end
@@ -112,8 +115,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
-  #add checking permission, later
-  def cf_show
+  def user_show
     @user = User.find(params[:id])
   end
 
@@ -124,7 +126,7 @@ class UsersController < ApplicationController
   def adv_update
     @user = User.find(params[:id])
     if @user.update_attributes(params[:user])
-      flash[:notice] = "User '#{@user.email}'Updated!"
+      flash[:notice] = "User '#{@user.email}' Updated!"
       redirect_back_or_default "/students"
       return
     else

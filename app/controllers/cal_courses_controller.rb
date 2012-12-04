@@ -1,4 +1,5 @@
 class CalCoursesController < ApplicationController
+#before filter -- advisor or cal_faculty only access for everything
   # GET /cal_courses
   # GET /cal_courses.json
   def index
@@ -86,7 +87,7 @@ class CalCoursesController < ApplicationController
       return
     end
     if @cal_course and @cal_course.update_attributes(params[:cal_course]) 
-      if @cal_course.update_timeslot_associations(params[:timeslots])
+      if @cal_course.update_associations(params[:timeslots], params[:cal_faculty])
         flash[:notice] = "CalCourse '#{@cal_course.name}' Updated!"
         redirect_to cal_course_path @cal_course.id
       end
@@ -97,6 +98,7 @@ class CalCoursesController < ApplicationController
       render :action => :edit
     end
   end
+
 
   # DELETE /cal_courses/1
   # DELETE /cal_courses/1.json

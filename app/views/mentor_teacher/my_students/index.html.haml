@@ -1,0 +1,15 @@
+.page-header
+  %h1 My Students
+
+%table.table.table-hover
+  %tr
+    %th= link_to 'First Name', mentor_teacher_my_students_path(:sort => 'first_name')
+    %th= link_to 'Last Name', mentor_teacher_my_students_path(:sort => 'last_name')
+    %th Email
+
+  - @my_students.each do |student|
+    %tr
+      %td= link_to student.user.first_name, user_show_user_path(student.user)
+      %td= student.user.last_name
+      %td= student.user.email 
+%br

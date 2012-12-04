@@ -21,6 +21,7 @@ class AdvisorsController < ApplicationController
   # GET /advisors/1
   # GET /advisors/1.json
   def show
+    store_location
     @advisor = Advisor.find(params[:id])
 
     respond_to do |format|

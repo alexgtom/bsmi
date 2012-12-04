@@ -1,5 +1,7 @@
 class StudentsController < ApplicationController
+  before_filter :require_student, :only => [:placements]
   def index
+    store_location
     @all_student = User.where(:owner_type => "Student")
     if params[:sort] || session[:sort] != nil
       sort = params[:sort] || session[:sort]
@@ -13,6 +15,7 @@ class StudentsController < ApplicationController
   end
 
   def placements
+    @semester = Semester.find(params[:semester_id])
     @placements = User.find(params[:id]).owner.placements
   end
 
@@ -53,10 +56,11 @@ class StudentsController < ApplicationController
 
   def courses
     @student = User.find(params[:id]).owner
-    @cal_courses = @student.cal_courses
+    @cal_courses = User.find(params[:id]).owner.cal_courses
   end
 
   def select_courses
+    @semester = Semester.find(params[:semester_id])
     @student = User.find(params[:id]).owner
     @cal_courses = CalCourse.all
 
@@ -82,7 +86,8 @@ class StudentsController < ApplicationController
   end
 
   def show
-    @student = User.find(params[:id]).owner
+    store_location
+    @student = Student.find(params[:id])
   end
 end
 

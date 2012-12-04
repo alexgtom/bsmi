@@ -1,0 +1,63 @@
+%p#notice= notice
+
+.page-header
+  %h1 
+    = "#{@cal_faculty.user.first_name} #{@cal_faculty.user.last_name}"
+
+.pull-right
+  = link_to 'Edit', advisor_edit_user_path(@cal_faculty.user.id), :class => 'btn'
+  
+
+%h2 Cal Faculty Information
+
+%table.table
+  %tr
+    %td
+      %b First Name:
+    %td
+      = @cal_faculty.user.first_name
+  %tr
+    %td
+      %b Last Name:
+    %td
+      = @cal_faculty.user.last_name
+  %tr
+    %td
+      %b Phone NUmber:
+    %td
+      = @cal_faculty.user.phone_number
+  %tr
+    %td
+      %b Email:
+    %td
+      = mail_to @cal_faculty.user.email
+  %tr
+    %td
+      %b Created:
+    %td
+      = @cal_faculty.user.created_at
+  %tr
+    %td
+      %b Updated:
+    %td
+      = @cal_faculty.user.updated_at
+  %tr
+    %td
+      %b Address:
+    %td
+      = @cal_faculty.user.street_address
+  %tr
+    %td
+      %b City:
+    %td
+      = @cal_faculty.user.city
+  %tr
+    %td
+      %b State:
+    %td
+      = @cal_faculty.user.state
+  %tr
+    %td
+      %b Zip Code:
+    %td
+      = @cal_faculty.user.zipcode

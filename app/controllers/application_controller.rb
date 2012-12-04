@@ -26,6 +26,15 @@ class ApplicationController < ActionController::Base
       @current_user = current_user_session && current_user_session.user
     end
 
+    def require_user_type(user_type)
+      unless user_type && user_type != "" && current_user && user_type.gsub(/\s+/,"").split(",").include?(current_user.owner_type)
+        store_location
+        flash[:notice] = "You don't have permission to access this page."
+        redirect_to root_url
+        return false
+      end
+    end
+
     def require_admin
       unless current_user && current_user.owner_type == "Advisor" #admin for now
         store_location
@@ -35,10 +44,28 @@ class ApplicationController < ActionController::Base
       end
     end
 
+    def require_student
+      unless current_user && current_user.owner_type == "Student"
+        store_location
+        flash[:notice] = "Only student can access this page."
+        redirect_to new_user_session_url
+        return false
+      end
+    end
+
     def require_cal_faculty
-      unless current_user && current_user.owner_type == "CalFaculty" #admin for now
+      unless current_user && current_user.owner_type == "CalFaculty"
         store_location
         flash[:notice] = "Only Cal Faculty can access this page."
+        redirect_to new_user_session_url
+        return false
+      end
+    end
+
+    def require_mentor_teacher
+      unless current_user && current_user.owner_type == "MentorTeacher"
+        store_location
+        flash[:notice] = "Only Mentor Teacher can access this page."
         redirect_to new_user_session_url
         return false
       end

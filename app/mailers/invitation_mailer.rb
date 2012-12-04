@@ -8,8 +8,8 @@ class InvitationMailer < ActionMailer::Base
   #
   def invite(invitation)
     @invite = invitation
-    mail :from => 'sangyoon park<secretsvd@berkeley.edu>',
+    mail :from => 'CalTeach<calteach@berkeley.edu>',
          :to => invitation.email,
-         :subject => "Invitation to bsmi registration"
+         :subject => "Invitation to CalTeach registration"
   end
 end

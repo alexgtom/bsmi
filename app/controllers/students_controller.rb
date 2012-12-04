@@ -1,5 +1,6 @@
 class StudentsController < ApplicationController
   before_filter :require_student, :only => [:placements]
+  
   def index
     store_location
     @all_student = User.where(:owner_type => "Student")

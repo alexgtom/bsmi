@@ -11,6 +11,7 @@ Background: cal_courses, cal_faculty(me), students exitsts
   | name        | school_type		| semester_id |
   | Educ 111	| Elementary School	| 1           |
   | Educ 555	| Elementary School	| 1           |
+
   Given the following users exist:
   | first_name|last_name| email	               | password| type          | street_address   | phone_number | cal_courses |
   | Cal       | Faculty | calfaculty@berk.edu  | 1234    | CalFaculty    | mystreet1        | 000-111-222  | 1           |

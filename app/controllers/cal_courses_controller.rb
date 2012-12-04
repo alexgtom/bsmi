@@ -54,8 +54,8 @@ class CalCoursesController < ApplicationController
   # POST /cal_courses
   # POST /cal_courses.json
   def create
+    @cal_course = CalCourse.new(params[:cal_course])
     if School::LEVEL.include?(params[:cal_course][:school_type]) and params[:cal_course][:semester_id] != ""
-      @cal_course = CalCourse.new(params[:cal_course])
       if @cal_course.save  
         @cal_course.build_timeslot_associations(params[:timeslots])
         flash[:notice] = 'The course was successfully created.'

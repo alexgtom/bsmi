@@ -42,7 +42,11 @@ Bsmi::Application.routes.draw do
   match 'signup' => 'users#new', :as => :signup
 
 
-  resources :mentor_teachers
+  resources :mentor_teachers do
+    member do
+      get 'home'
+    end
+  end
   namespace :mentor_teacher do
     resources :my_students  
     resource :schedule    

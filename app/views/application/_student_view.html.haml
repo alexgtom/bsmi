@@ -3,7 +3,7 @@
     %ul.nav
       %li= link_to "Home", home_student_path
       - Semester.where(:status => Semester::PUBLIC).each do |s|
-        %li= link_to "#{s.name} #{s.year}", splash_student_path(current_user.id, semester.id)
+        %li= link_to "#{s.name} #{s.year}", splash_student_path(current_user.id, s.id)
 
 - if not current_page?(home_student_path)
   .sidebar.left.sidebar-nav

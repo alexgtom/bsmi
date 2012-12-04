@@ -4,8 +4,7 @@ class MentorTeacher::MyStudentsController < ApplicationController
   def index
     @semester = Semester.find(params[:semester_id])
     @mentor_teacher = MentorTeacher.find(current_user.owner_id)
-    @my_students = @mentor_teacher.students
-    @my_students = @my_students.select { |x| x.semester.id == @semester.id }
+    @my_students = @mentor_teacher.students.joins(:semesters).where("semesters.id = ?", @semester.id)
     @my_students = @my_students.uniq {|x| x.user.id }
     if params[:sort] || session[:sort] != nil
       sort = params[:sort] || session[:sort]

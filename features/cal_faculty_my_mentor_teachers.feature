@@ -9,22 +9,23 @@ Background: cal_courses, cal_faculty(me), students exitsts
 			| 1  | Fall | 2012 | Public |
   Given the following timeslots exist:
   | start_time | end_time | day     | course_id | mentor_teacher_id	| cal_course_id	|
-  | 8:00 AM    | 9:00 AM  | monday  | 1	        | 1			        | 1		|               
-  | 9:00 AM    | 10:00 AM | monday  | 2	        | 2			        | 1		|               
-  | 9:00 AM    | 10:00 AM | monday  | 3	        | 3			        | 2		|               
+  | 8:00 AM    | 9:00 AM  | monday  | 1	        | 1		        | 1		|               
+  | 9:00 AM    | 10:00 AM | monday  | 2	        | 2		        | 1		|               
+  | 9:00 AM    | 10:00 AM | monday  | 3	        | 3			| 2		|               
   Given the following cal course exists:
-  | name        | school_type		| course_grade	| semester_id |
-  | Educ 111	| Elementary School	| 8				| 1     | 
-  | Educ 555	| Elementary School	| 7				| 1     | 
+  | name        | school_type		| semester_id |
+  | Educ 111	| Elementary School	| 1           |
+  | Educ 555	| Elementary School	| 1           |
+
   Given the following users exist:
   | first_name|last_name| email	               | password| type          | street_address   | phone_number | cal_courses |
-  | Cal       | Faculty | calfaculty@berk.edu  | 1234    | CalFaculty    | mystreet1        | 000-111-222  | 1    |
-  | stud1     | ent1    | std1@std.edu         | 1234    | Student       | mystreet2        | 333-444-555  | 1    |
-  | stud2     | ent2    | std2@std.edu         | 1234    | Student       | mystreet3        | 333-444-555  | 2    |
-  | stud3     | ent3    | std3@std.edu         | 1234    | Student       | mystreet4        | 333-444-555  | 1    |
-  | mentor1   | ment1   | mt1@std.edu          | 1234    | MentorTeacher | mystreet5        | 333-444-555  |      |
-  | mentor2   | ment2   | mt2@std.edu          | 1234    | MentorTeacher | mystreet6        | 333-444-555  |      |
-  | mentor3   | ment3   | mt3@std.edu          | 1234    | MentorTeacher | mystreet7        | 333-444-555  |      |
+  | Cal       | Faculty | calfaculty@berk.edu  | 1234    | CalFaculty    | mystreet1        | 000-111-222  | 1   	 |
+  | stud1     | ent1    | std1@std.edu         | 1234    | Student       | mystreet2        | 333-444-555  | 1   	 |
+  | stud2     | ent2    | std2@std.edu         | 1234    | Student       | mystreet3        | 333-444-555  | 2   	 |
+  | stud3     | ent3    | std3@std.edu         | 1234    | Student       | mystreet4        | 333-444-555  | 1  	 |
+  | mentor1   | ment1   | mt1@std.edu          | 1234    | MentorTeacher | mystreet5        | 333-444-555  |    	 |
+  | mentor2   | ment2   | mt2@std.edu          | 1234    | MentorTeacher | mystreet6        | 333-444-555  |   	  	 |
+  | mentor3   | ment3   | mt3@std.edu          | 1234    | MentorTeacher | mystreet7        | 333-444-555  |    	 |
 
 Scenario: Login as a cal_faculty and see my menus
   Given I am on the login page

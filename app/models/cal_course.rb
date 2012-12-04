@@ -1,3 +1,4 @@
+require 'matching'
 class CalCourse < ActiveRecord::Base
   attr_accessible :name, :school_type, :timeslots
   #Associations
@@ -44,6 +45,25 @@ class CalCourse < ActiveRecord::Base
   def update_timeslot_associations(times)
     self.destroy_timeslot_associations()
     self.build_timeslot_associations(times)
+  end
+
+  #Perform matchings for students in this Cal course.  
+  def match 
+#User.where(:id => accounts.project(:user_id).where(accounts[:user_id].not_eq(6)))
+    preferences = Preference.where(:student_id => self.students.select(:id),
+                                   :timeslot_id => self.timeslots.select(:id))
+    solver = Matching::MatchingSolver.new(preferences, self.students, self.timeslots)
+
+    solution = solver.solve
+
+    solution.each do |match|
+      Student.find(match[:student_id]).placements << Timeslot.find(match[:timeslot_id])
+    end
+  end
+
+  
+  def self.match_all 
+    self.all.each {|course| course.match}
   end
 
 end

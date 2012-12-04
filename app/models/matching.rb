@@ -28,6 +28,25 @@ module MatchingBackend
       attr_reader :value, :type, :dup_num
 
 
+      def initialize(value, type, options = {})
+        @value = value
+        @type = type
+        @dummy = options[:dummy] || false
+        @dup_num = options[:dup_num] || 0
+      end
+
+      def eql?(other)
+        if not other.instance_of? Node
+          return false
+        else
+          return (value == other.value and 
+                  type == other.type and          
+                  @dummy == other.dummy? and 
+                  @dup_num == other.dup_num)
+        end
+      end
+
+
       def ==(other)
         return self.eql?(other)
       end

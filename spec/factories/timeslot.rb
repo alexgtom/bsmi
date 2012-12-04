@@ -61,7 +61,7 @@ FactoryGirl.define do
       'class#{n}'
     end
 
-    num_assistants { FactoryGirl.generate(:num_assistants) }
+    num_assistants { FactoryGirl.generate(:max_num_assistants) }
 
     #Builds the hash properly by passing attributes as an argument
     #instead of trying to set attribute fields on it

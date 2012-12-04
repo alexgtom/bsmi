@@ -2,11 +2,18 @@ require 'rglpk'
 require 'set'
 
 
+#TODO: This is basically the same as Preference--factor out common code into a base
+#class/table
 class Matching < ActiveRecord::Base
   attr_protected #none  
   belongs_to :student
-  belongs_to :timeslot
-  
+  belongs_to :timeslot  
+
+  has_one :semester, :through => :timeslot
+  has_one :cal_course, :through => :timeslot
+
+  validates :student_id, :presence => true
+  validates :timeslot_id, :presence => true
 end
 
 

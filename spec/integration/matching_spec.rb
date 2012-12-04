@@ -7,7 +7,7 @@ describe "The matching solution" do
   let(:timeslots) { Set.new(preferences.map {|p| p.timeslot}) }
 
   before(:each) do
-    @solver = Matching::MatchingSolver.new(preferences, students, timeslots)
+    @solver = MatchingBackend::MatchingSolver.new(preferences, students, timeslots)
   end
 
   shared_examples_for "a good matching:" do
@@ -84,7 +84,7 @@ describe "The matching solution" do
                         )
     end
     #8 is actual cost of matching; add offset b/c dup node chosen
-    let(:desired_matching_score) { 8 + Matching::BipartiteGraph::DUP_EDGE_OFFSET } 
+    let(:desired_matching_score) { 8 + MatchingBackend::BipartiteGraph::DUP_EDGE_OFFSET } 
 
     it_behaves_like "a good matching:" 
   end

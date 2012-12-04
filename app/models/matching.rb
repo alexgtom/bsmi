@@ -18,13 +18,14 @@ end
 
 
 module MatchingBackend
+  #Contains methods and classes related to solving the matching problem.
 
-class BipartiteGraph
-  attr_accessor :adjacency_list
+  class BipartiteGraph
+    attr_accessor :adjacency_list
 
-#Need ways of determining: duplicate node, dummy node
-  class Node
-    attr_reader :value, :type, :dup_num
+    #Need ways of determining: duplicate node, dummy node
+    class Node
+      attr_reader :value, :type, :dup_num
 
 
       def ==(other)

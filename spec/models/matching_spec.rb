@@ -7,12 +7,12 @@ require 'spec_helper'
 # see spec/integration/matching_spec
 ######################################################################################
  
-describe Matching::MatchingSolver do  
+describe MatchingBackend::MatchingSolver do  
   let(:preferences) { FactoryGirl.build_stubbed_list(:preference, 4) }
   before(:each) do
     students = Set.new(preferences.map{|p| p.student})
     timeslots = Set.new(preferences.map{|p| p.timeslot})
-    @solver = Matching::MatchingSolver.new(preferences, students, timeslots)
+    @solver = MatchingBackend::MatchingSolver.new(preferences, students, timeslots)
   end
   
   describe :solve do
@@ -24,18 +24,18 @@ describe Matching::MatchingSolver do
     end
 
     it "should instantiate a new MatchingProblem" do
-      Matching::MatchingProblem.should_receive(:new).and_return {@problem_mock}
+      MatchingBackend::MatchingProblem.should_receive(:new).and_return {@problem_mock}
       @solver.solve
     end
 
     it "should extract the problems solution" do
-      Matching::MatchingProblem.stub(:new) {@problem_mock}
+      MatchingBackend::MatchingProblem.stub(:new) {@problem_mock}
       @solver.should_receive(:extract_solution).with(@test_res)
       @solver.solve
     end
 
     it "should normalize the graph" do
-      Matching::MatchingProblem.stub(:new) {@problem_mock}
+      MatchingBackend::MatchingProblem.stub(:new) {@problem_mock}
       @solver.should_receive(:normalize_graph)
       @solver.solve
     end
@@ -72,7 +72,7 @@ describe Matching::MatchingSolver do
                                         :timeslot => t)        
       end
       
-      @solver = Matching::MatchingSolver.new(@preferences, @students, @timeslots)
+      @solver = MatchingBackend::MatchingSolver.new(@preferences, @students, @timeslots)
     end
 
     it "should add nodes for each timeslot up to its maximum" do
@@ -87,9 +87,9 @@ describe Matching::MatchingSolver do
   end
 end
 
-describe Matching::BipartiteGraph do  
+describe MatchingBackend::BipartiteGraph do  
   before(:each) do
-    @graph = Matching::BipartiteGraph.new
+    @graph = MatchingBackend::BipartiteGraph.new
   end
   
   describe :add_node do
@@ -114,7 +114,7 @@ describe Matching::BipartiteGraph do
 
   describe :connect do
     before(:each) do
-      @graph = Matching::BipartiteGraph.new
+      @graph = MatchingBackend::BipartiteGraph.new
 
       @student_nodes = 2.times.map{|i| @graph.add_node(i, :student)}
       @timeslot_nodes = 2.times.map{|i| @graph.add_node(i, :timeslot)}
@@ -132,7 +132,7 @@ describe Matching::BipartiteGraph do
 
     it "should add edges with dummy weights" do
       @graph.connect
-      dummy_edge_weight = Matching::BipartiteGraph::DUMMY_EDGE_WEIGHT
+      dummy_edge_weight = MatchingBackend::BipartiteGraph::DUMMY_EDGE_WEIGHT
       Set.new(@graph.edges.map{|e| e.weight}).should == 
         Set.new([1,1] + [dummy_edge_weight, dummy_edge_weight])
     end
@@ -141,7 +141,7 @@ describe Matching::BipartiteGraph do
   describe "connected?" do
 
     before(:each) do
-      @graph = Matching::BipartiteGraph.new
+      @graph = MatchingBackend::BipartiteGraph.new
       @student_node = @graph.add_node(2, :student)
       @timeslot_node = @graph.add_node(4, :timeslot)
     end
@@ -157,10 +157,10 @@ describe Matching::BipartiteGraph do
 
 
 end
-describe Matching::MatchingProblem do
+describe MatchingBackend::MatchingProblem do
   let(:preferences) { FactoryGirl.build_stubbed_list(:preference, 4) }
   before(:each) do
-    @graph = Matching::BipartiteGraph.new
+    @graph = MatchingBackend::BipartiteGraph.new
     students = Set.new(preferences.map{|p| p.student})
     preferences.each do |p|
       s_node = @graph.add_node(p.student, :student)
@@ -168,7 +168,7 @@ describe Matching::MatchingProblem do
       @graph.add_edge(s_node, t_node, p.ranking)
     end
     #Instantiate a problem with params specified by the specific test cases
-    @problem = Matching::MatchingProblem.new(@graph)      
+    @problem = MatchingBackend::MatchingProblem.new(@graph)      
   end
 
   describe :solution do

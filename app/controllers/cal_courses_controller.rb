@@ -63,7 +63,7 @@ class CalCoursesController < ApplicationController
       end
     else
       flash[:error] = 'Something went Wrong. Did you select a Semester and a School Type?'
-      @entries = @cal_course.create_selection_for_new_course
+      @entries = CalCourse.new.create_selection_for_new_course
       @semesters = Semester.all.collect {|s| ["#{s.name} #{s.year}", s.id]}
       render :action => :new
     end

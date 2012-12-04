@@ -298,7 +298,7 @@ end
 
 Timeslot.all.each_with_index do |t, i|
   # assign timeslots to each cal course
-  CalCourse.all[i % CalCourse.all.size].timeslots << t
+  CalCourse.all[i % CalCourse.all.size].timeslots << t if i%3 != 0
 end
 
 # --- Create preferences

@@ -13,9 +13,9 @@ Background: cal_courses, cal_faculty(me), students exitsts
   | 9:00 AM    | 10:00 AM | monday  | 2	        | 2			| 1		|
   | 9:00 AM    | 10:00 AM | monday  | 3	        | 3			| 2		|
   Given the following cal course exists:
-  | name        | school_type		| course_grade	| semester_id |
-  | Educ 111	| Elementary School	| 8		| 1           |
-  | Educ 555	| Elementary School	| 7		| 1           |
+  | name        | school_type		| semester_id |
+  | Educ 111	| Elementary School	| 1           |
+  | Educ 555	| Elementary School	| 1           |
   Given the following users exist:
   | first_name|last_name| email	               | password| type          | street_address   | phone_number | cal_courses |
   | Cal       | Faculty | calfaculty@berk.edu  | 1234    | CalFaculty    | mystreet1        | 000-111-222  | 1   	 |

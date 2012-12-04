@@ -21,7 +21,7 @@
     = f.select :semester_id, semesters, {:include_blank => true}
 
   - if @entries and @entries.size == 0
-    f.label "No Timeslots are Available to Select"
+    = f.label "No Timeslots are Available to Select"
   - else
     - content_for :javascripts do
       = javascript_include_tag "~/bsmi/app/assets/cal_courses_entries.js"

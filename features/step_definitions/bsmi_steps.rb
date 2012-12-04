@@ -112,6 +112,10 @@ Given /the following cal course exist/ do |tb|
     if not t['name']
       t['name'] = 'CS 61A'
     end
+    if t['cal_course_id'] == 'nil'
+      debugger
+      a = nil
+    end
     CalCourse.create!(t)
   end
 end

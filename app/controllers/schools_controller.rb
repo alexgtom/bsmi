@@ -1,4 +1,6 @@
 class SchoolsController < ApplicationController
+  before_filter :require_admin, :only => [:index, :show, :new, :edit]
+
   # GET /schools
   def index
     @schools = School.all

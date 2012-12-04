@@ -1,5 +1,5 @@
 class CalCourse < ActiveRecord::Base
-  attr_accessible :course_grade, :name, :school_type, :timeslots
+  attr_accessible :name, :school_type, :timeslots
   #Associations
   has_many :timeslots
   has_many :courses, :through => :timeslots
@@ -8,6 +8,9 @@ class CalCourse < ActiveRecord::Base
   belongs_to :semester
 
   attr_protected #none
+
+  validates_presence_of :semester, :name
+  validates_uniqueness_of :name
 
   def create_selection_for_new_course
     entries = []
@@ -40,7 +43,7 @@ class CalCourse < ActiveRecord::Base
   end
 
   def update_timeslot_associations(times)
-    #self.destroy_timeslot_associations()
+    self.destroy_timeslot_associations()
     self.build_timeslot_associations(times)
   end
 

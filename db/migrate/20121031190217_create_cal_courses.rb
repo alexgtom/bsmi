@@ -4,7 +4,6 @@ class CreateCalCourses < ActiveRecord::Migration
       t.string :name
       t.text :timeslots
       t.string :school_type
-      t.string :course_grade
 
       t.timestamps
     end

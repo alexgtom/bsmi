@@ -6,7 +6,7 @@
 
 .pull-right
   = link_to 'Edit', edit_cal_course_path(@cal_course), :class => 'btn'
-  = link_to 'Back', cal_courses_path, :class => 'btn'
+  = link_to 'Back', cal_course_path(), :class => 'btn'
 
 %h2 School Information
 %table.table
@@ -15,12 +15,6 @@
       %b School Type:
     %td
       = @cal_course.school_type
-  %tr
-    %td
-      %b Course Grade:
-    %td
-      = @cal_course.course_grade
-
 %h2 Timeslots:
 %table.table
   %tr
@@ -29,6 +23,6 @@
     %th Timeslot
   - @times.each do |time|
     %tr
-      %td= link_to time.course.name, time.course
+      %td= link_to time.course.name, time.course if time.course
       %td= link_to time.mentor_teacher.user.name, time.mentor_teacher
       %td= time.to_string

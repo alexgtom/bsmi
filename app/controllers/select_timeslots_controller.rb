@@ -9,6 +9,16 @@ class SelectTimeslotsController < ApplicationController
     @cal_course = CalCourse.find(params[:cal_course_id])
     @student = User.find(params[:student_id]).owner
     @timeslots = Timeslot.find_by_semester_id(semester).where(:day => Timeslot.day_index(step), :cal_course_id => params[:cal_course_id])
+  
+    case step
+    when :rank, :summary
+      if @student.preferences.size < Setting['student_min_preferences'] or
+        @student.preferences.size > Setting['student_max_preferences']
+        flash[:error] = "You must select #{Setting['student_min_preferences']}-#{Setting['student_max_preferences']} timeslots."
+        render :action => "error"
+        return
+      end
+    end
 
     case step
     when :rank
@@ -16,7 +26,7 @@ class SelectTimeslotsController < ApplicationController
         @timeslots = Timeslot.find_by_semester_id(semester).find(@student.preferences.map{ |p| p.timeslot_id })
       rescue ActiveRecord::RecordNotFound
         flash[:error] = "Error: Cannot rank until timeslots have been selected"
-        redirect_to :action => "error" 
+        render :action => "error"
         return
       end
       @preferences = @student.preferences
@@ -28,16 +38,13 @@ class SelectTimeslotsController < ApplicationController
         @timeslots = Timeslot.find_by_semester_id(semester).find(@student.preferences.map{ |p| p.timeslot_id })
       rescue ActiveRecord::RecordNotFound
         flash[:error] = "Error: Cannot view summary until timeslots have been selected"
-        redirect_to :action => "error" 
+        render :action => "error"
         return
       end
       @preferences = @student.preferences.order("ranking ASC")
     end
 
     render_wizard 
-  end
-
-  def error
   end
 
   def update
@@ -47,6 +54,21 @@ class SelectTimeslotsController < ApplicationController
 
     @cal_course = CalCourse.find(params[:cal_course_id])
     @student = User.find(params[:student_id]).owner
+
+    case step
+    when :friday, :rank, :summary
+      if @student.preferences.size < Setting['student_min_preferences'] or
+        @student.preferences.size > Setting['student_max_preferences']
+        flash[:error] = "You must select #{Setting['student_min_preferences']}-#{Setting['student_max_preferences']} timeslots."
+
+        if step == :friday
+          redirect_to wizard_path(:friday)
+        else
+          redirect_to wizard_path(:monday)
+        end
+        return
+      end
+    end
 
     case step
     when :cal_course_selection
@@ -121,7 +143,6 @@ class SelectTimeslotsController < ApplicationController
         render_wizard @student
       end
     end  
-
   end
 
 end

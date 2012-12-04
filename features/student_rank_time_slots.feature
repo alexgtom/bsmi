@@ -28,6 +28,21 @@ Feature: Ranking possible student times
 
 
 		Given I am logged in as oski@berkeley.edu
+	Scenario: User can't submit invalid preferences
+		When I go to /students/1/semesters/1/courses/1/select_timeslots/friday
+		And I press "Save"
+		Then I should be at url /students/1/semesters/1/courses/1/select_timeslots/friday
+		Then I should see "You must select 3-5 timeslots."
+		When I go to /students/1/semesters/1/courses/1/select_timeslots/friday
+		And I press "Save & Continue"
+		Then I should see "You must select 3-5 timeslots."
+		Then I should be at url /students/1/semesters/1/courses/1/select_timeslots/friday
+		Then I should see "You must select 3-5 timeslots."
+		When I go to /students/1/semesters/1/courses/1/select_timeslots/summary
+		Then I should see "You must select 3-5 timeslots."
+		When I go to /students/1/semesters/1/courses/1/select_timeslots/rank
+		Then I should see "You must select 3-5 timeslots."
+		
 	@javascript 
 	Scenario: User can't select the same ranking for two preferences
 		Given the following preferences exist:

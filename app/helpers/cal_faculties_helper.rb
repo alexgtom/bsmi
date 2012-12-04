@@ -1,0 +1,2 @@
+module CalFacultiesHelper
+end

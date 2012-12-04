@@ -1,0 +1,11 @@
+<h1>Excel File Upload</h1>
+- Invites everyone from an excel file. <br>
+-- Column A : User Type - one of (Advisor, Student, MentorTeacher, CalFaculty) <br>
+-- Column B : Last Name <br>
+-- Column C : First Name <br>
+-- Column D : Email Address <br>
+<%= form_tag({:action => 'uploadFile_and_invite'}, {:multipart => true}) %>
+<p><label for="upload_file">Select File</label> : 
+<%= file_field 'upload', 'datafile' %></p>
+<%= submit_tag "Upload" %>
+

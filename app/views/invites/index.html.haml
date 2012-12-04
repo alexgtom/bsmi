@@ -1,12 +1,13 @@
-%h1 Listing invites
+.page-header
+  %h1 Listing invites
 
-%table
+%table.table.table-hover
   %tr
-    %th
-    %th
-    %th
-    %th
-    %th
+    %th User Type
+    %th First Name
+    %th Last Name
+    %th Email
+    %th Status
 
   - @invites.each do |invite|
     %tr
@@ -16,10 +17,17 @@
       %td= invite.email
       %td
         - if invite.invited?
-          Invited
-          = link_to 'url', "/signup?owner_type=#{invite.owner_type}&invite_code=#{invite.invite_code}"
+          - if invite.redeemed_at == nil
+            Invited
+            = link_to '[url]', "/signup?owner_type=#{invite.owner_type}&invite_code=#{invite.invite_code}"
+            = link_to '[ReInvite]', send_invitation_path(invite), :data => {:confirm => 'Send invitation? '}, :method => :post
+          - else
+            Joined at 
+            = invite.redeemed_at.in_time_zone('Pacific Time (US & Canada)')
         - else
           = link_to '[Invite]', send_invitation_path(invite), :data => {:confirm => 'Send invitation? '}, :method => :post
 %br
+%h3= link_to 'New Invite', new_invite_path
+%h3= link_to 'Import Excel File', new_invite_excel_path
 
-= link_to 'New Invite', new_invite_path
+

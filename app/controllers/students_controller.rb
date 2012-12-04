@@ -1,4 +1,6 @@
 class StudentsController < ApplicationController
+  before_filter :require_student, :only => [:placements]
+  
   def index
     @all_student = Student.all
     if params[:sort] || session[:sort] != nil
@@ -13,7 +15,12 @@ class StudentsController < ApplicationController
   end
 
   def placements
-    @placements = User.find(params[:id]).owner.placements
+    @semester = Semester.find(params[:semester_id])
+    if current_user.owner_type == "Advisor"
+      @placements = User.find(params[:id]).owner.placements
+    else
+      @placements = User.find(curent_user.id).owner.placements
+    end
   end
 
   def edit_placements
@@ -53,10 +60,11 @@ class StudentsController < ApplicationController
 
   def courses
     @student = User.find(params[:id]).owner
-    @cal_courses = @student.cal_courses
+    @cal_courses = User.find(params[:id]).owner.cal_courses
   end
 
   def select_courses
+    @semester = Semester.find(params[:semester_id])
     @student = User.find(params[:id]).owner
     @cal_courses = CalCourse.all
 
@@ -82,7 +90,8 @@ class StudentsController < ApplicationController
   end
 
   def show
-    @student = User.find(params[:id]).owner
+    store_location
+    @student = Student.find(params[:id])
   end
 
   def download_pdf

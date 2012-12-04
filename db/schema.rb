@@ -22,9 +22,8 @@ ActiveRecord::Schema.define(:version => 20121204021747) do
     t.string   "name"
     t.text     "timeslots"
     t.string   "school_type"
-    t.string   "course_grade"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
     t.integer  "semester_id"
   end
 
@@ -157,13 +156,6 @@ ActiveRecord::Schema.define(:version => 20121204021747) do
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
 
-  create_table "settings", :force => true do |t|
-    t.string   "key"
-    t.string   "value"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
   create_table "students", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
@@ -181,8 +173,12 @@ ActiveRecord::Schema.define(:version => 20121204021747) do
     t.datetime "updated_at",                        :null => false
     t.time     "end_time"
     t.integer  "mentor_teacher_id"
+<<<<<<< HEAD
     t.integer  "max_num_assistants", :default => 1
     t.integer  "cal_course_id"
+=======
+    t.integer  "max_num_assistants"
+>>>>>>> cbc118afac45c0997878335acea246c8aa646363
     t.integer  "course_id"
   end
 

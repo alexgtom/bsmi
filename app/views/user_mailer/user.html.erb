@@ -1,0 +1,7 @@
+Hello, <%= @user.first_name %> <%= @user.last_name %>. <br>
+Your placements are processed <br>
+Click link below to check your placements <br>
+(After login, click "View Field Placements" <br>
+<a href="<%= url_for("http://"+request.host, :only_path=>false) %>"><%= url_for("http://"+request.host, :only_path=>false) %></a><br>
+<br>
+Thank you!<br>

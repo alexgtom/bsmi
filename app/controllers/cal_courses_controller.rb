@@ -1,4 +1,5 @@
 class CalCoursesController < ApplicationController
+#before filter -- advisor or cal_faculty only access for everything
   # GET /cal_courses
   # GET /cal_courses.json
   def index
@@ -87,6 +88,7 @@ class CalCoursesController < ApplicationController
       render :action => :new
     end
   end
+
 
   # DELETE /cal_courses/1
   # DELETE /cal_courses/1.json

@@ -44,18 +44,10 @@ class SemestersController < ApplicationController
   # POST /semesters
   # POST /semesters.json
   def create
-    if params[:semester][:cal_courses]
-      params[:semester][:cal_courses] = params[:semester][:cal_courses].map { |c| CalCourse.find(c) }
-    end
     @semester = Semester.new(params[:semester])
-    @registration_deadline = Deadline.new(params[:registration_deadline])
-    @semester.registration_deadline = @registration_deadline
-    @cal_courses = CalCourse.all
 
     respond_to do |format|
-      if @semester.valid? and @registration_deadline.valid?
-        @registration_deadline.save
-        @semester.save
+      if @semester.save
         format.html { redirect_to @semester, notice: 'Semester was successfully created.' }
         format.json { render json: @semester, status: :created, location: @semester }
       else

@@ -40,13 +40,14 @@
       = d.datetime_select :due_date, {:use_short_month => 1}, {:class => 'input-small'}
 
   %h2 Cal Courses Offered
-  - @cal_courses.each do |c|
-    %label.checkbox
-      - if @semester.cal_courses.exists?(c.id)
-        = check_box_tag "semester[cal_courses][]", c.id, true
-      - else
-        = check_box_tag "semester[cal_courses][]", c.id
-      = c.name
+  = fields_for :cal_courses do |d|
+    - @cal_courses.each do |c|
+        %label.checkbox
+          - if @semester.cal_courses.exists?(c.id)
+            = d.check_box c.id, true
+          - else
+            = d.check_box c.id
+          = c.name
 
   .actions
     = f.submit 'Save', :class => 'btn'

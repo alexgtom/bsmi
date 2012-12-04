@@ -22,8 +22,9 @@ ActiveRecord::Schema.define(:version => 20121204013105) do
     t.string   "name"
     t.text     "timeslots"
     t.string   "school_type"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.string   "course_grade"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
     t.integer  "semester_id"
   end
 

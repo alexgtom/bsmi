@@ -10,7 +10,7 @@ describe 'validate FactoryGirl factories' do
      it "is valid" do
        #Hack to not test factories for building non activerecords
        unless not subject.respond_to?(:valid?)
-         subject.valid?.should be, subject.errors.full_messages 
+         subject.valid?.should be, subject.errors.full_messages.to_s
        end
      end
    end

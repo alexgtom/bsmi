@@ -2,5 +2,6 @@
 
 FactoryGirl.define do
   factory :invite do
+    email "Teacher1@gmail.com"
   end
 end

@@ -17,7 +17,6 @@ Bsmi::Application.routes.draw do
 
   resources :settings
 
-  resources :matchings
   resources :invites
 
   match 'login' => "user_sessions#new",      :as => :login
@@ -41,6 +40,8 @@ Bsmi::Application.routes.draw do
 
 
   resources :mentor_teachers
+
+  resource :matching, :only => ['show', 'new', 'create']
   namespace :mentor_teacher do
     resource :schedule      
   end

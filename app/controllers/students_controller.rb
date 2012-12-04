@@ -17,7 +17,11 @@ class StudentsController < ApplicationController
 
   def placements
     @semester = Semester.find(params[:semester_id])
-    @placements = User.find(params[:id]).owner.placements
+    if current_user.owner_type == "Advisor"
+      @placements = User.find(params[:id]).owner.placements
+    else
+      @placements = User.find(curent_user.id).owner.placements
+    end
   end
 
   def edit_placements

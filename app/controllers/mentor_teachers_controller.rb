@@ -10,17 +10,9 @@ class MentorTeachersController < ApplicationController
          @all_teacher = @all_teacher.order(:first_name)
       when 'last_name'
          @all_teacher = @all_teacher.order(:last_name)
-      #when 'course'
-       #  @all_teacher = @all_teacher.order(:placement)
       end
     end
-=begin
-    if params[:search] || session[:search] != nil
-      search = params[:search] || session[:search]
-      search_condition = "%" + search + "%"
-      @all_teacher = @all_teacher.find(:all, :conditions => ['name LIKE ?', search_condition])
-    end
-=end   
+
  
 
     respond_to do |format|

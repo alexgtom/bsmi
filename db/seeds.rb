@@ -273,7 +273,7 @@ cal_courses = [
 
 cal_courses.each.with_index do |c, i|
   sem = Semester.all[i % Semester.all.size]
-  cal_course = CalCourse.create!(:name => c, :semester => sem, :school_type => "Middle School", :course_grade => "High School")
+  cal_course = CalCourse.create!(:name => c, :semester => sem, :school_type => "Middle School")
   sem.cal_courses << cal_course
 end
 

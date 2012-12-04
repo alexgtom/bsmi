@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_filter :require_no_user, :only => [:new, :create]
-  before_filter :require_user, :only => [:show, :edit, :update]
+  skip_before_filter :require_user, :only => [:new, :create]
   before_filter :require_admin, :only => [:destroy, :adv_new, :adv_create, :adv_show, :adv_edit, :adv_update]
   before_filter :require_cal_faculty, :only => [:cf_show]
   

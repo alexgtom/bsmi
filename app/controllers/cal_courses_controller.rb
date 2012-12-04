@@ -54,8 +54,8 @@ class CalCoursesController < ApplicationController
   # POST /cal_courses
   # POST /cal_courses.json
   def create
+    @cal_course = CalCourse.new(params[:cal_course])
     if School::LEVEL.include?(params[:cal_course][:school_type]) and params[:cal_course][:semester_id] != ""
-      @cal_course = CalCourse.new(params[:cal_course])
       if @cal_course.save  
         @cal_course.build_timeslot_associations(params[:timeslots])
         flash[:notice] = 'The course was successfully created.'
@@ -63,7 +63,7 @@ class CalCoursesController < ApplicationController
       end
     else
       flash[:error] = 'Something went Wrong. Did you select a Semester and a School Type?'
-      @entries = @cal_course.create_selection_for_new_course
+      @entries = CalCourse.new.create_selection_for_new_course
       @semesters = Semester.all.collect {|s| ["#{s.name} #{s.year}", s.id]}
       render :action => :new
     end
@@ -73,28 +73,18 @@ class CalCoursesController < ApplicationController
   # PUT /cal_courses/1.json
   def update
     @cal_course = CalCourse.find_by_id(params[:id])
-    #params[:cal_course][:semester] = Semester.find_by_id(@cal_course.semester_id)
-    #@semester = Semester.find(@cal_course.semester_id)
-    #if not @semester.cal_courses.find(@cal_course)
-    #  @semester.cal_courses << @cal_course
-    #end
-
-    if not School::LEVEL.include?(params[:cal_course][:school_type]) or not Course::GRADE.include?(params[:cal_course][:course_grade])
-      flash[:error] = 'You cannot select All as School Type or Course Grade'
-      @entries = @cal_course.create_selection_for_new_course
-      render :action => :edit
-      return
-    end
-    if @cal_course and @cal_course.update_attributes(params[:cal_course]) 
-      if @cal_course.update_timeslot_associations(params[:timeslots])
-        flash[:notice] = "CalCourse '#{@cal_course.name}' Updated!"
+    if School::LEVEL.include?(params[:cal_course][:school_type]) and params[:cal_course][:semester_id] != ""
+      @cal_course = CalCourse.find_by_id(params[:id])
+      if @cal_course and @cal_course.update_attributes(params[:cal_course]) 
+        @cal_course.build_timeslot_associations(params[:timeslots])
+        flash[:notice] = 'The course was successfully created.'
         redirect_to cal_course_path @cal_course.id
       end
     else
       flash[:error] = 'Something went Wrong. Did you select a Semester and a School Type?'
       @entries = @cal_course.create_selection_for_new_course
       @semesters = Semester.all.collect {|s| ["#{s.name} #{s.year}", s.id]}
-      render :action => :edit
+      render :action => :new
     end
   end
 

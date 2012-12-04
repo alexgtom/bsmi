@@ -13,13 +13,13 @@ class StudentsController < ApplicationController
   end
 
   def placements
-    @placements = Student.find(params[:id]).placements
+    @placements = User.find(params[:id]).owner.placements
   end
 
   def edit_placements
     if params[:new_timeslot] != nil
-       if Student.find_by_id(params[:id]).placements.find_by_id(params[:new_timeslot]) == nil
-          Student.find_by_id(params[:id]).placements << Timeslot.find_by_id(params[:new_timeslot])
+       if User.find_by_id(params[:id]).owner.placements.find_by_id(params[:new_timeslot]) == nil
+          User.find_by_id(params[:id]).owner.placements << Timeslot.find_by_id(params[:new_timeslot])
        else
        	  redirect_to edit_placements_student_path(params[:id]), :notice => "The student already has the placement you were trying to add."
        end
@@ -33,7 +33,7 @@ class StudentsController < ApplicationController
     if User.find_by_id(params[:id]) == nil
        redirect_to students_path, :notice => "No such a student exists, or student has been removed"
     else
-      @student = Student.find_by_id(params[:id])
+      @student = User.find_by_id(params[:id]).owner
       @placements = @student.placements
       @first_name = @student.user.first_name
       @last_name = @student.user.last_name
@@ -42,7 +42,7 @@ class StudentsController < ApplicationController
   
 
   def update
-    @student = Student.find(params[:id])
+    @student = User.find(params[:id]).owner
     @new_placement = Timeslot.find_by_id(params[:student][:placement])
     if @student.update_attributes(params[:placements])
       redirect_to @student, notice: 'Placements was successfully updated.' 
@@ -52,12 +52,12 @@ class StudentsController < ApplicationController
   end
 
   def courses
-    @student = Student.find(params[:id])
+    @student = User.find(params[:id]).owner
     @cal_courses = @student.cal_courses
   end
 
   def select_courses
-    @student = Student.find(params[:id])
+    @student = User.find(params[:id]).owner
     @cal_courses = CalCourse.all
 
     if params[:student] and params[:student][:cal_courses]
@@ -82,7 +82,7 @@ class StudentsController < ApplicationController
   end
 
   def show
-    @student = Student.find(params[:id])
+    @student = User.find(params[:id]).owner
   end
 
   def download_pdf

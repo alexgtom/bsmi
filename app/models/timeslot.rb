@@ -141,5 +141,14 @@ class Timeslot < ActiveRecord::Base
     Preference.where(["student_id = ?", student_id]).where(:timeslot_id => id).size > 0
   end
 
+
+  def self.find_by_semester_id(semester)
+    if semester.is_a? Semester
+      semester_id = semester.id
+    else
+      semester_id = semester
+    end
+    Timeslot.where(:semester_id => semester_id)
+  end
   
 end

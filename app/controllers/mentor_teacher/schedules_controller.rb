@@ -52,11 +52,10 @@ class MentorTeacher::SchedulesController < ApplicationController
     if current_teacher.timeslots.empty? 
       redirect_to new_mentor_teacher_schedule_path
     else
-      @semester = Semester.find(params[:semester_id])
-      @timeslots = current_teacher.timeslots.map{|t| t.to_cal_event_hash}
+      @timeslots = current_teacher.timeslots.find_by_semester_id(params[:semester_id]).map{|t| t.to_cal_event_hash}
       @read_only = false
       #TODO: refactor this to not need the dummy vars
-      @submit_link = mentor_teacher_schedule_path(:semester_id => @semester.id)
+      @submit_link = mentor_teacher_schedule_path
       @method = :put
       render "edit_or_new"
     end

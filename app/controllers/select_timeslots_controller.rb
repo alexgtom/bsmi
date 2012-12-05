@@ -12,8 +12,7 @@ class SelectTimeslotsController < ApplicationController
   
     case step
     when :rank, :summary
-      if @student.preferences.size < Setting['student_min_preferences'] or
-        @student.preferences.size > Setting['student_max_preferences']
+      if not @student.valid_preferences?(@cal_course.id)
         flash[:error] = "You must select #{Setting['student_min_preferences']}-#{Setting['student_max_preferences']} timeslots."
         render :action => "error"
         return
@@ -57,8 +56,7 @@ class SelectTimeslotsController < ApplicationController
 
     case step
     when :friday, :rank, :summary
-      if @student.preferences.size < Setting['student_min_preferences'] or
-        @student.preferences.size > Setting['student_max_preferences']
+      if not @student.valid_preferences?(@cal_course.id)
         flash[:error] = "You must select #{Setting['student_min_preferences']}-#{Setting['student_max_preferences']} timeslots."
 
         if step == :friday

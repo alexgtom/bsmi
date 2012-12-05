@@ -30,6 +30,9 @@ class Student < ActiveRecord::Base
 
   def valid_preferences?(cal_course_id)
     preferences = self.preferences.all(:joins => :cal_course, :conditions => ["cal_course_id = ?", cal_course_id]) rescue -1
+    if preferences.size > 0 and CalCourse.find_by_id(cal_course_id).timeslots.size < Setting['student_min_preferences']
+      return true
+    end
     preferences.size >= Setting['student_min_preferences'] and
     preferences.size <= Setting['student_max_preferences']
   end

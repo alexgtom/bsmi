@@ -19,6 +19,10 @@ Feature: Ranking possible student times
 			| id | first_name | last_name | email             | type     | cal_courses |
 			| 1  | Oski 	  | Bear      | oski@berkeley.edu | Student  | 1           |
 
+
+		Given I am logged in as oski@berkeley.edu
+
+	Scenario: User can't submit invalid preferences
 		Given the following timeslots exist
 			| start_time     | end_time     | day     | cal_course_id | course_id | 
 			| 8:00		     | 9:00 		| monday  | 1             | 1         |
@@ -26,9 +30,6 @@ Feature: Ranking possible student times
 			| 11:00		     | 12:00 		| tuesday | 1             | 1         |
 			| 12:00		     | 13:00 		| tuesday | 1             | 1         |
 
-
-		Given I am logged in as oski@berkeley.edu
-	Scenario: User can't submit invalid preferences
 		When I go to /students/1/semesters/1/courses/1/select_timeslots/friday
 		And I press "Save"
 		Then I should be at url /students/1/semesters/1/courses/1/select_timeslots/friday
@@ -42,9 +43,31 @@ Feature: Ranking possible student times
 		Then I should see "You must select 3-5 timeslots."
 		When I go to /students/1/semesters/1/courses/1/select_timeslots/rank
 		Then I should see "You must select 3-5 timeslots."
+	
+	@javascript
+	Scenario: User can submit timeslots if the number of timeslots available is less than the number of timeslots required but greater than zero
+		Given the following timeslots exist
+			| start_time     | end_time     | day     | cal_course_id | course_id | 
+			| 8:00		     | 9:00 		| monday  | 1             | 1         |
+		When I go to /students/1/semesters/1/courses/1/select_timeslots
+		When I click element containing "08:00 am to 09:00 am"
+		Then I press "Save & Continue"
+		When I go to /students/1/semesters/1/courses/1/select_timeslots/rank
+		Then I should not see "You must select 3-5 timeslots."
+
+	Scenario: User can submit timeslots if the number of timeslots available is less than the number of timeslots required but greater than one
+		When I go to /students/1/semesters/1/courses/1/select_timeslots/rank
+		Then I should see "You must select 3-5 timeslots."
 		
 	@javascript 
 	Scenario: User can't select the same ranking for two preferences
+		Given the following timeslots exist
+			| start_time     | end_time     | day     | cal_course_id | course_id | 
+			| 8:00		     | 9:00 		| monday  | 1             | 1         |
+			| 9:00		     | 10:00 		| monday  | 1             | 1         |
+			| 11:00		     | 12:00 		| tuesday | 1             | 1         |
+			| 12:00		     | 13:00 		| tuesday | 1             | 1         |
+
 		Given the following preferences exist:
 			| student_id | timeslot_id | ranking | 
 			| 1          | 1           | 1       |
@@ -69,6 +92,13 @@ Feature: Ranking possible student times
 
 	@javascript 
 	Scenario: Remove one class that I selected before
+		Given the following timeslots exist
+			| start_time     | end_time     | day     | cal_course_id | course_id | 
+			| 8:00		     | 9:00 		| monday  | 1             | 1         |
+			| 9:00		     | 10:00 		| monday  | 1             | 1         |
+			| 11:00		     | 12:00 		| tuesday | 1             | 1         |
+			| 12:00		     | 13:00 		| tuesday | 1             | 1         |
+
 		Given the following preferences exist:
 			| student_id | timeslot_id | ranking | 
 			| 1          | 1           | 1       |
@@ -86,6 +116,12 @@ Feature: Ranking possible student times
 
 	@javascript 
 	Scenario: Enter my time preferences
+		Given the following timeslots exist
+			| start_time     | end_time     | day     | cal_course_id | course_id | 
+			| 8:00		     | 9:00 		| monday  | 1             | 1         |
+			| 9:00		     | 10:00 		| monday  | 1             | 1         |
+			| 11:00		     | 12:00 		| tuesday | 1             | 1         |
+			| 12:00		     | 13:00 		| tuesday | 1             | 1         |
 		When I go to /students/1/semesters/1/courses/1/select_timeslots
 		When I click element containing "08:00 am to 09:00 am"
 		When I click element containing "09:00 am to 10:00 am"

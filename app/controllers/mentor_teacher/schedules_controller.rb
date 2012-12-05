@@ -20,7 +20,7 @@ class MentorTeacher::SchedulesController < ApplicationController
     if current_teacher.timeslots.empty?
       redirect_to new_mentor_teacher_schedule_path
     else
-      @semester = Semester.find(params[:semester_id])
+      @semester = Semester.find(params[:semester_id] || semester.id)
       @read_only = true
       @timeslots = current_teacher.timeslots.joins(:semester).where("semesters.id = ?", @semester.id).map{|t| t.to_cal_event_hash}
     end
@@ -52,12 +52,13 @@ class MentorTeacher::SchedulesController < ApplicationController
     if current_teacher.timeslots.empty? 
       redirect_to new_mentor_teacher_schedule_path
     else
+      @semester = Semester.find(params[:semester_id] || semester.id)
       semester_id = params[:semester_id] || semester.id
       @timeslots = current_teacher.timeslots_for_semester(semester_id).
         map{|t| t.to_cal_event_hash}
       @read_only = false
       #TODO: refactor this to not need the dummy vars
-      @submit_link = mentor_teacher_schedule_path
+      @submit_link = mentor_teacher_schedule_path(:semester_id => @semester.id)
       @method = :put
       render "edit_or_new"
     end
@@ -82,10 +83,10 @@ class MentorTeacher::SchedulesController < ApplicationController
         end
 
         errors += 1 unless updated_slot.save
-        current_teacher.timeslots << updated_slot
+        current_teacher.timeslots << updated_slotalright
       end
    end
-    @semester = Semester.find(params[:semester_id])
+    @semester = Semester.find(params[:semester_id] || semester.id)
     if errors > 0
       flash[:notice] = "Couldn't save all classes in schedule"
       redirect_to edit_mentor_teacher_schedule_path(:semester_id => @semester.id)

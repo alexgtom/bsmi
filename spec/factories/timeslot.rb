@@ -46,7 +46,7 @@ FactoryGirl.define do
     end_time {start_time + 3600} #One hour after
     
     course 
-    
+    mentor_teacher
     max_num_assistants 1
 #    day {Timeslot.day_list[start_time.wday]}
 

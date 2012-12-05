@@ -424,6 +424,12 @@ end
 
 Given /matchings have been performed for this semester/ do
   Semester.current_semester.update_attribute(:matchings_performed, true)
+  matchings = FactoryGirl.create_list(:matching, 3)
+  cal_course = FactoryGirl.create(:cal_course, 
+                                  :name => "UGIS 80",
+                                  :semester => Semester.current_semester)
+
+  matchings.each {|m| cal_course.timeslots << m.timeslot}
 end
 
 

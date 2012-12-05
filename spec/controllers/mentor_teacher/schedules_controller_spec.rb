@@ -48,7 +48,7 @@ describe MentorTeacher::SchedulesController do
     end
 
     it "should assign @course_names to the names of all course for the semester" do      
-      Set.new(assigns(:course_names)).should eq(Set.new(@courses.map {|c| c.name}))
+      Set.new(assigns(:course_names)).should eq(Set.new(@courses))
     end
 
 

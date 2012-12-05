@@ -2,16 +2,17 @@
 
 -# Code taken from https://github.com/themouette/jquery-week-calendar/blob/master/full_demo/weekcalendar_full_demo.html 
 %div#calendar
-  %div{:id => 'event_edit_container', :style => "display: none;"}
-    = form_for :timeslot do |f|
-      = f.label(:class_name) 
-      = f.text_field(:class_name, :id => :class_name)
-      = f.label(:start_time)      
-      = f.time_select(:start_time, {:ampm => true}, :class => "start_time")
-      
-      = f.label(:end_time)
-      = f.time_select(:end_time, {:ampm => true}, :class => "end_time")
+  - unless read_only  
+    %div{:id => 'event_edit_container', :style => "display: none;"}
+      = form_for :timeslot do |f|
+        = f.label(:class_name) 
+        = select_tag(:class_name, options_for_select(course_names.map {|c| [c.name, c.id]}, :id => :class_name))
+        = f.label(:start_time)      
+        = f.time_select(:start_time, {:ampm => true}, :class => "start_time time_select")
+    
+        = f.label(:end_time)
+        = f.time_select(:end_time, {:ampm => true}, :class => "end_time time_select")
 
 
 
-  
+

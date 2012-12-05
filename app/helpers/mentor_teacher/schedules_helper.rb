@@ -1,7 +1,6 @@
 module MentorTeacher::SchedulesHelper
   #Convert cal event hashes into javascript
-  def dump_events(cal_events)
-  
+  def dump_events(cal_events)  
     cal_events.each do |e|
       monkey_patch_event(e)
     end    
@@ -9,7 +8,11 @@ module MentorTeacher::SchedulesHelper
   end
 
   def dump_event(cal_event)
+    monkey_patch_event(cal_event)
+    JSON.dump(cal_event)
+  end
 
+  def monkey_patch_event(cal_event)
     start_date = cal_event['start'] || cal_event[:start]
 
     unless start_date.nil?
@@ -25,9 +28,6 @@ module MentorTeacher::SchedulesHelper
         return "new Date(#{self.year}, #{self.month - 1}, #{self.day}, #{self.hour}, #{self.min})"
       end
     end
-
-    JSON.dump(cal_event)
   end
-
   
 end

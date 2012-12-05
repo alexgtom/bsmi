@@ -2,10 +2,13 @@
 
 FactoryGirl.define do
   factory :cal_course do
-    name "MyString"
-    school_type "Elementary School"
-#course_grade "4"
+    sequence :name do |n| 
+      "course#{n}"
+    end
 
+    school_type "Elementary School"
+    
+    
     association :semester, factory: :semester
   end
 end

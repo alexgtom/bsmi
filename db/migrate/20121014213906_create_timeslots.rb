@@ -1,5 +1,5 @@
 class CreateTimeslots < ActiveRecord::Migration
-  def change
+  def up
     create_table :timeslots do |t|
      t.time  :time
      t.integer :day

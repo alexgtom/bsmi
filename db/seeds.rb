@@ -79,7 +79,7 @@ spring_semester = Semester.create!(
   :end_date => Date.today - 10,
   :registration_deadline => Deadline.new(
     :title => "Registraiton Deadline",
-    :summary => "You must have you preferences selected by this deadline",
+    :summary => "You must have your preferences selected by this deadline",
     :due_date => Date.today - 20,
   ),
   :status => Semester::PUBLIC,
@@ -298,7 +298,7 @@ end
 
 Timeslot.all.each_with_index do |t, i|
   # assign timeslots to each cal course
-  CalCourse.all[i % CalCourse.all.size].timeslots << t
+  CalCourse.all[i % CalCourse.all.size].timeslots << t if i%3 != 0
 end
 
 # --- Create preferences

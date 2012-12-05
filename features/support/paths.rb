@@ -12,28 +12,32 @@ module NavigationHelpers
   #
   def path_to(page_name)
     case page_name
-      when /^the mentor_teacher new schedule page$/      
-        '/mentor_teacher/schedule/new'
+    when /^the mentor_teacher new schedule page$/      
+      '/mentor_teacher/schedule/new'
+    when /^the home page/
+      '/'
     when %r{/mentor_teacher/schedule/new}
       '/mentor_teacher/schedule/new'
-      when /^the user\s?page$/
-        '/user'
-      when /^the users\s?page$/
-        '/users'
-      when /^the user session\s?page$/
-        '/user_sessions'
-      when /^the edit\s?page$/
-        '/users/2/edit'
-      when /^CalCourse new page$/
-        '/cal_courses/new'
-      when /^CalCourse edit page$/
-        '/cal_courses/2/edit'
-      when /^CalCourse show page$/
-        '/cal_courses/2/'
-      when /^CalCourse index page$/
-        '/cal_courses/'
+    when /^the user\s?page$/
+      '/user'
+    when /^the users\s?page$/
+      '/users'
+    when /^the user session\s?page$/
+      '/user_sessions'
+    when /^the edit\s?page$/
+      '/users/2/edit'
+    when /^CalCourse new page$/
+      '/cal_courses/new'
+    when /^CalCourse edit page$/
+      '/cal_courses/2/edit'
+    when /^CalCourse show page$/
+      '/cal_courses/2/'
+    when /^CalCourse index page$/
+      '/cal_courses/'
+    when %r{/.*} #Literal path
+      page_name
 
-    # Add more mappings here.
+      # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #
     #   when /^(.*)'s profile page$/i

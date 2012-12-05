@@ -1,0 +1,30 @@
+
+- content_for(:head) do
+  :javascript
+    //Set up div hiding
+    $(document).ready(
+        function() {
+            $(".course_placements").hide();
+            $(".placement_header").click(function() {
+                $content = $(this).next('.course_placements');
+                if ($(this).hasClass('clicked')) {
+                    $(this).toggleClass('clicked');
+                    $content.hide();
+                    $(this).find('.expand').
+                        removeClass('icon-minus-sign').addClass('icon-plus-sign');
+                }
+                else {
+                    $content.show();
+                    $(this).toggleClass('clicked');
+                    $(this).find('.expand').
+                        removeClass('icon-plus-sign').addClass('icon-minus-sign');
+
+                }
+            });
+        }
+    );
+
+%h1 Placements by Cal Course
+- @placements_by_course.each_pair do |course, placements|
+  = render :partial => 'course_placements', :locals => {:course => course, :placements => placements}
+  

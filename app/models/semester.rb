@@ -17,7 +17,7 @@ class Semester < ActiveRecord::Base
   has_many :timeslots, :through => :cal_courses
   belongs_to :registration_deadline, :class_name => "Deadline", :dependent => :destroy
 
-  accepts_nested_attributes_for :registration_deadline
+  accepts_nested_attributes_for :registration_deadline, :cal_courses
 
   validates_length_of :year, :is => 4
 

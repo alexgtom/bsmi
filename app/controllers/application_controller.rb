@@ -36,8 +36,8 @@ class ApplicationController < ActionController::Base
     def require_admin
       unless current_user && current_user.owner_type == "Advisor" #admin for now
         store_location
-        flash[:notice] = "Only admin can access this page."
-        redirect_to new_user_session_url
+        flash[:error] = "Only admin can access this page."
+        redirect_to root_path
         return false
       end
     end
@@ -54,8 +54,8 @@ class ApplicationController < ActionController::Base
     def require_cal_faculty
       unless current_user && current_user.owner_type == "CalFaculty"
         store_location
-        flash[:notice] = "Only Cal Faculty can access this page."
-        redirect_to new_user_session_url
+        flash[:error] = "Only Cal Faculty can access this page."
+        redirect_to root_path
         return false
       end
     end
@@ -72,8 +72,8 @@ class ApplicationController < ActionController::Base
     def require_user
       unless current_user
         store_location
-        flash[:notice] = "You must be logged in to access this page"
-        redirect_to new_user_session_url
+        flash[:error] = "You must be logged in to access this page"
+        redirect_to root_path
         return false
       end
     end
@@ -81,7 +81,7 @@ class ApplicationController < ActionController::Base
     def require_no_user
       if current_user
         store_location
-        flash[:notice] = "You must be logged out to access this page"
+        flash[:error] = "You must be logged out to access this page"
         redirect_to account_url
         return false
       end

@@ -1,0 +1,23 @@
+%h3.placement_header
+  = course.name
+  %span.expand.icon-plus-sign
+
+  
+%div.course_placements
+  %table.table
+    %tr
+      %th Student
+      %th Teacher
+      %th School
+      %th Time
+      
+    - placements.each do |p|
+      %tr 
+        %td 
+          %a{:href => edit_placements_student_path(p.student_id, :semester_id => p.timeslot.semester.id)}= p.student.user.name   
+        %td= p.timeslot.mentor_teacher.user.name
+        %td= p.timeslot.mentor_teacher.school.name
+        %td= p.timeslot.standard_string
+        
+  
+  

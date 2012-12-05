@@ -20,17 +20,28 @@ require 'ruby-debug'
 # that an instance is receiving a specific message.
 
 describe SemestersController do
+  before(:each) do
+    current_user = mock("i am the user")
+    current_user.stub!(:owner_type).and_return("Advisor")
+    controller.stub!(:current_user).and_return(current_user)
+    @registration_deadline = FactoryGirl.create(:deadline)
+  end
 
   def valid_attributes
     { 
       "name" => Semester::FALL,
       "status" => Semester::PUBLIC,
       "year" => 2001,
-      "registration_deadline" => Deadline.new(
-        :title => "Registration Deadline",
-        :summary => "Registration must be completed",
-        :due_date => Date.new(2012, 1, 16), 
-      ),
+      "registration_deadline_id" => 1 ,
+    }
+  end
+  
+  def valid_attributes_post
+    { 
+      "name" => Semester::FALL,
+      "status" => Semester::PUBLIC,
+      "year" => 2001,
+      "registration_deadline_id" => @registration_deadline.id,
     }
   end
 
@@ -101,18 +112,18 @@ describe SemestersController do
     describe "with valid params" do
       it "creates a new Semester" do
         expect {
-          post :create, {:semester => valid_attributes}, valid_session
+          post :create, {:semester => valid_attributes_post}, valid_session
         }.to change(Semester, :count).by(1)
       end
 
       it "assigns a newly created semester as @semester" do
-        post :create, {:semester => valid_attributes}, valid_session
+        post :create, {:semester => valid_attributes_post}, valid_session
         assigns(:semester).should be_a(Semester)
         assigns(:semester).should be_persisted
       end
 
       it "redirects to the created semester" do
-        post :create, {:semester => valid_attributes}, valid_session
+        post :create, {:semester => valid_attributes_post}, valid_session
         response.should redirect_to(Semester.last)
       end
     end

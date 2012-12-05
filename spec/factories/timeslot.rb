@@ -33,7 +33,7 @@ FactoryGirl.define do
     make_time(n, :slots_per_hour => 0.5)
   end
 
-  sequence :num_assistants do |n|
+  sequence :max_num_assistants do |n|
     n % 2
   end
 
@@ -61,7 +61,7 @@ FactoryGirl.define do
       'class#{n}'
     end
 
-    num_assistants { FactoryGirl.generate(:num_assistants) }
+    num_assistants { FactoryGirl.generate(:max_num_assistants) }
 
     #Builds the hash properly by passing attributes as an argument
     #instead of trying to set attribute fields on it

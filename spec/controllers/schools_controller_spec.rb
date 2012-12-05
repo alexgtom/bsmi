@@ -20,7 +20,10 @@ require 'spec_helper'
 
 describe SchoolsController do
 
-  before(:all) do
+  before(:each) do
+    current_user = mock("i am the user")
+    current_user.stub!(:owner_type).and_return("Advisor")
+    controller.stub!(:current_user).and_return(current_user)
     @district = FactoryGirl.create(:district)
   end
 

@@ -1,5 +1,6 @@
 class StudentsController < ApplicationController
-  before_filter :require_student, :only => [:placements]
+#  before_filter :require_student, :only => [:placements]
+#  before_filter :require_cal_faculty, :only => [:placements]
   
   def index
     @all_student = Student.all
@@ -17,30 +18,30 @@ class StudentsController < ApplicationController
   def placements
     @semester = Semester.find(params[:semester_id])
     if current_user.owner_type == "Advisor"
-      @placements = Student.find(params[:id]).owner.placements
+      @placements = Student.find(params[:id]).placements
     else
-      @placements = Student.find(curent_user.id).owner.placements
+      @placements = Student.find(current_user.owner.id).placements
     end
   end
 
   def edit_placements
     if params[:new_timeslot] != nil
-       if Student.find_by_id(params[:id]).owner.placements.find_by_id(params[:new_timeslot]) == nil
-          Student.find_by_id(params[:id]).owner.placements << Timeslot.find_by_id(params[:new_timeslot])
+       if Student.find_by_id(params[:id]).placements.find_by_id(params[:new_timeslot]) == nil
+          Student.find_by_id(params[:id]).placements << Timeslot.find_by_id(params[:new_timeslot])
        else
        	  redirect_to edit_placements_student_path(params[:id]), :notice => "The student already has the placement you were trying to add."
        end
     end
     if params[:student_id] != nil && params[:timeslot_id] != nil
       @name = Student.find_by_id(params[:student_id]).first_name + Student.find_by_id(params[:student_id]).last_name
-      @placements = Student.find_by_id(params[:student_id]).owner.placements
+      @placements = Student.find_by_id(params[:student_id]).placements
       @placements.delete(Timeslot.find_by_id(params[:timeslot_id]))
       redirect_to edit_placements_student_path(params[:student_id]), :notice => "The selected placement has been removed for #{@name}"
     end
     if Student.find_by_id(params[:id]) == nil
        redirect_to students_path, :notice => "No such a student exists, or student has been removed"
     else
-      @student = Student.find_by_id(params[:id]).owner
+      @student = Student.find_by_id(params[:id])
       @placements = @student.placements
       @first_name = @student.user.first_name
       @last_name = @student.user.last_name
@@ -49,7 +50,7 @@ class StudentsController < ApplicationController
   
 
   def update
-    @student = Student.find(params[:id]).owner
+    @student = Student.find(params[:id])
     @new_placement = Timeslot.find_by_id(params[:student][:placement])
     if @student.update_attributes(params[:placements])
       redirect_to @student, notice: 'Placements was successfully updated.' 
@@ -59,13 +60,13 @@ class StudentsController < ApplicationController
   end
 
   def courses
-    @student = Student.find(params[:id]).owner
-    @cal_courses = Student.find(params[:id]).owner.cal_courses
+    @student = Student.find(params[:id])
+    @cal_courses = Student.find(params[:id]).cal_courses
   end
 
   def select_courses
     @semester = Semester.find(params[:semester_id])
-    @student = Student.find(params[:id]).owner
+    @student = Student.find(params[:id])
     @cal_courses = CalCourse.all
 
     if params[:student] and params[:student][:cal_courses]

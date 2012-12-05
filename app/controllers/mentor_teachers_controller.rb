@@ -121,9 +121,11 @@ class MentorTeachersController < ApplicationController
         school = entry["school_name"]
         course = entry["course"] ? entry["course"].name : " "
         grade = entry["course"] ? entry["course"].grade : " "
+        description = timeslot.semester ? timeslot.semester.description : " "
+        name = timeslot.cal_course ? timeslot.cal_course.name : " "
         time = entry["time"]
-        data = [ ['Semester',"#{timeslot.semester.description}"],
-                 ['Cal Course', "#{timeslot.cal_course.name}"],
+        data = [ ['Semester', description],
+                 ['Cal Course', name],
                  ['School', school],
                  ['Course', course],
                  ['Grade', grade],

@@ -14,7 +14,7 @@
 
   - @all_student.each do |student|
     %tr
-      %td= link_to student.user.first_name, edit_user_path(student.id)
+      %td= link_to student.user.first_name, student
       %td= student.user.last_name
       %td= student.user.email
       %td

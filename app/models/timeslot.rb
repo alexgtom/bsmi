@@ -95,7 +95,7 @@ class Timeslot < ActiveRecord::Base
     timeslot.assign_attributes(:start_time => start_time,
                                :end_time => end_time,
                                :day => DAYS[start_time.wday],
-                               :max_num_assistants => event["num_assistants"],
+                               :max_num_assistants => event["max_num_assistants"],
                                :course_id => event["course_id"]
                                )
     timeslot.assign_attributes(attrs)
@@ -126,8 +126,8 @@ class Timeslot < ActiveRecord::Base
       'db_id' => self.id,
       'start' => to_js_time(self.start_time, self.day),
       'end' => to_js_time(self.end_time, self.day),
-     'title' => self.course.name,
-      'num_assistants' => self.max_num_assistants
+      'title' => self.course.name,
+      'max_num_assistants' => self.max_num_assistants
     }.merge(overrides)
   end
 

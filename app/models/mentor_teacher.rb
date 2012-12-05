@@ -18,4 +18,10 @@ class MentorTeacher < ActiveRecord::Base
       return entry
     end
   end
+
+  def timeslots_for_semester(semester_id)
+    Timeslot.joins(:cal_course, :mentor_teacher).
+      where('cal_courses.semester_id' => semester_id,
+            'mentor_teachers.id' => self.id)
+  end
 end

@@ -219,7 +219,7 @@ end
 
 Given /the following assignments exist/ do |tb|
   tb.hashes.each do |t|
-    student = User.find(t['user_id']).owner
+    student = Student.find(t['user_id'])
     student.placements << Timeslot.find(t['timeslot_id'])
     student.save!
   end

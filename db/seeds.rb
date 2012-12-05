@@ -196,9 +196,9 @@ Course.create!(:name => "Science", :grade => "8")
 Course.create!(:name => "Pre Algebra", :grade => "6")
 
 # --- Create Students
-users = ["student1@test.com", "student2@test.com", "student3@test.com", "student4@test.com"]
+users = (1..20).map { |i| "student#{i}@test.com" } # ["student1@test.com", "student2@test.com", "student3@test.com", "student4@test.com"]
 users.each_with_index do |u, i|
-  user = User.new({:first_name => names[i % names.size],
+    user = User.new({:first_name => names[i % names.size],
                    :last_name => names[(i + 10) % names.size],
                    :street_address => '346 soda UC Berkeley',
                    :city => 'Berkeley',
@@ -279,33 +279,34 @@ end
 
 
 # --- Create timeslots
-times = [["10:00 AM", "10:30 AM"], ["12:00 PM", "1:30 PM"], ["11:00 AM", "12:30 PM"],
+times = [["10:00 AM", "11:00 AM"], ["12:00 PM", "1:30 PM"], ["11:00 AM", "12:30 PM"],
          ["4:00 PM", "5:00 PM"]]
 
 
 Timeslot.weekdays.each do |day|
   times.each.with_index do |time, i|
-    i += 1
+#    i += 1
     start_time, end_time = time
+    teachers = MentorTeacher.all
     timeslot = Timeslot.create!(
-      :start_time => start_time, 
-      :end_time => end_time,
-      :mentor_teacher => MentorTeacher.find(i), 
-      :day => day, 
-      :course => Course.all[i % Course.all.size],
-      ) 
+                                :start_time => start_time, 
+                                :end_time => end_time,
+                                :mentor_teacher => teachers[i % teachers.length], 
+                                :day => day, 
+                                :course => Course.all[i % Course.all.size],
+                                ) 
+    end
   end
-end
 
 Timeslot.all.each_with_index do |t, i|
   # assign timeslots to each cal course
-  CalCourse.all[i % CalCourse.all.size].timeslots << t if i%3 != 0
+  CalCourse.all[i % CalCourse.count].timeslots << t #if i%3 != 0
 end
 
 # --- Create preferences
-#Timeslot.all.each.with_index do |ts, i|
-#  Preference.create!(:timeslot => ts, :student => Student.all[i % Student.all.size], :ranking => i)
-#end
+Timeslot.all.each.with_index do |ts, i|
+ Preference.create!(:timeslot => ts, :student => Student.all[i % Student.all.size], :ranking => i)
+end
 
 Student.all.each_with_index do |t, i|
   # assign students to each cal course
@@ -320,17 +321,19 @@ Timeslot.all.each_with_index do |t, i|
   timeslots << t
 end
 
-#Timeslot.all.each_with_index do |t, i|
-#  # assign placements to each student
-#  Student.all[i % Student.all.size].placements << t
-#end
+
+# Timeslot.all.each_with_index do |t, i|
+#   # assign placements to each student
+#   Student.all[i % Student.all.size].placements << t
+# end
 
 
-## --- Give student 1 an assignment
-#student = Student.find(1)
-#student.placements << Timeslot.where(:day => Timeslot.day_index(:monday))[0]
-#student.cal_courses << CalCourse.all[0]
-#student.save!
+# --- Give student 1 an assignment
+# student = Student.find(1)
+# student.placements << Timeslot.where(:day => Timeslot.day_index(:monday))[0]
+# student.cal_courses << CalCourse.all[0]
+# student.save!
+
 
 # --- Add relations for cal_faculties and cal_courses
 CalCourse.all.each_with_index do |t, i|

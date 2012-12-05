@@ -10,13 +10,13 @@ Background:
 Scenario: I can't access invite page without login as an advisor
   Given I am signed up as a student advisor
   And I go to /invites
-  Then I should be located at "/user_sessions/new"
+  Then I should be located at "/"
   And I should see "Only admin can access this page"
 
 Scenario: I can't access add user page without login as an advisor
   Given I am signed up as a student advisor
   And I go to /user/adv_new
-  Then I should be located at "/user_sessions/new"
+  Then I should be located at "/"
   And I should see "Only admin can access this page"
 
 Scenario: I can invite a person

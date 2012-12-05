@@ -8,7 +8,9 @@ class SelectTimeslotsController < ApplicationController
     end
     @cal_course = CalCourse.find(params[:cal_course_id])
     @student = Student.find(params[:student_id])
-    @timeslots = Timeslot.find_by_semester_id(semester).where(:day => Timeslot.day_index(step), :cal_course_id => params[:cal_course_id])
+    @timeslots = Timeslot.joins(:cal_course).
+      where("cal_courses.semester_id = ?", semester.id).
+      where(:day => Timeslot.day_index(step), :cal_course_id => params[:cal_course_id])
   
     case step
     when :rank, :summary

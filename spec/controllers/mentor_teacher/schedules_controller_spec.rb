@@ -71,7 +71,7 @@ describe MentorTeacher::SchedulesController do
     context "when the user already has a schedule" do
       before(:each) do
         fake_timeslots = [mock(:timeslot, :to_cal_event_hash => :res)]
-        @teacher.stub(:timeslots).and_return(fake_timeslots)        
+        @teacher.stub_chain(:timeslots, :find_all_by_semester_id).and_return(fake_timeslots)        
       end
 
       it "should redirect the user to the edit page" do        
@@ -151,7 +151,7 @@ describe MentorTeacher::SchedulesController do
       before(:each) do
         fake_timeslots = [mock(:timeslot, :to_cal_event_hash => :res)]
         @teacher.stub(:timeslots).and_return(fake_timeslots)        
-        @teacher.stub(:timeslots_for_semester).and_return(fake_timeslots)      
+        @teacher.stub_chain(:timeslots, :find_all_by_semester_id).and_return(fake_timeslots)      
       end
       
       it_behaves_like "a view of timeslots" do
@@ -172,7 +172,7 @@ describe MentorTeacher::SchedulesController do
       before(:each) do
         fake_timeslots = [mock(:timeslot, :to_cal_event_hash => :res)]
         @teacher.stub(:timeslots).and_return(fake_timeslots)        
-        @teacher.stub(:timeslots_for_semester).and_return(fake_timeslots)        
+        @teacher.stub_chain(:timeslots, :find_all_by_semester_id).and_return(fake_timeslots)        
       end
     
       it_behaves_like "a view of timeslots" do
@@ -219,7 +219,7 @@ describe MentorTeacher::SchedulesController do
         @changed_timeslots_data = @changed_timeslot_hashes.map{|h| JSON.dump(h)}
 
         @teacher.stub(:timeslots).and_return(@timeslots)
-        @teacher.stub(:timeslots_for_semester).and_return(@timeslots)        
+        @teacher.stub_chain(:timeslots, :find_all_by_semester_id).and_return(@timeslots)        
         @timeslots.stub(:find_by_id).and_return(*timeslots_to_change)
 
         Timeslot.stub(:from_cal_event_hash).and_return(*timeslots_to_change)
@@ -309,7 +309,7 @@ describe MentorTeacher::SchedulesController do
     it "assigns the timeslots for the current teacher as @timeslots" do
       fake_timeslots = [mock(:timeslot, :to_cal_event_hash => {})]
       @teacher.stub(:timeslots).and_return(fake_timeslots)
-      @teacher.stub(:timeslots_for_semester).and_return(fake_timeslots)        
+      @teacher.stub_chain(:timeslots, :find_all_by_semester_id).and_return(fake_timeslots)        
       get :edit
       assigns(:timeslots).should eq([{}])
     end

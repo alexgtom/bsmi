@@ -38,7 +38,6 @@ group :development, :test do
 end
 
 group :production do
-  gem 'pg'
   gem 'authlogic'
   gem "spreadsheet"
   gem "carrierwave"
@@ -69,6 +68,7 @@ end
 gem 'jquery-ui-rails'
 gem 'jquery-rails'
 
+gem 'pg'
 
 gem 'jquery-rails'
 gem 'json'

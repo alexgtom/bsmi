@@ -127,7 +127,7 @@ class Timeslot < ActiveRecord::Base
       'db_id' => self.id,
       'start' => to_js_time(self.start_time, self.day),
       'end' => to_js_time(self.end_time, self.day),
-      'title' => self.course.name,
+      'title' => self.course.nil? ? nil : self.course.name,
       'max_num_assistants' => self.max_num_assistants
     }.merge(overrides)
   end

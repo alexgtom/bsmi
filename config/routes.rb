@@ -15,7 +15,6 @@ Bsmi::Application.routes.draw do
 
   resources :settings
 
-  resources :matchings
 
   match '/invites/new_excel' => 'invites#new_excel', :as => 'new_invite_excel'
   match '/invites/uploadFile_and_invite' => 'invites#uploadFile_and_invite', :as => 'uploadFile_and_invite'
@@ -41,9 +40,6 @@ Bsmi::Application.routes.draw do
   match '/signup/:invite_code' => 'users#new', :as => 'redeem_invitation'
 
   match 'signup' => 'users#new', :as => :signup
-
-
-
 
 
   resource :matching, :only => ['show', 'new', 'create']

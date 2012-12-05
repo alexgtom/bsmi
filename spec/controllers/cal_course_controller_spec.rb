@@ -85,7 +85,7 @@ describe CalCoursesController do
         # Trigger the behavior that occurs when invalid params are submitted
         CalCourse.any_instance.stub(:valid?).and_return(false)
         post :create, {:cal_course => FactoryGirl.attributes_for(:cal_course)}, valid_session
-        response.should render_template(:new)
+        response.should redirect_to(cal_courses_url)
       end
     end
   end
@@ -101,19 +101,19 @@ describe CalCoursesController do
         semester = FactoryGirl.create(:semester)
         valid_attr = {"name" => "Educ 111", "school_type" => "Middle School", "semester_id" => cal_course.semester.id.to_s}
         CalCourse.any_instance.should_receive(:update_attributes).with(valid_attr)
-        put :update, {:id => cal_course.to_param, :cal_course => valid_attr, :timeslots => valid_timeslots}, valid_session
+        put :update, {:id => cal_course.to_param, :cal_course => valid_attr, :timeslots => valid_timeslots, :cal_faculty => {}}, valid_session
       end
 
       it "assigns the requested cal_course as @cal_course" do
         cal_course = CalCourse.create! valid_attributes
-        put :update, {:id => cal_course.to_param, :cal_course => valid_attributes, :timeslots => valid_timeslots}, valid_session
+        put :update, {:id => cal_course.to_param, :cal_course => valid_attributes, :timeslots => valid_timeslots, :cal_faculty => {}}, valid_session
         assigns(:cal_course).should eq(cal_course)
       end
 
       it "redirects to the cal_course" do
         cal_course = CalCourse.create! valid_attributes
-        put :update, {:id => cal_course.to_param, :cal_course => valid_attributes, :timeslots => valid_timeslots}, valid_session
-        response.should redirect_to (cal_course)
+        put :update, {:id => cal_course.to_param, :cal_course => valid_attributes, :timeslots => valid_timeslots, :cal_faculty => {}}, valid_session
+        response.should redirect_to(cal_courses_url)
       end
     end
 
@@ -122,15 +122,15 @@ describe CalCoursesController do
         cal_course = CalCourse.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         CalCourse.any_instance.stub(:save).and_return(false)
-        put :update, {:id => cal_course.to_param, :cal_course => {}, :timeslots => valid_timeslots}, valid_session
+        put :update, {:id => cal_course.to_param, :cal_course => {}, :timeslots => valid_timeslots, :cal_faculty => {}}, valid_session
         assigns(:cal_course).should eq(cal_course)
       end
 
       it "re-renders the 'edit' template if param for school type is uncorrect" do
         cal_course = CalCourse.create! invalid_parameters_school
         # Trigger the behavior that occurs when invalid params are submitted
-        put :update, {:id => cal_course.to_param, :cal_course => invalid_parameters_school, :timeslots => valid_timeslots, :semester => "1"}, valid_session
-        response.should render_template("edit")
+        put :update, {:id => cal_course.to_param, :cal_course => invalid_parameters_school, :timeslots => valid_timeslots, :semester => "1", :cal_faculty => {}}, valid_session
+        response.should redirect_to(cal_courses_url)
       end
 
 
@@ -139,7 +139,7 @@ describe CalCoursesController do
         # Trigger the behavior that occurs when invalid params are submitted
         CalCourse.any_instance.stub(:save).and_return(false)
         put :update, {:id => cal_course.to_param, :cal_course => {}}, valid_session
-        response.should render_template("edit")
+        response.should redirect_to(cal_courses_url)
       end
     end
   end

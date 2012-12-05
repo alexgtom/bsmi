@@ -118,7 +118,7 @@ class StudentsController < ApplicationController
   end
 
   def download_pdf
-    teacher = MentorTeacher.find(params[:id])
+    teacher = Student.find(params[:id])
     send_data generate_pdf(teacher),
               filename: "#{teacher.user.name}.pdf",
               type: "application/pdf"
@@ -141,8 +141,11 @@ class StudentsController < ApplicationController
         course = entry["course"] ? entry["course"].name : " "
         grade = entry["course"] ? entry["course"].grade : " "
         time = entry["time"]
-        data = [ ['Semester',"#{timeslot.semester.description}"],
-                 ['Cal Course', "#{timeslot.cal_course.name}"],
+        description = timeslot.semester ? timeslot.semester.description : " "
+        name = timeslot.cal_course ? timeslot.cal_course.name : " "
+        time = entry["time"]
+        data = [ ['Semester', description],
+                 ['Cal Course', name],
                  ['School', school],
                  ['Course', course],
                  ['Grade', grade],

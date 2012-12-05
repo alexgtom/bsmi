@@ -35,9 +35,9 @@ Feature: View placements
 			| id | semester_id |
 			| 1  | 1           |
 
-		Given the following users exist
-			| id | first_name | last_name | email             | type     | cal_courses |
-			| 1  | Oski 	  | Bear      | oski@berkeley.edu | Student  | 1           |
+		Given the following student exist
+			| id |  cal_courses |
+			| 1  |  1           |
 		Given the following users exist
 			| id | first_name | last_name | email             | type     | 
 			| 2  | cf		  | Bear      | cf@berkeley.edu   | CalFaculty |

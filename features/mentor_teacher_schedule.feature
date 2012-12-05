@@ -5,6 +5,10 @@ Feature: Mentor teacher scheduling
 
 Background: I am a mentor teacher
   Given I am a mentor teacher
+  Given the following semesters exist
+   | name | year |
+   | Fall | 2012 |
+
   Given the following courses exist:
   | name       | grade |
   | Algebra    |     8 |
@@ -34,7 +38,7 @@ Scenario: Save the times and classes that I teach
 
 @javascript
 Scenario: Enter in details for the times and classes I teach
-  When I go to /mentor_teacher/schedule/new
+  When I go to /mentor_teacher/schedule/new?semester_id=1
   And I create the following event on the calendar on Monday:
    | start    | end      |
    | 10:00 AM | 11:00 AM |

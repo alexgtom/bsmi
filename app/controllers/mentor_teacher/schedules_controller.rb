@@ -5,7 +5,7 @@ class MentorTeacher::SchedulesController < ApplicationController
   end
    
   def new
-    if not current_teacher.timeslots.empty?
+    if not current_teacher.timeslots.find_all_by_semester_id(semester.id).empty?
       redirect_to edit_mentor_teacher_schedule_path 
     else
       @course_names = Course.select([:name, :id])
@@ -19,13 +19,13 @@ class MentorTeacher::SchedulesController < ApplicationController
 
   def show
     @course_names = Course.select([:name, :id])
-    if current_teacher.timeslots.empty?
+    desired_semester = params[:semester_id] || semester.id
+    if current_teacher.timeslots.find_all_by_semester_id(desired_semester).empty?
       redirect_to new_mentor_teacher_schedule_path
     else
       @semester = Semester.find(params[:semester_id] || semester.id)
       @read_only = true
-      @timeslots = current_teacher.timeslots#.joins(:semester).where("semesters.id = ?", @semester.id)
-            .map{|t| t.to_cal_event_hash}
+      @timeslots = current_teacher.timeslots.find_all_by_semester_id(desired_semester).map{|t| t.to_cal_event_hash}
     end
   end
 
@@ -35,6 +35,7 @@ class MentorTeacher::SchedulesController < ApplicationController
     params[:timeslots].each do |json_str|      
       begin 
         timeslot = Timeslot.from_cal_event_json(json_str)        
+        timeslot.save
       rescue
         all_correct = false
         break
@@ -52,17 +53,13 @@ class MentorTeacher::SchedulesController < ApplicationController
   end
 
   def edit
-    if current_teacher.timeslots.empty? 
+    if current_teacher.timeslots.find_all_by_semester_id(semester.id).empty? 
       redirect_to new_mentor_teacher_schedule_path
     else
       @semester = Semester.find(params[:semester_id] || semester.id)
       semester_id = params[:semester_id] || semester.id
-# <<<<<<< HEAD
-#       @timeslots = current_teacher.timeslots_for_semester(semester_id).
-#         map{|t| t.to_cal_event_hash}
-# =======
 
-      @timeslots = current_teacher.timeslots. #.find_by_semester_id(semester_id).
+      @timeslots = current_teacher.timeslots.find_all_by_semester_id(semester_id).
         map{|t| t.to_cal_event_hash}
 
       @course_names = Course.select([:name, :id])
@@ -87,6 +84,7 @@ class MentorTeacher::SchedulesController < ApplicationController
           event["db_id"] = nil        
         end
         updated_slot = Timeslot.from_cal_event_hash(event)      
+
 
         if event["destroy"]
           updated_slot.delete

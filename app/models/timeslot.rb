@@ -20,7 +20,7 @@ class Timeslot < ActiveRecord::Base
   belongs_to :mentor_teacher
   belongs_to :course
   belongs_to :cal_course
-  has_one :semester, :through => :cal_course
+  belongs_to :semester
 
   #Validations
   validates :day, :presence => true
@@ -140,8 +140,6 @@ class Timeslot < ActiveRecord::Base
   def selected?(student_id)
     Preference.where(["student_id = ?", student_id]).where(:timeslot_id => id).size > 0
   end
+
   
-  def self.find_by_semester_id(semester_id)
-      self.joins(:cal_course).where("cal_courses.semester_id = ?", semester_id)
-  end
 end

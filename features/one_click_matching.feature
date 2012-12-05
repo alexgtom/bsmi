@@ -13,7 +13,7 @@ Background:
 
 Scenario: I haven't already run the matching algorithm
   Given I am on the home page
-  When I follow "Match students"
+  When I follow "matching"
   Then I should be on /matching/new
   When I press "match_all"
   Then I should be on /matching

@@ -8,6 +8,7 @@ class MentorTeacher::SchedulesController < ApplicationController
     if not current_teacher.timeslots.empty?
       redirect_to edit_mentor_teacher_schedule_path 
     else
+      @course_names = Course.select(:name).map{|row| row.name}
       @timeslots = []
       @read_only = false
       @method = :post
@@ -54,6 +55,8 @@ class MentorTeacher::SchedulesController < ApplicationController
       semester_id = params[:semester_id] || semester.id
       @timeslots = current_teacher.timeslots_for_semester(semester_id).
         map{|t| t.to_cal_event_hash}
+
+      @course_names = Course.select(:name).map{|row| row.name}
       @read_only = false
       #TODO: refactor this to not need the dummy vars
       @submit_link = mentor_teacher_schedule_path

@@ -39,11 +39,18 @@ describe MentorTeacher::SchedulesController do
 
   shared_examples "a page allowing changes to a schedule" do
     before(:each) do
+      @courses = FactoryGirl.build_stubbed_list(:course, 2)
+      Course.stub(:select).and_return(@courses)
       get action_under_test
     end
     it "should assign @read_only to false" do
       assigns(:read_only).should eq(false)
     end
+
+    it "should assign @course_names to the names of all course for the semester" do      
+      Set.new(assigns(:course_names)).should eq(Set.new(@courses.map {|c| c.name}))
+    end
+
 
     it "should assign submit_link appropriately" do
       assigns(:submit_link).should eq(desired_submit_path)
@@ -159,6 +166,7 @@ describe MentorTeacher::SchedulesController do
   end
 
   describe "GET edit" do
+        
     context "teacher has timeslots" do
       #TODO: refactor this into shared concert
       before(:each) do
@@ -166,6 +174,7 @@ describe MentorTeacher::SchedulesController do
         @teacher.stub(:timeslots).and_return(fake_timeslots)        
         @teacher.stub(:timeslots_for_semester).and_return(fake_timeslots)        
       end
+    
       it_behaves_like "a view of timeslots" do
         let(:action_under_test) { :edit }
       end

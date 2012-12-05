@@ -191,7 +191,7 @@ describe UsersController do
 
   describe "GET adv_new" do
     before (:each) do
-      controller.stub!(:require_admin).and_return(true)
+      controller.stub!(:require_user_type).and_return(true)
     end
     it "assigns a new user as @user" do
       get :adv_new, {}, valid_session
@@ -201,7 +201,7 @@ describe UsersController do
 
   describe "POST adv_create" do
     before (:each) do
-      controller.stub!(:require_admin).and_return(true)
+      controller.stub!(:require_user_type).and_return(true)
     end
     describe "with valid params" do
       before(:each) do
@@ -286,7 +286,7 @@ describe UsersController do
 
   describe "GET adv_edit" do
     before (:each) do
-      controller.stub!(:require_admin).and_return(true)
+      controller.stub!(:require_user_type).and_return(true)
     end
     it "assigns the requested user as @user" do
       user = User.create! valid_attributes
@@ -299,7 +299,7 @@ describe UsersController do
 
   describe "PUT adv_update" do
     before (:each) do
-      controller.stub!(:require_admin).and_return(true)
+      controller.stub!(:require_user_type).and_return(true)
     end
     describe "with valid params" do
       it "updates the requested user" do
@@ -351,7 +351,7 @@ describe UsersController do
   end  
   describe "DELETE destroy" do
     before (:each) do
-      controller.stub!(:require_admin).and_return(true)
+      controller.stub!(:require_user_type).and_return(true)
     end
     describe "should destroy a user" do
       it "updates the requested user" do

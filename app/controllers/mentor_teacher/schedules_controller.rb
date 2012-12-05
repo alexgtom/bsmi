@@ -24,7 +24,8 @@ class MentorTeacher::SchedulesController < ApplicationController
     else
       @semester = Semester.find(params[:semester_id] || semester.id)
       @read_only = true
-      @timeslots = current_teacher.timeslots.joins(:semester).where("semesters.id = ?", @semester.id).map{|t| t.to_cal_event_hash}
+      @timeslots = current_teacher.timeslots#.joins(:semester).where("semesters.id = ?", @semester.id)
+            .map{|t| t.to_cal_event_hash}
     end
   end
 
@@ -68,7 +69,7 @@ class MentorTeacher::SchedulesController < ApplicationController
 
       @read_only = false
       #TODO: refactor this to not need the dummy vars
-      @submit_link = mentor_teacher_schedule_path(:semester_id => @semester.id)
+      @submit_link = mentor_teacher_schedule_path
       @method = :put
       render "edit_or_new"
     end
@@ -93,7 +94,7 @@ class MentorTeacher::SchedulesController < ApplicationController
         end
 
         errors += 1 unless updated_slot.save
-        current_teacher.timeslots << updated_slotalright
+        current_teacher.timeslots << updated_slot
       end
    end
     @semester = Semester.find(params[:semester_id] || semester.id)

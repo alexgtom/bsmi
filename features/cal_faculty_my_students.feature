@@ -24,7 +24,7 @@ Scenario: Login as a cal_faculty and see my menus
   And I fill in "Email" with "calfaculty@berk.edu"
   And I fill in "Password" with "1234"
   And I press "Login"
-  Then I should be located at "/user"
+  Then I should be located at "/cal_faculty/my_students"
   And I follow "Students"
   Then I should be located at "/cal_faculty/my_students"
 

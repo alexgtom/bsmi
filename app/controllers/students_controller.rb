@@ -106,6 +106,17 @@ class StudentsController < ApplicationController
     @student = Student.find(params[:id])
   end
 
+  def destroy
+    @student = Student.find(params[:id])
+    @student.destroy
+
+    flash[:notice] = "User '#{@student.user.email}' deleted."
+    respond_to do |format|
+      format.html { redirect_to students_url }
+      format.json { head :no_content }
+    end
+  end
+
   def download_pdf
     teacher = MentorTeacher.find(params[:id])
     send_data generate_pdf(teacher),
@@ -142,16 +153,6 @@ class StudentsController < ApplicationController
         table data, :header => false, :column_widths => {0 => 80, 1 => 400}
       end
     end.render
-  end
-
-  def destroy
-    @student = Student.find(params[:id])
-    @student.destroy
-
-    respond_to do |format|
-      format.html { redirect_to students_url }
-      format.json { head :no_content }
-    end
   end
 end
 

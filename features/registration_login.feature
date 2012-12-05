@@ -42,7 +42,7 @@ Scenario: edit mentor teacher's profile
   And I fill in "Email" with "myemail@nowhere.com"
   And I fill in "Password" with "1234"
   And I press "Login"
-  Then I should be located at "/user"
+  Then I should be located at "/settings"
   When  I follow "Edit Profile"
   Then I should be located at "/users/1/edit"
   And the "user_first_name" field should contain "Sangyoon"
@@ -106,7 +106,7 @@ Scenario: Log out of the web application
   And I fill in "Email" with "myemail@nowhere.com"
   And I fill in "Password" with "1234"
   And I press "Login"
-  Then I should be located at "/user"
+  Then I should be located at "/settings"
   And I should see "myemail@nowhere.com"
   And I follow "Logout"
   Then I should be located at "/"
@@ -117,7 +117,7 @@ Scenario: I can't signup/login when i'm logged in
   And I fill in "Email" with "myemail@nowhere.com"
   And I fill in "Password" with "1234"
   And I press "Login"
-  Then I should be located at "/user"
+  Then I should be located at "/settings"
   And I am on the signup page
   Then I should see "You must be logged out to access this page"
   And I am on the login page

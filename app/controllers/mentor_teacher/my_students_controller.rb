@@ -2,7 +2,7 @@ class MentorTeacher::MyStudentsController < ApplicationController
   before_filter :require_mentor_teacher, :only => [:index]
 
   def index
-    @semester = Semester.find(params[:semester_id])
+    @semester = Semester.find(params[:semester_id] || semester.id)
     @mentor_teacher = MentorTeacher.find(current_user.owner_id)
     @my_students = @mentor_teacher.students.joins(:semesters).where("semesters.id = ?", @semester.id)
     @my_students = @my_students.uniq {|x| x.user.id }

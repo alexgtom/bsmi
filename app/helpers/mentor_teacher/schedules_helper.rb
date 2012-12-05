@@ -9,19 +9,25 @@ module MentorTeacher::SchedulesHelper
   end
 
   def dump_event(cal_event)
-    monkey_patch_event(cal_event)
-    JSON.dump(cal_event)
-  end
 
-  def monkey_patch_event(event)
-    #Monkey patch to_json for this event to return code for a javascript date object
-    #This gives us a time in the local timezone.
-    def monkey_patch_date_to_json(date)
-      def date.to_json(arg)
+    start_date = cal_event['start'] || cal_event[:start]
+
+    unless start_date.nil?
+      def start_date.to_json(*args) 
         return "new Date(#{self.year}, #{self.month - 1}, #{self.day}, #{self.hour}, #{self.min})"
       end
     end
-    monkey_patch_date_to_json(event['start'])
-    monkey_patch_date_to_json(event['end'])      
+
+    end_date = cal_event['end'] || cal_event[:end]
+
+    unless end_date.nil?
+      def end_date.to_json(*args) 
+        return "new Date(#{self.year}, #{self.month - 1}, #{self.day}, #{self.hour}, #{self.min})"
+      end
+    end
+
+    JSON.dump(cal_event)
   end
+
+  
 end

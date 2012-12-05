@@ -104,6 +104,7 @@ class Timeslot < ActiveRecord::Base
 
   #Return a time on the given day in the week of Timeslot::WEEK_START
   def self.time_in_week(time_obj, day) 
+    day = day.to_s.downcase.to_sym
     Time.gm(Timeslot::WEEK_START.year,
                Timeslot::WEEK_START.month,
                Timeslot::WEEK_START.day + Timeslot::WEEK_DAYS.index(day),
@@ -124,7 +125,7 @@ class Timeslot < ActiveRecord::Base
       'db_id' => self.id,
       'start' => to_js_time(self.start_time, self.day),
       'end' => to_js_time(self.end_time, self.day),
-      'title' => self.course.name,
+#      'title' => self.course.name,
       'num_assistants' => self.max_num_assistants
     }.merge(overrides)
   end

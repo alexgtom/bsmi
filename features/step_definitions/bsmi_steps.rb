@@ -1,3 +1,5 @@
+require 'date'
+
 Given /I have students and teachers in system/ do
     user = User.new({:first_name => 'Sangyoon',
     :last_name => 'Park',
@@ -241,23 +243,42 @@ end
 
 # -- Scheduleing
 include MentorTeacher::SchedulesHelper
-When /^I add the following timeslots on (.*?):$/ do |day ,table|
+When /^I add the following timeslots on (.*?):$/ do |day ,table|  
+  table.hashes.each do |event_hash|
+    add_event_for_day(day, event_hash)
+    click_button('save')
+  end
+end
 
-  cal_events = table.hashes.map {|h| FactoryGirl.build(:cal_event_hash, h) }
-  cal_events.each do |event_hash|
-    event_hash = Hash[event_hash.each_pair.map {|k, v| [k.to_s, v]}]
+When /^I create the following event on the calendar on (.*?):$/ do |day, table|
+  event_hash = table.hashes.first
+  add_event_for_day(day, event_hash)
+end
+
+When /^I save the event$/ do
+  click_button('save')
+end
+
+
+#Add event to the calendar. Doesn't click save; just brings up the add popup
+def add_event_for_day(day, event_hash)  
+  event_hash = Hash[event_hash.each_pair.map {|k, v| [k.to_s, v]}]
+  parse_dates_for_hash(event_hash, day)
+
+  event_hash = FactoryGirl.build(:cal_event_hash, event_hash)
     script = %Q{
 var event = #{dump_event(event_hash)};
  eventNewCallback(event, null);
 }
-
     page.execute_script(script)
-    
-    # within("#event_edit_container") do
-    #   fill_in("Start time", :with => split_time(h["start_time"]))
-    # end
-    click_button('save')
-  end
+end
+
+def parse_dates_for_hash(event_hash, day = nil) 
+  day = day || event_hash['day']
+  ['start', 'end', 'start_time', 'end_time'].each do |key|
+    event_hash[key] = Timeslot.time_in_week(DateTime.parse(event_hash[key]),
+                                            day) unless not event_hash.include? key
+  end  
 end
   
 
@@ -275,7 +296,7 @@ end
 
 
 Then /^my schedule should look like:$/ do |table|
-  
+  teacher = nil
 end
 
 # --- Users

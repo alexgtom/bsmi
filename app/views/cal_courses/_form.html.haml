@@ -14,6 +14,7 @@
     = f.label :name
     = f.text_field :name
 
+  = f.label "Select Cal Faculties"
   %table.table.table-hover#cal_faculty_table
     %tr
       %th Add?
@@ -32,6 +33,7 @@
     = f.label :semester
     = f.select :semester_id, semesters, {:include_blank => true}
 
+  = f.label "Select Timeslots"
   - if @entries and @entries.size == 0
     = f.label "No Timeslots are Available to Select"
   - else

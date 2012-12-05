@@ -58,7 +58,7 @@ class CalCoursesController < ApplicationController
     @cal_course = CalCourse.new(params[:cal_course])
     if School::LEVEL.include?(params[:cal_course][:school_type]) and params[:cal_course][:semester_id] != ""
       if @cal_course.save  
-        @cal_course.build_associations(params[:timeslots])
+        @cal_course.build_associations(params[:timeslots], params["cal_faculty"])
         flash[:notice] = 'The course was successfully created.'
         redirect_to cal_course_path @cal_course.id
       end
@@ -66,7 +66,7 @@ class CalCoursesController < ApplicationController
       flash[:error] = 'Something went Wrong. Did you select a Semester and a School Type?'
       @entries = CalCourse.new.create_selection_for_new_course
       @semesters = Semester.all.collect {|s| ["#{s.name} #{s.year}", s.id]}
-      render :action => :new
+      redirect_to new_cal_course_path 
     end
   end
 
@@ -77,7 +77,7 @@ class CalCoursesController < ApplicationController
     if School::LEVEL.include?(params[:cal_course][:school_type]) and params[:cal_course][:semester_id] != ""
       @cal_course = CalCourse.find_by_id(params[:id])
       if @cal_course and @cal_course.update_attributes(params[:cal_course]) 
-        @cal_course.build_associations(params[:timeslots])
+        @cal_course.build_associations(params[:timeslots], params[:cal_faculty])
         flash[:notice] = 'The course was successfully created.'
         redirect_to cal_course_path @cal_course.id
       end
@@ -85,7 +85,7 @@ class CalCoursesController < ApplicationController
       flash[:error] = 'Something went Wrong. Did you select a Semester and a School Type?'
       @entries = @cal_course.create_selection_for_new_course
       @semesters = Semester.all.collect {|s| ["#{s.name} #{s.year}", s.id]}
-      render :action => :new
+      redirect_to edit_cal_course_path @cal_course.id
     end
   end
 

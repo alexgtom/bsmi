@@ -12,8 +12,8 @@ describe CalFaculty::MyMentorTeachersController do
       controller.stub!(:require_cal_faculty).and_return(true)
       controller.stub!(:current_user).and_return(user.user)
       course = true
-      course.should_receive(:mentor_teacher).and_return([mentor_teacher])
-      user.should_receive(:cal_courses).and_return([course])
+      course.should_receive(:mentor_teachers).and_return([mentor_teacher])
+      user.should_receive(:students).and_return([course])
       CalFaculty.should_receive(:find).and_return(user)
       get :index, @passing_params, valid_session
       assigns(:my_faculties).should eq([mentor_teacher])
@@ -25,8 +25,8 @@ describe CalFaculty::MyMentorTeachersController do
       controller.stub!(:require_cal_faculty).and_return(true)
       controller.stub!(:current_user).and_return(user.user)
       course = true
-      course.should_receive(:mentor_teacher).and_return([mentor_teacher])
-      user.should_receive(:cal_courses).and_return([course])
+      course.should_receive(:mentor_teachers).and_return([mentor_teacher])
+      user.should_receive(:students).and_return([course])
       CalFaculty.should_receive(:find).and_return(user)
       get :index, @passing_params, valid_session
       assigns(:my_faculties).should eq([mentor_teacher])
@@ -38,8 +38,8 @@ describe CalFaculty::MyMentorTeachersController do
       controller.stub!(:require_cal_faculty).and_return(true)
       controller.stub!(:current_user).and_return(user.user)
       course = true
-      course.should_receive(:mentor_teacher).and_return([mentor_teacher])
-      user.should_receive(:cal_courses).and_return([course])
+      course.should_receive(:mentor_teachers).and_return([mentor_teacher])
+      user.should_receive(:students).and_return([course])
       CalFaculty.should_receive(:find).and_return(user)
       get :index, @passing_params, valid_session
       assigns(:my_faculties).should eq([mentor_teacher])

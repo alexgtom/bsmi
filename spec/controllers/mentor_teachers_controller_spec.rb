@@ -24,22 +24,7 @@ describe MentorTeachersController do
   # MentorTeacher. As you add validations to MentorTeacher, be sure to
   # update the return value of this method accordingly.
   def create_mentor_teacher
-    user = User.new({
-       :first_name => "FirstName",
-       :last_name => "LastName",
-       :street_address => 'myaddr',
-       :phone_number => '000-000-0000',
-       :email => "TeacherEmail@gmail.com",
-       :password => '1234',
-       :password_confirmation => '1234'
-    })
-
-    owner = MentorTeacher.create!(:user => user, :school => mock_model(School))
-
-    user.owner = owner
-    user.save!
-    
-    user.owner
+    FactoryGirl.create(:mentor_teacher)
   end
 
   def valid_attributes

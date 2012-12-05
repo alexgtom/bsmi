@@ -22,8 +22,10 @@ class MentorTeacher::SchedulesController < ApplicationController
     if current_teacher.timeslots.empty?
       redirect_to new_mentor_teacher_schedule_path
     else
+      @semester = Semester.find(params[:semester_id] || semester.id)
       @read_only = true
-      @timeslots = current_teacher.timeslots.map{|t| t.to_cal_event_hash}
+      @timeslots = current_teacher.timeslots#.joins(:semester).where("semesters.id = ?", @semester.id)
+            .map{|t| t.to_cal_event_hash}
     end
   end
 
@@ -53,6 +55,7 @@ class MentorTeacher::SchedulesController < ApplicationController
     if current_teacher.timeslots.empty? 
       redirect_to new_mentor_teacher_schedule_path
     else
+      @semester = Semester.find(params[:semester_id] || semester.id)
       semester_id = params[:semester_id] || semester.id
 # <<<<<<< HEAD
 #       @timeslots = current_teacher.timeslots_for_semester(semester_id).
@@ -94,12 +97,13 @@ class MentorTeacher::SchedulesController < ApplicationController
         current_teacher.timeslots << updated_slot
       end
    end
+    @semester = Semester.find(params[:semester_id] || semester.id)
     if errors > 0
       flash[:notice] = "Couldn't save all classes in schedule"
-      redirect_to edit_mentor_teacher_schedule_path
+      redirect_to edit_mentor_teacher_schedule_path(:semester_id => @semester.id)
     else
       flash[:notice] = "Successfully updated schedule"
-      redirect_to mentor_teacher_schedule_path
+      redirect_to mentor_teacher_schedule_path(:semester_id => @semester.id)
     end
   end
 

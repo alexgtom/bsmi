@@ -1,5 +1,5 @@
 .pull-right
-  = link_to "Edit schedule", edit_mentor_teacher_schedule_path, :class => "btn"
+  = link_to "Edit schedule", edit_mentor_teacher_schedule_path(:semester_id => @semester.id), :class => "btn"
 .page-header
   %h1 Schedule
   = render :partial => "week_calendar", :locals => {:timeslots => @timeslots, :read_only => @read_only}       

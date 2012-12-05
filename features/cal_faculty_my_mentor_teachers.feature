@@ -8,10 +8,10 @@ Background: cal_courses, cal_faculty(me), students exitsts
 			| id | name | year | status |
 			| 1  | Fall | 2012 | Public |
   Given the following timeslots exist:
-  | start_time | end_time | day     | course_id | mentor_teacher_id	| cal_course_id	|
-  | 8:00 AM    | 9:00 AM  | monday  | 1	        | 1		        | 1		|               
-  | 9:00 AM    | 10:00 AM | monday  | 2	        | 2		        | 1		|               
-  | 9:00 AM    | 10:00 AM | monday  | 3	        | 3			| 2		|               
+  | start_time | end_time | day     | course_id | mentor_teacher_id	|
+  | 8:00 AM    | 9:00 AM  | monday  | 1	        | 1		        |
+  | 9:00 AM    | 10:00 AM | monday  | 2	        | 2		        |
+  | 9:00 AM    | 10:00 AM | monday  | 3	        | 3			|
   Given the following cal course exists:
   | name        | school_type		| semester_id |
   | Educ 111	| Elementary School	| 1           |
@@ -27,12 +27,20 @@ Background: cal_courses, cal_faculty(me), students exitsts
   | mentor2   | ment2   | mt2@std.edu          | 1234    | MentorTeacher | mystreet6        | 333-444-555  |   	  	 |
   | mentor3   | ment3   | mt3@std.edu          | 1234    | MentorTeacher | mystreet7        | 333-444-555  |    	 |
 
+  Given the students_timeslots exists:
+  | student_id | timeslot_id |
+  | 1          | 1           |
+
+  Given the matchings exists:
+  | student_id | timeslot_id | ranking |
+  | 1          | 1           | 1       |
+
 Scenario: Login as a cal_faculty and see my menus
   Given I am on the login page
   And I fill in "Email" with "calfaculty@berk.edu"
   And I fill in "Password" with "1234"
   And I press "Login"
-  Then I should be located at "/user"
+  Then I should be located at "/cal_faculty/my_students"
   And I follow "My Mentor Teachers"
   Then I should be located at "/cal_faculty/my_mentor_teachers"
 
@@ -43,7 +51,7 @@ Scenario: should see list of my mentor teachers enrolled in my cal_course
   And I press "Login"
   And I follow "My Mentor Teachers"
   Then I should see "mentor1"
-  And I should see "mentor2"
+  And I should not see "mentor2"
   And I should not see "mentor3"
   And I should not see "stud1"
   And I should not see "stud2"

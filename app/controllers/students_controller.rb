@@ -33,7 +33,7 @@ class StudentsController < ApplicationController
        end
     end
     if params[:student_id] != nil && params[:timeslot_id] != nil
-      @name = Student.find_by_id(params[:student_id]).first_name + Student.find_by_id(params[:student_id]).last_name
+      @name = Student.find_by_id(params[:student_id]).user.first_name + Student.find_by_id(params[:student_id]).user.last_name
       @placements = Student.find_by_id(params[:student_id]).placements
       @placements.delete(Timeslot.find_by_id(params[:timeslot_id]))
       redirect_to edit_placements_student_path(params[:student_id]), :notice => "The selected placement has been removed for #{@name}"
@@ -90,9 +90,31 @@ class StudentsController < ApplicationController
   def home
   end
 
+  def destroy
+    @student = Student.find(params[:id])
+    @student.destroy
+
+    flash[:notice] = "User '#{@student.user.email}' deleted."
+    respond_to do |format|
+      format.html { redirect_to students_url }
+      format.json { head :no_content }
+    end
+  end
+
   def show
     store_location
     @student = Student.find(params[:id])
+  end
+
+  def destroy
+    @student = Student.find(params[:id])
+    @student.destroy
+
+    flash[:notice] = "User '#{@student.user.email}' deleted."
+    respond_to do |format|
+      format.html { redirect_to students_url }
+      format.json { head :no_content }
+    end
   end
 
   def download_pdf

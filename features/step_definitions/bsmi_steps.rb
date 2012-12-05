@@ -122,6 +122,20 @@ Given /the following cal course exist/ do |tb|
   end
 end
 
+Given /the students_timeslots exists/ do |tb|
+  tb.hashes.each do |t|
+    a = Timeslot.find(t['timeslot_id'])
+    a.students << Student.find(t['student_id'])
+    a.save
+  end
+end
+
+Given /the matchings exists/ do |tb|
+  tb.hashes.each do |t|
+    Matching.create!(t)
+  end
+end
+
 Given /the following timeslots exist/ do |tb|
   tb.hashes.each do |t|
     if t.has_key?('mentor_teacher')
@@ -221,7 +235,7 @@ end
 
 Given /the following assignments exist/ do |tb|
   tb.hashes.each do |t|
-    student = Student.find(t['user_id'])
+    student = User.find(t['user_id']).owner
     student.placements << Timeslot.find(t['timeslot_id'])
     student.save!
   end
@@ -352,6 +366,7 @@ Given /the following users exist/ do |tb|
 
     if t[:id]
       user.id = t[:id]
+      owner.id = t[:id]
     end
 
     

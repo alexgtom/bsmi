@@ -3,10 +3,10 @@ class CalFaculty::MyMentorTeachersController < ApplicationController
 
   def index
     @cal_faculty = CalFaculty.find(current_user.owner_id)
-    @my_courses = @cal_faculty.cal_courses
+    @my_students = @cal_faculty.students
     @my_faculties = []
-    @my_courses.each do |course|
-      course.mentor_teacher.each do |m|
+    @my_students.each do |student|
+      student.mentor_teachers.each do |m|
         @my_faculties << m
       end
     end

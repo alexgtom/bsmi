@@ -36,10 +36,12 @@ class CalCourse < ActiveRecord::Base
         add_to.save!
       end
     end
-    cal_faculties.keys.each do |cal_faculty_id|
-      add_to = CalFaculty.find(cal_faculty_id)
-      add_to.cal_courses << self
-      add_to.save!
+    if cal_faculties
+      cal_faculties.keys.each do |cal_faculty_id|
+        add_to = CalFaculty.find(cal_faculty_id)
+        add_to.cal_courses << self
+        add_to.save!
+      end
     end
   end
 

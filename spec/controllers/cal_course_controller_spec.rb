@@ -3,6 +3,7 @@ require 'spec_helper'
 describe CalCoursesController do
   before(:each) do
     @semester = FactoryGirl.create(:semester)
+    @cal_faculty = FactoryGirl.create(:cal_faculty)
   end
 
   def valid_attributes
@@ -82,9 +83,9 @@ describe CalCoursesController do
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
-        CalCourse.any_instance.stub(:save).and_return(false)
-        post :create, {:cal_course => {}}, valid_session
-        response.should render_template("new")
+        CalCourse.any_instance.stub(:valid?).and_return(false)
+        post :create, {:cal_course => FactoryGirl.attributes_for(:cal_course)}, valid_session
+        response.should render_template(:new)
       end
     end
   end
@@ -99,9 +100,8 @@ describe CalCoursesController do
         # submitted in the request.
         semester = FactoryGirl.create(:semester)
         valid_attr = {"name" => "Educ 111", "school_type" => "Middle School", "semester_id" => cal_course.semester.id.to_s}
-        valid_attr_put = {"name" => "Educ 111", "school_type" => "Middle School", "semester_id" => cal_course.semester.id.to_s}
         CalCourse.any_instance.should_receive(:update_attributes).with(valid_attr)
-        put :update, {:id => cal_course.to_param, :cal_course => valid_attr_put, :timeslots => valid_timeslots}, valid_session
+        put :update, {:id => cal_course.to_param, :cal_course => valid_attr, :timeslots => valid_timeslots}, valid_session
       end
 
       it "assigns the requested cal_course as @cal_course" do

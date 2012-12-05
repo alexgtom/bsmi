@@ -41,7 +41,7 @@ Bsmi::Application.routes.draw do
 
   match 'signup' => 'users#new', :as => :signup
 
-  resource :matching, :only => ['show', 'new', 'create']
+  resource :matching, :only => ['show', 'new', 'create', 'destroy']
 
   resources :mentor_teachers do
     member do

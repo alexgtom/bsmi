@@ -22,4 +22,12 @@ class MatchingsController < ApplicationController
     redirect_to matching_path
   end
 
+  def destroy
+    reset_id = params[:semester_id]
+    semester_to_reset = reset_id.nil? ? semester : Semester.find(reset_id)
+    semester_to_reset.reset_matchings
+
+    redirect_to new_matching_path
+  end
+
 end

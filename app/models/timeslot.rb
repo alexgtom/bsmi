@@ -22,6 +22,7 @@ class Timeslot < ActiveRecord::Base
   belongs_to :cal_course
   belongs_to :semester
 
+  has_one :matching
   #Validations
   validates :day, :presence => true
   validates :start_time, :presence => true

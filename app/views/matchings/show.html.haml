@@ -25,6 +25,9 @@
     );
 
 %h1 Placements by Cal Course
+= form_tag(matching_path, :method => 'delete') do
+  = submit_tag "Reset matchings", :id => 'reset_matchings'
+
 - @placements_by_course.each_pair do |course, placements|
   = render :partial => 'course_placements', :locals => {:course => course, :placements => placements}
   

@@ -69,4 +69,11 @@ class Semester < ActiveRecord::Base
     DateTime.now > current_semester.registration_deadline.due_date
   end
 
+  def reset_matchings
+    Matching.joins(:timeslot).
+      where("timeslots.semester_id" => self.id).destroy_all
+    self.matchings_performed = false
+    self.save
+  end
+
 end

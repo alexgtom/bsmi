@@ -28,6 +28,14 @@ class Timeslot < ActiveRecord::Base
   validates :end_time, :presence => true
   validates_inclusion_of :day, :in => Timeslot::DAYS
 
+
+  before_save :set_default_values
+
+  def set_default_values
+    self.semester ||= Semester.current_semester
+  end
+
+
   def self.day_list
     DAYS
   end

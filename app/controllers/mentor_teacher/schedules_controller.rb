@@ -54,7 +54,8 @@ class MentorTeacher::SchedulesController < ApplicationController
       redirect_to new_mentor_teacher_schedule_path
     else
       semester_id = params[:semester_id] || semester.id
-      @timeslots = current_teacher.timeslots_for_semester(semester_id).
+
+      @timeslots = current_teacher.timeslots. #.find_by_semester_id(semester_id).
         map{|t| t.to_cal_event_hash}
 
       @course_names = Course.select([:name, :id])

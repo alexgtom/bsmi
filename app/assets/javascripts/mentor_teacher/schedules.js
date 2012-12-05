@@ -96,13 +96,12 @@ function eventEditPopup (calEvent, $dialogContent){
     var $domObjs = {"calendar": $("#calendar"),
                     "startFields": $dialogContent.find("select.start_time"),
                     "endFields" : $dialogContent.find("select.end_time"),
-                    "titleField" : $dialogContent.find("input#class_name")     
+                    "titleField" : $dialogContent.find("#class_name")
                    };                                       
 
     setTimeFields($domObjs["startFields"], calEvent.start);
     setTimeFields($domObjs["endFields"], calEvent.end);
-    var class_name = (calEvent.title === null ? DEFAULT_CLASS_NAME : calEvent.title);
-    $domObjs["titleField"].val(class_name);
+    selectOptionWithValue($domObjs["titleField"], calEvent.title);
     $dialogContent.dialog({
         modal: true,
         title: "Edit class",
@@ -131,7 +130,11 @@ function onEventSave (calEvent, $domObjs) {
 
     calEvent.start = extractTime($domObjs["startFields"], calEvent.start);
     calEvent.end = extractTime($domObjs["endFields"], calEvent.end);        
-    calEvent.title = $domObjs["titleField"].val();
+
+    $selectedCourse = $domObjs["titleField"].find("option:selected");
+
+    calEvent.title = $selectedCourse.text();
+    calEvent.course_id = $selectedCourse.val();
 
     $domObjs["calendar"].weekCalendar("updateEvent", calEvent);
     $domObjs["calendar"].weekCalendar("removeUnsavedEvents");            

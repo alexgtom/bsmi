@@ -1,6 +1,6 @@
 .page-header
   %h1 Schedule
-= render :partial => "week_calendar", :locals => {:timeslots => @timeslots, :read_only => @read_only}       
+  = render :partial => "week_calendar", :locals => {:timeslots => @timeslots, :read_only => @read_only, :course_names => @course_names}       
 = render :partial => "form", :locals => {:submit_link => @submit_link, :method => @method}
   
 

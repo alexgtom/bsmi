@@ -41,11 +41,11 @@ Bsmi::Application.routes.draw do
 
   match 'signup' => 'users#new', :as => :signup
 
-
   resource :matching, :only => ['show', 'new', 'create']
 
   resources :mentor_teachers do
     member do
+      get 'home'
       get 'download_pdf'
     end
   end

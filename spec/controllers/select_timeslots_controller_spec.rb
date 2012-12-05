@@ -12,9 +12,9 @@ describe SelectTimeslotsController do
   it 'should show the timeslots available for that day' do
     Semester.should_receive(:past_deadline?).and_return(false)
     Student.should_receive(:find).and_return(@student)
-    #Timeslot.should_receive(:find_by_semester_id).with(@semester.id).and_return(mock_model())
+    #Timeslot.should_receive(:find_all_by_semester_id).with(@semester.id).and_return(mock_model())
     #Timeslot.should_receive(:where).and_return([@timeslot])
-    Timeslot.stub_chain(:find_by_semester_id, :where).and_return([@timeslot])
+    Timeslot.stub_chain(:find_all_by_semester_id, :where).and_return([@timeslot])
     get :show, {:id => :monday, :semester_id => @semester.id, :student_id => @student.id, :cal_course_id => @cal_course.id}
   end
 

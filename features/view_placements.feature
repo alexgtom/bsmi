@@ -8,6 +8,13 @@ Feature: View placements
 			| id | name | year | status |
 			| 1  | Fall | 2012 | Public |
 
+		Given the following cal course exist
+			| id | semester_id |
+			| 1  | 1           |
+
+		Given the following users exist
+			| id | first_name | last_name | email             | type     | cal_courses |
+			| 1  | cf		  | Bear      | s@berkeley.edu   | Student | 1 	          |
 		Given the following courses exist:
 			| name 	    | grade 	  |
 			| Physics   | High School |
@@ -25,24 +32,14 @@ Feature: View placements
 
 		Given the following users exist:
 			| id | first_name    | last_name | address     		| phone_number | email 			   | school 	   | type 		   |
-			|  3 | Oski			 | Bear      | 2650 Haste Street | 408-123-4567 | mt@berkeley.edu | Berkeley High | MentorTeacher |
+			|  2 | Oski			 | Bear      | 2650 Haste Street | 408-123-4567 | mt@berkeley.edu | Berkeley High | MentorTeacher |
 
 		Given the following timeslots exist:
 			| id | start_time     	| end_time      | day     | course    | mentor_teacher |
 			| 1  | 8:00		   		| 9:00 			| monday  | Physics   | Oski           |
 
-		Given the following cal course exist
-			| id | semester_id |
-			| 1  | 1           |
 
-		Given the following student exist
-			| id |  cal_courses |
-			| 1  |  1           |
-		Given the following users exist
-			| id | first_name | last_name | email             | type     | 
-			| 2  | cf		  | Bear      | cf@berkeley.edu   | CalFaculty |
-
-		Given I am logged in as mt@berkeley.edu
+		Given I am logged in as s@berkeley.edu
 
 
 	Scenario: Cal Faculty should be able to see field placement

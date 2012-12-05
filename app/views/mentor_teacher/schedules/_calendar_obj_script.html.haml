@@ -6,7 +6,16 @@
     assignEventIDs(eventData);
     $(document).ready(
         function() {
-        
+            //Prevent enter from submitting the form
+            //Solution from http://stackoverflow.com/questions/895171/prevent-users-from-submitting-form-by-hitting-enter
+            $(window).keydown(function(event){
+                if(event.keyCode == 13) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
+
+            
       $('#calendar').weekCalendar({
         date: START_DATE,
         //TODO: AJAXify this

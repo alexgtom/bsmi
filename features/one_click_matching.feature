@@ -12,14 +12,11 @@ Background:
      | Fall | 2012 |
 
 Scenario: I haven't already run the matching algorithm
-  Given I am on the home page
-  When I follow "Match students"
-  Then I should be on /matching/new
+  Given I am on /matching/new  
   When I press "match_all"
   Then I should be on /matching
 
 Scenario: I have already run the matching algorithm
   Given matchings have been performed for this semester
-  Given I am on the home page
-  When I follow "Match students"
-  Then I should be on /matching
+  And I am on /matching
+  Then I should see "UGIS 80"

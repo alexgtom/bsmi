@@ -10,14 +10,14 @@ Background:
 Scenario: I can't access invite page without login as an advisor
   Given I am signed up as a student advisor
   And I go to /invites
-  Then I should be located at "/user_sessions/new"
+  Then I should be located at "/"
   And I should see "Only admin can access this page"
 
 Scenario: I can't access add user page without login as an advisor
   Given I am signed up as a student advisor
   And I go to /user/adv_new
-  Then I should be located at "/user_sessions/new"
-  And I should see "Only admin can access this page"
+  Then I should be located at "/"
+  And I should see "You don't have permission to access this page"
 
 Scenario: I can invite a person
   Given I am signed up as a student advisor
@@ -25,7 +25,7 @@ Scenario: I can invite a person
   And I fill in "Email" with "myemail@nowhere.com"
   And I fill in "Password" with "1234"
   And I press "Login"
-  Then I should be located at "/user"
+  Then I should be located at "/settings"
   When I go to /invites
   Then I should be located at "/invites"
   And I follow "New Invite"
@@ -38,10 +38,26 @@ Scenario: I can invite a person
   Then I should be located at "/invites"
   And I should see "Invite was successfully created"
   And I should see "sangp@email.com"
-  And I should see "[Invite]"
-  When I follow "[Invite]"
-  Then I should see "Invite sent to sangp@email.com"
-  And I should see "Invited"
+#  And I should see "[Invite]"
+#  When I follow "[Invite]"
+#  Then I should see "Invite sent to sangp@email.com"
+#  And I should see "Invited"
+
+Scenario: I can't invite a blank email
+  Given I am signed up as a student advisor
+  And I am on the login page
+  And I fill in "Email" with "myemail@nowhere.com"
+  And I fill in "Password" with "1234"
+  And I press "Login"
+  Then I should be located at "/settings"
+  When I go to /invites
+  Then I should be located at "/invites"
+  And I follow "New Invite"
+  Then I should be located at "/invites/new"
+  And I press "Save"
+  Then I should be located at "/invites"
+  And I should see "There was a problem inviting a user"
+  And I should see "Email can't be blank"
 
 Scenario: I can add/edit/delete a user
   Given I am signed up as a student advisor
@@ -49,7 +65,7 @@ Scenario: I can add/edit/delete a user
   And I fill in "Email" with "myemail@nowhere.com"
   And I fill in "Password" with "1234"
   And I press "Login"
-  Then I should be located at "/user"
+  Then I should be located at "/settings"
   When I go to /user/adv_new
   Then I should see "Add an account"
   And I select "Student" from "Owner type"

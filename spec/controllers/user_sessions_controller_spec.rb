@@ -48,7 +48,7 @@ describe UserSessionsController do
         }
       }
       delete :destroy
-      response.should redirect_to(controller.new_user_session_url)
+      response.should redirect_to(root_path)
     end
   end
 end

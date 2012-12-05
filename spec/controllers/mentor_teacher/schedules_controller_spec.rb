@@ -39,11 +39,18 @@ describe MentorTeacher::SchedulesController do
 
   shared_examples "a page allowing changes to a schedule" do
     before(:each) do
+      @courses = FactoryGirl.build_stubbed_list(:course, 2)
+      Course.stub(:select).and_return(@courses)
       get action_under_test
     end
     it "should assign @read_only to false" do
       assigns(:read_only).should eq(false)
     end
+
+    it "should assign @course_names to the names of all course for the semester" do      
+      Set.new(assigns(:course_names)).should eq(Set.new(@courses))
+    end
+
 
     it "should assign submit_link appropriately" do
       assigns(:submit_link).should eq(desired_submit_path)
@@ -64,7 +71,7 @@ describe MentorTeacher::SchedulesController do
     context "when the user already has a schedule" do
       before(:each) do
         fake_timeslots = [mock(:timeslot, :to_cal_event_hash => :res)]
-        @teacher.stub(:timeslots).and_return(fake_timeslots)        
+        @teacher.stub_chain(:timeslots, :find_all_by_semester_id).and_return(fake_timeslots)        
       end
 
       it "should redirect the user to the edit page" do        
@@ -144,7 +151,7 @@ describe MentorTeacher::SchedulesController do
       before(:each) do
         fake_timeslots = [mock(:timeslot, :to_cal_event_hash => :res)]
         @teacher.stub(:timeslots).and_return(fake_timeslots)        
-        @teacher.stub(:timeslots_for_semester).and_return(fake_timeslots)      
+        @teacher.stub_chain(:timeslots, :find_all_by_semester_id).and_return(fake_timeslots)      
       end
       
       it_behaves_like "a view of timeslots" do
@@ -159,13 +166,15 @@ describe MentorTeacher::SchedulesController do
   end
 
   describe "GET edit" do
+        
     context "teacher has timeslots" do
       #TODO: refactor this into shared concert
       before(:each) do
         fake_timeslots = [mock(:timeslot, :to_cal_event_hash => :res)]
         @teacher.stub(:timeslots).and_return(fake_timeslots)        
-        @teacher.stub(:timeslots_for_semester).and_return(fake_timeslots)        
+        @teacher.stub_chain(:timeslots, :find_all_by_semester_id).and_return(fake_timeslots)        
       end
+    
       it_behaves_like "a view of timeslots" do
         let(:action_under_test) { :edit }
       end
@@ -210,7 +219,7 @@ describe MentorTeacher::SchedulesController do
         @changed_timeslots_data = @changed_timeslot_hashes.map{|h| JSON.dump(h)}
 
         @teacher.stub(:timeslots).and_return(@timeslots)
-        @teacher.stub(:timeslots_for_semester).and_return(@timeslots)        
+        @teacher.stub_chain(:timeslots, :find_all_by_semester_id).and_return(@timeslots)        
         @timeslots.stub(:find_by_id).and_return(*timeslots_to_change)
 
         Timeslot.stub(:from_cal_event_hash).and_return(*timeslots_to_change)
@@ -300,7 +309,7 @@ describe MentorTeacher::SchedulesController do
     it "assigns the timeslots for the current teacher as @timeslots" do
       fake_timeslots = [mock(:timeslot, :to_cal_event_hash => {})]
       @teacher.stub(:timeslots).and_return(fake_timeslots)
-      @teacher.stub(:timeslots_for_semester).and_return(fake_timeslots)        
+      @teacher.stub_chain(:timeslots, :find_all_by_semester_id).and_return(fake_timeslots)        
       get :edit
       assigns(:timeslots).should eq([{}])
     end

@@ -1,15 +1,21 @@
-.sidebar.left.sidebar-nav
-  .well
-    %ul.nav.nav-list
-      // Mentor Teachers
-      %li.nav-header
-        Mentor Teachers Menu
-      - if current_user
-        - if current_user.owner_type == "MentorTeacher"
-          %li
-            %a{:href => mentor_teacher_schedule_path} Edit Schedule
-          %li
-            %a{:href => edit_user_path(current_user.id)} Edit Profile
-          %li
-            %a{:href => mentor_teacher_my_students_path} My Students
+.navbar
+  .navbar-inner
+    %ul.nav
+      - Semester.where(:status => Semester::PUBLIC).each do |s|
+        %li= link_to "#{s.name} #{s.year}", mentor_teacher_schedule_path(:semester_id => s.id)
+- if not current_page?(home_mentor_teacher_path(current_user.owner_id))
+  .sidebar.left.sidebar-nav
+    .well
+      %ul.nav.nav-list
+        // Mentor Teachers
+        %li.nav-header
+          Mentor Teachers Menu
+        - if current_user
+          - if current_user.owner_type == "MentorTeacher"
+            %li
+              %a{:href => mentor_teacher_schedule_path(:semester_id => params[:semester_id])} Edit Schedule
+            %li
+              %a{:href => edit_user_path(current_user.id, :semester_id => params[:semester_id])} Edit Profile
+            %li
+              %a{:href => mentor_teacher_my_students_path(:semester_id => params[:semester_id])} My Students
 

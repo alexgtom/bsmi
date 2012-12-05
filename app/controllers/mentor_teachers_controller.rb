@@ -15,8 +15,6 @@ class MentorTeachersController < ApplicationController
       end
     end
 
- 
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @mentor_teachers }
@@ -93,6 +91,9 @@ class MentorTeachersController < ApplicationController
       format.html { redirect_to mentor_teachers_url }
       format.json { head :no_content }
     end
+  end
+
+  def home
   end
 
   def download_pdf

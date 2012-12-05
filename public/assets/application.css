@@ -6774,24 +6774,19 @@ body {
 .spacer {
   margin-top: 10px;
 }
-/* line 2, ../../app/assets/stylesheets/scaffolds.css.scss */
-div.field, div.actions {
-  margin-bottom: 10px;
-}
-
-/* line 7, ../../app/assets/stylesheets/scaffolds.css.scss */
+/* line 1, ../../app/assets/stylesheets/scaffolds.css.scss */
 #notice {
   color: green;
 }
 
-/* line 11, ../../app/assets/stylesheets/scaffolds.css.scss */
+/* line 5, ../../app/assets/stylesheets/scaffolds.css.scss */
 .field_with_errors {
   padding: 2px;
   background-color: red;
   display: table;
 }
 
-/* line 17, ../../app/assets/stylesheets/scaffolds.css.scss */
+/* line 11, ../../app/assets/stylesheets/scaffolds.css.scss */
 #error_explanation {
   width: 450px;
   border: 2px solid red;
@@ -6800,7 +6795,7 @@ div.field, div.actions {
   margin-bottom: 20px;
   background-color: #f0f0f0;
 }
-/* line 24, ../../app/assets/stylesheets/scaffolds.css.scss */
+/* line 18, ../../app/assets/stylesheets/scaffolds.css.scss */
 #error_explanation h2 {
   text-align: left;
   font-weight: bold;
@@ -6811,7 +6806,7 @@ div.field, div.actions {
   background-color: #c00;
   color: #fff;
 }
-/* line 34, ../../app/assets/stylesheets/scaffolds.css.scss */
+/* line 28, ../../app/assets/stylesheets/scaffolds.css.scss */
 #error_explanation ul li {
   font-size: 12px;
   list-style: square;

@@ -7,7 +7,7 @@ class SelectTimeslotsController < ApplicationController
       flash[:notice] = "The deadline for registration has already passed. You can no longer modify your timeslot preferenes."
     end
     @cal_course = CalCourse.find(params[:cal_course_id])
-    @student = Student.find(params[:student_id]).owner
+    @student = Student.find(params[:student_id])
     @timeslots = Timeslot.find_by_semester_id(semester).where(:day => Timeslot.day_index(step), :cal_course_id => params[:cal_course_id])
   
     case step
@@ -53,7 +53,7 @@ class SelectTimeslotsController < ApplicationController
     end
 
     @cal_course = CalCourse.find(params[:cal_course_id])
-    @student = Student.find(params[:student_id]).owner
+    @student = Student.find(params[:student_id])
 
     case step
     when :friday, :rank, :summary

@@ -58,7 +58,7 @@ class CalCoursesController < ApplicationController
     @cal_course = CalCourse.new(params[:cal_course])
     if School::LEVEL.include?(params[:cal_course][:school_type]) and params[:cal_course][:semester_id] != ""
       if @cal_course.save  
-        @cal_course.build_timeslot_associations(params[:timeslots])
+        @cal_course.build_associations(params[:timeslots])
         flash[:notice] = 'The course was successfully created.'
         redirect_to cal_course_path @cal_course.id
       end
@@ -77,7 +77,7 @@ class CalCoursesController < ApplicationController
     if School::LEVEL.include?(params[:cal_course][:school_type]) and params[:cal_course][:semester_id] != ""
       @cal_course = CalCourse.find_by_id(params[:id])
       if @cal_course and @cal_course.update_attributes(params[:cal_course]) 
-        @cal_course.build_timeslot_associations(params[:timeslots])
+        @cal_course.build_associations(params[:timeslots])
         flash[:notice] = 'The course was successfully created.'
         redirect_to cal_course_path @cal_course.id
       end
@@ -94,7 +94,7 @@ class CalCoursesController < ApplicationController
   # DELETE /cal_courses/1.json
   def destroy
     @cal_course = CalCourse.find(params[:id])
-    @cal_course.destroy_timeslot_associations
+    @cal_course.destroy_associations
     if @cal_course.destroy
       flash[:notice] = "CalCourse '#{@cal_course.name}' succesfully destroyed."
       redirect_to :action => 'index'

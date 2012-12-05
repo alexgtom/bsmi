@@ -109,7 +109,7 @@ Scenario: Log out of the web application
   Then I should be located at "/user"
   And I should see "myemail@nowhere.com"
   And I follow "Logout"
-  Then I should be located at "/user_sessions/new"
+  Then I should be located at "/"
 
 Scenario: I can't signup/login when i'm logged in
   Given I am signed up as a student advisor

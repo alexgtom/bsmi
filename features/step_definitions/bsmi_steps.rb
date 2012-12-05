@@ -235,7 +235,7 @@ end
 
 Given /the following assignments exist/ do |tb|
   tb.hashes.each do |t|
-    student = Student.find(t['user_id'])
+    student = User.find(t['user_id']).owner
     student.placements << Timeslot.find(t['timeslot_id'])
     student.save!
   end
@@ -366,6 +366,7 @@ Given /the following users exist/ do |tb|
 
     if t[:id]
       user.id = t[:id]
+      owner.id = t[:id]
     end
 
     

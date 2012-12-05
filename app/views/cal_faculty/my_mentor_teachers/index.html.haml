@@ -10,12 +10,12 @@
 
   - @my_faculties.each do |faculty|
     %tr
-      %td= link_to faculty.user.first_name, cal_faculty_show_user_path(faculty.user)
+      %td= link_to faculty.user.first_name, user_show_user_path(faculty.user)
       %td= faculty.user.last_name
       %td= faculty.user.email 
       %td
         - faculty.user.owner.students.uniq{|x| x.id}.each do |c|
           %ul.unstyled
-            %li= link_to "#{c.user.email}", cal_faculty_show_user_path(c.user)
+            %li= link_to "#{c.user.email}", user_show_user_path(c.user)
 
 %br

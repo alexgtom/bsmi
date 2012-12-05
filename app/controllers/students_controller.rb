@@ -90,6 +90,17 @@ class StudentsController < ApplicationController
   def home
   end
 
+  def destroy
+    @student = Student.find(params[:id])
+    @student.destroy
+
+    flash[:notice] = "User '#{@student.user.email}' deleted."
+    respond_to do |format|
+      format.html { redirect_to students_url }
+      format.json { head :no_content }
+    end
+  end
+
   def show
     store_location
     @student = Student.find(params[:id])

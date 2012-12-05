@@ -25,7 +25,7 @@ Scenario: Login as a cal_faculty and see my menus
   And I fill in "Password" with "1234"
   And I press "Login"
   Then I should be located at "/user"
-  And I follow "My Students"
+  And I follow "Students"
   Then I should be located at "/cal_faculty/my_students"
 
 Scenario: should see list of my students enrolled in my cal_course

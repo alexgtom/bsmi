@@ -85,7 +85,7 @@ describe CalCoursesController do
         # Trigger the behavior that occurs when invalid params are submitted
         CalCourse.any_instance.stub(:valid?).and_return(false)
         post :create, {:cal_course => FactoryGirl.attributes_for(:cal_course)}, valid_session
-        response.should redirect_to(cal_courses_url)
+        response.should redirect_to(new_cal_course_path)
       end
     end
   end
@@ -113,7 +113,7 @@ describe CalCoursesController do
       it "redirects to the cal_course" do
         cal_course = CalCourse.create! valid_attributes
         put :update, {:id => cal_course.to_param, :cal_course => valid_attributes, :timeslots => valid_timeslots, :cal_faculty => {}}, valid_session
-        response.should redirect_to(cal_courses_url)
+        response.should redirect_to(cal_course_path(cal_course.id))
       end
     end
 
@@ -130,7 +130,7 @@ describe CalCoursesController do
         cal_course = CalCourse.create! invalid_parameters_school
         # Trigger the behavior that occurs when invalid params are submitted
         put :update, {:id => cal_course.to_param, :cal_course => invalid_parameters_school, :timeslots => valid_timeslots, :semester => "1", :cal_faculty => {}}, valid_session
-        response.should redirect_to(cal_courses_url)
+        response.should redirect_to(edit_cal_course_path(cal_course.id))
       end
 
 
@@ -139,7 +139,7 @@ describe CalCoursesController do
         # Trigger the behavior that occurs when invalid params are submitted
         CalCourse.any_instance.stub(:save).and_return(false)
         put :update, {:id => cal_course.to_param, :cal_course => {}}, valid_session
-        response.should redirect_to(cal_courses_url)
+        response.should redirect_to(edit_cal_course_path(cal_course.id))
       end
     end
   end

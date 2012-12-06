@@ -28,7 +28,7 @@ class CalCourse < ActiveRecord::Base
     return entries
   end
 
-  def build_associations(times, cal_faculties)
+  def build_associations(times, cal_faculty)
     if not times.nil?
       times.keys.each do |time_id|
         add_to = Timeslot.find_by_id(time_id)
@@ -36,8 +36,8 @@ class CalCourse < ActiveRecord::Base
         add_to.save!
       end
     end
-    if cal_faculties
-      cal_faculties.keys.each do |cal_faculty_id|
+    if cal_faculty
+      cal_faculty.keys.each do |cal_faculty_id|
         add_to = CalFaculty.find(cal_faculty_id)
         add_to.cal_courses << self
         add_to.save!

@@ -55,19 +55,24 @@ class CalCoursesController < ApplicationController
   # POST /cal_courses
   # POST /cal_courses.json
   def create
-    @cal_course = CalCourse.new(params[:cal_course])
-    if School::LEVEL.include?(params[:cal_course][:school_type]) and params[:cal_course][:semester_id] != ""
-      if @cal_course.save  
-        @cal_course.build_associations(params[:timeslots], params["cal_faculty"])
-        flash[:notice] = 'The course was successfully created.'
-        redirect_to cal_course_path @cal_course.id
-      end
-    else
+    success = true
+    handle_error = Proc.new do
       flash[:error] = 'Something went Wrong. Did you select a Semester and a School Type?'
+      puts "error"
       @entries = CalCourse.new.create_selection_for_new_course
       @semesters = Semester.all.collect {|s| ["#{s.name} #{s.year}", s.id]}
-      redirect_to new_cal_course_path 
+      redirect_to new_cal_course_path and return
     end
+
+    @cal_course = CalCourse.new(params[:cal_course])
+    unless School::LEVEL.include?(params[:cal_course][:school_type]) and (not params[:cal_course][:semester_id].blank?)
+      handle_error.call
+    end
+    handle_error.call unless @cal_course.save  
+
+    @cal_course.build_associations(params[:timeslots], params["cal_faculty"])
+    flash[:notice] = 'The course was successfully created.'
+    redirect_to cal_course_path @cal_course.id                 
   end
 
   # PUT /cal_courses/1

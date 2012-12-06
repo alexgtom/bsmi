@@ -54,15 +54,6 @@ Scenario: Add succesfully a Cal Course
 Scenario: Add a Cal Course with errors
   Given I am in the CalCourse new page
   And  I fill in "Name" with "Educ 121"
-  And  I select "All" from "School type"
-  And  I select "Fall 2012" from "cal_course_semester_id"
-  And  I check "timeslots[1]"
-  And  I press "Save"
-  Then I should be located at "/cal_courses/new"
-
-Scenario: Add a Cal Course with errors
-  Given I am in the CalCourse new page
-  And  I fill in "Name" with "Educ 121"
   And  I select "Middle School" from "School type"
   And  I select "" from "cal_course_semester_id"
   And  I check "timeslots[1]"

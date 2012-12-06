@@ -95,4 +95,11 @@ class ApplicationController < ActionController::Base
       redirect_to(session[:return_to] || default)
       session[:return_to] = nil
     end
+
+    def check(condition, &fallback)
+      if not condition
+        yield
+      end
+    end
+
 end

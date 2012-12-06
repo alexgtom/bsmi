@@ -63,10 +63,11 @@ class CalCoursesController < ApplicationController
     end
 
     @cal_course = CalCourse.new(params[:cal_course])
-    unless School::LEVEL.include?(params[:cal_course][:school_type]) and (not params[:cal_course][:semester_id].blank?)
-      handle_error.call
-    end
-    handle_error.call unless @cal_course.save  
+    check(School::LEVEL.include?(params[:cal_course][:school_type]), &handle_error)
+
+    check(! params[:cal_course][:semester_id].blank?, &handle_error)
+
+    check(@cal_course.save, &handle_error)
 
     @cal_course.build_associations(params[:timeslots], params["cal_faculty"])
     flash[:notice] = 'The course was successfully created.'
@@ -84,14 +85,14 @@ class CalCoursesController < ApplicationController
     end
 
     @cal_course = CalCourse.find_by_id(params[:id])
-    unless School::LEVEL.include?(params[:cal_course][:school_type]) and params[:cal_course][:semester_id] != ""
-      handle_error.call
-    end
+    check(School::LEVEL.include?(params[:cal_course][:school_type]), &handle_error)
+    check(params[:cal_course][:semester_id] != "", &handle_error)
+          
     @cal_course = CalCourse.find_by_id(params[:id])
     
-    unless @cal_course and @cal_course.update_attributes(params[:cal_course]) 
-      handle_error.call
-    end
+    check(@cal_course && @cal_course.update_attributes(params[:cal_course]), 
+          &handle_error)
+
     @cal_course.build_associations(params[:timeslots], params[:cal_faculty])
     flash[:notice] = 'The course was successfully created.'
     redirect_to cal_course_path @cal_course.id

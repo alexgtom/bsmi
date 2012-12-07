@@ -40,25 +40,6 @@ describe MatchingBackend::MatchingSolver do
       @solver.solve
     end
   end
-
-  describe :normalize_graph do
-    context "when the graph is already normalized," do
-      it "should do nothing"
-    end
-
-    context "when there are more students than timeslots" do
-      context "and there are enough total positions" do
-        it "should create dummy timeslots for timeslots allowing more than one assistant"
-        it "should create edges to the dummys from students with edges to the original"
-      end
-
-      context "and there aren't enough total positions" do
-        it "should fail loudly" do
-          
-        end
-      end
-    end
-  end
   
   describe :expand_timeslots do
     

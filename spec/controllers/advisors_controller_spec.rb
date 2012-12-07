@@ -34,6 +34,30 @@ describe AdvisorsController do
     {}
   end
   
+  describe "GET index" do
+    it "assigns the requested all_advisors as @all_advisor" do
+      advisor = Advisor.create! valid_attributes
+      User.stub!(:where).and_return(advisor)
+      get :index, valid_session
+      assigns(:all_advisor).should eq(advisor)
+    end
+    it "assigns the requested all_advisors as @all_advisor ordered by first name" do
+      advisor = Advisor.create! valid_attributes
+      advisor.should_receive(:order).and_return(advisor)
+      User.stub!(:where).and_return(advisor)
+      sort_session = {:sort => "first_name"}
+      get :index, valid_session, sort_session
+      assigns(:all_advisor).should eq(advisor)
+    end
+    it "assigns the requested all_advisors as @all_advisor ordered by last name" do
+      advisor = Advisor.create! valid_attributes
+      advisor.should_receive(:order).and_return(advisor)
+      User.stub!(:where).and_return(advisor)
+      sort_session = {:sort => "last_name"}
+      get :index, valid_session, sort_session
+      assigns(:all_advisor).should eq(advisor)
+    end
+  end
 
   describe "GET show" do
     it "assigns the requested advisor as @advisor" do

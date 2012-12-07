@@ -43,6 +43,8 @@ Bsmi::Application.routes.draw do
 
   resource :matching, :only => ['show', 'new', 'create', 'destroy']
 
+  resources :cal_faculties
+
   resources :mentor_teachers do
     member do
       get 'home'

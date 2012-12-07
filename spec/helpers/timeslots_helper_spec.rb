@@ -11,5 +11,5 @@ require 'spec_helper'
 #   end
 # end
 describe TimeslotsHelper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  #pending "add some examples to (or delete) #{__FILE__}"
 end

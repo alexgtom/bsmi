@@ -38,6 +38,32 @@ describe MentorTeachersController do
     {}
   end
 
+  
+  describe "GET index" do
+    it "assigns the requested all_teacher as @all_teacher" do
+      teacher = MentorTeacher.create! valid_attributes
+      User.stub!(:where).and_return(teacher)
+      get :index, valid_session
+      assigns(:all_teacher).should eq(teacher)
+    end
+    it "assigns the requested all_teacher as @all_teacher ordered by first name" do
+      teacher = MentorTeacher.create! valid_attributes
+      teacher.should_receive(:order).and_return(teacher)
+      User.stub!(:where).and_return(teacher)
+      sort_session = {:sort => "first_name"}
+      get :index, valid_session, sort_session
+      assigns(:all_teacher).should eq(teacher)
+    end
+    it "assigns the requested all_teacher as @all_teacher ordered by last name" do
+      teacher = MentorTeacher.create! valid_attributes
+      teacher.should_receive(:order).and_return(teacher)
+      User.stub!(:where).and_return(teacher)
+      sort_session = {:sort => "last_name"}
+      get :index, valid_session, sort_session
+      assigns(:all_teacher).should eq(teacher)
+    end
+  end
+
   describe "GET show" do
     it "assigns the requested mentor_teacher as @mentor_teacher" do
       mentor_teacher = create_mentor_teacher

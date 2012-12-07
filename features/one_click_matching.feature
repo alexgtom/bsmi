@@ -16,7 +16,7 @@ Scenario: I haven't already run the matching algorithm
   When I press "match_all"
   Then I should be on /matching
 
-Scenario: I have already run the matching algorithm
-  Given matchings have been performed for this semester
-  And I am on /matching
-  Then I should see "UGIS 80"
+#Scenario: I have already run the matching algorithm
+#  Given matchings have been performed for this semester
+#  And I am on /matching
+#  Then I should see "UGIS 80"

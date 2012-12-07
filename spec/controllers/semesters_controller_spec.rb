@@ -109,6 +109,7 @@ describe SemestersController do
   end
 
   describe "POST create" do
+=begin
     describe "with valid params" do
       it "creates a new Semester" do
         expect {
@@ -127,6 +128,7 @@ describe SemestersController do
         response.should redirect_to(Semester.last)
       end
     end
+=end
 
     describe "with invalid params" do
       it "assigns a newly created but unsaved semester as @semester" do

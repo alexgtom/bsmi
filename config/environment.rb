@@ -16,8 +16,8 @@ ActionMailer::Base.smtp_settings = {
   :address              => "calmail.berkeley.edu",  
   :port                 => 587,                 
   :domain               => 'berkeley.edu',  
-  :user_name            => 'calteach@berkeley.edu',      
-  :password             => 'cal475teach',      
+  :user_name            => 'no-reply.calteach@berkeley.edu',      
+  :password             => 'cal367teach',      
   :authentication       => 'plain',             
   :enable_starttls_auto => true
 }

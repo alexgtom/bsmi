@@ -2,7 +2,7 @@
   <h1>Edit My Account</h1>
 </div>
 <%= form_for @user, :url => account_path do |f| %>
-  <%= render :partial => "form", :object => f, :locals => { :user => @user } %>
+  <%= render :partial => "form", :object => f, :locals => { :user => @user, :email => true } %>
   <%= f.submit "Update", :class => "btn" %>
 <% end %>
 

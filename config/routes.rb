@@ -37,9 +37,9 @@ Bsmi::Application.routes.draw do
   match '/user/:id/user_show' => 'users#user_show', :as => 'user_show_user'
 
   match '/send_invitation/:id' => 'invites#send_invitation', :as => 'send_invitation'
-  match '/signup/:invite_code' => 'users#new', :as => 'redeem_invitation'
+  match '/signup/:invite_code' => 'users#new_no_email', :as => 'redeem_invitation'
 
-  match 'signup' => 'users#new', :as => :signup
+  match 'signup' => 'users#new_no_email', :as => :signup
 
   resource :matching, :only => ['show', 'new', 'create', 'destroy']
 

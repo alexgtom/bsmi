@@ -49,7 +49,7 @@ describe "The matching solution" do
     end
     let(:desired_matching_score) { 3 }
     
-    it_behaves_like "a good matching:", 
+    it_behaves_like "a good matching:"
   end
 
   context "when everyone has the same preferences" do

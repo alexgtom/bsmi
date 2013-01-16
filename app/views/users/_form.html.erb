@@ -35,11 +35,13 @@
 <p>
   <%= form.label :phone_number %><br />
   <%= form.text_field :phone_number %>
-</p>
+  </p>
+<% if email %>
 <p>
   <%= form.label :email %><br />
   <%= form.text_field :email %>
-</p>
+  </p>
+<% end %>>
 <p>
   <%= form.label :password, form.object.new_record? ? nil : "Change password" %><br />
   <%= form.password_field :password %>

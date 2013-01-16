@@ -1,6 +1,6 @@
 <h1>Add an account</h1>
 
 <%= form_for @user, :url => "/user/adv_create" do |f| %>
-  <%= render :partial => "form", :object => f, :locals => { :user => @user } %>
+  <%= render :partial => "form", :object => f, :locals => { :user => @user, :email => true } %>
   <%= f.submit "Register", :class => "btn" %>
 <% end %>

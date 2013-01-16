@@ -21,7 +21,7 @@ Bsmi::Application.configure do
   config.assets.digest = true
 
   # mailer settings (needed to be changed to real address)
-  config.action_mailer.default_url_options = { :host => 'bsmi.herokuapp.com' }
+  config.action_mailer.default_url_options = { :host => 'calteachsteps.org' }
   #config.action_mailer.raise_delivery_errors = true
   #config.action_mailer.default_url_options = { :host => 'localhost' }
   #config.action_mailer.delivery_method = :smtp

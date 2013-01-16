@@ -8,6 +8,10 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
+  def new_no_email
+    @user = User.new
+  end
+
   def create
     @user = User.new(params[:user])
     invite_code = params[:invite_code]
@@ -41,7 +45,8 @@ class UsersController < ApplicationController
 #      return
 #    end
     
-    if invite_code && @invite && @invite.email == @user.email && @invite.owner_type == @user.owner_type
+    @user.email = @invite.email
+    if invite_code && @invite && @invite.owner_type == @user.owner_type
       if @user.save and owner.save
         @invite.redeemed!
         flash[:notice] = "Your account has been created."

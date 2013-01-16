@@ -20,7 +20,6 @@ Scenario: create a student to database
   And  I fill in "State" with "CA"
   And  I fill in "Zipcode" with "94000"
   And  I fill in "Phone number" with "123-456-7890"
-  And  I fill in "Email" with "myemail@nowhere.com"
   And  I fill in "Password" with "1234"
   And  I fill in "Password confirmation" with "1234"
   And  I press "Register"
@@ -69,7 +68,7 @@ Scenario: edit mentor teacher's profile
   And the "user_password" field should not contain "1234"
 
 Scenario: can't register if I am not invited
-  Given I am invited and on the signup page
+  Given I am on the signup page
   And  I fill in "First name" with "Sangyoon"
   And  I fill in "Last name" with "Park"
   And  I fill in "Street address" with "346 soda UC Berkeley"
@@ -77,7 +76,6 @@ Scenario: can't register if I am not invited
   And  I fill in "State" with "CA"
   And  I fill in "Zipcode" with "94000"
   And  I fill in "Phone number" with "123-456-7890"
-  And  I fill in "Email" with "i dont have email???"
   And  I fill in "Password" with "1234"
   And  I fill in "Password confirmation" with "1234"
   And  I press "Register"
@@ -93,7 +91,6 @@ Scenario: can't register password and confirmation do not match
   And  I fill in "State" with "CA"
   And  I fill in "Zipcode" with "94000"
   And  I fill in "Phone number" with "123-456-7890"
-  And  I fill in "Email" with "myemail@nowhere.com"
   And  I fill in "Password" with "123"
   And  I fill in "Password confirmation" with "111"
   And  I press "Register"

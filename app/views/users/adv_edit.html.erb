@@ -2,7 +2,7 @@
 
 <%= form_for @user, :url => "/user/adv_edit" do |f| %>
   <input type="hidden" name="id" value="<%=params[:id]%>">
-  <%= render :partial => "form", :object => f, :locals => { :user => @user } %>
+  <%= render :partial => "form", :object => f, :locals => { :user => @user, :email => true } %>
   <%= f.submit "Update", :class => "btn" %>
 <% end %>
 

@@ -80,7 +80,7 @@ Scenario: can't register if I am not invited
   And  I fill in "Password confirmation" with "1234"
   And  I press "Register"
   Then I should be located at "/users"
-  And  I should see "there is something wrong with this invitation"
+  And  I should see "There was a problem creating you"
 
 Scenario: can't register password and confirmation do not match
   Given I am invited and on the signup page

@@ -3,6 +3,7 @@ require "prawn"
 class MentorTeachersController < ApplicationController
   # GET /mentor_teachers
   # GET /mentor_teachers.json
+  before_filter :require_user
   def index
     @all_teacher = User.where(:owner_type => "MentorTeacher")
     if params[:sort] || session[:sort] != nil

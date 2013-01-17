@@ -1,7 +1,8 @@
 class StudentsController < ApplicationController
 #  before_filter :require_student, :only => [:placements]
 #  before_filter :require_cal_faculty, :only => [:placements]
-  
+  before_filter :require_user
+
   def index
     @all_student = Student.all
     if params[:sort] || session[:sort] != nil

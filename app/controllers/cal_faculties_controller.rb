@@ -1,6 +1,7 @@
 class CalFacultiesController < ApplicationController
   # GET /mentor_teachers
   # GET /mentor_teachers.json
+  before_filter :require_user
   def index
     @all_faculties = User.where(:owner_type => "CalFaculty")
     if params[:sort] || session[:sort] != nil

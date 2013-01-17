@@ -1,6 +1,7 @@
 class AdvisorsController < ApplicationController
   # GET /advisors
   # GET /advisors.json
+  before_filter :require_user
   def index
     @all_advisor = User.where(:owner_type => "Advisor")
     respond_to do |format|

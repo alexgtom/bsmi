@@ -6,6 +6,7 @@
 %div.course_placements
   %table.table
     %tr
+      %th Semester
       %th Student
       %th Teacher
       %th School
@@ -13,6 +14,7 @@
       
     - placements.each do |p|
       %tr 
+        %td= p.timeslot.semester.description
         %td 
           %a{:href => edit_placements_student_path(p.student_id, :semester_id => p.timeslot.semester.id)}= p.student.user.name   
         %td= p.timeslot.mentor_teacher.user.name

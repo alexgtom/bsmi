@@ -22,7 +22,8 @@ Feature: Enter/Upload Course List/Roster/School Districts
 			| id | first_name | last_name | email             | type     | cal_courses |
 			| 1  | Oski 	  | Bear      | oski@berkeley.edu | Student  | 1           |
 
-	Scenario: Student course selections should show up on courses page
+    Scenario: Student course selections should show up on courses page
+        Given I am logged in as oski@berkeley.edu
 		When I go to /students/1/semesters/1/select_courses
 		And I check "UGIS 80A"
 		And I check "UGIS 80B"

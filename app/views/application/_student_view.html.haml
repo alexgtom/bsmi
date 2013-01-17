@@ -8,7 +8,7 @@
         - else
           %li= link_to "#{s.name} #{s.year}", splash_student_path(current_user.owner.id, s.id)
 
-- if not current_page?(home_student_path)
+- if not current_page?(home_student_path) and params[:semester_id]
   .sidebar.left.sidebar-nav
     %ul.nav.nav-list
       %li.nav-header STEP 1: Enrollment

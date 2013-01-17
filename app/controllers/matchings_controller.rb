@@ -4,6 +4,7 @@ class MatchingsController < ApplicationController
     cur_semester = Semester.current_semester
     if not cur_semester
       flash[:error] = "A semester has not been created or started yet. Please wait until the semester starts or create a new semester"
+      redirect_to error_path
     elsif not cur_semester.matchings_performed
       redirect_to new_matching_path
     end

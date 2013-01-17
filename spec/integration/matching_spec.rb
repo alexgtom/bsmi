@@ -63,7 +63,7 @@ describe "The matching solution" do
     it_behaves_like "a good matching:"
   end
 
-  context "when everyone has a different first choice",  do
+  context "when everyone has a different first choice"  do
     let(:preferences) do
       build_preferences(:s1 => [[:t1, 1], [:t2, 2]],
                         :s2 => [[:t2, 1], [:t3, 2]],

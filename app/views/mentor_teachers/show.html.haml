@@ -6,7 +6,7 @@
 
 .pull-right
 
-  = link_to 'Edit', edit_mentor_teacher_path(@mentor_teacher), :class => 'btn'
+  = link_to 'Edit', advisor_edit_user_path(@mentor_teacher.user.id), :class => 'btn'
   = link_to 'Get Report', download_pdf_mentor_teacher_path(:id => @mentor_teacher.id), :class => 'btn' 
 
 %h2 Mentor Teacher Information

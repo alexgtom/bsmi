@@ -29,11 +29,13 @@
 %h2 Timeslots:
 %table.table
   %tr
+    %th ID
     %th Subject
     %th Teacher
     %th Timeslot
   - @times.each do |time|
     %tr
+      %td= time.id
       %td= link_to time.course.name, time.course if time.course
       %td= link_to time.mentor_teacher.user.name, time.mentor_teacher
       %td= time.to_string

@@ -24,6 +24,10 @@ class StudentsController < ApplicationController
     end
   end
 
+  def edit
+    @student = Student.find(params[:id])
+  end
+
   def edit_placements
     if params[:new_timeslot] != nil
        if Student.find_by_id(params[:id]).placements.find_by_id(params[:new_timeslot]) == nil

@@ -57,11 +57,11 @@ class Semester < ActiveRecord::Base
   end
 
   def self.current_semester
-    sem = Semester.where("start_date < ? AND end_date > ? AND status=\"Public\"", Date.today, Date.today)
+    sem = Semester.where("start_date < ?", Date.today).where("end_date > ?", Date.today).where(:status => "Public")
     if sem
       return sem.first
     end 
-    sem = Semester.where("end_date <= ? AND status = \"Public\"", Date.today).order("end_date DESC")
+    sem = Semester.where("end_date > ?", Date.today).where(:status => "Public").order("end_date ASC")
     if sem
       return sem.first
     end

@@ -23,8 +23,5 @@
         %a{:href => placements_student_path(current_user.owner.id, params[:semester_id])} View Field Placements
 
       %li.divider
-
-      %li
-        %a{:href => edit_user_path(current_user.id)} Edit Profile
       %li
         %a{:href => courses_student_path(current_user.owner.id, params[:semester_id])} Enrollment

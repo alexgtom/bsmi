@@ -19,6 +19,8 @@
             %ul.nav.pull-right
               - if current_user
                 %li
+                  %a{:href => edit_user_path(current_user.id)} Edit Profile
+                %li
                   %a= "Logged in as #{current_user.email}"
                 %li
                   %a{:href => logout_path} Logout

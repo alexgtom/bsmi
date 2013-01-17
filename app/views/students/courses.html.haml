@@ -4,9 +4,7 @@
 %table.table.table-hover
   %tr
     %th Courses Enrolled In
-    %th Rank Timeslots
 
   - @cal_courses.each do |cal_course|
     %tr
       %td= cal_course.name
-      %td= link_to "Edit timeslots prerefences", student_select_timeslot_path(@student.id, :monday, :cal_course_id => cal_course.id)

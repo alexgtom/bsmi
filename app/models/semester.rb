@@ -57,12 +57,16 @@ class Semester < ActiveRecord::Base
   end
 
   def self.current_semester
-    sem = Semester.where("start_date < ? AND end_date > ?", Date.today, Date.today)
+    sem = Semester.where("start_date < ? AND end_date > ? AND status = \"Public\"", Date.today, Date.today)
     if sem
-      sem.first
-    else
-      nil
+      return sem.first
+    end 
+    sem = Semester.where("end_date <= ? AND status = \"Public\"", Date.today).order("end_date DESC")
+    if sem
+      return sem.first
     end
+
+    nil
   end
 
   def self.past_deadline?

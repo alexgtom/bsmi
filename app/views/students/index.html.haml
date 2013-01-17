@@ -8,8 +8,9 @@
     %th= link_to 'Last Name', students_path(:sort => 'last_name')
     %th Email
     %th Mentor Teacher(s)
-    %th Preference
-    %th Placement
+    - if semester
+      %th Preference
+      %th Placement
     %th Remove
 
   - @all_student.each do |student|

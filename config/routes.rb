@@ -60,6 +60,7 @@ Bsmi::Application.routes.draw do
   namespace :cal_faculty do
     resources :my_students     
     resources :my_mentor_teachers
+    resources :my_cal_courses
   end
 
 

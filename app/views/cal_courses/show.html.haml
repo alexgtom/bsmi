@@ -18,6 +18,14 @@
       %td= link_to cal_faculty.user.name, cal_faculty
       %td= cal_faculty.user.email
     
+%h2 School Information
+%table.table
+  %tr
+    %td
+      %b School Type:
+    %td
+      = @cal_course.school_type
+
 %h2 Timeslots:
 %table.table
   %tr

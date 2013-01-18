@@ -70,7 +70,11 @@ class Semester < ActiveRecord::Base
   end
 
   def self.past_deadline?
-    DateTime.now > current_semester.registration_deadline.due_date
+    if current_semester.registration_deadline
+      DateTime.now > current_semester.registration_deadline.due_date
+    else
+      false
+    end
   end
 
   def reset_matchings

@@ -3,4 +3,6 @@
   .pull-right
     = submit_tag "Match all courses", :id => 'match_all', :class => 'btn btn-success'
   .page-header
-    %h1 Match Students
+    %h1 
+      = "#{semester.name} #{semester.year} | "
+      Match Students

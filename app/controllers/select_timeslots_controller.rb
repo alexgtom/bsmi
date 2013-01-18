@@ -3,7 +3,7 @@ class SelectTimeslotsController < ApplicationController
   steps :monday, :tuesday, :wednesday, :thursday, :friday, :rank, :summary
   
   def show
-    if Semester::past_deadline?
+    if Semester::past_deadline?(params[:semester_id])
       flash[:notice] = "The deadline for registration has already passed. You can no longer modify your timeslot preferenes."
     end
     @cal_course = CalCourse.find(params[:cal_course_id])
@@ -51,7 +51,7 @@ class SelectTimeslotsController < ApplicationController
   end
 
   def update
-    if Semester::past_deadline?
+    if Semester::past_deadline?(params[:semester_id])
       return
     end
 

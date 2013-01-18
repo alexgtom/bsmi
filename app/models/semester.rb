@@ -69,9 +69,10 @@ class Semester < ActiveRecord::Base
     nil
   end
 
-  def self.past_deadline?
-    if current_semester.registration_deadline
-      DateTime.now > current_semester.registration_deadline.due_date
+  def self.past_deadline?(semester_id)
+    semester = Semester.find(semester_id)
+    if semester.registration_deadline
+      DateTime.now > semester.registration_deadline.due_date
     else
       false
     end

@@ -5,8 +5,8 @@ class MentorTeacher::SchedulesController < ApplicationController
   end
    
   def new
-    if not current_teacher.timeslots.find_all_by_semester_id(semester.id).empty?
-      redirect_to edit_mentor_teacher_schedule_path 
+    if not current_teacher.timeslots.find_all_by_semester_id(params[:semester_id]).empty?
+      redirect_to edit_mentor_teacher_schedule_path(:semester_id => params[:semester_id])
     else
       @course_names = Course.select([:name, :id])
       @timeslots = []
@@ -19,14 +19,10 @@ class MentorTeacher::SchedulesController < ApplicationController
 
   def show
     @course_names = Course.select([:name, :id])
-    desired_semester = params[:semester_id] || semester.id
-    if current_teacher.timeslots.find_all_by_semester_id(desired_semester).empty?
-      redirect_to new_mentor_teacher_schedule_path
-    else
-      @semester = Semester.find(params[:semester_id] || semester.id)
+    desired_semester = params[:semester_id]
+      @semester = Semester.find(params[:semester_id])
       @read_only = true
       @timeslots = current_teacher.timeslots.find_all_by_semester_id(desired_semester).map{|t| t.to_cal_event_hash}
-    end
   end
 
   
@@ -34,7 +30,7 @@ class MentorTeacher::SchedulesController < ApplicationController
     all_correct = true
     params[:timeslots].each do |json_str|      
       begin 
-        timeslot = Timeslot.from_cal_event_json(json_str)        
+        timeslot = Timeslot.from_cal_event_json(json_str, :semester_id => params[:semester_id])        
         timeslot.save
       rescue
         all_correct = false
@@ -45,19 +41,19 @@ class MentorTeacher::SchedulesController < ApplicationController
     end
     if all_correct
       flash[:notice] = "Schedule was successfully created."
-      redirect_to mentor_teacher_schedule_path
+      redirect_to mentor_teacher_schedule_path(:semester_id => params[:semester_id])
     else
       flash[:notice] = "There were some problems saving your schedule"
-      redirect_to new_mentor_teacher_schedule_path 
+      redirect_to new_mentor_teacher_schedule_path(:semester_id => params[:semester_id])
     end
   end
 
   def edit
-    if current_teacher.timeslots.find_all_by_semester_id(semester.id).empty? 
-      redirect_to new_mentor_teacher_schedule_path
+    if current_teacher.timeslots.find_all_by_semester_id(params[:semester_id]).empty? 
+      redirect_to new_mentor_teacher_schedule_path(:semester_id => params[:semester_id])
     else
-      @semester = Semester.find(params[:semester_id] || semester.id)
-      semester_id = params[:semester_id] || semester.id
+      @semester = Semester.find(params[:semester_id])
+      semester_id = params[:semester_id]
 
       @timeslots = current_teacher.timeslots.find_all_by_semester_id(semester_id).
         map{|t| t.to_cal_event_hash}
@@ -83,7 +79,7 @@ class MentorTeacher::SchedulesController < ApplicationController
           #Prevent anyone from updating a Timeslot that doesn't belong to them
           event["db_id"] = nil        
         end
-        updated_slot = Timeslot.from_cal_event_hash(event)      
+        updated_slot = Timeslot.from_cal_event_hash(event, :semester_id => params[:semester_id])      
 
 
         if event["destroy"]
@@ -94,8 +90,8 @@ class MentorTeacher::SchedulesController < ApplicationController
         errors += 1 unless updated_slot.save
         current_teacher.timeslots << updated_slot
       end
-   end
-    @semester = Semester.find(params[:semester_id] || semester.id)
+    end
+    @semester = Semester.find(params[:semester_id])
     if errors > 0
       flash[:notice] = "Couldn't save all classes in schedule"
       redirect_to edit_mentor_teacher_schedule_path(:semester_id => @semester.id)

@@ -82,8 +82,8 @@ class Timeslot < ActiveRecord::Base
     return nil
   end 
 
-  def self.from_cal_event_json(json_str)
-    from_cal_event_hash(JSON.parse(json_str))  
+  def self.from_cal_event_json(json_str, attrs = {})
+    from_cal_event_hash(JSON.parse(json_str), attrs)  
   end
 
   #Build or update a timeslot based on cal_event_hash. Does NOT save

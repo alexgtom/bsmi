@@ -15,7 +15,7 @@
     %th Email
   - @cal_course.cal_faculties.each do |cal_faculty|
     %tr
-      %td= cal_faculty.user.name
+      %td= link_to cal_faculty.user.name, cal_faculty
       %td= cal_faculty.user.email
 
     

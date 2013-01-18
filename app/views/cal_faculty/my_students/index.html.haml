@@ -16,6 +16,6 @@
       %td
         - student.cal_courses.uniq{|x| x.id}.each do |c|
           %ul.unstyled
-            %li= link_to "#{c.name}", advisor_show_user_path(c)
+            %li= "#{c.name}"
 
 %br

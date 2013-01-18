@@ -74,11 +74,15 @@ class StudentsController < ApplicationController
     @student = Student.find(params[:id])
     @cal_courses = CalCourse.where(:semester_id => params[:semester_id])
 
+    if Semester::past_deadline?(params[:semester_id])
+      return
+    end
+
     if params[:student] and params[:student][:cal_courses]
       cal_courses = params[:student][:cal_courses].map { |id| CalCourse.find(id) }
 
       @student.cal_courses.where(:semester_id => params[:semester_id]).each do |course|
-        @student.cal_courses.delete_if {|c| c == course}
+        @student.cal_courses.delete(course)
       end
       cal_courses.each do |course|
         @student.cal_courses << course
@@ -89,7 +93,9 @@ class StudentsController < ApplicationController
       redirect_to student_select_timeslots_path(@student.id, semester, @student.cal_courses.order("name ASC").first)
     elsif params[:student] and params[:student][:check]
       # zero cal courses checked
-      @student.cal_courses.destroy_all
+      @student.cal_courses.where(:semester_id => params[:semester_id]).each do |course|
+        @student.cal_courses.delete(course)
+      end
     end
   end
 

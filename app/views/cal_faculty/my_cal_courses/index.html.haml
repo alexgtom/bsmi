@@ -1,0 +1,21 @@
+.page-header
+  %h1 My Cal Courses
+
+%table.table.table-hover
+  %tr
+    %th= link_to 'First Name', cal_faculty_my_students_path(:sort => 'first_name')
+    %th= link_to 'Last Name', cal_faculty_my_students_path(:sort => 'last_name')
+    %th Email
+    %th Class enrolled
+
+  - @my_students.each do |student|
+    %tr
+      %td= link_to student.user.first_name, user_show_user_path(student.user)
+      %td= student.user.last_name
+      %td= student.user.email 
+      %td
+        - student.cal_courses.uniq{|x| x.id}.each do |c|
+          %ul.unstyled
+            %li= "#{c.name}"
+
+%br

@@ -14,7 +14,7 @@ class SelectTimeslotsController < ApplicationController
   
     case step
     when :rank, :summary
-      if not @student.valid_preferences?(@cal_course.id)
+      if not @student.valid_preferences?(@cal_course.id, semester.id)
         flash[:error] = "You must select #{Setting['student_min_preferences']}-#{Setting['student_max_preferences']} timeslots."
         render :action => "error"
         return
@@ -24,25 +24,27 @@ class SelectTimeslotsController < ApplicationController
     case step
     when :rank
       begin
-        @timeslots = Timeslot.find_by_semester_id(semester).find(@student.preferences.map{ |p| p.timeslot_id })
+        @timeslots = Timeslot.find_by_semester_id(semester.id).find(@student.preferences.map{ |p| p.timeslot_id })
+        @timeslots = @timeslots.select{|id| Timeslot.find(id).cal_course_id.to_s == params[:cal_course_id]}
       rescue ActiveRecord::RecordNotFound
         flash[:error] = "Error: Cannot rank until timeslots have been selected"
         render :action => "error"
         return
       end
-      @preferences = @student.preferences
+      @preferences = @student.preferences.find_by_cal_course_id(@cal_course.id)
     end
 
     case step
     when :summary
       begin
-        @timeslots = Timeslot.find_by_semester_id(semester).find(@student.preferences.map{ |p| p.timeslot_id })
+        @timeslots = Timeslot.find_by_semester_id(semester.id).find(@student.preferences.map{ |p| p.timeslot_id })
+        @timeslots = @timeslots.select{|id| Timeslot.find(id).cal_course_id.to_s == params[:cal_course_id]}
       rescue ActiveRecord::RecordNotFound
         flash[:error] = "Error: Cannot view summary until timeslots have been selected"
         render :action => "error"
         return
       end
-      @preferences = @student.preferences.order("ranking ASC")
+      @preferences = @student.preferences.find_by_cal_course_id(@cal_course.id)
     end
 
     render_wizard 
@@ -58,7 +60,7 @@ class SelectTimeslotsController < ApplicationController
 
     case step
     when :friday, :rank, :summary
-      if not @student.valid_preferences?(@cal_course.id)
+      if not @student.valid_preferences?(@cal_course.id, semester)
         flash[:error] = "You must select #{Setting['student_min_preferences']}-#{Setting['student_max_preferences']} timeslots."
 
         if step == :friday

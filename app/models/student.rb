@@ -28,11 +28,14 @@ class Student < ActiveRecord::Base
     end
   end
 
-  def valid_preferences?(cal_course_id)
+  def valid_preferences?(cal_course_id, semester_id)
+    puts "#{cal_course_id} #{semester_id}"
     preferences = self.preferences.all(:joins => :cal_course, :conditions => ["cal_course_id = ?", cal_course_id]) rescue -1
-    if preferences.size > 0 and CalCourse.find_by_id(cal_course_id).timeslots.size < Setting['student_min_preferences']
+    if Timeslot.joins(:cal_course).where("cal_courses.semester_id = ?", semester_id).where(:cal_course_id => cal_course_id).size < Setting['student_min_preferences']
       return true
     end
+
+
     preferences.size >= Setting['student_min_preferences'] and
     preferences.size <= Setting['student_max_preferences']
   end

@@ -304,9 +304,9 @@ Timeslot.all.each_with_index do |t, i|
 end
 
 # --- Create preferences
-Timeslot.all.each.with_index do |ts, i|
- Preference.create!(:timeslot => ts, :student => Student.all[i % Student.all.size], :ranking => i)
-end
+#Timeslot.all.each.with_index do |ts, i|
+# Preference.create!(:timeslot => ts, :student => Student.all[i % Student.all.size], :ranking => i)
+#end
 
 Student.all.each_with_index do |t, i|
   # assign students to each cal course

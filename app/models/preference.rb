@@ -14,4 +14,8 @@ class Preference < ActiveRecord::Base
   def self.find_by_semester_id(semester_id)
       self.select { |i| i.timeslot.cal_course.semester_id == semester_id }
   end
+
+  def self.find_by_cal_course_id(cal_course_id)
+      self.select { |i| i.timeslot.cal_course_id == cal_course_id }
+  end
 end

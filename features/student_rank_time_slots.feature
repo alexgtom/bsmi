@@ -57,7 +57,7 @@ Feature: Ranking possible student times
 
 	Scenario: User can submit timeslots if the number of timeslots available is less than the number of timeslots required but greater than one
 		When I go to /students/1/semesters/1/courses/1/select_timeslots/rank
-		Then I should see "You must select 3-5 timeslots."
+		Then I should not see "You must select 3-5 timeslots."
 		
 	@javascript 
 	Scenario: User can't select the same ranking for two preferences

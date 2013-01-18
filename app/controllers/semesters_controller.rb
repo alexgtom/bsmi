@@ -73,6 +73,7 @@ class SemestersController < ApplicationController
   def update
     @semester = Semester.find(params[:id])
     @cal_courses = CalCourse.all
+    @semester.registration_deadline.update_attributes(params[:registration_deadline])
 
     if params[:semester][:cal_courses]
       params[:semester][:cal_courses] = params[:semester][:cal_courses].map { |c| CalCourse.find(c) }

@@ -310,7 +310,7 @@ end
 
 Student.all.each_with_index do |t, i|
   # assign students to each cal course
-  CalCourse.all[i % CalCourse.all.size].students<< t
+  #CalCourse.all[i % CalCourse.all.size].students<< t
   # assign students to each timeslot
   #Timeslot.all[i % Timeslot.all.size].students << t
 end

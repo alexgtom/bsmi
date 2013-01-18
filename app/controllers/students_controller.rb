@@ -72,12 +72,17 @@ class StudentsController < ApplicationController
   def select_courses
     @semester = Semester.find(params[:semester_id])
     @student = Student.find(params[:id])
-    @cal_courses = CalCourse.all
+    @cal_courses = CalCourse.where(:semester_id => params[:semester_id])
 
     if params[:student] and params[:student][:cal_courses]
       cal_courses = params[:student][:cal_courses].map { |id| CalCourse.find(id) }
 
-      @student.cal_courses = cal_courses
+      @student.cal_courses.where(:semester_id => params[:semester_id]).each do |course|
+        @student.cal_courses.delete_if {|c| c == course}
+      end
+      cal_courses.each do |course|
+        @student.cal_courses << course
+      end
       @student.save!
 
       # redirect to timeslot page of first Cal Course

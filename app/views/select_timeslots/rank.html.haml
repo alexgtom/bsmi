@@ -20,7 +20,7 @@
           = f.fields_for :preferences, @preferences do |p|
             %tr
               %td
-                = p.select :ranking, (1..@student.preferences.size), :include_blank => true
+                = p.select :ranking, (1..@preferences.size), :include_blank => true
               %td
                 = p.object.timeslot.day.capitalize
               %td

@@ -110,12 +110,9 @@ class SelectTimeslotsController < ApplicationController
         current = []
         from_form = []
 
-        Preference.where(:student_id => @student.id).each do |p|
-          if p.timeslot.day == step
+        Preference.find_by_student_id_and_cal_course_id(@student.id, @cal_course.id).each do |p|
             current << p.id
-          end
         end
-        
         if params[step]
           params[step].each do |timeslot_id|
             p = Preference.find_by_student_id_and_timeslot_id(@student.id, timeslot_id)

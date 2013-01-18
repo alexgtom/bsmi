@@ -18,4 +18,8 @@ class Preference < ActiveRecord::Base
   def self.find_by_cal_course_id(cal_course_id)
       self.select { |i| i.timeslot.cal_course_id == cal_course_id }
   end
+
+  def self.find_by_student_id_and_cal_course_id(student_id, cal_course_id)
+      self.select { |i| i.timeslot.cal_course_id == cal_course_id and i.student_id == student_id }
+  end
 end

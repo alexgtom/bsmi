@@ -59,15 +59,11 @@ class SelectTimeslotsController < ApplicationController
     @student = Student.find(params[:student_id])
 
     case step
-    when :friday, :rank, :summary
+    when :rank, :summary
       if not @student.valid_preferences?(@cal_course.id, semester)
         flash[:error] = "You must select #{Setting['student_min_preferences']}-#{Setting['student_max_preferences']} timeslots."
 
-        if step == :friday
-          redirect_to wizard_path(:friday)
-        else
-          redirect_to wizard_path(:monday)
-        end
+        redirect_to wizard_path(:monday)
         return
       end
     end

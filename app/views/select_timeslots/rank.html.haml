@@ -17,16 +17,15 @@
             %th Start Time
             %th End Time
         %tbody
-          = f.fields_for :preferences do |p|
-            - if p.object.timeslot.cal_course == @cal_course
-              %tr
-                %td
-                  = p.select :ranking, (1..@student.preferences.size), :include_blank => true
-                %td
-                  = p.object.timeslot.day.capitalize
-                %td
-                  = p.object.timeslot.start_time.strftime("%l:%M %P")
-                %td
-                  = p.object.timeslot.end_time.strftime("%l:%M %P")
+          = f.fields_for :preferences, @preferences do |p|
+            %tr
+              %td
+                = p.select :ranking, (1..@student.preferences.size), :include_blank => true
+              %td
+                = p.object.timeslot.day.capitalize
+              %td
+                = p.object.timeslot.start_time.strftime("%l:%M %P")
+              %td
+                = p.object.timeslot.end_time.strftime("%l:%M %P")
 
       = f.submit "Submit Rankings", :class => "btn btn-primary"

@@ -66,7 +66,7 @@ class StudentsController < ApplicationController
 
   def courses
     @student = Student.find(params[:id])
-    @cal_courses = Student.find(params[:id]).cal_courses
+    @cal_courses = Student.find(params[:id]).cal_courses.where(:semester_id => params[:semester_id])
   end
 
   def select_courses

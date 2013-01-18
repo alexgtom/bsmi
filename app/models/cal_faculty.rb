@@ -4,4 +4,5 @@ class CalFaculty < ActiveRecord::Base
   has_and_belongs_to_many :cal_courses, :uniq => true
   has_many :students, :through => :cal_courses, :uniq => true
   has_and_belongs_to_many :semesters, :uniq => true
+  has_many :mentor_teachers, :through => :cal_courses
 end

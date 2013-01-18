@@ -3,8 +3,8 @@
 
 %table.table.table-hover
   %tr
-    %th= link_to 'First Name', cal_faculty_my_mentor_teachers_path(:sort => 'first_name')
-    %th= link_to 'Last Name', cal_faculty_my_mentor_teachers_path(:sort => 'last_name')
+    %th= link_to 'First Name', cal_faculty_my_mentor_teachers_path(:sort => 'first_name', :semester_id => params[:semester_id])
+    %th= link_to 'Last Name', cal_faculty_my_mentor_teachers_path(:sort => 'last_name', :semester_id => params[:semester_id])
     %th Email
     %th Student(s) Mentored
 

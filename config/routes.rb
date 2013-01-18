@@ -58,9 +58,10 @@ Bsmi::Application.routes.draw do
   end
 
   namespace :cal_faculty do
-    resources :my_students     
+    resources :my_students
     resources :my_mentor_teachers
     resources :my_cal_courses
+    resources :home
   end
 
 

@@ -3,7 +3,7 @@ class CalFaculty::MyStudentsController < ApplicationController
 
   def index
     @cal_faculty = CalFaculty.find(current_user.owner_id)
-    @my_students = @cal_faculty.students
+    @my_students = @cal_faculty.cal_courses.where(:semester_id => params[:semester_id]).map{|course| course.students}.flatten
     if params[:sort] || session[:sort] != nil
       sort = params[:sort] || session[:sort]
       case sort

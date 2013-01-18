@@ -19,7 +19,7 @@ class UserSessionsController < ApplicationController
       elsif @user_session.user and @user_session.user.owner_type == "MentorTeacher"
         redirect_to home_mentor_teacher_path(@user_session.user.owner_id)
       elsif @user_session.user and @user_session.user.owner_type == "CalFaculty"
-        redirect_to cal_faculty_my_students_path
+        redirect_to cal_faculty_home_index_path
       else
         redirect_back_or_default account_url(@current_user)
       end

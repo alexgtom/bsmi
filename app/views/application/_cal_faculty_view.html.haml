@@ -1,12 +1,23 @@
-.sidebar.left.sidebar-nav
-  .well
-    %ul.nav.nav-list
-      // Cal Faculty
-      %li.nav-header
-        Faculty
-      %li
-        %a{:href => cal_faculty_my_students_path} My Students
-      %li
-        %a{:href => cal_faculty_my_mentor_teachers_path} My Mentor Teachers
-      %li
-        %a{:href => cal_faculty_my_cal_courses_path} My Cal Courses
+.navbar
+  .navbar-inner
+    %ul.nav
+      %li= link_to "Home", cal_faculty_home_index_path
+      - Semester.where(:status => Semester::PUBLIC).each do |s|
+        - if params[:semester_id] == s.id.to_s
+          %li.active= link_to "#{s.name} #{s.year}", cal_faculty_my_students_path(:semester_id => s.id)
+        - else
+          %li= link_to "#{s.name} #{s.year}", cal_faculty_my_students_path(:semester_id => s.id)
+
+- if params[:semester_id]
+  .sidebar.left.sidebar-nav
+    .well
+      %ul.nav.nav-list
+        // Cal Faculty
+        %li.nav-header
+          Faculty
+        %li
+          %a{:href => cal_faculty_my_students_path(:semester_id => params[:semester_id])} My Students
+        %li
+          %a{:href => cal_faculty_my_mentor_teachers_path(:semester_id => params[:semester_id])} My Mentor Teachers
+        %li
+          %a{:href => cal_faculty_my_cal_courses_path(:semester_id => params[:semester_id])} My Cal Courses

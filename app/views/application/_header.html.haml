@@ -29,21 +29,3 @@
                   %a{:href => new_user_path} Register
                 %li
                   %a{:href => login_path} Login
-    .container-fluid      
-      - [:notice, :error, :error_list, :alert].each do |level| 
-        - unless flash[level].blank?
-          - if level == :notice
-            .alert.alert-info 
-              = flash[level]
-          - elsif level == :error
-            .alert.alert-error 
-              = flash[level]
-          - elsif level == :error_list
-            .alert.alert-error
-              %ul
-                - flash[level].each do |error|
-                  %li
-                    = error
-          - else
-            .alert.alert-block 
-              = flash[level]

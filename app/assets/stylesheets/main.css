@@ -6,12 +6,6 @@ body {
   padding: 9px 0;
 }
 
-.container-fluid > .sidebar {
-    position: relative;
-    top: 0;
-    left:auto;
-    width: 220px; /* width of sidebar */
-}
 
 .left {
     float:left;
@@ -21,22 +15,20 @@ body {
     float:right;
 }
 
-.container-fluid > .content {
-    margin: 0 0 0 240px; /* width of sidebars + 10px of margin */
-}
-
-
-.fixed-fluid {
-    margin-left: 240px;
-}
-.fluid-fixed {
-    margin-right: 240px;
-    margin-left:auto !important;
-}
-.fixed-fixed {
-    margin: 0 240px;
-}
-
 .spacer {
   margin-top: 10px;
+}
+
+
+#main > .row-fluid { 
+  float: left; 
+}
+#inner-container { 
+  padding-left: 250px; 
+}
+#sidebar { 
+  position:fixed;
+ width: 230px; 
+ margin-right: 20px; 
+ float: left;
 }

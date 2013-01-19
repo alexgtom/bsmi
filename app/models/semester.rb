@@ -8,6 +8,8 @@ class Semester < ActiveRecord::Base
   SEASONS = [FALL, SPRING, SUMMER]
   STATUSES = [PUBLIC, PRIVATE]
 
+  default_scope order('start_date DESC')
+
   attr_protected #none
   has_and_belongs_to_many :cal_facultys
   has_and_belongs_to_many :mentor_teachers

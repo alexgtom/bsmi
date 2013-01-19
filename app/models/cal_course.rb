@@ -39,7 +39,9 @@ class CalCourse < ActiveRecord::Base
     if cal_faculty
       cal_faculty.keys.each do |cal_faculty_id|
         add_to = CalFaculty.find(cal_faculty_id)
-        add_to.cal_courses << self
+        if not add_to.cal_courses.include?(self)
+          add_to.cal_courses << self
+        end
         add_to.save!
       end
     end

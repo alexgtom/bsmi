@@ -1,7 +1,7 @@
 = render :partial => "semester_header"
 
 .pull-right
-  = link_to 'New Course', new_cal_course_path, :class => 'btn'
+  = link_to 'New Course', new_cal_course_path(:semester_id => @semester.id), :class => 'btn'
 .page-header
   %h1 Cal Courses
 
@@ -13,8 +13,8 @@
     %th
   - @cal_courses.each do |course|
     %tr
-      %td= link_to course.name, course
+      %td= link_to course.name, cal_course_path(course, :semester_id => @semester.id)
       %td= course.school_type
-      %td= link_to 'Edit', edit_cal_course_path(course, :semester_id => params[:semester_id])
+      %td= link_to 'Edit', edit_cal_course_path(course, :semester_id => @semester.id)
       %td= link_to 'Destroy', course, method: :delete, data: { confirm: 'Are you sure?' }
 

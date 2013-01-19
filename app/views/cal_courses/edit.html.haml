@@ -1,6 +1,7 @@
-%h1 Editing Cal Course
+.page-header
+  %h1="#{@cal_course.semester.name} #{@cal_course.semester.year} | Editing Cal Course"
 
-= render :partial => 'form', :locals => {:semesters => @semesters}
+= render :partial => 'form'
 
 
 

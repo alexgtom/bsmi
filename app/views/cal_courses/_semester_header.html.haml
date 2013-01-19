@@ -2,7 +2,7 @@
   .navbar-inner
     %ul.nav
       - Semester.where(:status => Semester::PUBLIC).each do |s|
-        - if params[:semester_id] == s.id.to_s
+        - if @semester and  @semester.id == s.id
           %li.active= link_to "#{s.name} #{s.year}", cal_courses_path(:semester_id => s.id)
         - else
           %li= link_to "#{s.name} #{s.year}", cal_courses_path(:semester_id => s.id)

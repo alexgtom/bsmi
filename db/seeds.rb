@@ -338,6 +338,6 @@ end
 # --- Add relations for cal_faculties and cal_courses
 CalCourse.all.each_with_index do |t, i|
   # assign cal course to each cal_faculty
-  CalFaculty.all[i % CalFaculty.all.size].cal_courses<< t
-  CalFaculty.all[(i+7) % CalFaculty.all.size].cal_courses<< t
+  #CalFaculty.all[i % CalFaculty.all.size].cal_courses<< t
+  #CalFaculty.all[(i+7) % CalFaculty.all.size].cal_courses<< t
 end

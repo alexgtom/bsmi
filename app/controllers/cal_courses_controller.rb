@@ -80,7 +80,17 @@ class CalCoursesController < ApplicationController
     @semester = @cal_course.semester       
     
     @cal_course.update_attributes(params[:cal_course])
-    @cal_course.build_associations(params[:timeslots], params[:cal_faculty])
+
+    @cal_course.cal_faculties.delete_all
+    if params[:cal_faculty]
+      params[:cal_faculty].each_key{|id| @cal_course.cal_faculties << CalFaculty.find(id)}
+    end
+
+    @cal_course.timeslots.delete_all
+    if params[:timeslots]
+      params[:timeslots].each_key{|id| @cal_course.timeslots << Timeslot.find(id)}
+    end
+
     @cal_course.save!
     flash[:notice] = 'The course was successfully updated.'
     redirect_to cal_course_path(@cal_course, {:semester_id => params[:semester_id]})

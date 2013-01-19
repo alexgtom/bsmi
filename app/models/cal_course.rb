@@ -15,6 +15,8 @@ class CalCourse < ActiveRecord::Base
   validates_presence_of :semester, :name
   validates_uniqueness_of :name
 
+  accepts_nested_attributes_for :cal_faculties
+
   def create_selection_for_new_course
     entries = []
     times = Timeslot.all.delete_if{|x| x.cal_course_id != nil and x.cal_course_id != self.id }

@@ -29,6 +29,11 @@ class CalCourse < ActiveRecord::Base
   end
 
   def build_associations(times, cal_faculty)
+    self.timeslots = []
+    times.each do |id|
+      self.timeslots << Timeslot.find(id)
+    end
+=begin
     if not times.nil?
       times.keys.each do |time_id|
         add_to = Timeslot.find_by_id(time_id)
@@ -45,6 +50,7 @@ class CalCourse < ActiveRecord::Base
         add_to.save!
       end
     end
+=end
   end
 
   def destroy_associations

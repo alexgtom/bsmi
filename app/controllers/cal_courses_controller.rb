@@ -41,7 +41,6 @@ class CalCoursesController < ApplicationController
     @cal_course = CalCourse.find(params[:id])
     @semester = @cal_course.semester
     @entries = @cal_course.create_selection_for_new_course
-    @semesters = Semester.all.collect {|s| ["#{s.name} #{s.year}", s.id]}
   end
 
   # GET /cal_courses/new
@@ -49,8 +48,7 @@ class CalCoursesController < ApplicationController
   def new
     @cal_course = CalCourse.new
     @entries = @cal_course.create_selection_for_new_course
-    @semesters = Semester.all.collect {|s| ["#{s.name} #{s.year}", s.id]}
-    @semester = params[:semester_id]
+    @semester = Semester.find(params[:semester_id])
     if @entries.nil?
       @entries = Array.new
     end
@@ -66,8 +64,6 @@ class CalCoursesController < ApplicationController
     @cal_course = CalCourse.new(params[:cal_course])
     @semester = params[:semester_id]
     School::LEVEL.include?(params[:cal_course][:school_type])
-
-    params[:cal_course][:semester_id]
 
     @cal_course.semester_id = params[:cal_course][:semester_id]
     @cal_course.build_associations(params[:timeslots], params["cal_faculty"])

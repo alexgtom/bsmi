@@ -1,23 +1,6 @@
 = render :partial => "header"
 %div.container-fluid#main
   #sidebar
-    - [:notice, :error, :error_list, :alert].each do |level| 
-      - unless flash[level].blank?
-        - if level == :notice
-          .alert.alert-info 
-            = flash[level]
-        - elsif level == :error
-          .alert.alert-error 
-            = flash[level]
-        - elsif level == :error_list
-          .alert.alert-error
-            %ul
-              - flash[level].each do |error|
-                %li
-                  = error
-        - else
-          .alert.alert-block 
-            = flash[level]
     - if current_user
       - if current_user.owner_type == "Student"
         = render :partial => "student_view", :locals => { :current_user => current_user, :semester => semester }
@@ -34,6 +17,22 @@
   .row-fluid
     #inner-container
       .span12
-        .content.fixed-fixed
-          = yield
+        - [:notice, :error, :error_list, :alert].each do |level| 
+          - unless flash[level].blank?
+            - if level == :notice
+              .alert.alert-info 
+                = flash[level]
+            - elsif level == :error
+              .alert.alert-error 
+                = flash[level]
+            - elsif level == :error_list
+              .alert.alert-error
+                %ul
+                  - flash[level].each do |error|
+                    %li
+                      = error
+            - else
+              .alert.alert-block 
+                = flash[level]
+        = yield
 

@@ -3,7 +3,11 @@ class CalCoursesController < ApplicationController
   # GET /cal_courses
   # GET /cal_courses.json
   def index
-    @cal_courses = CalCourse.all
+    if not params[:semester_id]
+      render "home"
+      return
+    end
+    @cal_courses = CalCourse.where(:semester_id => params[:semester_id])
     if params[:sort] || session[:sort] != nil
       sort = params[:sort] || session[:sort]
       case sort
@@ -23,7 +27,7 @@ class CalCoursesController < ApplicationController
   # GET /cal_courses/1.json
   def show
     @cal_course = CalCourse.find(params[:id])
-    @times = Timeslot.where("cal_course_id = ?", params[:id])
+    @times = Timeslot.where("cal_course_id = ?", params[:id]).where(:semester_id => params[:semester_id])
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @cal_courses }

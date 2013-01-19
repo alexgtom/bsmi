@@ -15,6 +15,6 @@
     %tr
       %td= link_to course.name, course
       %td= course.school_type
-      %td= link_to 'Edit', edit_cal_course_path(course)
+      %td= link_to 'Edit', edit_cal_course_path(course, :semester_id => params[:semester_id])
       %td= link_to 'Destroy', course, method: :delete, data: { confirm: 'Are you sure?' }
 

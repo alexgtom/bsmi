@@ -6,9 +6,6 @@
   - if @cal_course.errors.any?
     #error_explanation
       %h2= "#{pluralize(@cal_course.errors.count, "error")} prohibited this course from being saved:"
-      %ul
-        - @cal_course.errors.full_messages.each do |msg|
-          %li= msg
 
   .field
     = f.label :name
@@ -27,11 +24,9 @@
         %td= cal_faculty.user.email
 
   .field
-    = f.label :school_type
-    = f.select :school_type, School::LEVEL.unshift("All")
-  .field
-    = f.label :semester
-    = f.select :semester_id, semesters, {:include_blank => true}
+    = f.label "Filter timeslots by:"
+    = f.select :school_type, School::LEVEL.unshift("All"), :selected => "All"
+  = f.hidden_field :semester_id, :value => params[:semester_id]
 
   = f.label "Select Timeslots"
   - if @entries and @entries.size == 0

@@ -1,0 +1,8 @@
+.navbar
+  .navbar-inner
+    %ul.nav
+      - Semester.where(:status => Semester::PUBLIC).each do |s|
+        - if params[:semester_id] == s.id.to_s
+          %li.active= link_to "#{s.name} #{s.year}", splash_student_path(current_user.owner.id, s.id)
+        - else
+          %li= link_to "#{s.name} #{s.year}", splash_student_path(current_user.owner.id, s.id)

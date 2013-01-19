@@ -1,0 +1,32 @@
+= render :partial => "semester_header"
+.page-header
+  %h1 Unassigned Timeslots
+
+%table.table.table-hover
+  %tr
+    %th ID
+    %th Mentor Teacher
+    %th Timeslot
+    %th Cal Course
+  - @unassigned_timeslots.each do |timeslot|
+    %tr
+      %td= timeslot.id
+      %td= link_to "#{timeslot.mentor_teacher.user.name}", mentor_teacher_path(timeslot.mentor_teacher, :semester_id => @semester.id)
+      %td= link_to timeslot.to_string, timeslot_path(timeslot, :semester_id => @semester.id)
+      %td --
+
+.page-header
+  %h1 Assigned Timeslots
+
+%table.table.table-hover
+  %tr
+    %th ID
+    %th Mentor Teacher
+    %th Timeslot
+    %th Cal Course
+  - @assigned_timeslots.each do |timeslot|
+    %tr
+      %td= timeslot.id
+      %td= link_to "#{timeslot.mentor_teacher.user.name}", mentor_teacher_path(timeslot.mentor_teacher, :semester_id => @semester.id)
+      %td= link_to timeslot.to_string, timeslot_path(timeslot, :semester_id => @semester.id)
+      %td= link_to timeslot.cal_course.name, cal_course_path(timeslot.cal_course)

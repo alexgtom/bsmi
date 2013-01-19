@@ -36,4 +36,4 @@
       %td= time.id
       %td= link_to time.course.name, time.course if time.course
       %td= link_to time.mentor_teacher.user.name, time.mentor_teacher
-      %td= time.to_string
+      %td= link_to time.to_string, timeslot_path(time, :semester_id => @semester.id)

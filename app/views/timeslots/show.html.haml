@@ -1,0 +1,33 @@
+= render :partial => "semester_header"
+.pull-right
+  = link_to 'Edit', edit_timeslot_path(@timeslot), :class => 'btn'
+.page-header
+  %h1= "#{@timeslot.to_string}"
+
+
+%table.table.table-bordered
+  %tr
+    %td Semester
+    %td= "#{@timeslot.semester.name} #{@timeslot.semester.year}"
+  %tr
+    %td Mentor Teacher
+    %td= link_to "#{@timeslot.mentor_teacher.user.name}", @timeslot.mentor_teacher
+  %tr
+    %td Course Name
+    %td="#{@timeslot.course.name}"
+  %tr
+    %td Course Grade
+    %td="#{@timeslot.course.grade}"
+  %tr
+    %td Students
+    %td
+      %ul.unstyled
+        - @timeslot.students.each do |s|
+          %li= link_to s.user.name, s
+  %tr
+    %td Cal Course
+    - if @timeslot.cal_course
+      %td= link_to @timeslot.cal_course.name, @timeslot.cal_course
+    - else
+      %td --
+

@@ -7,15 +7,16 @@ Background: cal_courses, cal_faculty(me), students exitsts
 		Given the following semesters exist
 			| id | name | year | status |
 			| 1  | Fall | 2012 | Public |
-  Given the following timeslots exist:
-  | start_time | end_time | day     | course_id | mentor_teacher_id	|
-  | 8:00 AM    | 9:00 AM  | monday  | 1	        | 1		        |
-  | 9:00 AM    | 10:00 AM | monday  | 2	        | 2		        |
-  | 9:00 AM    | 10:00 AM | monday  | 3	        | 3			|
   Given the following cal course exists:
   | name        | school_type		| semester_id |
   | Educ 111	| Elementary School	| 1           |
   | Educ 555	| Elementary School	| 1           |
+
+  Given the following timeslots exist:
+  | start_time | end_time | day     | course_id | mentor_teacher_id	| cal_course_id |
+  | 8:00 AM    | 9:00 AM  | monday  | 1	        | 1		            | 1          |
+  | 9:00 AM    | 10:00 AM | monday  | 2	        | 2		            | 2          |
+  | 9:00 AM    | 10:00 AM | monday  | 3	        | 3			        | 2          |
 
   Given the following users exist:
   | first_name|last_name| email	               | password| type          | street_address   | phone_number | cal_courses |
@@ -40,7 +41,8 @@ Scenario: Login as a cal_faculty and see my menus
   And I fill in "Email" with "calfaculty@berk.edu"
   And I fill in "Password" with "1234"
   And I press "Login"
-  Then I should be located at "/cal_faculty/my_students"
+  Then I should be located at "/cal_faculty/home"
+  And I follow "Fall 2012"
   And I follow "My Mentor Teachers"
   Then I should be located at "/cal_faculty/my_mentor_teachers"
 
@@ -49,6 +51,7 @@ Scenario: should see list of my mentor teachers enrolled in my cal_course
   And I fill in "Email" with "calfaculty@berk.edu"
   And I fill in "Password" with "1234"
   And I press "Login"
+  And I follow "Fall 2012"
   And I follow "My Mentor Teachers"
   Then I should see "mentor1"
   And I should not see "mentor2"

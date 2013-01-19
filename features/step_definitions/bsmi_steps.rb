@@ -151,6 +151,11 @@ Given /the following timeslots exist/ do |tb|
     if t.has_key?('course')
       t['course'] = Course.find_by_name(t['course'])
     end
+
+    if t.has_key?('cal_course')
+      t['cal_course'] = CalCourse.find(t['cal_course_id'])
+    end
+
   Timeslot.create!(t)
   end
 end
@@ -371,7 +376,7 @@ Given /the following users exist/ do |tb|
 
     
     if (t[:type] != "MentorTeacher") and t[:cal_courses]
-      cal_course = CalCourse.find(t[:cal_courses.to_s])
+      cal_course = CalCourse.find(t[:cal_courses])
       owner.cal_courses << cal_course
     end
 

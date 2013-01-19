@@ -9,12 +9,14 @@ Background:
 
 Scenario: I can't access invite page without login as an advisor
   Given I am signed up as a student advisor
+  Given I am logged in as myemail@nowhere.com
   And I go to /invites
   Then I should be located at "/"
   And I should see "Only admin can access this page"
 
 Scenario: I can't access add user page without login as an advisor
   Given I am signed up as a student advisor
+  Given I am logged in as myemail@nowhere.com
   And I go to /user/adv_new
   Then I should be located at "/"
   And I should see "You don't have permission to access this page"

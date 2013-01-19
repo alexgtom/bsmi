@@ -113,10 +113,11 @@ class CalCoursesController < ApplicationController
   # DELETE /cal_courses/1.json
   def destroy
     @cal_course = CalCourse.find(params[:id])
+    semester_id = @cal_course.semester.id
     @cal_course.destroy_associations
     if @cal_course.destroy
       flash[:notice] = "CalCourse '#{@cal_course.name}' succesfully destroyed."
-      redirect_to :action => 'index'
+      redirect_to cal_courses_path(:semester_id => semester_id)
     else
       flash[:error] = 'Something went wrong'
       render :action => :edit

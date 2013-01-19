@@ -1,17 +1,16 @@
 = render :partial => "header"
 %div.container-fluid#main
-  #sidebar
-    - if current_user
-      - if current_user.owner_type == "Student"
-        = render :partial => "student_view", :locals => { :current_user => current_user, :semester => semester }
-      - elsif current_user.owner_type == "MentorTeacher"
-        = render :partial => "mentor_teacher_view", :locals => { :current_user => current_user, :semester => semester }
-      - elsif current_user.owner_type == "CalFaculty"
-        = render :partial => "cal_faculty_view", :locals => { :current_user => current_user, :semester => semester }
-      - elsif current_user.owner_type == "Advisor"
-        = render :partial => "advisor_view", :locals => { :current_user => current_user, :semester => semester }
-      - else
-        = render :partial => "guest_view"
+  - if current_user
+    - if current_user.owner_type == "Student"
+      = render :partial => "student_view", :locals => { :current_user => current_user, :semester => semester }
+    - elsif current_user.owner_type == "MentorTeacher"
+      = render :partial => "mentor_teacher_view", :locals => { :current_user => current_user, :semester => semester }
+    - elsif current_user.owner_type == "CalFaculty"
+      = render :partial => "cal_faculty_view", :locals => { :current_user => current_user, :semester => semester }
+    - elsif current_user.owner_type == "Advisor"
+      = render :partial => "advisor_view", :locals => { :current_user => current_user, :semester => semester }
+    - else
+      = render :partial => "guest_view"
 
 
   .row-fluid

@@ -22,10 +22,12 @@ class CalCourse < ActiveRecord::Base
     times = Timeslot.all.delete_if{|x| x.cal_course_id != nil and x.cal_course_id != self.id }
     if times
       times.each do |time|
-        entries << time.build_entry(self.id)
+        e = time.build_entry(self.id)
+        if e
+          entries << e
+        end
       end
-      entries.reject{|entry| entry == nil}
-      entries.sort_by{|entry| entry["time"]}
+      entries.sort_by{|entry| entry["school_name"]}
     end
     return entries
   end

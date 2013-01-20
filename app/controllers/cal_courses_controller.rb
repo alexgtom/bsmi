@@ -2,6 +2,7 @@ class CalCoursesController < ApplicationController
 #before filter -- advisor or cal_faculty only access for everything
   # GET /cal_courses
   # GET /cal_courses.json
+  before_filter :require_admin
   def index
     if not params[:semester_id]
       render "home"

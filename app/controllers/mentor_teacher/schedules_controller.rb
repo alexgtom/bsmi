@@ -28,16 +28,18 @@ class MentorTeacher::SchedulesController < ApplicationController
   
   def create 
     all_correct = true
-    params[:timeslots].each do |json_str|      
-      begin 
-        timeslot = Timeslot.from_cal_event_json(json_str, :semester_id => params[:semester_id])        
-        timeslot.save
-      rescue
-        all_correct = false
-        break
-      end           
-      current_teacher.timeslots << timeslot
-      all_correct = all_correct and current_teacher.save
+    if params[:timeslots]
+      params[:timeslots].each do |json_str|      
+        begin 
+          timeslot = Timeslot.from_cal_event_json(json_str, :semester_id => params[:semester_id])        
+          timeslot.save
+        rescue
+          all_correct = false
+          break
+        end           
+        current_teacher.timeslots << timeslot
+        all_correct = all_correct and current_teacher.save
+      end
     end
     if all_correct
       flash[:notice] = "Schedule was successfully created."

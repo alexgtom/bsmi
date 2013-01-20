@@ -1,4 +1,6 @@
 class DistrictsController < ApplicationController
+  before_filter :require_admin
+
   def index
     @districts = District.all
   end

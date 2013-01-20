@@ -1,7 +1,6 @@
 class StudentsController < ApplicationController
-#  before_filter :require_student, :only => [:placements]
-#  before_filter :require_cal_faculty, :only => [:placements]
-  before_filter :require_user
+  #before_filter :require_student, :only => [:placements]
+  #before_filter :require_cal_faculty, :only => [:placements]
 
   def index
     @all_student = Student.all

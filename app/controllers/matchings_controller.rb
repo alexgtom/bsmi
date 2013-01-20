@@ -1,5 +1,6 @@
 class MatchingsController < ApplicationController
   
+  before_filter :require_admin
   def show
     cur_semester = Semester.current_semester
     if not cur_semester

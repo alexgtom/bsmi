@@ -1,6 +1,7 @@
 class CoursesController < ApplicationController
   # GET /courses
   # GET /courses.json
+  before_filter :require_admin
   def index
     @courses = Course.all
   end

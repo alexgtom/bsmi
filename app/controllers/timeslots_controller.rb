@@ -1,4 +1,5 @@
 class TimeslotsController < ApplicationController
+  before_filter :require_admin
   def index
     if not params[:semester_id]
       render "home"

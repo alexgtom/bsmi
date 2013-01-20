@@ -6,14 +6,16 @@
     %th= link_to 'First Name', advisors_path(:sort => 'first_name')
     %th= link_to 'Last Name', advisors_path(:sort => 'last_name')
     %th Email
-    %th
+    /*** DELETE
+    /%th
 
   - @all_advisor.each do |advisor|
     %tr
       %td= link_to advisor.first_name, advisor.owner
       %td= advisor.last_name
       %td= advisor.email 
-      %td= link_to 'Delete', advisor, method: :delete, data: { confirm: 'Are you sure?' }
+      /*** DELETE
+      /%td= link_to 'Delete', advisor, method: :delete, data: { confirm: 'Are you sure?' }
 %br
  
 -#= link_to 'New Advisor', new_advisor_path

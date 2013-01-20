@@ -9,7 +9,8 @@
     %th Email
     %th Course
     %th Student(s) Mentored
-    %th Remove
+    /*** DELETE 
+    /%th Remove
 
   - @all_teacher.each do |teacher|
     %tr
@@ -25,4 +26,5 @@
           - if s.user != nil
             %ul.unstyled
               %li= link_to "#{s.user.first_name} #{s.user.last_name}", s
-      %td= link_to 'Delete', teacher, method: :delete, data: { confirm: 'Are you sure?' }
+      /*** DELETE 
+      /%td= link_to 'Delete', teacher, method: :delete, data: { confirm: 'Are you sure?' }

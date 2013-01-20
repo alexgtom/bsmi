@@ -13,6 +13,12 @@ class SelectTimeslotsController < ApplicationController
     #  where(:day => Timeslot.day_index(step), :cal_course_id => params[:cal_course_id])
     @timeslots = @cal_course.timeslots
 
+    if @timeslots.size == 0
+      flash[:error] = "There are no timeslots available for this course"
+      render :action => "error"
+      return
+    end
+
     case step
     when :rank, :summary
       if not @student.valid_preferences?(@cal_course.id, semester.id)

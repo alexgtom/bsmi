@@ -2,10 +2,13 @@ class MentorTeacher < ActiveRecord::Base
   attr_accessible :name
   attr_protected #none
   
-  has_one :user, :as => :owner
+  has_one :user, {:as => :owner, :dependent => :destroy}
   has_many :timeslots, :uniq => true
   has_many :students, :through => :timeslots
   has_and_belongs_to_many :semesters, :uniq => true
+
+  accepts_nested_attributes_for :timeslots, :allow_destroy => true
+  accepts_nested_attributes_for :user, :allow_destroy => true
 
   belongs_to :school
   

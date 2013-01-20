@@ -24,7 +24,7 @@
       = @mentor_teacher.user.last_name
   %tr
     %td
-      %b Phone NUmber:
+      %b Phone Number:
     %td
       = @mentor_teacher.user.phone_number
   %tr
@@ -62,19 +62,21 @@
       %b Zip Code:
     %td
       = @mentor_teacher.user.zipcode
-%h2 Courses
+%h2 Timeslots
 %table.table
   %tr
-    %th Semester:
-    %th CalCourse:
-    %th School:
-    %th Course:
-    %th Students:
-    %th Time:
+    %th ID
+    %th Semester
+    %th Cal Course
+    %th School
+    %th Course
+    %th Students
+    %th Time
   - @mentor_teacher.timeslots.reject{|entry| entry.cal_course == nil}.sort!{|a, b| a.semester <=> b.semester}.each do |timeslot|
     %tr
+      %td= timeslot.id
       %td= timeslot.semester.description if timeslot.semester
-      %td= timeslot.cal_course.name if timeslot.cal_course
+      %td= link_to timeslot.cal_course.name, timeslot.cal_course if timeslot.cal_course
       %td= timeslot.getSchoolName
       - if timeslot.course
         %td= link_to timeslot.course.name, timeslot.course
@@ -85,5 +87,5 @@
           - if s.user != nil
             %ul.unstyled
               %li= link_to "#{s.user.first_name} #{s.user.last_name}", s
-      %td= timeslot.to_string
+      %td= link_to timeslot.to_string, timeslot
 

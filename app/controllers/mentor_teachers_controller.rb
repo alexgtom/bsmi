@@ -86,7 +86,7 @@ class MentorTeachersController < ApplicationController
   # DELETE /mentor_teachers/1.json
   def destroy
     @mentor_teacher = MentorTeacher.find(params[:id])
-    @mentor_teacher.destroy
+    @mentor_teacher.destroy_all
 
     respond_to do |format|
       format.html { redirect_to mentor_teachers_url }

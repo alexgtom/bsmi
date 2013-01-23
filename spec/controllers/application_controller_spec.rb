@@ -67,6 +67,49 @@ describe ApplicationController do
     end
   end
 
+  describe "require_user_type" do
+    before(:each) do
+      @user = FactoryGirl.build_stubbed(:user, 
+                                        :owner_type => owner_type,
+                                        :owner_id => 2)
+      controller.stub(:current_user => @user)
+      controller.stub(:redirect_back_or_default)
+    end
+
+    def do_call
+      controller.send(:require_user_type, desired_type)
+    end
+
+    context "when the user type is correct" do
+      let(:owner_type) { "Student" }
+      let(:desired_type) { "Student" }
+
+      it "should do nothing" do        
+        controller.should_not_receive(:redirect_back_or_default)
+        do_call
+      end
+    end
+
+    context "the user type is incorrect" do
+      let(:owner_type) { "Student" }
+      let(:desired_type) { "MentorTeacher" }
+
+      it "should use redirect_back_or_default" do
+        controller.should_receive(:redirect_back_or_default) 
+        do_call
+      end
+
+      it "should set an error message in the notice" do        
+        do_call
+        flash[:notice].should_not eql(nil)
+      end
+
+    end
+
+
+
+  end
+
   describe "redirect_back_or_default" do
     it "redirects to :return_to or default and set session to nil" do
       session[:return_to] = "redirecting somewhere"

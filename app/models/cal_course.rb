@@ -25,7 +25,7 @@ class CalCourse < ActiveRecord::Base
         e = time.build_entry(self.id)
         entries << e
       end
-      entries.sort_by{|entry| entry["time_id"]}
+      entries.sort_by{|entry| entry["time"]}
     end
     return entries
   end

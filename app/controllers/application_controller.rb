@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
 
     def require_user_type(user_type)
       unless current_user && current_user.owner_type == user_type     
-        flash[:notice] = "You don't have permission to access this page"
+        flash[:notice] = "You don't have permission to access that page"
         redirect_to root_url
         return false
       end

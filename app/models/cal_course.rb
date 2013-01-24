@@ -23,9 +23,7 @@ class CalCourse < ActiveRecord::Base
     if times
       times.each do |time|
         e = time.build_entry(self.id)
-        if e
-          entries << e
-        end
+        entries << e
       end
       entries.sort_by{|entry| entry["school_name"]}
     end

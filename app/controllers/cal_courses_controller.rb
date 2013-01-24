@@ -48,8 +48,8 @@ class CalCoursesController < ApplicationController
   # GET /cal_courses/new.json
   def new
     @cal_course = CalCourse.new
-    @entries = @cal_course.create_selection_for_new_course(@semester.id)
     @semester = Semester.find(params[:semester_id])
+    @entries = @cal_course.create_selection_for_new_course(@semester.id)
     if @entries.nil?
       @entries = Array.new
     end

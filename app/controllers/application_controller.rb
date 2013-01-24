@@ -25,9 +25,8 @@ class ApplicationController < ActionController::Base
     end
 
     def require_user_type(user_type)
-      unless current_user && current_user.owner_type == user_type
-        nice_type = user_type.underscore.humanize
-        flash[:notice] = "You must be a #{nice_type} to access this page."
+      unless current_user && current_user.owner_type == user_type     
+        flash[:notice] = "You don't have permission to access this page"
         redirect_to root_url
         return false
       end

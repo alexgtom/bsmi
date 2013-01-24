@@ -19,7 +19,7 @@ class CalCourse < ActiveRecord::Base
 
   def create_selection_for_new_course(semester_id)
     entries = []
-    times = Timeslot.where(:cal_course_id => nil, :semester_id => semester_id)
+    times = Timeslot.where(:cal_course_id => [nil, self.id], :semester_id => semester_id)
     if times
       times.each do |time|
         e = time.build_entry(self.id)

@@ -31,6 +31,7 @@
     %table.table.table-hover#entries_table
       %tr
         %th Add?
+        %th ID
         %th School Type
         %th School
         %th Course
@@ -39,6 +40,7 @@
       - @entries.each do |entry|
         %tr
           %td= check_box_tag "timeslots[#{entry["time_id"]}]", 1, entry["checked"], :id => "timeslots[#{entry["time_id"]}]"
+          %td= entry["time_id"]
           %td= entry["school_level"]
           %td= entry["school_name"]
           %td= entry["course"].name if entry["course"]

@@ -17,17 +17,15 @@ class CalCourse < ActiveRecord::Base
 
   accepts_nested_attributes_for :cal_faculties
 
-  def create_selection_for_new_course
+  def create_selection_for_new_course(semester_id)
     entries = []
-    times = Timeslot.all.delete_if{|x| x.cal_course_id != nil and x.cal_course_id != self.id }
+    times = Timeslot.where(:cal_course_id => [nil, self.id], :semester_id => semester_id)
     if times
       times.each do |time|
         e = time.build_entry(self.id)
-        if e
-          entries << e
-        end
+        entries << e
       end
-      entries.sort_by{|entry| entry["school_name"]}
+      entries.sort_by{|entry| entry["time"]}
     end
     return entries
   end

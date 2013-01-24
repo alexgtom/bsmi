@@ -41,15 +41,15 @@ class CalCoursesController < ApplicationController
   def edit
     @cal_course = CalCourse.find(params[:id])
     @semester = @cal_course.semester
-    @entries = @cal_course.create_selection_for_new_course
+    @entries = @cal_course.create_selection_for_new_course(@semester.id)
   end
 
   # GET /cal_courses/new
   # GET /cal_courses/new.json
   def new
     @cal_course = CalCourse.new
-    @entries = @cal_course.create_selection_for_new_course
     @semester = Semester.find(params[:semester_id])
+    @entries = @cal_course.create_selection_for_new_course(@semester.id)
     if @entries.nil?
       @entries = Array.new
     end

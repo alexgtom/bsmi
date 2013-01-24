@@ -71,15 +71,13 @@ class Timeslot < ActiveRecord::Base
   def build_entry(caller_id)
     if self.mentor_teacher
       entry = self.mentor_teacher.build_entry
-      if entry
-        entry["time"] = self.to_string
-        entry["time_id"] = self.id
-        entry["course"] = self.course
-        entry["checked"] = self.cal_course_id == caller_id if caller_id
-      end
-      return entry
     end
-    return nil
+
+    entry["time"] = self.to_string
+    entry["time_id"] = self.id
+    entry["course"] = self.course
+    entry["checked"] = self.cal_course_id == caller_id if caller_id
+    return entry
   end 
 
   def self.from_cal_event_json(json_str, attrs = {})

@@ -13,13 +13,16 @@ class MentorTeacher < ActiveRecord::Base
   belongs_to :school
   
   def build_entry
-    if self.school
       entry = Hash.new 
+    if self.school
       entry["school_level"] = self.school.level
       entry["school_name"] = self.school.name
-      entry["teacher"] = self.user.name
-      return entry
+    else
+      entry["school_level"] = nil
+      entry["school_name"] = nil
     end
+    entry["teacher"] = self.user.name
+    return entry
   end
 
   def timeslots_for_semester(semester_id)

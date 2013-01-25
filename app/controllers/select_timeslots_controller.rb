@@ -11,9 +11,9 @@ class SelectTimeslotsController < ApplicationController
     #@timeslots = Timeslot.joins(:cal_course).
     #  where("cal_courses.semester_id = ?", semester.id).
     #  where(:day => Timeslot.day_index(step), :cal_course_id => params[:cal_course_id])
-    @timeslots = @cal_course.timeslots
+    @timeslots = @cal_course.timeslots.where(:day => Timeslot.day_index(step))
 
-    if @timeslots.size == 0
+    if @cal_course.timeslots.size == 0
       flash[:error] = "There are no timeslots available for this course"
       render :action => "error"
       return

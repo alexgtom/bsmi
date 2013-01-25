@@ -18,7 +18,7 @@
         %td 
           %a{:href => edit_placements_student_path(p.student_id, :semester_id => p.timeslot.semester.id)}= p.student.user.name   
         %td= p.timeslot.mentor_teacher.user.name
-        %td= p.timeslot.mentor_teacher.school.name
+        %td= p.timeslot.mentor_teacher.school.name if p.timeslot.mentor_teacher.school
         %td= p.timeslot.standard_string
         
   

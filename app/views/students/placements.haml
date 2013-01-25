@@ -17,10 +17,10 @@
       %td= p.course.grade
     %tr 
       %td School Name
-      %td= "#{p.mentor_teacher.school.name}"
+      %td= "#{p.mentor_teacher.school.name}" if p.mentor_teacher.school
     %tr 
       %td School Level
-      %td= "#{p.mentor_teacher.school.level}"
+      %td= "#{p.mentor_teacher.school.level}" if p.mentor_teacher.school
     %tr
       %td Mentor Teacher Name
       %td= "#{p.mentor_teacher.user.first_name} #{p.mentor_teacher.user.last_name}"

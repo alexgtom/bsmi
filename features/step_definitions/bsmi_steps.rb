@@ -463,12 +463,21 @@ end
 
 
 # --- Helpers
-Then /^(?:|I )should be located at "([^"]*)"$/ do |page_name|
+Then /^(?:|I )should (not )?be located at "([^"]*)"$/ do |should_not_be, page_name|
   current_path = URI.parse(current_url).path
   if current_path.respond_to? :should
-    current_path.should == page_name
+    if should_not_be 
+      current_path.should_not == page_name 
+    else
+      current_path.should == page_name
+    end
   else
-    assert_equal page_name, current_path
+    if should_not_be
+       assert_not_equal(page_name, current_path) 
+    else
+      assert_equal(page_name, current_path)
+    end
+   
   end
 end
 

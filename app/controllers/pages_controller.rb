@@ -4,6 +4,7 @@ class PagesController < ApplicationController
   layout "blank"
 
   def home
+    flash.keep
     if current_user
       if current_user.owner_type == "Student"
         redirect_to home_student_path(current_user.owner_id)

@@ -67,6 +67,7 @@ describe ApplicationController do
     end
   end
 
+
   describe "redirect_back_or_default" do
     it "redirects to :return_to or default and set session to nil" do
       session[:return_to] = "redirecting somewhere"
